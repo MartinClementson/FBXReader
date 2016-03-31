@@ -1,0 +1,7 @@
+﻿  GetMeshData.cpp
+c:\users\martin\documents\visual studio 2015\projects\fbxreader\fbxreader\getmeshdata.cpp(29): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  main.cpp
+  FbxPrintFunctions.cpp
+  FBXReader.vcxproj -> C:\Users\Martin\Documents\Visual Studio 2015\Projects\FBXReader\x64\Debug\FBXReader.exe
