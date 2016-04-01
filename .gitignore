@@ -204,10 +204,10 @@ $RECYCLE.BIN/
 *.msp
 *.opendb
 *.tlog
-FBXReader/x64/Debug/GetMeshData.obj
+
 *.obj
 *.sdf
-FBXReader/x64/Debug/FbxPrintFunctions.obj
+
 *.obj
 *.exe
 *.suo
