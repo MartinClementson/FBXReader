@@ -1,7 +1,3 @@
-﻿  GetMeshData.cpp
-c:\users\martin\documents\visual studio 2015\projects\fbxreader\fbxreader\getmeshdata.cpp(29): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  Skipping... (no relevant changes detected)
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (FBXReader.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   main.cpp
-  FbxPrintFunctions.cpp
-  FBXReader.vcxproj -> C:\Users\Martin\Documents\Visual Studio 2015\Projects\FBXReader\x64\Debug\FBXReader.exe
+  FBXReader.vcxproj -> C:\Users\Martin\Documents\Visual Studio 2015\Projects\FBXReader\x64\Debug\FBXImporter.exe

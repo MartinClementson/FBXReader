@@ -11,3 +11,9 @@ struct dummyStructVert
 	float uv[2];
 
 };
+
+
+struct dummyStructClass
+{
+
+};

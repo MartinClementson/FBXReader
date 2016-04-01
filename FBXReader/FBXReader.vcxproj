@@ -23,6 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>FBXReader</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>FBXImporter</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -155,14 +156,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="FbxPrintFunctions.cpp" />
+    <ClCompile Include="FbxImport.cpp" />
+    <ClCompile Include="FbxPrinter.cpp" />
     <ClCompile Include="GetMeshData.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MeshHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FbxPrintFunctions.h" />
+    <ClInclude Include="FbxImport.h" />
+    <ClInclude Include="FbxPrinter.h" />
     <ClInclude Include="fbxSDK.h" />
     <ClInclude Include="GetMeshData.h" />
+    <ClInclude Include="MeshHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

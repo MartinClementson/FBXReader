@@ -13,33 +13,54 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resource Files\FbxPrintFunctions">
-      <UniqueIdentifier>{13cc499b-1ea6-4915-af86-ac9a7a302f24}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\GetMesh">
       <UniqueIdentifier>{fa28f0a9-ac2d-4218-ba00-4ccde0e7a925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{a51ad227-3a17-4ab6-90d0-150818a82668}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\FbxImport">
+      <UniqueIdentifier>{81f8fe3b-2cf7-449f-bab5-9ff18b3e2661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\FbxPrinter">
+      <UniqueIdentifier>{d8f9a554-0a86-4a39-8077-08389560de58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\MeshHandler">
+      <UniqueIdentifier>{0ffefdeb-0068-4ea3-918e-f0d6d683b983}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FbxPrintFunctions.cpp">
-      <Filter>Resource Files\FbxPrintFunctions</Filter>
-    </ClCompile>
     <ClCompile Include="GetMeshData.cpp">
       <Filter>Resource Files\GetMesh</Filter>
     </ClCompile>
+    <ClCompile Include="FbxImport.cpp">
+      <Filter>Classes\FbxImport</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxPrinter.cpp">
+      <Filter>Classes\FbxPrinter</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshHandler.cpp">
+      <Filter>Classes\MeshHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FbxPrintFunctions.h">
-      <Filter>Resource Files\FbxPrintFunctions</Filter>
-    </ClInclude>
     <ClInclude Include="fbxSDK.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GetMeshData.h">
       <Filter>Resource Files\GetMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxImport.h">
+      <Filter>Classes\FbxImport</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxPrinter.h">
+      <Filter>Classes\FbxPrinter</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshHandler.h">
+      <Filter>Classes\MeshHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
