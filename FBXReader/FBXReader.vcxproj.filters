@@ -28,6 +28,9 @@
     <Filter Include="Classes\MeshHandler">
       <UniqueIdentifier>{0ffefdeb-0068-4ea3-918e-f0d6d683b983}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\CameraHandler">
+      <UniqueIdentifier>{912fbbc8-3c8a-47cc-b057-27b7a447af90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,6 +48,9 @@
     <ClCompile Include="MeshHandler.cpp">
       <Filter>Classes\MeshHandler</Filter>
     </ClCompile>
+    <ClCompile Include="CameraHandler.cpp">
+      <Filter>Classes\CameraHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fbxSDK.h">
@@ -61,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="MeshHandler.h">
       <Filter>Classes\MeshHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraHandler.h">
+      <Filter>Classes\CameraHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
