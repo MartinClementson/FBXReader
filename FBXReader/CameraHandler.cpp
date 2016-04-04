@@ -48,7 +48,11 @@ void CameraHandler::GetCamRoll(FbxCamera* pCamera, float* pTargetRoll)
 	pTargetRoll[2] = (float)tmp[2];
 }
 
-void GetCamIntrest(FbxCamera* pCamera, float* pTargetIntrest)
+void CameraHandler::GetCamIntrest(FbxCamera* pCamera, float* pTargetIntrest)
 {
+	FbxDouble3 tmp = pCamera->InterestPosition.Get();
 
+	pTargetIntrest[0] = (float)tmp[0];
+	pTargetIntrest[1] = (float)tmp[1];
+	pTargetIntrest[2] = (float)tmp[2];
 }
