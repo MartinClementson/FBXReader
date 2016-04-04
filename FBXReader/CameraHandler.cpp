@@ -34,18 +34,10 @@ void CameraHandler::ProcessCameraData(FbxCamera* pCamera)
 	CameraStruct cameras;
 
 	GetCamPos(pCamera, cameras.position);
-	GetCamRoll(pCamera, cameras.roll);
+	GetCamIntrest(pCamera, cameras.intrest);
+	GetCamFOV(pCamera, &cameras.FOV);
 
 
-}
-
-void CameraHandler::GetCamRoll(FbxCamera* pCamera, float* pTargetRoll)
-{
-	FbxDouble3 tmp = pCamera->Roll.Get;
-
-	pTargetRoll[0] = (float)tmp[0];
-	pTargetRoll[1] = (float)tmp[1];
-	pTargetRoll[2] = (float)tmp[2];
 }
 
 void CameraHandler::GetCamIntrest(FbxCamera* pCamera, float* pTargetIntrest)
@@ -55,4 +47,9 @@ void CameraHandler::GetCamIntrest(FbxCamera* pCamera, float* pTargetIntrest)
 	pTargetIntrest[0] = (float)tmp[0];
 	pTargetIntrest[1] = (float)tmp[1];
 	pTargetIntrest[2] = (float)tmp[2];
+}
+
+void CameraHandler::GetCamFOV(FbxCamera* pCamera, float* pTargetFOV)
+{
+	pTargetFOV[0] = (float)pCamera->FieldOfView.Get();
 }
