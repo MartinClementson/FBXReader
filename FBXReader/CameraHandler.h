@@ -1,1 +1,6 @@
-#pragma once
+#ifndef CAMERAHANDLER_H
+#define CAMERAHANDLER_H
+
+
+#endif // !CAMERAHANDLER_H
+
