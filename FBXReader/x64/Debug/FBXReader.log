@@ -1,13 +1,13 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (FBXReader.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   MeshHandler.cpp
 c:\users\david\documents\github\fbxreader\fbxreader\meshhandler.cpp(43): warning C4018: '<': signed/unsigned mismatch
-c:\users\david\documents\github\fbxreader\fbxreader\meshhandler.cpp(78): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\david\documents\github\fbxreader\fbxreader\meshhandler.cpp(79): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-c:\users\david\documents\github\fbxreader\fbxreader\meshhandler.cpp(80): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\david\documents\github\fbxreader\fbxreader\meshhandler.cpp(85): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
 c:\users\david\documents\github\fbxreader\fbxreader\meshhandler.cpp(86): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
 c:\users\david\documents\github\fbxreader\fbxreader\meshhandler.cpp(87): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  main.cpp
-  FbxImport.cpp
+c:\users\david\documents\github\fbxreader\fbxreader\meshhandler.cpp(93): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\david\documents\github\fbxreader\fbxreader\meshhandler.cpp(94): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\david\documents\github\fbxreader\fbxreader\meshhandler.cpp(100): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\david\documents\github\fbxreader\fbxreader\meshhandler.cpp(101): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\david\documents\github\fbxreader\fbxreader\meshhandler.cpp(107): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\david\documents\github\fbxreader\fbxreader\meshhandler.cpp(108): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
   FBXReader.vcxproj -> C:\Users\David\Documents\GitHub\FBXReader\x64\Debug\FBXImporter.exe
