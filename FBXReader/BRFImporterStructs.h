@@ -52,8 +52,8 @@ namespace BRFImporter
 		double pos[3];
 		double normal[3];
 		double uv[2];
-		double tangent[3];
-		double biTangent[3];
+		double tangent[2];
+		double biTangent[2];
 		unsigned int weightAmmount;
 	};
 	struct WeigthsHeader
