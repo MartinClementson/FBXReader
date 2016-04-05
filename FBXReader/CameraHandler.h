@@ -2,7 +2,7 @@
 #define CAMERAHANDLER_H
 
 #include "fbxSDK.h"
-#include "CameraStuct.h"
+#include "CameraStructs.h"
 
 
 class CameraHandler
@@ -15,8 +15,8 @@ public:
 private:
 	void ProcessCameraData(FbxCamera* pCamera);
 	void GetCamPos(FbxCamera* pCamera, float* pTargetPos);
-	void GetCamRoll(FbxCamera* pCamera, float* pTargetRoll);
 	void GetCamIntrest(FbxCamera* pCamera, float* pTargetIntrest);
+	void GetCamFOV(FbxCamera* pCamera, float* pTargetFOV);
 };
 
 #endif // !CAMERAHANDLER_H
