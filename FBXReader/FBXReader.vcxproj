@@ -162,17 +162,15 @@
     <ClCompile Include="GetMeshData.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshHandler.cpp" />
-    <ClCompile Include="Structs.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CameraStructs.h" />
+    <ClInclude Include="BRFImporterStructs.h" />
     <ClInclude Include="FbxImport.h" />
     <ClInclude Include="FbxPrinter.h" />
     <ClInclude Include="fbxSDK.h" />
     <ClInclude Include="GetMeshData.h" />
     <ClInclude Include="CameraHandler.h" />
     <ClInclude Include="MeshHandler.h" />
-    <ClInclude Include="Structs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
