@@ -77,11 +77,8 @@
     <ClInclude Include="CameraHandler.h">
       <Filter>Classes\CameraHandler</Filter>
     </ClInclude>
-    <ClInclude Include="Structs.h">
-      <Filter>Classes\Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraStructs.h">
-      <Filter>Classes\CameraHandler</Filter>
+    <ClInclude Include="BRFImporterStructs.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

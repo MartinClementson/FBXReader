@@ -165,7 +165,7 @@
     <ClCompile Include="Structs.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CameraStructs.h" />
+    <ClInclude Include="BRFImporterStructs.h" />
     <ClInclude Include="FbxImport.h" />
     <ClInclude Include="FbxPrinter.h" />
     <ClInclude Include="fbxSDK.h" />
