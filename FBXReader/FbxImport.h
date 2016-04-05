@@ -3,6 +3,7 @@
 #include "MeshHandler.h"
 #include "MaterialHandler.h"
 #include "CameraHandler.h"
+#include "BRFImporterStructs.h"
 
 class FbxImport
 {
@@ -39,7 +40,8 @@ public:
 
 	MaterialStruct GetMaterialData(FbxNode * pNode);
 
-	CameraStruct GetCameraData(FbxNode* pNode);
+	BRFImporter::CameraHeader GetCameraData(FbxNode* pNode);
+
 
 
 			//+ ourFileMeshStruct             GetMeshData(FbxNode* pNode)

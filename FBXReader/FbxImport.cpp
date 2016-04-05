@@ -1,4 +1,5 @@
 #include "FbxImport.h"
+#include "BRFImporterStructs.h"
 
 
 
@@ -116,15 +117,20 @@ dummyStructVert FbxImport::GetMeshData(FbxNode * pNode)
 }
 
 
+
+
 MaterialStruct FbxImport::GetMaterialData(FbxNode * pNode)
 {
 	materialHandler.GetMaterialData(pNode);
 
 	return MaterialStruct();
 }
-CameraStruct FbxImport::GetCameraData(FbxNode* pNode)
+
+
+BRFImporter::CameraHeader FbxImport::GetCameraData(FbxNode* pNode)
+
 {
 	cameraHandler.GetCameraData(pNode);
 
-	return CameraStruct();
+	return BRFImporter::CameraHeader();
 }
