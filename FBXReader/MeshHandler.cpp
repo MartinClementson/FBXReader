@@ -17,6 +17,7 @@ void MeshHandler::GetMeshData(FbxNode * pNode)
 	for (int j = 0; j < pNode->GetChildCount(); j++)
 		GetMeshData(pNode->GetChild(j));
 
+	
 
 	if (pNode->GetMesh())
 	{

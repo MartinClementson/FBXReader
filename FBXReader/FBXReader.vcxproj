@@ -172,6 +172,7 @@
     <ClInclude Include="GetMeshData.h" />
     <ClInclude Include="CameraHandler.h" />
     <ClInclude Include="MaterialHandler.h" />
+    <ClInclude Include="MaterialStruct.h" />
     <ClInclude Include="MeshHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

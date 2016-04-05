@@ -13,8 +13,8 @@ public:
 	void GetMaterialData(FbxNode* pNode);
 
 private:
-	void ProcessData(FbxSurfaceMaterial* material);
-
+	void ProcessData(FbxSurfaceMaterial* material, unsigned int matCount);
+	void GetAmbient(FbxSurfaceMaterial* material, float* pTargetAmbient);
 
 };
 

@@ -1,11 +1,16 @@
 #pragma once
 #include "FbxPrinter.h"
 #include "MeshHandler.h"
+#include "MaterialStruct.h"
+#include "MaterialHandler.h"
+
 class FbxImport
 {
 private:
 	FbxPrinter printer;
 	MeshHandler meshHandler;
+	MaterialHandler materialHandler;
+	
 
 
 	FbxManager* fbxManager;
@@ -28,6 +33,7 @@ public:
 	void PrintScene();
 
 	dummyStructVert GetMeshData(FbxNode* pNode);
+	MaterialStruct GetMaterialData(FbxNode * pNode);
 
 			//+ ourFileMeshStruct             GetMeshData(FbxNode* pNode)
 			//+ ourFileCamStruct               GetCameraData(FbxNode* pNode)
