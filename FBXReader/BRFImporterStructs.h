@@ -65,12 +65,17 @@ namespace BRFImporter
 #pragma region MaterialHeader
 	struct MaterialHeader
 	{
-		unsigned int materialID;
+		unsigned int Id;
 
-		//float diffuseR,diffuseG,diffuseB
-		//float specR,specG,specB
-		//float norR,norB,norG
-		//TO BE CONTINUED
+		float ambientVal[3];
+		float diffuseVal[3];
+		float specularVal[3];
+
+		char diffMap[256];
+		char specMap[256];
+		char normalMap[256];
+		char glossMap[256];
+		char glowMap[256];
 	};
 #pragma endregion
 #pragma region SkeletonHeader

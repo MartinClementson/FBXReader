@@ -31,7 +31,7 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* material, unsigned int mat
 {
 
 	
-	std::vector<dummyStructVert> vertices();
+	std::vector<MaterialHeader> vertices(materialCount);
 
 	GetAmbient(material, );
 }

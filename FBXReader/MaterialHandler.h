@@ -2,6 +2,7 @@
 #define MATERIALHANDLER_H
 
 #include "fbxSDK.h"
+#include "BRFImporterStructs.h"
 
 
 class MaterialHandler
