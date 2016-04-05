@@ -28,6 +28,7 @@ void CameraHandler::GetCamPos(FbxCamera* pCamera, float* pTargetPos)
 
 void CameraHandler::GetCameraData(FbxNode* pNode)
 {
+	
 	if (pNode->GetCamera())
 	{
 		std::cout << "CAMERA!!!!" << std::endl;
@@ -38,6 +39,7 @@ void CameraHandler::GetCameraData(FbxNode* pNode)
 
 void CameraHandler::ProcessCameraData(FbxCamera* pCamera)
 {
+	
 	CameraStruct cameras;
 
 	GetCamPos(pCamera, cameras.position);

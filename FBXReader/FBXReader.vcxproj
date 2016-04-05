@@ -162,7 +162,6 @@
     <ClCompile Include="GetMeshData.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshHandler.cpp" />
-    <ClCompile Include="Structs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BRFImporterStructs.h" />
@@ -172,7 +171,6 @@
     <ClInclude Include="GetMeshData.h" />
     <ClInclude Include="CameraHandler.h" />
     <ClInclude Include="MeshHandler.h" />
-    <ClInclude Include="Structs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
