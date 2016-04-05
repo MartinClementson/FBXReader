@@ -3,7 +3,6 @@
 #include "MeshHandler.h"
 #include "MaterialHandler.h"
 #include "CameraHandler.h"
-#include "CameraStructs.h"
 
 class FbxImport
 {
