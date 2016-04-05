@@ -48,10 +48,15 @@ void MeshHandler::ProcessData(FbxMesh * pMesh)
 
 		//test print
 		std::cout << "Vert #" << i
-			<< " (" << vertices.at(i).normal[0]
+			<< " (" << vertices.at(i).position[0]
+			<< "," << vertices.at(i).position[1]
+			<< "," << vertices.at(i).position[2]
+			<< ")" << "\n\t"
+			<< "normal: (" << vertices.at(i).normal[0]
 			<< "," << vertices.at(i).normal[1]
 			<< "," << vertices.at(i).normal[2]
 			<< ")" << std::endl;
+			
 
 	}
 }
