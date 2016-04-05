@@ -2,7 +2,7 @@
 #define CAMERAHANDLER_H
 
 #include "fbxSDK.h"
-#include "CameraStuct.h"
+#include "CameraStructs.h"
 
 
 class CameraHandler

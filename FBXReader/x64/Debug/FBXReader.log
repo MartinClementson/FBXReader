@@ -1,2 +1,22 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (FBXReader.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  FBXReader.vcxproj -> C:\Users\Gaffel\Documents\GitHub\FBXReader\x64\Debug\FBXImporter.exe
+  Structs.cpp
+  FbxImport.cpp
+c:\users\gaffel\documents\github\fbxreader\fbxreader\camerastuct.h(4): error C2011: 'CameraStruct': 'struct' type redefinition
+  c:\users\gaffel\documents\github\fbxreader\fbxreader\camerastuct.h(4): note: see declaration of 'CameraStruct'
+c:\users\gaffel\documents\github\fbxreader\fbxreader\fbximport.cpp(114): error C2027: use of undefined type 'CameraStruct'
+  c:\users\gaffel\documents\github\fbxreader\fbxreader\camerastuct.h(4): note: see declaration of 'CameraStruct'
+c:\users\gaffel\documents\github\fbxreader\fbxreader\fbximport.cpp(117): error C2512: 'CameraStruct': no appropriate default constructor available
+  c:\users\gaffel\documents\github\fbxreader\fbxreader\fbximport.cpp(117): note: Source or target has incomplete type
+  CameraStuct.h
+  CameraHandler.cpp
+  Generating Code...
+  Compiling...
+  MeshHandler.cpp
+c:\users\gaffel\documents\github\fbxreader\fbxreader\meshhandler.cpp(45): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+c:\users\gaffel\documents\github\fbxreader\fbxreader\camerastuct.h(4): error C2011: 'CameraStruct': 'struct' type redefinition
+  c:\users\gaffel\documents\github\fbxreader\fbxreader\camerastuct.h(4): note: see declaration of 'CameraStruct'
+  GetMeshData.cpp
+c:\users\gaffel\documents\github\fbxreader\fbxreader\getmeshdata.cpp(29): warning C4018: '<': signed/unsigned mismatch
+  FbxPrinter.cpp
+  Generating Code...
