@@ -40,11 +40,11 @@ void MeshHandler::ProcessData(FbxMesh * pMesh)
 	//Get vertices amount
 	unsigned int vertCount = pMesh->GetControlPointsCount();
 	std::vector<dummyStructVert> vertices(vertCount);
-
 	for (int i = 0; i < vertCount; i++)
 	{
 		GetVertPositions(pMesh, i, vertices.at(i).position);
 		GetVertNormals(pMesh->GetElementNormal(), i, vertices.at(i).normal);
+		GetVertBiNormals(pMesh->GetElementBinormal(), i, vertices.at(i).biNormal);
 
 		//test print
 		std::cout << "Vert #" << i
@@ -55,7 +55,10 @@ void MeshHandler::ProcessData(FbxMesh * pMesh)
 			<< "normal: (" << vertices.at(i).normal[0]
 			<< "," << vertices.at(i).normal[1]
 			<< "," << vertices.at(i).normal[2]
-			<< ")" << std::endl;
+			<< ")" << "\n\t"
+			<< "BiNormal: (" << vertices.at(i).biNormal[0]
+			<< "," << vertices.at(i).biNormal[0]
+			<< ")" << "\n";
 			
 
 	}
@@ -75,4 +78,11 @@ void MeshHandler::GetVertNormals(FbxGeometryElementNormal * pNElement, int index
 	targetNormal[0] = normal[0];
 	targetNormal[1] = normal[1];
 	targetNormal[2] = normal[2];
+}
+
+void MeshHandler::GetVertBiNormals(FbxGeometryElementBinormal * pBNElement, int index, float * targetBiNormal)
+{
+	FbxVector4 biNormal = pBNElement->GetDirectArray().GetAt(index);
+	targetBiNormal[0] = biNormal[0];
+	targetBiNormal[1] = biNormal[1];
 }
