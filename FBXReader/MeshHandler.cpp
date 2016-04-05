@@ -40,7 +40,18 @@ void MeshHandler::ProcessData(FbxMesh * pMesh)
 	//Get vertices amount
 	unsigned int vertCount = pMesh->GetControlPointsCount();
 	std::vector<dummyStructVert> vertices(vertCount);
-	int polyCount = pMesh->GetPolygonCount;
+	unsigned int polyCount = pMesh->GetPolygonCount();
+	int startindex;
+	int *vert;
+
+	for (int i = 0; i < polyCount; i++)
+	{
+		startindex = pMesh->GetPolygonVertexIndex(i);
+		vert = &pMesh->GetPolygonVertices()[startindex];
+		int count = pMesh->GetPolygonSize(i);
+		for (int j = 0; j < count; j++)
+			std::cout << i << ": " << vert[j] << "\n";
+	}
 	for (int i = 0; i < vertCount; i++)
 	{
 		GetVertPositions(pMesh, i, vertices.at(i).position);
