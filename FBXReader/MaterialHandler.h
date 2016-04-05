@@ -7,9 +7,14 @@
 class MaterialHandler
 {
 public:
+	MaterialHandler();
+	~MaterialHandler();
 
+	void GetMaterialData(FbxNode* pNode);
 
 private:
+	void ProcessData(FbxSurfaceMaterial* material);
+
 
 };
 
