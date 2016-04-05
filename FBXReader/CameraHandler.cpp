@@ -17,13 +17,13 @@ void CameraHandler::GetCamPos(FbxCamera* pCamera, float* pTargetPos)
 	std::cout << "Camera Position" << std::endl;
 
 	pTargetPos[0] = (float)tmp[0];
-	std::cout << "x: " << pTargetPos[0];
+	std::cout << "x: " << pTargetPos[0] << " ";
 
 	pTargetPos[1] = (float)tmp[1];
-	std::cout << "y: " << pTargetPos[1];
+	std::cout << "y: " << pTargetPos[1] << " ";
 
 	pTargetPos[2] = (float)tmp[2];
-	std::cout << "z: " << pTargetPos[2];
+	std::cout << "z: " << pTargetPos[2] << " " << std::endl;
 }
 
 void CameraHandler::GetCameraData(FbxNode* pNode)
@@ -54,18 +54,19 @@ void CameraHandler::GetCamIntrest(FbxCamera* pCamera, float* pTargetIntrest)
 	std::cout << "Camera Intrest Position: " << std::endl;
 
 	pTargetIntrest[0] = (float)tmp[0];
-	std::cout << "x: " << pTargetIntrest[0];
+	std::cout << "x: " << pTargetIntrest[0] << " ";
 
 	pTargetIntrest[1] = (float)tmp[1];
-	std::cout << "y: " << pTargetIntrest[1];
+	std::cout << "y: " << pTargetIntrest[1] << " ";
 
 	pTargetIntrest[2] = (float)tmp[2];
-	std::cout << "z: " << pTargetIntrest[2];
+	std::cout << "z: " << pTargetIntrest[2] << " " << std::endl;
 }
 
 void CameraHandler::GetCamFOV(FbxCamera* pCamera, float* pTargetFOV)
 {
 
-	std::cout << "FOV: ";
+	
 	pTargetFOV[0] = (float)pCamera->FieldOfView.Get();
+	std::cout << "FOV: " << pTargetFOV[0] << " " << std::endl;
 }

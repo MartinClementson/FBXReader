@@ -20,9 +20,11 @@ FbxImport::~FbxImport()
 
 void FbxImport::ConvertFbxToFile( dummyStructClass * outputFile)
 {
-
-	GetMeshData(this->rootNode);
-
+	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
+	{
+		GetMeshData(this->rootNode->GetChild(i));
+		GetCameraData(this->rootNode->GetChild(i));
+	}
 }
 
 void FbxImport::LoadFbxFile(const char * fileName)
