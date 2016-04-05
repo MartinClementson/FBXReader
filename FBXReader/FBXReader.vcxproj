@@ -166,6 +166,7 @@
     <ClCompile Include="MeshHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BRFImporterStructs.h" />
     <ClInclude Include="FbxImport.h" />
     <ClInclude Include="FbxPrinter.h" />
     <ClInclude Include="fbxSDK.h" />

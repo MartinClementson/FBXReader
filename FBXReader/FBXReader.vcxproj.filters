@@ -80,11 +80,16 @@
     <ClInclude Include="CameraHandler.h">
       <Filter>Classes\CameraHandler</Filter>
     </ClInclude>
+
     <ClInclude Include="MaterialHandler.h">
       <Filter>Classes\MaterialHandler</Filter>
     </ClInclude>
     <ClInclude Include="MaterialStruct.h">
       <Filter>Classes\MaterialHandler</Filter>
+
+    <ClInclude Include="BRFImporterStructs.h">
+      <Filter>Header Files</Filter>
+
     </ClInclude>
   </ItemGroup>
 </Project>
