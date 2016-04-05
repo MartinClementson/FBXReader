@@ -2,8 +2,7 @@
 #include "FbxPrinter.h"
 #include "MeshHandler.h"
 #include "CameraHandler.h"
-#include "CameraStructs.h"
-
+#include "BRFImporterStructs.h"
 class FbxImport
 {
 private:
@@ -33,7 +32,7 @@ public:
 	void PrintScene();
 
 	dummyStructVert GetMeshData(FbxNode* pNode);
-	CameraStruct GetCameraData(FbxNode* pNode);
+	BRFImporter::CameraHeader GetCameraData(FbxNode* pNode);
 
 			//+ ourFileMeshStruct             GetMeshData(FbxNode* pNode)
 			//+ ourFileCamStruct               GetCameraData(FbxNode* pNode)
