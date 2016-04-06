@@ -212,3 +212,8 @@ $RECYCLE.BIN/
 *.exe
 *.suo
 FBXReader/x64/Debug/FBXReader.log
+*.log
+FBXReader/x64/Debug/vc140.idb
+*.pdb
+*.idb
+FBXReader/x64/Debug/FBXReader.log
