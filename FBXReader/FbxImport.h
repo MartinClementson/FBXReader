@@ -3,6 +3,7 @@
 #include "MeshHandler.h"
 #include "CameraHandler.h"
 #include "BRFImporterStructs.h"
+#include "BrfExporter.h"
 class FbxImport
 {
 private:
@@ -23,7 +24,7 @@ public:
 
 
 
-	void ConvertFbxToFile(dummyStructClass* outputFile);
+	void ConvertFbxToFile(BrfExporter* outputFile);
 
 
 	void LoadFbxFile(const char* fileName);
