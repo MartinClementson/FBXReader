@@ -103,23 +103,47 @@ void FbxImport::PrintScene()
 
 }
 
-dummyStructVert FbxImport::GetMeshData(FbxNode * pNode)
+void FbxImport::GetMeshData(FbxNode * pNode, BrfExporter* outputClass)
 {
 	meshHandler.GetMeshData(pNode);
 
-	return dummyStructVert();
+	
 }
 
-BRFImporter::CameraHeader FbxImport::GetCameraData(FbxNode* pNode)
+void FbxImport::GetCameraData(FbxNode* pNode, BrfExporter* outputClass)
 {
 	cameraHandler.GetCameraData(pNode);
 
-	return BRFImporter::CameraHeader();
+	
 }
 
-dummyStructVert FbxImport::GetSkeletonData(FbxNode * pNode)
+void FbxImport::GetSkeletonData(FbxNode * pNode, BrfExporter* outputClass)
 {
 	skeletonHandler.GetSkeletonData(pNode);
 
-	return dummyStructVert();
+	
+}
+
+void FbxImport::GetAnimationData(FbxNode * pNode, BrfExporter * outputClass)
+{
+}
+
+void FbxImport::GetMaterialData(FbxNode * pNode, BrfExporter * outputClass)
+{
+}
+
+void FbxImport::GetLightData(FbxNode * pNode, BrfExporter * outputClass)
+{
+}
+
+void FbxImport::GetMorphAnimData(FbxNode * pNode, BrfExporter * outputClass)
+{
+}
+
+void FbxImport::GetGroupData(FbxNode * pNode, BrfExporter * outputClass)
+{
+}
+
+void FbxImport::GetAttributesData(FbxNode * pNode, BrfExporter * outputClass)
+{
 }
