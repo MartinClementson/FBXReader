@@ -3,6 +3,8 @@
 #include "MeshHandler.h"
 #include "CameraHandler.h"
 #include "CameraStructs.h"
+#include "LightHandler.h"
+#include "BRFImporterStructs.h"
 
 class FbxImport
 {
@@ -10,7 +12,7 @@ private:
 	FbxPrinter printer;
 	MeshHandler meshHandler;
 	CameraHandler cameraHandler;
-
+	LightHandler lightHandler;
 
 	FbxManager* fbxManager;
 	FbxIOSettings* ios;
@@ -20,9 +22,6 @@ private:
 public:
 	FbxImport();
 	~FbxImport();
-
-
-
 
 	void ConvertFbxToFile(dummyStructClass* outputFile);
 
@@ -34,6 +33,7 @@ public:
 
 	dummyStructVert GetMeshData(FbxNode* pNode);
 	CameraStruct GetCameraData(FbxNode* pNode);
+	BRFImporter::LightHeader GetLightData(FbxNode* pNode);
 
 			//+ ourFileMeshStruct             GetMeshData(FbxNode* pNode)
 			//+ ourFileCamStruct               GetCameraData(FbxNode* pNode)

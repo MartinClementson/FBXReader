@@ -5,6 +5,7 @@
 
 FbxImport::FbxImport()
 {
+
 }
 
 
@@ -24,6 +25,7 @@ void FbxImport::ConvertFbxToFile( dummyStructClass * outputFile)
 	{
 		GetMeshData(this->rootNode->GetChild(i));
 		GetCameraData(this->rootNode->GetChild(i));
+		GetLightData(this->rootNode->GetChild(i));
 	}
 }
 
@@ -117,4 +119,11 @@ CameraStruct FbxImport::GetCameraData(FbxNode* pNode)
 	cameraHandler.GetCameraData(pNode);
 
 	return CameraStruct();
+}
+
+BRFImporter::LightHeader FbxImport:: GetLightData(FbxNode* pNode)
+{
+	lightHandler.DisplayLight(pNode);
+
+	return BRFImporter::LightHeader();
 }

@@ -1,34 +1,14 @@
-
 #include "LightHandler.h"
-
-LightHandler::LightHandler()
-{
-
-}
-
-LightHandler::~LightHandler()
-{
-
-}
 
 void LightHandler::DisplayLight(FbxNode* pNode)
 {
-
 	FbxLight* lLight = (FbxLight*)pNode->GetNodeAttribute();
 
 	cout << "Light Name: ", (char *)pNode->GetName();
 
-	char* lLightTypes[] = { "Point", "Directional", "Spot" };
+	//char* lLightTypes[] = { "Point", "Spot", "Directional" };
 
-	cout << "Light Type: ", lLightTypes[lLight->LightType.Get()];
-
-	//if (pNode->GetNodeAttribute() == NULL)
-	//{
-	//	cout << "No Light Attribute..." << endl;
-	//}
-	//else if() {
-
-	//}
+	//cout << "Light Type: ", lLightTypes[lLight->LightType.Get()];
 
 	//cout << " Cast Light: ", lLight->CastLight.Get();
 

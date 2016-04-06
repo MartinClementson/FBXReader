@@ -31,6 +31,9 @@
     <Filter Include="Classes\CameraHandler">
       <UniqueIdentifier>{912fbbc8-3c8a-47cc-b057-27b7a447af90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\LightHandler">
+      <UniqueIdentifier>{2c9aec51-786a-47cf-b2c7-d163a6612153}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -50,6 +53,12 @@
     </ClCompile>
     <ClCompile Include="CameraHandler.cpp">
       <Filter>Classes\CameraHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraStuct.h">
+      <Filter>Classes\CameraHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="LightHandler.cpp">
+      <Filter>Classes\LightHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="BRFImporterStructs.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LightHandler.h">
+      <Filter>Classes\LightHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
