@@ -14,9 +14,12 @@ FbxImport::~FbxImport()
 	ios->Destroy();
 	fbxManager->Destroy(); //destroy the manager. do this last
 }
+//
+//void FbxImport::ConvertFbxToFile(FbxNode * pNode, OurFileClass *output file)
+//{
+//}
 
-
-void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
+void FbxImport::ConvertFbxToFile( dummyStructClass * outputFile)
 {
 	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
 	{

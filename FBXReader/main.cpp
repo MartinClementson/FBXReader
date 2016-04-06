@@ -13,7 +13,7 @@ void main()
 	importer.LoadFbxFile(fileName); //Load the fbx file
 	importer.PrintScene(); 
 
-	BrfExporter outputClass; //create an output class, 
+	dummyStructClass outputClass; //create an output class, 
 
 	importer.ConvertFbxToFile(&outputClass); //convert information from fbx to our format
 
