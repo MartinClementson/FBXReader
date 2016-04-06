@@ -13,16 +13,16 @@ using namespace BRFImporter;
 /*
 	By : Martin Clementson
 
-	This class is the main hub for all the information we convert
+	This class is the main hub for all the information we convert -
 	from the fbx file that is bound to go into the BRF file.
 	It has classes for all the types and it's dynamic.
 
-	In the end we will call "WriteToBinaryFile". What it does is
+	In the end we will call "WriteToBinaryFile". What it does is -
 	that it gathers the information from the vector arrays
 	and fills the "sceneInfo" struct with the information.
 	Then it starts by printing the mainHeader to the BRF.
 	After that it will call all the objects in each vector array.
-	Easy object will have their own "WriteToBinaryFile" function
+	Easy object will have their own "WriteToBinaryFile" function -
 	where we pass on a pointer to the file output stream.
 	
 
