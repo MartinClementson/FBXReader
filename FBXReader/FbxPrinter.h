@@ -15,6 +15,5 @@ private:
 	FbxString GetAttributeTypeName(FbxNodeAttribute::EType type);
 	void PrintAttribute(FbxNodeAttribute* pAttribute);
 	void PrintTabs();
-	void PrintCustom(FbxNodeAttribute * pAttribute);
 };
 

@@ -41,22 +41,10 @@ void MeshHandler::ProcessData(FbxMesh * pMesh)
 	unsigned int vertCount = pMesh->GetControlPointsCount();
 	std::vector<dummyStructVert> vertices(vertCount);
 	unsigned int polyCount = pMesh->GetPolygonCount();
+
+	//Get the vertex indices
 	int startindex;
 	int *vert;
-	//int propCount = pMesh->GetProp
-	FbxPropertyHandle handle, test;
-	handle = pMesh->GetPropertyHandle();
-	FbxProperty prop;
-	test = handle.GetChild();
-	prop = pMesh->GetFirstProperty();
-	//std::cout << handle.GetName() << "\n" << test.GetName() << "\n\n";
-	/*std::cout << "\n" << prop.GetName();
-	while (prop != NULL)
-	{
-		prop = pMesh->GetNextProperty(prop);
-		std::cout << "\n" << prop.GetName();
-	}
-	std::cout << "\nEnd of custom attributes\n";*/
 	for (int i = 0; i < polyCount; i++)
 	{
 		startindex = pMesh->GetPolygonVertexIndex(i); 
@@ -65,6 +53,8 @@ void MeshHandler::ProcessData(FbxMesh * pMesh)
 		/*for (int j = 0; j < count; j++)
 			std::cout << i << ": " << vert[j] << "\n";*/
 	}
+
+	//Get all the mesh elements (normals, binormals, position...)
 	for (int i = 0; i < vertCount; i++)
 	{
 		GetVertPositions(pMesh, i, vertices.at(i).position);
