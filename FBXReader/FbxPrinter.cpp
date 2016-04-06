@@ -36,7 +36,7 @@ void FbxPrinter::PrintNode(FbxNode * pNode)
 	//print the attributes of the node
 
 	for (int i = 0; i < pNode->GetNodeAttributeCount(); i++)
-		PrintAttribute(pNode->GetNodeAttributeByIndex(i));
+		PrintCustom(pNode->GetNodeAttributeByIndex(i));
 
 
 	//Recursively print the children
@@ -80,6 +80,25 @@ FbxString FbxPrinter::GetAttributeTypeName(FbxNodeAttribute::EType type)
 
 
 	}
+}
+
+void FbxPrinter::PrintCustom(FbxNodeAttribute * pAttribute)
+{
+	if (!pAttribute) return;
+
+	FbxProperty prop;
+	prop = pAttribute->GetFirstProperty();
+	while (prop != NULL)
+	{
+		std::cout << "\n" << prop.GetName();
+		prop = pAttribute->GetNextProperty(prop);
+	}
+
+	FbxString attrName = pAttribute->GetName();
+	// Note: to retrieve the character array of a FbxString, use its Buffer() method.
+
+
+	std::cout << "Name: " << attrName.Buffer() << std::endl;
 }
 
 void FbxPrinter::PrintAttribute(FbxNodeAttribute * pAttribute)
