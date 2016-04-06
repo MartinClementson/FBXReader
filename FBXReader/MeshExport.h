@@ -21,9 +21,9 @@ final amount of vertices and indices and add that to the meshInfo struct
 class MeshExport
 {
 
-private:
-	MeshHeader meshInfo;
 
+public:
+	MeshHeader meshInfo;
 	std::vector<IndexHeader>* indices;
 	std::vector<VertexHeader>* vertices;
 	OOBBHeader boundingBox;
