@@ -31,6 +31,9 @@
     <Filter Include="Classes\CameraHandler">
       <UniqueIdentifier>{912fbbc8-3c8a-47cc-b057-27b7a447af90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\SkeletonHandler">
+      <UniqueIdentifier>{c1329d25-f2ae-4a10-bf22-0e01e774799d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -50,6 +53,9 @@
     </ClCompile>
     <ClCompile Include="CameraHandler.cpp">
       <Filter>Classes\CameraHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletonHandler.cpp">
+      <Filter>Classes\SkeletonHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="BRFImporterStructs.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletonHandler.h">
+      <Filter>Classes\SkeletonHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
