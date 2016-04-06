@@ -62,8 +62,8 @@ void MeshHandler::ProcessData(FbxMesh * pMesh)
 		startindex = pMesh->GetPolygonVertexIndex(i); 
 		vert = &pMesh->GetPolygonVertices()[startindex];
 		int count = pMesh->GetPolygonSize(i);
-		for (int j = 0; j < count; j++)
-			std::cout << i << ": " << vert[j] << "\n";
+		/*for (int j = 0; j < count; j++)
+			std::cout << i << ": " << vert[j] << "\n";*/
 	}
 	for (int i = 0; i < vertCount; i++)
 	{
