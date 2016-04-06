@@ -21,6 +21,12 @@ public:
 
 	void DisplayLight(FbxNode * pNode);
 
+	void SpotLight(FbxLight * pLight);
+
+	void Directional(FbxLight * pLight);
+
+	void PointLight(FbxLight * pLight);
+
 	void DisplayDefaultValues(FbxLight * pLight);
 
 };
