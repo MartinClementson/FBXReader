@@ -26,4 +26,6 @@ BrfExporter::~BrfExporter()
 void BrfExporter::WriteToBinaryFile(char * fileName)
 {
 		//Stubby stub stub!
+
+	std::cout << "Writing to binary file \n" << "NOT";
 }

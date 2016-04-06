@@ -4,6 +4,7 @@
 #include "CameraHandler.h"
 #include "BRFImporterStructs.h"
 #include "SkeletonHandler.h"
+#include "BrfExporter.h"
 class FbxImport
 {
 private:
@@ -25,7 +26,7 @@ public:
 
 
 
-	void ConvertFbxToFile(dummyStructClass* outputFile);
+	void ConvertFbxToFile(BrfExporter* outputFile);
 
 
 	void LoadFbxFile(const char* fileName);
