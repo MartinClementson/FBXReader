@@ -9,6 +9,9 @@ MaterialHandler::~MaterialHandler()
 
 }
 
+
+#pragma region Material Main
+
 void MaterialHandler::GetMaterialData(FbxNode * pNode)
 {
 	//Recursively extract the children
@@ -35,13 +38,17 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode)
 	}
 }
 
+#pragma endregion
+
+#pragma region Process Data
+
 void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int materialCount)
 {
 
 	
 	std::vector<BRFImporter::MaterialHeader> materials(materialCount);
 
-	BRFImporter::MaterialHeader tmpMaterial;
+	BRFImporter::MaterialHeader materialStruct;
 	
 	//diffuse property
 	FbxProperty diffProp = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
@@ -50,7 +57,7 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	//check if there are texturemaps
 	if (diffMapCount == 0)
 	{
-		GetDiffuse(pMaterial, tmpMaterial.diffuseVal);
+		GetDiffuse(pMaterial, materialStruct.diffuseVal);
 	}
 	else
 	{
@@ -62,22 +69,34 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	unsigned int specMapCount = specProp.GetSrcObjectCount<FbxFileTexture>();
 	if (diffMapCount == 0)
 	{
-		GetSpecular(pMaterial, tmpMaterial.specularVal);
+		GetSpecular(pMaterial, materialStruct.specularVal);
 	}
 	else
 	{
-		GetSpecular(pMaterial, tmpMaterial.specularVal);
 		GetSpecularMap(specProp, specMapCount);
+	}
+
+	//NormalMap properties
+	FbxProperty normMapProp = pMaterial->FindProperty(FbxSurfaceMaterial::sNormalMap);
+	unsigned int normMapCount = normMapProp.GetSrcObjectCount<FbxFileTexture>();
+
+	if (diffMapCount == 0)
+	{
+		GetNormalMap(normMapProp, normMapCount);
 	}
 	
 	
 }
 
-void MaterialHandler::GetTextureMap(FbxProperty diffProp ,unsigned int textureCount)
+#pragma endregion
+
+#pragma region Get Texture Map
+
+void MaterialHandler::GetTextureMap(FbxProperty diffProp ,unsigned int mapCount)
 {
 
-	std::cout << "filenumbers: " << textureCount << "\n";
-	for (int j = 0; j<textureCount; j++)
+	std::cout << "filenumbers: " << mapCount << "\n";
+	for (int j = 0; j<mapCount; j++)
 	{
 		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(diffProp.GetSrcObject<FbxFileTexture>(j));
 		
@@ -95,12 +114,16 @@ void MaterialHandler::GetTextureMap(FbxProperty diffProp ,unsigned int textureCo
 
 }
 
-void MaterialHandler::GetSpecularMap(FbxProperty specProp, unsigned int textureCount)
+#pragma endregion
+
+#pragma region Get Specular Map
+
+void MaterialHandler::GetSpecularMap(FbxProperty specProp, unsigned int mapCount)
 {
 	
 
-	std::cout << "filenumbers: " << textureCount << "\n";
-	for (int j = 0; j<textureCount; j++)
+	std::cout << "filenumbers: " << mapCount << "\n";
+	for (int j = 0; j<mapCount; j++)
 	{
 		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(specProp.GetSrcObject<FbxFileTexture>(j));
 
@@ -112,6 +135,32 @@ void MaterialHandler::GetSpecularMap(FbxProperty specProp, unsigned int textureC
 		std::cout << textureName << std::endl;
 	}
 }
+
+#pragma endregion
+
+#pragma region Get Normal Map
+
+void MaterialHandler::GetNormalMap(FbxProperty normMapProp, unsigned int mapCount)
+{
+
+
+	std::cout << "filenumbers: " << mapCount << "\n";
+	for (int j = 0; j<mapCount; j++)
+	{
+		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(normMapProp.GetSrcObject<FbxFileTexture>(j));
+
+
+		const char* filePath = texture->GetFileName();
+		const char* textureName = texture->GetRelativeFileName();
+
+		std::cout << filePath << std::endl;
+		std::cout << textureName << std::endl;
+	}
+}
+
+#pragma endregion
+
+#pragma region Get Diffuse
 
 void MaterialHandler::GetDiffuse(FbxSurfaceMaterial* pMaterial, double* pTargetDiffuse)
 {
@@ -130,6 +179,9 @@ void MaterialHandler::GetDiffuse(FbxSurfaceMaterial* pMaterial, double* pTargetD
 	pTargetDiffuse[2] = theColor.mBlue;
 }
 
+#pragma endregion
+
+#pragma region Get Specular
 
 void MaterialHandler::GetSpecular(FbxSurfaceMaterial* pMaterial, double* pTargetSpecular)
 {
@@ -148,3 +200,4 @@ void MaterialHandler::GetSpecular(FbxSurfaceMaterial* pMaterial, double* pTarget
 	pTargetSpecular[2] = theColor.mBlue;
 }
 
+#pragma endregion
