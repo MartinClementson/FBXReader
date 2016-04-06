@@ -59,6 +59,8 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	FbxProperty diffProp = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
 	unsigned int diffMapCount = diffProp.GetSrcObjectCount<FbxFileTexture>();
 
+	
+
 	//check if there are texturemaps
 	if (diffMapCount == 0)
 	{
@@ -85,26 +87,55 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	FbxProperty normMapProp = pMaterial->FindProperty(FbxSurfaceMaterial::sNormalMap);
 	unsigned int normMapCount = normMapProp.GetSrcObjectCount<FbxFileTexture>();
 
-	if (diffMapCount == 0)
+	if (normMapCount > 0)
 	{
 		GetNormalMap(normMapProp, normMapCount);
 	}
+
+	//GlowMap proporties
 	
+	FbxProperty glowMapProp = pMaterial->FindProperty(FbxSurfaceMaterial::sEmissive);
+	unsigned int glowMapCount = glowMapProp.GetSrcObjectCount<FbxFileTexture>();
+
+	if (glowMapCount > 0)
+	{
+		getGlowMap(glowMapProp, glowMapCount);
+	}
 	
+}
+
+#pragma endregion
+
+#pragma region Get Glow Map
+
+void MaterialHandler::GetGlowMap(FbxProperty glowMapProp, unsigned int mapCount)
+{
+	std::cout << "filenumbers: " << mapCount << "\n";
+	for (int j = 0; j<mapCount; j++)
+	{
+		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(glowMapProp.GetSrcObject<FbxFileTexture>(j));
+
+
+		const char* filePath = texture->GetFileName();
+		const char* textureName = texture->GetRelativeFileName();
+
+		std::cout << filePath << std::endl;
+		std::cout << textureName << std::endl;
+	}
 }
 
 #pragma endregion
 
 #pragma region Get Texture Map
 
-void MaterialHandler::GetTextureMap(FbxProperty diffProp ,unsigned int mapCount)
+void MaterialHandler::GetTextureMap(FbxProperty diffMapProp ,unsigned int mapCount)
 {
 
 	std::cout << "filenumbers: " << mapCount << "\n";
 	for (int j = 0; j<mapCount; j++)
 	{
-		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(diffProp.GetSrcObject<FbxFileTexture>(j));
-		
+		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(diffMapProp.GetSrcObject<FbxFileTexture>(j));
+
 
 		const char* filePath = texture->GetFileName();
 		const char* textureName = texture->GetRelativeFileName();
