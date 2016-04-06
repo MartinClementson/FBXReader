@@ -23,5 +23,7 @@ void SkeletonHandler::GetSkeletonData(FbxNode * pNode)
 void SkeletonHandler::ProcessData(FbxSkeleton * pSkeleton)
 {
 	//pSkeleton->IsSkeletonRoot
-	std::cout << (char*)pSkeleton->GetSkeletonType();
+	//std::cout << (char*)pSkeleton->GetSkeletonType();
+	if (pSkeleton->IsSkeletonRoot())
+		std::cout << "\n it's the root!!!";
 }
