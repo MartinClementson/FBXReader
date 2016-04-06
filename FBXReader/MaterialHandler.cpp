@@ -17,11 +17,16 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode)
 	//Recursively extract the children
 	for (int j = 0; j < pNode->GetChildCount(); j++)
 		GetMaterialData(pNode->GetChild(j));
+
+
 	FbxGeometry* pGeometry = pNode->GetGeometry();
 	int materialCount = 0;
 	FbxNode* node = NULL;
+
 	if (pGeometry) {
+
 		node = pGeometry->GetNode();
+
 		if (node)
 			materialCount = node->GetMaterialCount();
 	
