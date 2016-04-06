@@ -1,6 +1,8 @@
 #include "FbxPrintFunctions.h"
 #include "FbxImport.h"
 #include "GetMeshData.h"
+#include <crtdbg.h>
+#define _CRTDBG_MAP_ALLOC
 
 void main()
 {
@@ -20,6 +22,8 @@ void main()
 
 	//done
 	std::getchar();
+	_CrtCheckMemory();
+	_CrtDumpMemoryLeaks();
 	return;
 
 }
