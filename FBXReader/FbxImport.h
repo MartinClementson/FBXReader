@@ -3,12 +3,14 @@
 #include "MeshHandler.h"
 #include "CameraHandler.h"
 #include "BRFImporterStructs.h"
+#include "SkeletonHandler.h"
 class FbxImport
 {
 private:
 	FbxPrinter printer;
 	MeshHandler meshHandler;
 	CameraHandler cameraHandler;
+	SkeletonHandler skeletonHandler;
 
 
 	FbxManager* fbxManager;
@@ -33,6 +35,7 @@ public:
 
 	dummyStructVert GetMeshData(FbxNode* pNode);
 	BRFImporter::CameraHeader GetCameraData(FbxNode* pNode);
+	dummyStructVert GetSkeletonData(FbxNode* pNode);
 
 			//+ ourFileMeshStruct             GetMeshData(FbxNode* pNode)
 			//+ ourFileCamStruct               GetCameraData(FbxNode* pNode)
