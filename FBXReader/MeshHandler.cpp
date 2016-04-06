@@ -43,10 +43,23 @@ void MeshHandler::ProcessData(FbxMesh * pMesh)
 	unsigned int polyCount = pMesh->GetPolygonCount();
 	int startindex;
 	int *vert;
-
+	//int propCount = pMesh->GetProp
+	FbxPropertyHandle handle, test;
+	handle = pMesh->GetPropertyHandle();
+	FbxProperty prop;
+	test = handle.GetChild();
+	prop = pMesh->GetFirstProperty();
+	//std::cout << handle.GetName() << "\n" << test.GetName() << "\n\n";
+	/*std::cout << "\n" << prop.GetName();
+	while (prop != NULL)
+	{
+		prop = pMesh->GetNextProperty(prop);
+		std::cout << "\n" << prop.GetName();
+	}
+	std::cout << "\nEnd of custom attributes\n";*/
 	for (int i = 0; i < polyCount; i++)
 	{
-		startindex = pMesh->GetPolygonVertexIndex(i);
+		startindex = pMesh->GetPolygonVertexIndex(i); 
 		vert = &pMesh->GetPolygonVertices()[startindex];
 		int count = pMesh->GetPolygonSize(i);
 		for (int j = 0; j < count; j++)
