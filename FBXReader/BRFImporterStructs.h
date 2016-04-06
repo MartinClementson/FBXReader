@@ -209,7 +209,7 @@ namespace BRFImporter
 	};
 	#pragma endregion
 #pragma region AttributeHeader
-	struct AtributeHeader
+	struct AttributesHeader
 	{
 
 		unsigned int floatAmount;
