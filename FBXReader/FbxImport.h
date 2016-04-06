@@ -11,7 +11,6 @@ private:
 	FbxPrinter printer;
 	MeshHandler meshHandler;
 	MaterialHandler materialHandler;
-
 	CameraHandler cameraHandler;
 
 
@@ -38,7 +37,7 @@ public:
 
 	dummyStructVert GetMeshData(FbxNode* pNode);
 
-	MaterialStruct GetMaterialData(FbxNode * pNode);
+	BRFImporter::MaterialHeader GetMaterialData(FbxNode * pNode);
 
 	BRFImporter::CameraHeader GetCameraData(FbxNode* pNode);
 

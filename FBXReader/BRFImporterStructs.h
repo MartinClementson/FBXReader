@@ -67,9 +67,9 @@ namespace BRFImporter
 	{
 		unsigned int Id;
 
-		float ambientVal[3];
-		float diffuseVal[3];
-		float specularVal[3];
+		double ambientVal[3];
+		double diffuseVal[3];
+		double specularVal[3];
 
 		char diffMap[256];
 		char specMap[256];

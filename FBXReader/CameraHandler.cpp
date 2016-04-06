@@ -42,9 +42,7 @@ void CameraHandler::ProcessCameraData(FbxCamera* pCamera)
 {
 	
 	BRFImporter::CameraHeader cameras;
-
 	
-
 	GetCamPos(pCamera, cameras.position);
 	GetCamIntrest(pCamera, cameras.intrest);
 	GetCamRoll(pCamera, &cameras.roll);

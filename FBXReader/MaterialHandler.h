@@ -14,8 +14,11 @@ public:
 	void GetMaterialData(FbxNode* pNode);
 
 private:
-	void ProcessData(FbxSurfaceMaterial* material, unsigned int matCount);
-	void GetAmbient(FbxSurfaceMaterial* material, float* pTargetAmbient);
+	void ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int matCount);
+	void GetDiffuse(FbxSurfaceMaterial* pMaterial, double *pTargetDiffuse);
+	void GetSpecular(FbxSurfaceMaterial* pMaterial, double *pTargetSpecular);
+	void GetTextureMap(FbxProperty diffProp, unsigned int textureCount);
+	void GetSpecularMap(FbxProperty specProp, unsigned int textureCount);
 
 };
 

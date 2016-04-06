@@ -119,11 +119,11 @@ dummyStructVert FbxImport::GetMeshData(FbxNode * pNode)
 
 
 
-MaterialStruct FbxImport::GetMaterialData(FbxNode * pNode)
+BRFImporter::MaterialHeader FbxImport::GetMaterialData(FbxNode * pNode)
 {
 	materialHandler.GetMaterialData(pNode);
 
-	return MaterialStruct();
+	return BRFImporter::MaterialHeader();
 }
 
 
