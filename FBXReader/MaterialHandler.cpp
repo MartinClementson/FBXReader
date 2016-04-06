@@ -1,4 +1,5 @@
 #include "MaterialHandler.h"
+#pragma region Init & Destruct
 
 MaterialHandler::MaterialHandler()
 {
@@ -8,6 +9,10 @@ MaterialHandler::~MaterialHandler()
 {
 
 }
+
+#pragma endregion
+
+
 
 
 #pragma region Material Main
@@ -99,7 +104,7 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 
 	if (glowMapCount > 0)
 	{
-		getGlowMap(glowMapProp, glowMapCount);
+		GetGlowMap(glowMapProp, glowMapCount);
 	}
 	
 }
@@ -113,14 +118,15 @@ void MaterialHandler::GetGlowMap(FbxProperty glowMapProp, unsigned int mapCount)
 	std::cout << "filenumbers: " << mapCount << "\n";
 	for (int j = 0; j<mapCount; j++)
 	{
-		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(glowMapProp.GetSrcObject<FbxFileTexture>(j));
 
+		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(glowMapProp.GetSrcObject<FbxFileTexture>(j));
 
 		const char* filePath = texture->GetFileName();
 		const char* textureName = texture->GetRelativeFileName();
 
 		std::cout << filePath << std::endl;
 		std::cout << textureName << std::endl;
+
 	}
 }
 
