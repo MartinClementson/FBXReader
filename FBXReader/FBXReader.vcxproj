@@ -157,7 +157,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CameraHandler.cpp" />
-    <ClCompile Include="CameraStuct.h" />
     <ClCompile Include="FbxImport.cpp" />
     <ClCompile Include="FbxPrinter.cpp" />
     <ClCompile Include="GetMeshData.cpp" />

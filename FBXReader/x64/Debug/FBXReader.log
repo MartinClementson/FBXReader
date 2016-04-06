@@ -3,9 +3,10 @@
 c:\users\grupp 1\documents\github\fbxreader\fbxreader\meshhandler.cpp(45): warning C4018: '<': signed/unsigned mismatch
   main.cpp
   LightHandler.cpp
+  GetMeshData.cpp
+c:\users\grupp 1\documents\github\fbxreader\fbxreader\getmeshdata.cpp(29): warning C4018: '<': signed/unsigned mismatch
   FbxPrinter.cpp
   FbxImport.cpp
-  CameraStuct.h
-c1xx : fatal error C1083: Cannot open source file: 'CameraStuct.h': No such file or directory
   CameraHandler.cpp
   Generating Code...
+  FBXReader.vcxproj -> C:\Users\Grupp 1\Documents\GitHub\FBXReader\x64\Debug\FBXImporter.exe

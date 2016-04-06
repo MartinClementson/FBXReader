@@ -20,7 +20,7 @@ void LightHandler::DisplayLight(FbxNode* pNode)
 
 	char* lLightTypes[] = { "Point", "Directional", "Spot" };
 
-	cout << "Light Type: ", lLightTypes[lLight->LightType.Get()];
+	cout << "Light Type: ", lLightTypes[lLight->LightType.Get()]; 
 
 	//if (pNode->GetNodeAttribute() == NULL)
 	//{

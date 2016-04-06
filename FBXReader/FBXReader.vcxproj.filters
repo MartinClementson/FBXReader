@@ -54,9 +54,6 @@
     <ClCompile Include="CameraHandler.cpp">
       <Filter>Classes\CameraHandler</Filter>
     </ClCompile>
-    <ClCompile Include="CameraStuct.h">
-      <Filter>Classes\CameraHandler</Filter>
-    </ClCompile>
     <ClCompile Include="LightHandler.cpp">
       <Filter>Classes\LightHandler</Filter>
     </ClCompile>
