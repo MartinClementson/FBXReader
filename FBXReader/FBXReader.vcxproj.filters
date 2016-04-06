@@ -31,6 +31,7 @@
     <Filter Include="Classes\CameraHandler">
       <UniqueIdentifier>{912fbbc8-3c8a-47cc-b057-27b7a447af90}</UniqueIdentifier>
     </Filter>
+
     <Filter Include="Classes\BrfExporter">
       <UniqueIdentifier>{bf6cb66d-967f-4cdb-8146-054a8b2d18b6}</UniqueIdentifier>
     </Filter>
@@ -48,6 +49,10 @@
     </Filter>
     <Filter Include="Classes\BrfExporter\AttributesExport">
       <UniqueIdentifier>{6294562a-bb91-4af7-8add-728e223f69d0}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="Classes\SkeletonHandler">
+      <UniqueIdentifier>{c1329d25-f2ae-4a10-bf22-0e01e774799d}</UniqueIdentifier>
+
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +74,7 @@
     <ClCompile Include="CameraHandler.cpp">
       <Filter>Classes\CameraHandler</Filter>
     </ClCompile>
+
     <ClCompile Include="BrfExporter.cpp">
       <Filter>Classes\BrfExporter</Filter>
     </ClCompile>
@@ -86,6 +92,9 @@
     </ClCompile>
     <ClCompile Include="AttributesExport.cpp">
       <Filter>Classes\BrfExporter\AttributesExport</Filter>
+	</ClCompile>
+    <ClCompile Include="SkeletonHandler.cpp">
+      <Filter>Classes\SkeletonHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +136,10 @@
     </ClInclude>
     <ClInclude Include="AttributesExport.h">
       <Filter>Classes\BrfExporter\AttributesExport</Filter>
+	</ClInclude>
+    <ClInclude Include="SkeletonHandler.h">
+      <Filter>Classes\SkeletonHandler</Filter>
+
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -166,8 +166,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshExport.cpp" />
     <ClCompile Include="MeshHandler.cpp" />
+
     <ClCompile Include="MorphAnimExport.cpp" />
     <ClCompile Include="SkeletonExport.cpp" />
+
+    <ClCompile Include="SkeletonHandler.cpp" />
+
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttributesExport.h" />
@@ -181,8 +185,12 @@
     <ClInclude Include="LightExport.h" />
     <ClInclude Include="MeshExport.h" />
     <ClInclude Include="MeshHandler.h" />
+
     <ClInclude Include="MorphAnimExport.h" />
     <ClInclude Include="SkeletonExport.h" />
+
+    <ClInclude Include="SkeletonHandler.h" />
+
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
