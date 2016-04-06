@@ -31,6 +31,24 @@
     <Filter Include="Classes\CameraHandler">
       <UniqueIdentifier>{912fbbc8-3c8a-47cc-b057-27b7a447af90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\BrfExporter">
+      <UniqueIdentifier>{bf6cb66d-967f-4cdb-8146-054a8b2d18b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\BrfExporter\MeshExport">
+      <UniqueIdentifier>{d49c8c41-3eb5-44ee-a60b-74fe2a82922f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\BrfExporter\SkeletonExport">
+      <UniqueIdentifier>{25a269e1-b6f3-4a77-a6e2-acbe5abdadad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\BrfExporter\LightExport">
+      <UniqueIdentifier>{748a3e2d-d0fc-4dfa-bdca-01af00ce8cf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\BrfExporter\MorphAnimExport">
+      <UniqueIdentifier>{bdd3277a-67a7-4f64-8a06-13a02db279b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\BrfExporter\AttributesExport">
+      <UniqueIdentifier>{6294562a-bb91-4af7-8add-728e223f69d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -50,6 +68,24 @@
     </ClCompile>
     <ClCompile Include="CameraHandler.cpp">
       <Filter>Classes\CameraHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="BrfExporter.cpp">
+      <Filter>Classes\BrfExporter</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshExport.cpp">
+      <Filter>Classes\BrfExporter\MeshExport</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletonExport.cpp">
+      <Filter>Classes\BrfExporter\SkeletonExport</Filter>
+    </ClCompile>
+    <ClCompile Include="LightExport.cpp">
+      <Filter>Classes\BrfExporter\LightExport</Filter>
+    </ClCompile>
+    <ClCompile Include="MorphAnimExport.cpp">
+      <Filter>Classes\BrfExporter\MorphAnimExport</Filter>
+    </ClCompile>
+    <ClCompile Include="AttributesExport.cpp">
+      <Filter>Classes\BrfExporter\AttributesExport</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +109,24 @@
     </ClInclude>
     <ClInclude Include="BRFImporterStructs.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BrfExporter.h">
+      <Filter>Classes\BrfExporter</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshExport.h">
+      <Filter>Classes\BrfExporter\MeshExport</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletonExport.h">
+      <Filter>Classes\BrfExporter\SkeletonExport</Filter>
+    </ClInclude>
+    <ClInclude Include="LightExport.h">
+      <Filter>Classes\BrfExporter\LightExport</Filter>
+    </ClInclude>
+    <ClInclude Include="MorphAnimExport.h">
+      <Filter>Classes\BrfExporter\MorphAnimExport</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributesExport.h">
+      <Filter>Classes\BrfExporter\AttributesExport</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
