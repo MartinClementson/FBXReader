@@ -258,12 +258,3 @@ namespace BRFImporter
 	#pragma endregion
 }
 
-enum AttributeTypes {
-	VECTORTYPE,
-	STRINGTYPE,
-	FLOATTYPE,
-	BOOLTYPE,
-	INTTYPE
-
-
-};
