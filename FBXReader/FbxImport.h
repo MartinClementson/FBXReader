@@ -34,18 +34,16 @@ public:
 	void PrintNode(FbxNode* pNode);
 	void PrintScene();
 
-	dummyStructVert GetMeshData(FbxNode* pNode);
-	BRFImporter::CameraHeader GetCameraData(FbxNode* pNode);
-	dummyStructVert GetSkeletonData(FbxNode* pNode);
+	void GetMeshData(FbxNode* pNode,		std::vector<MeshExport*>* outputMeshes);
+	void GetCameraData(FbxNode* pNode,		std::vector<CameraHeader>* outputCameras);
+	void GetSkeletonData(FbxNode* pNode,	std::vector<SkeletonExport>* outputSkeletons);
+	//void GetAnimationData(FbxNode* pNode, BrfExporter* outputClass); //Maybe connected to skeleton?
 
-			//+ ourFileMeshStruct             GetMeshData(FbxNode* pNode)
-			//+ ourFileCamStruct               GetCameraData(FbxNode* pNode)
-			//+ ourFileSkeletontStruct        GetSkeletonData(FbxNode* pNode)
-			//+ ourFileSkeletonAnimStruct GetAnimationData(FbxNode* pNode)
-			//+ ourFileMaterialStruct          GetMaterialData(FbxNode* pNode)
-			//+ ourFileLightStruct               GetLightData(FbxNode* pNode)
-			//+ ourFileMorphAnimStruct     GetMorphAnimData(FbxNode* pNode)
-			//+ ourFileGroupStruct             GetGroupData(FbxNode* pNode)
-			//+ ourFileAttributesStruct        GetAttributesData(FbxNode* pNode)
+
+	void GetMaterialData(FbxNode* pNode,	std::vector<MaterialHeader>* outputMat);
+	void GetLightData(FbxNode* pNode,		LightExport* lights);
+	void GetMorphAnimData(FbxNode* pNode,	std::vector<MorphAnimExport>* outputMorphs);
+	void GetGroupData(FbxNode* pNode,		std::vector<GroupHeader>* outputGroups);
+
 };
 
