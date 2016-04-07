@@ -102,7 +102,7 @@
     <ClCompile Include="SkeletonHandler.cpp">
       <Filter>Classes\SkeletonHandler</Filter>
     </ClCompile>
-    <ClCompile Include="MaterialExportcpp.cpp">
+    <ClCompile Include="MaterialExport.cpp">
       <Filter>Classes\BrfExporter\MaterialExport</Filter>
     </ClCompile>
   </ItemGroup>

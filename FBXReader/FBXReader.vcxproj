@@ -164,7 +164,7 @@
     <ClCompile Include="GetMeshData.cpp" />
     <ClCompile Include="LightExport.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MaterialExportcpp.cpp" />
+    <ClCompile Include="MaterialExport.cpp" />
     <ClCompile Include="MaterialHandler.cpp" />
     <ClCompile Include="MeshExport.cpp" />
     <ClCompile Include="MeshHandler.cpp" />
