@@ -12,26 +12,29 @@ GroupHandler::~GroupHandler()
 
 void GroupHandler::GetGroupData(FbxNode * pNode)
 {
+
+	
 	for (int i = 0; i < pNode->GetChildCount(); i++)
 	{
-		GetGroupData(pNode->GetChild(i));
-	}
-	if (pNode->GetMesh())
-	{
-		std::cout << pNode->GetName() << std::endl;
-		ProcessData(pNode->GetMesh());
-	}
 	
-		
+		GetGroupData(pNode->GetChild(i));
+
+	}
+
+
+	
+	
 }
 
-void GroupHandler::ProcessData(FbxMesh * pGroup)
+void GroupHandler::ProcessGroupData(FbxNode * pGroup,FbxLight * pLight,FbxMesh* pMesh, FbxCamera * pCamera)
 {
+
 
 }
 
 void GroupHandler::GetTranslation(FbxNode * pNode, double translation)
 {
+
 
 }
 
@@ -63,4 +66,19 @@ void GroupHandler::GetParentId(FbxNode * pGroup, unsigned int id)
 
 }
 
+
+//STUFF
+//if (pNode->GetMesh())
+//{
+//	std::cout << pNode->GetName() << std::endl;
+//	ProcessData(pNode->GetMesh());
+//}
+//if (pNode->GetCamera())
+//{
+//	std::cout << pNode->GetName() << std::endl;
+//}
+//if (pNode->GetLight())
+//{
+//	std::cout << pNode->GetName() << std::endl;
+//}
 

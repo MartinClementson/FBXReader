@@ -14,7 +14,8 @@ public:
 private:
 
 	
-	void ProcessData(FbxMesh * pGroup);
+	void ProcessGroupData(FbxNode* pGroup,FbxLight*pLight,FbxMesh*pMesh,FbxCamera*pCamera);
+
 	void GetTranslation(FbxNode* pNode,double translation);
 	void GetScaling(FbxNode* pNode, double scaling);
 	void GetRotation(FbxNode * pNode, double rotation);
