@@ -14,10 +14,10 @@ private:
 	SkeletonHandler skeletonHandler;
 
 
-	FbxManager* fbxManager;
-	FbxIOSettings* ios;
-	FbxScene* scene;
-	FbxNode* rootNode;
+	FbxManager* fbxManager = nullptr;
+	FbxIOSettings* ios = nullptr;
+	FbxScene* scene = nullptr;
+	FbxNode* rootNode = nullptr;
 
 public:
 	FbxImport();
