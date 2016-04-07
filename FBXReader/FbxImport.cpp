@@ -11,10 +11,13 @@ FbxImport::FbxImport()
 
 FbxImport::~FbxImport()
 {
-	//ios->Destroy();
+	if(ios)
+		ios->Destroy();
 	
-	//scene->Destroy();
-	fbxManager->Destroy(); //destroy the manager. do this last
+	if(scene)
+		scene->Destroy();
+	if(fbxManager)
+		fbxManager->Destroy(); //destroy the manager. do this last
 
 
 	
@@ -134,14 +137,16 @@ void FbxImport::GetMaterialData(FbxNode* pNode, std::vector<MaterialHeader>* out
 void FbxImport::GetCameraData(FbxNode* pNode, std::vector<CameraHeader>* outputCameras)
 
 {
-	cameraHandler.GetCameraData(pNode);
+	//cameraHandler.GetCameraData(pNode);
 
 	
 }
 
 void FbxImport::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport>* outputSkeletons)
 {
-	skeletonHandler.GetSkeletonData(pNode);
+	//skeletonHandler.GetSkeletonData(pNode);
+
+
 }
 
 //void FbxImport::GetAnimationData(FbxNode * pNode, BrfExporter * outputClass)
