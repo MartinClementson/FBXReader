@@ -24,11 +24,19 @@ MeshExport::~MeshExport()
 
 void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 {
+	meshInfo.vertexCount = vertices->size();
+	meshInfo.indexCount = indices->size();
 
 	std::cout << "Mesh name  : " << this->meshInfo.meshName << std::endl;
 	std::cout << "Vert amount  : " << this->meshInfo.vertexCount << std::endl;
-
-	
+	std::cout << "Index amount  : " << this->meshInfo.indexCount << std::endl;
+	std::cout << "Bounding Box  : " <<  (this->meshInfo.boundingBox ? "Yes" : "NO") << std::endl;
+	if (this->meshInfo.boundingBox)
+	{
+		std::cout << "\t Extents: (" << this->boundingBox.extents[0] << "," << this->boundingBox.extents[1] << "," << this->boundingBox.extents[2] << ")" << std::endl;
+		std::cout << "\t Orientation: (" << this->boundingBox.orientation[0] << "," << this->boundingBox.orientation[1] << "," << this->boundingBox.orientation[2] << ")" << std::endl;
+	}
+	//std::cout << "Test Index: (" << this->indices->at(0).vertIndex << "," << this->indices->at(1).vertIndex << "," << this->indices->at(2).vertIndex << ")" << std::endl;
 	std::cout << "Translation: (" << this->meshInfo.translation[0] << "," << this->meshInfo.translation[1] << "," << this->meshInfo.translation[2] << ")" << std::endl;
 	
 	std::cout << "Rotation   : (" << this->meshInfo.rotation[0] << "," << this->meshInfo.rotation[1] << "," << this->meshInfo.rotation[2] << ")" << std::endl;
