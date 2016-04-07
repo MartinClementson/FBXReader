@@ -100,9 +100,9 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 		GetVertNormals(pMesh->GetElementNormal(), i, outPutMesh->vertices->at(i).normal);
 	
 		
-		// BiNormal?? not biTangent?	---->>>//GetVertBiNormals(pMesh->GetElementBinormal(), i, outPutMesh->vertices->at(i).biNormal);
+		GetVertBiNormals(pMesh->GetElementBinormal(), i, outPutMesh->vertices->at(i).biTangent);
 		
-		//GetVertTangents(pMesh->GetElementTangent(), i, outPutMesh->vertices->at(i).tangent);
+		GetVertTangents(pMesh->GetElementTangent(), i, outPutMesh->vertices->at(i).tangent);
 		GetVertTextureUV(pMesh->GetElementUV(), i, outPutMesh->vertices->at(i).uv);
 		//test print
 		/*std::cout << "Vert #" << i

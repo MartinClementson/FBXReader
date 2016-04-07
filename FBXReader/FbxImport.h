@@ -33,7 +33,7 @@ public:
 
 	void PrintNode(FbxNode* pNode);
 	void PrintScene();
-
+	 
 	void GetMeshData(FbxNode* pNode,		std::vector<MeshExport*>* outputMeshes);
 	void GetCameraData(FbxNode* pNode,		std::vector<CameraHeader>* outputCameras);
 	void GetSkeletonData(FbxNode* pNode,	std::vector<SkeletonExport>* outputSkeletons);
