@@ -63,7 +63,6 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	//diffuse property
 	FbxProperty diffProp = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
 	unsigned int diffMapCount = diffProp.GetSrcObjectCount<FbxFileTexture>();
-
 	
 
 	//check if there are texturemaps
@@ -106,31 +105,22 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	{
 		GetGlowMap(glowMapProp, glowMapCount);
 	}
+
+	//Reflectivity Proporties
+
+	FbxProperty reflectMapProp = pMaterial->FindDstProperty(FbxSurfaceMaterial::sReflection);
+	unsigned int reflectMapCount = glowMapProp.GetSrcObjectCount<FbxFileTexture>();
+
+	if (reflectMapCount > 0)
+	{
+		GetReflectMap(reflectMapProp,reflectMapCount);
+	}
 	
 }
 
 #pragma endregion
 
-#pragma region Get Glow Map
 
-void MaterialHandler::GetGlowMap(FbxProperty glowMapProp, unsigned int mapCount)
-{
-	std::cout << "filenumbers: " << mapCount << "\n";
-	for (int j = 0; j<mapCount; j++)
-	{
-
-		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(glowMapProp.GetSrcObject<FbxFileTexture>(j));
-
-		const char* filePath = texture->GetFileName();
-		const char* textureName = texture->GetRelativeFileName();
-
-		std::cout << filePath << std::endl;
-		std::cout << textureName << std::endl;
-
-	}
-}
-
-#pragma endregion
 
 #pragma region Get Texture Map
 
@@ -190,6 +180,47 @@ void MaterialHandler::GetNormalMap(FbxProperty normMapProp, unsigned int mapCoun
 	for (int j = 0; j<mapCount; j++)
 	{
 		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(normMapProp.GetSrcObject<FbxFileTexture>(j));
+
+
+		const char* filePath = texture->GetFileName();
+		const char* textureName = texture->GetRelativeFileName();
+
+		std::cout << filePath << std::endl;
+		std::cout << textureName << std::endl;
+	}
+}
+
+#pragma endregion
+
+#pragma region Get Glow Map
+
+void MaterialHandler::GetGlowMap(FbxProperty glowMapProp, unsigned int mapCount)
+{
+	std::cout << "filenumbers: " << mapCount << "\n";
+	for (int j = 0; j<mapCount; j++)
+	{
+
+		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(glowMapProp.GetSrcObject<FbxFileTexture>(j));
+
+		const char* filePath = texture->GetFileName();
+		const char* textureName = texture->GetRelativeFileName();
+
+		std::cout << filePath << std::endl;
+		std::cout << textureName << std::endl;
+
+	}
+}
+
+#pragma endregion
+
+#pragma region Get Reflectivity Map
+
+void MaterialHandler::GetReflectMap(FbxProperty reflectMapProp, unsigned int mapCount)
+{
+	std::cout << "filenumbers: " << mapCount << "\n";
+	for (int j = 0; j<mapCount; j++)
+	{
+		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(reflectMapProp.GetSrcObject<FbxFileTexture>(j));
 
 
 		const char* filePath = texture->GetFileName();

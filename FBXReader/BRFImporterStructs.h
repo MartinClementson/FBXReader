@@ -74,7 +74,7 @@ namespace BRFImporter
 		char diffMap[256];
 		char specMap[256];
 		char normalMap[256];
-		char glossMap[256];
+		char reflectMap[256]; //Was Gloss
 		char glowMap[256];
 	};
 #pragma endregion

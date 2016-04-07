@@ -16,15 +16,16 @@ public:
 private:
 	void ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int matCount);
 
-	//get RG(B) values
+	//get RGB(A) values
 	void GetDiffuse(FbxSurfaceMaterial* pMaterial, double *pTargetDiffuse);
 	void GetSpecular(FbxSurfaceMaterial* pMaterial, double *pTargetSpecular);
 
 	//getMaps
-	void GetTextureMap(FbxProperty diffProp, unsigned int mapCount);
-	void GetSpecularMap(FbxProperty specProp, unsigned int mapCount);
+	void GetTextureMap(FbxProperty diffMapProp, unsigned int mapCount);
+	void GetSpecularMap(FbxProperty specMapProp, unsigned int mapCount);
 	void GetNormalMap(FbxProperty normMapProp, unsigned int mapCount);
-	void GetGlowMap(FbxProperty glowMapProp, unsigned int mapCount)
+	void GetGlowMap(FbxProperty glowMapProp, unsigned int mapCount);
+	void GetReflectMap(FbxProperty reflectMapProp, unsigned int mapCount);
 };
 
 
