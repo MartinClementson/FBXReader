@@ -24,6 +24,20 @@ MeshExport::~MeshExport()
 
 void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 {
+
+	std::cout << "Mesh name  : " << this->meshInfo.meshName << std::endl;
+	std::cout << "Vert amount  : " << this->meshInfo.vertexCount << std::endl;
+
+	
+	std::cout << "Translation: (" << this->meshInfo.translation[0] << "," << this->meshInfo.translation[1] << "," << this->meshInfo.translation[2] << ")" << std::endl;
+	
+	std::cout << "Rotation   : (" << this->meshInfo.rotation[0] << "," << this->meshInfo.rotation[1] << "," << this->meshInfo.rotation[2] << ")" << std::endl;
+
+	std::cout << "Scale      : (" << this->meshInfo.scale[0] << "," << this->meshInfo.scale[1] << "," << this->meshInfo.scale[2] << ")\n" << std::endl;
+
+	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n\n";
+
+
 }
 
 void MeshExport::AddVertex(VertexHeader input)
