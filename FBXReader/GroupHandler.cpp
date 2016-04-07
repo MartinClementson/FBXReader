@@ -13,20 +13,7 @@ GroupHandler::~GroupHandler()
 void GroupHandler::GetGroupData(FbxNode * pNode)
 {
 
-	int nrAttr = pNode->GetNodeAttributeCount();
-
-	for(int i = 0; i < nrAttr; i++)
-	{
 	
-		FbxNodeAttribute * nodeAttr = pNode->GetNodeAttributeByIndex(i);
-		FbxNodeAttribute::EType attrType = nodeAttr->GetAttributeType();
-		
-
-		switch (attrType)
-		{
-			case 
-		}
-	}
 
 	for (int i = 0; i < pNode->GetChildCount(); i++)
 	{
