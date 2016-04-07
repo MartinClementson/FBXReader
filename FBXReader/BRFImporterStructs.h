@@ -262,3 +262,4 @@ namespace BRFImporter
 	};
 	#pragma endregion
 }
+
