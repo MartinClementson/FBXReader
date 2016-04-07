@@ -28,15 +28,17 @@ public:
 	LightHandler();
 	~LightHandler();
 
-	void DisplayLight(FbxNode * pNode, double* pos);
+	void DisplayLight(FbxNode * pNode);
 
-	void SpotLight(FbxLight * pLight);
+	void SpotLight(FbxLight * pLight, float* lightColor);
 
-	void Directional(FbxLight * pLight);
+	void Directional(FbxLight * pLight, float* lightColor);
 
-	void PointLight(FbxLight * pLight);
+	void PointLight(FbxLight * pLight, float* lightColor);
 
-	void ProcessLightData(FbxNode * pNode, FbxLight * pLight);
+	void AreaLight(FbxLight * pLight, float* lightColor);
+
+	void AmbientLight(FbxLight * pLight, float* lightColor);
 
 	void DisplayDefaultValues(FbxLight * pLight);
 

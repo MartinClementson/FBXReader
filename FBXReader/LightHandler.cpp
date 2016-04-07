@@ -11,7 +11,7 @@ LightHandler::~LightHandler()
 
 }
 
-void LightHandler::DisplayLight(FbxNode* pNode, double* position)
+void LightHandler::DisplayLight(FbxNode* pNode)
 {
 	if (pNode->GetLight())
 	{
@@ -20,31 +20,46 @@ void LightHandler::DisplayLight(FbxNode* pNode, double* position)
 
 		std::cout << "Light Name: ", (char *)pNode->GetName();
 
-		char* lLightTypes[] = { "Point","Directional","Spot" };
+		char* lLightTypes[] = { "Point","Directional","Spot", "Ambient", "Area" };
 
 		std::cout << "Light Type: ", lLightTypes[lLight->LightType.Get()];
 
 		if ((char*)lLight->LightType.Get() == "Point")
 		{
-			GetLightPos(pNode, spot.pos);
-			GetLightRotation(pNode, spot.rot);
-			GetLightScaling(pNode, spot.scale);
+			GetLightPos(pNode, point.pos);
 			PointLight(lLight);
 		}
 		if ((char*)lLight->LightType.Get() == "Directional")
 		{
-			GetLightPos(pNode, spot.pos);
-			GetLightRotation(pNode, spot.rot);
-			GetLightScaling(pNode, spot.scale);
+			GetLightPos(pNode, directional.pos);
+			GetLightRotation(pNode, directional.rot);
+
 			Directional(lLight);
 		}
 		if ((char*)lLight->LightType.Get() == "Spot")
 		{
-			GetLightPos(pNode, point.pos);
-			GetLightRotation(pNode, point.rot);
-			GetLightScaling(pNode, point.scale);
+			GetLightPos(pNode, spot.pos);
+			GetLightRotation(pNode, spot.rot);
+			GetLightScaling(pNode, spot.scale);
+
 			SpotLight(lLight);
 		}
+		if ((char*)lLight->LightType.Get() == "Ambient")
+		{
+			GetLightPos(pNode, spot.pos);
+			GetLightRotation(pNode, spot.rot);
+			GetLightScaling(pNode, spot.scale);
+
+			SpotLight(lLight);
+		}
+		if ((char*)lLight->LightType.Get() == "Area")
+		{
+			GetLightPos(pNode, spot.pos);
+			GetLightRotation(pNode, spot.rot);
+			GetLightScaling(pNode, spot.scale);
+			SpotLight(lLight);
+		}
+
 	}
 }
 
@@ -90,40 +105,93 @@ void LightHandler::GetLightScaling(FbxNode* pNode, double* lightScaling)
 	std::cout << "z: " << lightScaling[2] << " ";
 }
 
-void LightHandler::SpotLight(FbxLight* pLight)
+#pragma region LightValues
+void LightHandler::SpotLight(FbxLight* pLight, float* lightColor)
 {
 	std::cout << "Spotlight Values: " << std::endl;
-	FbxDouble3 c = pLight->Color.Get();
-	FbxColor lColor(c[0], c[1], c[2]);
+
+	unsigned int ID = pLight->GetUniqueID();
+	std::cout << "Spotlight ID:", ID;
+
+	FbxDouble3 lColor = pLight->Color.Get();
+	lightColor[0] = (double)lColor[0];
 	std::cout << "Color: ", lColor;
-	std::cout << "Intensity: ", pLight->Intensity.Get();
-	std::cout << "Outer Angle: ", pLight->OuterAngle.Get();
-	std::cout << "Fog: ", pLight->Fog.Get();
+
+	float lightIntensity = pLight->Intensity.Get();
+	std::cout << "Intensity: ", lightIntensity;
+
+	double outerangle = pLight->OuterAngle.Get();
+	std::cout << "Outer Angle: ", outerangle;
 
 	lightTypeStruct.spotCount++;
 }
 
-void LightHandler::Directional(FbxLight* pLight)
+void LightHandler::Directional(FbxLight* pLight, float* lightColor)
 {
 	std::cout << "Directional Values: " << std::endl;
-	std::cout << "Directional ID:", pLight->GetClassId();
 
-	FbxDouble3 c = pLight->Color.Get();	
-	FbxColor lColor(c[0], c[1], c[2]);
+	unsigned int ID = pLight->GetUniqueID();
+	std::cout << "Directional ID:", ID;
+
+	FbxDouble3 lColor = pLight->Color.Get();
+	lightColor[0] = (double)lColor[0];
 	std::cout << "Color: ", lColor;
-	std::cout << "Intensity: ", pLight->Intensity.Get();
+
+	float lightIntensity = pLight->Intensity.Get();
+	std::cout << "Intensity: ", lightIntensity;
 
 	lightTypeStruct.directionalCount;
 
 }
 
-void LightHandler::PointLight(FbxLight* pLight)
+void LightHandler::PointLight(FbxLight* pLight, float* lightColor)
 {
-	std::cout << "PointLight Values: " << std::endl;
-	FbxDouble3 c = pLight->Color.Get();
-	FbxColor lColor(c[0], c[1], c[2]);
+	std::cout << "Point Values: " << std::endl;
+
+	unsigned int ID = pLight->GetUniqueID();
+	std::cout << "Point ID:", ID;
+
+	FbxDouble3 lColor = pLight->Color.Get();
+	lightColor[0] = (double)lColor[0];
 	std::cout << "Color: ", lColor;
-	std::cout << "Intensity: ", pLight->Intensity.Get();
+
+	float lightIntensity = pLight->Intensity.Get();
+	std::cout << "Intensity: ", lightIntensity;
 
 	lightTypeStruct.pointCount++;
 }
+
+void LightHandler::AreaLight(FbxLight* pLight, float* lightColor)
+{
+	std::cout << "Area Values: " << std::endl;
+
+	unsigned int ID = pLight->GetUniqueID();
+	std::cout << "Area ID:", ID;
+
+	FbxDouble3 lColor = pLight->Color.Get();
+	lightColor[0] = (double)lColor[0];
+	std::cout << "Color: ", lColor;
+
+	float lightIntensity = pLight->Intensity.Get();
+	std::cout << "Intensity: ", lightIntensity;
+
+	lightTypeStruct.areaCount++;
+}
+
+void LightHandler::AmbientLight(FbxLight* pLight, float* lightColor)
+{
+	std::cout << "Ambient Values: " << std::endl;
+
+	unsigned int ID = pLight->GetUniqueID();
+	std::cout << "Ambient ID:", ID;
+
+	FbxDouble3 lColor = pLight->Color.Get();
+	lightColor[0] = (double)lColor[0];
+	std::cout << "Color: ", lColor;
+
+	float lightIntensity = pLight->Intensity.Get();
+	std::cout << "Intensity: ", lightIntensity;
+
+	lightTypeStruct.ambientCount++;
+}
+#pragma endregion
