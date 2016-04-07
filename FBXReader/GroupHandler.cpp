@@ -13,59 +13,62 @@ GroupHandler::~GroupHandler()
 void GroupHandler::GetGroupData(FbxNode * pNode)
 {
 
-	
-	for (int i = 0; i < pNode->GetChildCount(); i++)
+	int nrAttr = pNode->GetNodeAttributeCount();
+
+	for(int i = 0; i < nrAttr; i++)
 	{
 	
-		GetGroupData(pNode->GetChild(i));
+		FbxNodeAttribute * nodeAttr = pNode->GetNodeAttributeByIndex(i);
+		FbxNodeAttribute::EType attrType = nodeAttr->GetAttributeType();
+		
+
+		switch (attrType)
+		{
+			case 
+		}
+	}
+
+	for (int i = 0; i < pNode->GetChildCount(); i++)
+	{
+		FbxNode* lChild = pNode->GetChild(i);
+		if (lChild->GetNodeAttribute())
+		{
+			if (lChild->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eMesh)
+			{
+				FbxMesh* pMesh = (FbxMesh*)lChild->GetNodeAttribute();
+			}
+			if (lChild->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eLight)
+			{
+				processLightData();
+			}
+			if (lChild->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eCamera)
+			{
+				processCameraData();
+			}
+		}
+		
+
+		std::cout << pNode->GetName() << std::endl;
 
 	}
 
+	if (pNode->GetNodeAttribute())
+	{
 
+
+	}
 	
 	
 }
 
-void GroupHandler::ProcessGroupData(FbxNode * pGroup,FbxLight * pLight,FbxMesh* pMesh, FbxCamera * pCamera)
+void GroupHandler::ProcessGroupData(FbxNode * pGroup)
 {
+	const char * lLevelsGroup;
+
+	
 
 
 }
-
-void GroupHandler::GetTranslation(FbxNode * pNode, double translation)
-{
-
-
-}
-
-void GroupHandler::GetScaling(FbxNode * pNode, double scaling)
-{
-
-}
-
-void GroupHandler::GetRotation(FbxNode * pNode, double rotation)
-{
-
-}
-
-void GroupHandler::GetName(FbxNode * pNode, char name)
-{
-
-
-}
-
-void GroupHandler::GetId(FbxNode * pNode, unsigned int id)
-{
-
-
-}
-
-void GroupHandler::GetParentId(FbxNode * pGroup, unsigned int id)
-{
-
-
-}
-
 
 //STUFF
 //if (pNode->GetMesh())
