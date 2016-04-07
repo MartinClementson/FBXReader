@@ -33,14 +33,20 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode)
 		node = pGeometry->GetNode();
 
 		if (node)
-			materialCount = node->GetMaterialCount();
+			materialCount = pNode->GetMaterialCount();
+			
 	
 		if (materialCount > 0)
 		{
+			
 			for (int i = 0; i < materialCount; i++)
 			{
-				FbxSurfaceMaterial *pMaterial = node->GetMaterial(i);
-				ProcessData(pMaterial, materialCount);
+				if (pNode->GetMaterial(i))
+				{
+					FbxSurfaceMaterial *pMaterial = node->GetMaterial(i);
+					ProcessData(pMaterial, materialCount);
+				}
+				
 			}
 		}
 		
@@ -88,7 +94,7 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	}
 
 	//NormalMap properties
-	FbxProperty normMapProp = pMaterial->FindProperty(FbxSurfaceMaterial::sNormalMap);
+	FbxProperty normMapProp = pMaterial->FindProperty(FbxSurfaceMaterial::sBump);
 	unsigned int normMapCount = normMapProp.GetSrcObjectCount<FbxFileTexture>();
 
 	if (normMapCount > 0)
@@ -104,16 +110,6 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	if (glowMapCount > 0)
 	{
 		GetGlowMap(glowMapProp, glowMapCount);
-	}
-
-	//Reflectivity Proporties
-
-	FbxProperty reflectMapProp = pMaterial->FindDstProperty(FbxSurfaceMaterial::sReflection);
-	unsigned int reflectMapCount = glowMapProp.GetSrcObjectCount<FbxFileTexture>();
-
-	if (reflectMapCount > 0)
-	{
-		GetReflectMap(reflectMapProp,reflectMapCount);
 	}
 	
 }
@@ -150,6 +146,7 @@ void MaterialHandler::GetTextureMap(FbxProperty diffMapProp ,unsigned int mapCou
 
 #pragma region Get Specular Map
 
+//In the alpha channel we have placed cosine power
 void MaterialHandler::GetSpecularMap(FbxProperty specProp, unsigned int mapCount)
 {
 	
@@ -208,26 +205,6 @@ void MaterialHandler::GetGlowMap(FbxProperty glowMapProp, unsigned int mapCount)
 		std::cout << filePath << std::endl;
 		std::cout << textureName << std::endl;
 
-	}
-}
-
-#pragma endregion
-
-#pragma region Get Reflectivity Map
-
-void MaterialHandler::GetReflectMap(FbxProperty reflectMapProp, unsigned int mapCount)
-{
-	std::cout << "filenumbers: " << mapCount << "\n";
-	for (int j = 0; j<mapCount; j++)
-	{
-		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(reflectMapProp.GetSrcObject<FbxFileTexture>(j));
-
-
-		const char* filePath = texture->GetFileName();
-		const char* textureName = texture->GetRelativeFileName();
-
-		std::cout << filePath << std::endl;
-		std::cout << textureName << std::endl;
 	}
 }
 

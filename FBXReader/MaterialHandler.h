@@ -20,12 +20,11 @@ private:
 	void GetDiffuse(FbxSurfaceMaterial* pMaterial, double *pTargetDiffuse);
 	void GetSpecular(FbxSurfaceMaterial* pMaterial, double *pTargetSpecular);
 
-	//getMaps
+	//GetMaps
 	void GetTextureMap(FbxProperty diffMapProp, unsigned int mapCount);
 	void GetSpecularMap(FbxProperty specMapProp, unsigned int mapCount);
 	void GetNormalMap(FbxProperty normMapProp, unsigned int mapCount);
 	void GetGlowMap(FbxProperty glowMapProp, unsigned int mapCount);
-	void GetReflectMap(FbxProperty reflectMapProp, unsigned int mapCount);
 };
 
 
