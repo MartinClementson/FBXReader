@@ -40,12 +40,8 @@ public:
 
 	void PrintNode(FbxNode* pNode);
 	void PrintScene();
-<<<<<<< HEAD
-	 
-=======
 
 
->>>>>>> refs/remotes/origin/master
 	void GetMeshData(FbxNode* pNode,		std::vector<MeshExport*>* outputMeshes);
 	void GetCameraData(FbxNode* pNode,		std::vector<CameraHeader>* outputCameras);
 	void GetSkeletonData(FbxNode* pNode,	std::vector<SkeletonExport>* outputSkeletons);
