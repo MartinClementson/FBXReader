@@ -29,7 +29,7 @@ public:
 	LightHandler();
 	~LightHandler();
 
-	void DisplayLight(FbxNode * pNode);
+	void GetLightData(FbxNode * pNode);
 
 	void SpotLight(
 		FbxLight* pLight,

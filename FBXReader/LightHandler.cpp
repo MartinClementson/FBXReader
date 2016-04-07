@@ -11,7 +11,7 @@ LightHandler::~LightHandler()
 
 }
 
-void LightHandler::DisplayLight(FbxNode* pNode)
+void LightHandler::GetLightData(FbxNode* pNode)
 {
 	if (pNode->GetLight())
 	{
