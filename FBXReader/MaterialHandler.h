@@ -4,6 +4,7 @@
 #include "fbxSDK.h"
 #include "BRFImporterStructs.h"
 #include "BrfExporter.h"
+#include "MaterialExport.h"
 
 
 class MaterialHandler
@@ -15,17 +16,17 @@ public:
 	void GetMaterialData(FbxNode* pNode, std::vector<MaterialHeader>* outputMat);
 
 private:
-	void ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int matCount);
+	void ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int matCount, std::vector<MaterialHeader>* outputMat);
 
 	//get RGB(A) values
 	void GetDiffuse(FbxSurfaceMaterial* pMaterial, double *pTargetDiffuse);
 	void GetSpecular(FbxSurfaceMaterial* pMaterial, double *pTargetSpecular);
 
 	//GetMaps
-	void GetTextureMap(FbxProperty diffMapProp, unsigned int mapCount);
-	void GetSpecularMap(FbxProperty specMapProp, unsigned int mapCount);
-	void GetNormalMap(FbxProperty normMapProp, unsigned int mapCount);
-	void GetGlowMap(FbxProperty glowMapProp, unsigned int mapCount);
+	const char* GetTextureMap(FbxProperty diffMapProp, unsigned int mapCount);
+	const char* GetSpecularMap(FbxProperty specMapProp, unsigned int mapCount);
+	const char* GetNormalMap(FbxProperty normMapProp, unsigned int mapCount);
+	const char* GetGlowMap(FbxProperty glowMapProp, unsigned int mapCount);
 };
 
 

@@ -4,7 +4,7 @@ using namespace BRFImporter;
 MaterialExport::MaterialExport()
 {
 
-	
+	material = new MaterialHeader;
 
 }
 

@@ -24,6 +24,7 @@ class MaterialExport
 
 public:
 	MaterialHeader matInfo;
+	MaterialHeader* material;
 	AttributesExport* matAttributes = nullptr;
 
 public:
