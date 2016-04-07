@@ -11,7 +11,7 @@ SkeletonHandler::~SkeletonHandler()
 {
 }
 
-void SkeletonHandler::GetSkeletonData(FbxNode * pNode)
+void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport>* outputSkeletons)
 {
 	if (pNode->GetSkeleton())
 	{
@@ -89,11 +89,94 @@ void SkeletonHandler::ProcessPosition(FbxNode * pNode)
 void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 {
 	FbxScene * scene = pNode->GetScene();
+
+	//Getting the number of animation stacks for this mesh
+	//seeing as you can have different ones such as (running, walking...)
 	int numAnimations = scene->GetSrcObjectCount<FbxAnimStack>();
 	for (int animIndex = 0; animIndex < numAnimations; animIndex++)
 	{
+		//getting the current stack and evaluator
 		FbxAnimStack *animStack = (FbxAnimStack*)scene->GetSrcObject<FbxAnimStack>(animIndex);
 		FbxAnimEvaluator *animEval = scene->GetAnimationEvaluator();
 		std::cout << animStack->GetName();
+		//so far so good
+
+		int numLayers = animStack->GetMemberCount();
+		for (int layerIndex = 0; layerIndex < numLayers; layerIndex++)
+		{
+			FbxAnimLayer *animLayer = (FbxAnimLayer*)animStack->GetMember(layerIndex);
+			std::cout << animLayer->GetName();
+
+			FbxAnimCurve * translationCurve = pNode->LclTranslation.GetCurve(animLayer);
+			FbxAnimCurve * rotationCurve = pNode->LclRotation.GetCurve(animLayer);
+			FbxAnimCurve * scalingCurve = pNode->LclScaling.GetCurve(animLayer);
+
+			if (scalingCurve != NULL)
+			{
+				int numKeys = scalingCurve->KeyGetCount();
+				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
+				{
+					FbxTime frameTime = scalingCurve->KeyGetTime(keyIndex);
+					FbxDouble3 scalingVector = pNode->EvaluateLocalScaling(frameTime);
+					float x = (float)scalingVector[0];
+					float y = (float)scalingVector[1];
+					float z = (float)scalingVector[2];
+
+					float frameSeconds = (float)frameTime.GetSecondDouble();
+				}
+			}
+			else
+			{
+				//if the animation layer doesnt have a scaling curve, make a default one
+				FbxDouble3 scalingVector = pNode->LclScaling.Get();
+				float x = (float)scalingVector[0];
+				float y = (float)scalingVector[1];
+				float z = (float)scalingVector[2];
+			}
+			if (rotationCurve != NULL)
+			{
+				int numKeys = rotationCurve->KeyGetCount();
+				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
+				{
+					FbxTime frameTime = rotationCurve->KeyGetTime(keyIndex);
+					FbxDouble3 rotationVector = pNode->EvaluateLocalScaling(frameTime);
+					float x = (float)rotationVector[0];
+					float y = (float)rotationVector[1];
+					float z = (float)rotationVector[2];
+
+					float frameSeconds = (float)frameTime.GetSecondDouble();
+				}
+			}
+			else
+			{
+				//if the animation layer doesnt have a scaling curve, make a default one
+				FbxDouble3 rotationVector = pNode->LclRotation.Get();
+				float x = (float)rotationVector[0];
+				float y = (float)rotationVector[1];
+				float z = (float)rotationVector[2];
+			}
+			if (translationCurve != NULL)
+			{
+				int numKeys = translationCurve->KeyGetCount();
+				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
+				{
+					FbxTime frameTime = translationCurve->KeyGetTime(keyIndex);
+					FbxDouble3 translationVector = pNode->EvaluateLocalScaling(frameTime);
+					float x = (float)translationVector[0];
+					float y = (float)translationVector[1];
+					float z = (float)translationVector[2];
+
+					float frameSeconds = (float)frameTime.GetSecondDouble();
+				}
+			}
+			else
+			{
+				//if the animation layer doesnt have a scaling curve, make a default one
+				FbxDouble3 translationVector = pNode->LclRotation.Get();
+				float x = (float)translationVector[0];
+				float y = (float)translationVector[1];
+				float z = (float)translationVector[2];
+			}
+		}
 	}
 }

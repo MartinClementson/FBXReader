@@ -137,7 +137,7 @@ void FbxImport::GetCameraData(FbxNode* pNode, std::vector<CameraHeader>* outputC
 
 void FbxImport::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport>* outputSkeletons)
 {
-	//skeletonHandler.GetSkeletonData(pNode);
+	skeletonHandler.GetSkeletonData(pNode, outputSkeletons);
 
 	
 }
