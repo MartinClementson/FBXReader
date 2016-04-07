@@ -156,7 +156,7 @@ BRFImporter::SpotLightHeader LightHandler::SpotLight(FbxLight* pLight)
 	std::cout << std::endl;
 
 
-	float lightIntensity = pLight->Intensity.Get();
+	double lightIntensity = pLight->Intensity.Get();
 	temp.intensity = lightIntensity;
 	std::cout << "Intensity: ";
 	std::cout << lightIntensity;
@@ -197,7 +197,7 @@ BRFImporter::DirLightHeader LightHandler::Directional(FbxLight* pLight)
 	std::cout << temp.color[2] << " ";
 	std::cout << std::endl;
 
-	float lightIntensity = pLight->Intensity.Get();
+	double lightIntensity = pLight->Intensity.Get();
 	temp.intensity = lightIntensity;
 	std::cout << "Intensity: ";
 	std::cout << lightIntensity << std::endl;
@@ -231,7 +231,7 @@ BRFImporter::PointLightHeader LightHandler::PointLight(FbxLight* pLight)
 	std::cout << std::endl;
 
 
-	float lightIntensity = pLight->Intensity.Get();
+	double lightIntensity = pLight->Intensity.Get();
 	temp.intensity = lightIntensity;
 	std::cout << "Intensity: ";
 	std::cout << lightIntensity;
@@ -267,7 +267,7 @@ BRFImporter::AreaLightHeader LightHandler::AreaLight(FbxLight* pLight)
 	std::cout << std::endl;
 
 
-	float lightIntensity = pLight->Intensity.Get();
+	double lightIntensity = pLight->Intensity.Get();
 	temp.intensity = lightIntensity;
 	std::cout << "Intensity: ";
 	std::cout << lightIntensity;
@@ -304,7 +304,7 @@ BRFImporter::AmbLightHeader LightHandler::AmbientLight(FbxLight* pLight)
 	std::cout << std::endl;
 
 
-	float lightIntensity = pLight->Intensity.Get();
+	double lightIntensity = pLight->Intensity.Get();
 	temp.intensity = lightIntensity;
 	std::cout << "Intensity: ";
 	std::cout << lightIntensity;
