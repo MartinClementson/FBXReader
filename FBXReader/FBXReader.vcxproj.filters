@@ -28,10 +28,10 @@
     <Filter Include="Classes\CameraHandler">
       <UniqueIdentifier>{912fbbc8-3c8a-47cc-b057-27b7a447af90}</UniqueIdentifier>
     </Filter>
-<<<<<<< HEAD
+
     <Filter Include="Classes\LightHandler">
       <UniqueIdentifier>{2c9aec51-786a-47cf-b2c7-d163a6612153}</UniqueIdentifier>
-=======
+	</Filter>
     <Filter Include="Classes\BrfExporter">
       <UniqueIdentifier>{bf6cb66d-967f-4cdb-8146-054a8b2d18b6}</UniqueIdentifier>
     </Filter>
@@ -52,7 +52,6 @@
     </Filter>
     <Filter Include="Classes\SkeletonHandler">
       <UniqueIdentifier>{c1329d25-f2ae-4a10-bf22-0e01e774799d}</UniqueIdentifier>
->>>>>>> refs/remotes/origin/master
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -71,10 +70,9 @@
     <ClCompile Include="CameraHandler.cpp">
       <Filter>Classes\CameraHandler</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="LightHandler.cpp">
       <Filter>Classes\LightHandler</Filter>
-=======
+	</ClCompile>
     <ClCompile Include="BrfExporter.cpp">
       <Filter>Classes\BrfExporter</Filter>
     </ClCompile>
@@ -95,7 +93,6 @@
     </ClCompile>
     <ClCompile Include="SkeletonHandler.cpp">
       <Filter>Classes\SkeletonHandler</Filter>
->>>>>>> refs/remotes/origin/master
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,10 +114,9 @@
     <ClInclude Include="BRFImporterStructs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="LightHandler.h">
       <Filter>Classes\LightHandler</Filter>
-=======
+	</ClInclude>
     <ClInclude Include="BrfExporter.h">
       <Filter>Classes\BrfExporter</Filter>
     </ClInclude>
@@ -141,7 +137,6 @@
     </ClInclude>
     <ClInclude Include="SkeletonHandler.h">
       <Filter>Classes\SkeletonHandler</Filter>
->>>>>>> refs/remotes/origin/master
     </ClInclude>
   </ItemGroup>
 </Project>
