@@ -2,7 +2,7 @@
 #define CAMERAHANDLER_H
 
 #include "fbxSDK.h"
-#include "CameraStuct.h"
+#include "BRFImporterStructs.h"
 
 
 class CameraHandler
@@ -14,9 +14,9 @@ public:
 	void GetCameraData(FbxNode* pNode);
 private:
 	void ProcessCameraData(FbxCamera* pCamera);
-	void GetCamPos(FbxCamera* pCamera, float* pTargetPos);
-	void GetCamRoll(FbxCamera* pCamera, float* pTargetRoll);
-	void GetCamIntrest(FbxCamera* pCamera, float* pTargetIntrest);
+	void GetCamPos(FbxCamera* pCamera, double* pTargetPos);
+	void GetCamIntrest(FbxCamera* pCamera, double* pTargetIntrest);
+	void GetCamRoll(FbxCamera* pCamera, double* pTargetRoll);
 };
 
 #endif // !CAMERAHANDLER_H
