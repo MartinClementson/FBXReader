@@ -2,6 +2,8 @@
 
 
 
+
+
 BrfExporter::BrfExporter()
 {
 	meshes = new std::vector<MeshExport*>;
@@ -32,11 +34,17 @@ BrfExporter::~BrfExporter()
 
 void BrfExporter::WriteToBinaryFile(char * fileName)
 {
-		//Stubby stub stub!
+		
 	std::ofstream outfile;
+	/*
+		Open file as binary
+	*/
+
+	//Write the main header first in the file (after golden number)
+	CreateFileHeader(); //THis only creates the struct, It does not write to file
 
 
-	std::cout << "Writing to binary file ........" << "NOT! \n";
+	std::cout << "\n\n\n\n\nWriting to binary file ........" << "NOT! \n";
 	this->sceneInfo.meshAmount = meshes->size();
 
 	std::cout << "Total amount of meshes exported : " << sceneInfo.meshAmount <<"\n";
@@ -46,4 +54,23 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 		meshes->at(i)->WriteToBinaryFile(&outfile);
 
 	}
+
+	if (this->lights != nullptr)
+		lights->WriteToBinaryFile(&outfile);
+	
+
+}
+
+void BrfExporter::CreateFileHeader()
+{
+	if (this->lights != nullptr)
+		this->sceneInfo.lights = true;
+	else
+		this->sceneInfo.lights = false;
+
+	this->sceneInfo.meshAmount = this->meshes->size();
+	//ADD ALL ATTRIBUTES HERE
+
+
+
 }

@@ -39,8 +39,8 @@ namespace BRFImporter
 #pragma region MeshHeader Dynamics
 	struct OOBBHeader
 	{
-		float extents[3];
-		float orientation[4];
+		double extents[3];
+		double orientation[3];
 
 	};
 	struct IndexHeader
@@ -139,16 +139,16 @@ namespace BRFImporter
 		double rot[3];
 		double scale[3];
 		double outerAngle;
-		float color[3];
-		float intensity;
+		double color[3];
+		double intensity;
 	};
 	struct AmbLightHeader
 	{
 		unsigned int objectID;
 		unsigned int parentID;		// 0 = Default
 		double pos[3];
-		float color[3];
-		float intensity;
+		double color[3];
+		double intensity;
 	};
 	struct AreaLightHeader
 	{
@@ -157,16 +157,16 @@ namespace BRFImporter
 		double pos[3];
 		double rot[3];
 		double scale[3];
-		float color[3];
-		float intensity;
+		double color[3];
+		double intensity;
 	};
 	struct PointLightHeader
 	{
 		unsigned int objectID;
 		unsigned int parentID;		// 0 = Default
 		double pos[3];
-		float color[3];
-		float intensity;
+		double color[3];
+		double intensity;
 	};
 	struct DirLightHeader
 	{
@@ -174,8 +174,8 @@ namespace BRFImporter
 		unsigned int parentID;		// 0 = Default
 		double pos[3];
 		double rot[3];
-		float color[3];
-		float intensity;
+		double color[3];
+		double intensity;
 	};
 #pragma endregion
 #pragma region GroupHeader

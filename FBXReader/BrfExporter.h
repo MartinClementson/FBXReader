@@ -41,10 +41,12 @@ private:
 	std::vector<MeshExport*>* meshes;
 	std::vector<MaterialHeader>* materials;
 	std::vector<SkeletonExport>* skeletons;
-	LightExport* lights;
+	LightExport* lights = nullptr;
 	std::vector<GroupHeader>* groups;
 	std::vector<CameraHeader>* cameras;
 	std::vector<MorphAnimExport>* morphAnim;
+
+	void CreateFileHeader(); //this is called before writing to file. it gathers the information for the main header
 
 public:
 	BrfExporter();
