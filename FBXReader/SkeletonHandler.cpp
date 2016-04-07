@@ -33,11 +33,14 @@ void SkeletonHandler::ProcessData(FbxNode * pNode)
 		std::cout << "currentJointCount: " << jointCount << "\n";
 
 		FbxSkeleton *skel = pNode->GetSkeleton();
-		ProcessPosition(pNode);
+
+		ProcessKeyFrames(pNode);
+
+		/*ProcessPosition(pNode);
 		FbxTimeSpan animTime;
 		pNode->GetAnimationInterval(animTime);
 		FbxAnimEvaluator *anim = pNode->GetAnimationEvaluator();
-		FbxVector4 test = anim->GetNodeLocalTranslation(pNode, animTime.GetStart(), pNode->eSourcePivot, false, false);
+		FbxVector4 test = anim->GetNodeLocalTranslation(pNode, animTime.GetStart(), pNode->eSourcePivot, false, false);*/
 		/*FbxScene* scene = pNode->GetScene();
 		FbxAnimStack* lAnimstack = scene->GetSrcObject<FbxAnimStack>(0);
 		for (int i = 0; i < lAnimstack->GetSrcObjectCount<FbxAnimLayer>(); i++)
@@ -85,5 +88,12 @@ void SkeletonHandler::ProcessPosition(FbxNode * pNode)
 
 void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 {
-	//std::cout << pCurve->KeyGetCount();
+	FbxScene * scene = pNode->GetScene();
+	int numAnimations = scene->GetSrcObjectCount<FbxAnimStack>();
+	for (int animIndex = 0; animIndex < numAnimations; animIndex++)
+	{
+		FbxAnimStack *animStack = (FbxAnimStack*)scene->GetSrcObject<FbxAnimStack>(animIndex);
+		FbxAnimEvaluator *animEval = scene->GetAnimationEvaluator();
+		std::cout << animStack->GetName();
+	}
 }
