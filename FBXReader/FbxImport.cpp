@@ -153,7 +153,7 @@ void FbxImport::GetMaterialData(FbxNode * pNode, std::vector<MaterialHeader>* ou
 
 void FbxImport::GetLightData(FbxNode * pNode, LightExport* lights)
 {
-	lightHandler.GetLightData(pNode);
+	lightHandler.GetLightData(pNode,lights);
 
 }
 
