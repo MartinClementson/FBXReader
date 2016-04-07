@@ -36,7 +36,18 @@ void SkeletonHandler::ProcessData(FbxNode * pNode)
 		//root node
 		ProcessPosition(pNode);
 		FbxSkeleton *skel = pNode->GetSkeleton();
-		int test = pNode->GetSrcObjectCount<FbxAnimStack>();
+		FbxTimeSpan animTime;
+		pNode->GetAnimationInterval(animTime);
+		FbxAnimEvaluator *anim = pNode->GetAnimationEvaluator();
+		FbxVector4 test = anim->GetNodeLocalTranslation(pNode, animTime.GetStart(), pNode->eSourcePivot, false, false);
+		/*FbxScene* scene = pNode->GetScene();
+		FbxAnimStack* lAnimstack = scene->GetSrcObject<FbxAnimStack>(0);
+		for (int i = 0; i < lAnimstack->GetSrcObjectCount<FbxAnimLayer>(); i++)
+		{
+			FbxAnimLayer* pAnimLayer = lAnimstack->GetMember<FbxAnimLayer>(i);
+			FbxAnimCurve *curve = pNode->LclTranslation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
+			ProcessCurve(curve);
+		}*/
 
 		if (skel->IsSkeletonRoot())
 		{
@@ -70,4 +81,9 @@ void SkeletonHandler::ProcessPosition(FbxNode * pNode)
 	std::cout << "Translation: (" << translation[0] << "," << translation[1] << "," << translation[2] << ")" << "\n\t";
 	std::cout << "Rotation   : (" << rotation[0] << "," << rotation[1] << "," << rotation[2] << ")" << "\n\t";
 	std::cout << "Scale      : (" << scaling[0] << "," << scaling[1] << "," << scaling[2] << ")\n" << "\n\t";
+}
+
+void SkeletonHandler::ProcessCurve(FbxAnimCurve * pCurve)
+{
+	//std::cout << pCurve->KeyGetCount();
 }

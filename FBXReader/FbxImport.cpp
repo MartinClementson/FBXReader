@@ -72,10 +72,6 @@ void FbxImport::LoadFbxFile(const char * fileName)
 
 	fImporter->Import(scene);
 
-	//int kiss = scene->GetSrcObjectCount<FbxAnimStack>();
-	//FbxAnimStack* lAnimstack = scene->GetSrcObject<FbxAnimStack>(0);
-	//std::cout << lAnimstack->GetName();
-
 	//the file is imported. Destroy the importer
 	
 	fImporter->Destroy();
