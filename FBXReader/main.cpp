@@ -5,7 +5,7 @@
 void main()
 {
 
-	const char* fileName = "test.fbx";
+	const char* fileName = "Test1.fbx";
 	FbxImport importer;
 
 	importer.LoadFbxFile(fileName); //Load the fbx file

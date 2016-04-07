@@ -31,6 +31,9 @@
     <Filter Include="Classes\CameraHandler">
       <UniqueIdentifier>{912fbbc8-3c8a-47cc-b057-27b7a447af90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\GroupHandler">
+      <UniqueIdentifier>{87878c46-23dc-47cd-bd72-16883d9e2aa6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -54,6 +57,9 @@
     <ClCompile Include="CameraStuct.h">
       <Filter>Classes\CameraHandler</Filter>
     </ClCompile>
+    <ClCompile Include="GroupHandler.cpp">
+      <Filter>Classes\GroupHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fbxSDK.h">
@@ -76,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="BRFImporterStructs.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupHandler.h">
+      <Filter>Classes\GroupHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -161,6 +161,7 @@
     <ClCompile Include="FbxImport.cpp" />
     <ClCompile Include="FbxPrinter.cpp" />
     <ClCompile Include="GetMeshData.cpp" />
+    <ClCompile Include="GroupHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshHandler.cpp" />
   </ItemGroup>
@@ -171,6 +172,7 @@
     <ClInclude Include="fbxSDK.h" />
     <ClInclude Include="GetMeshData.h" />
     <ClInclude Include="CameraHandler.h" />
+    <ClInclude Include="GroupHandler.h" />
     <ClInclude Include="MeshHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
