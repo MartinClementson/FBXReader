@@ -28,14 +28,12 @@ void SkeletonHandler::ProcessData(FbxNode * pNode)
 	//is in fact a joint
 	if (pNode->GetSkeleton())
 	{
-		//joint count will keep the coun t of all the joints in a skeleton
+		//joint count will keep the count of all the joints in a skeleton
 		jointCount += 1;
 		std::cout << "currentJointCount: " << jointCount << "\n";
 
-		//we need to get the skeleton to check if it's the
-		//root node
-		ProcessPosition(pNode);
 		FbxSkeleton *skel = pNode->GetSkeleton();
+		ProcessPosition(pNode);
 		FbxTimeSpan animTime;
 		pNode->GetAnimationInterval(animTime);
 		FbxAnimEvaluator *anim = pNode->GetAnimationEvaluator();
@@ -49,6 +47,8 @@ void SkeletonHandler::ProcessData(FbxNode * pNode)
 			ProcessCurve(curve);
 		}*/
 
+		//we need to get the skeleton to check if it's the
+		//root node
 		if (skel->IsSkeletonRoot())
 		{
 			std::cout << "\n it's the root!!! \n";
@@ -83,7 +83,7 @@ void SkeletonHandler::ProcessPosition(FbxNode * pNode)
 	std::cout << "Scale      : (" << scaling[0] << "," << scaling[1] << "," << scaling[2] << ")\n" << "\n\t";
 }
 
-void SkeletonHandler::ProcessCurve(FbxAnimCurve * pCurve)
+void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 {
 	//std::cout << pCurve->KeyGetCount();
 }

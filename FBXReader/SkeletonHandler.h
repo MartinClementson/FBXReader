@@ -14,7 +14,7 @@ private:
 #pragma region functions
 	void ProcessData(FbxNode * pNode);
 	void ProcessPosition(FbxNode * pNode);
-	void ProcessCurve(FbxAnimCurve * pCurve);
+	void ProcessKeyFrames(FbxNode * pNode);
 #pragma endregion
 };
 
