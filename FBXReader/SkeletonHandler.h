@@ -8,6 +8,13 @@ public:
 
 	void GetSkeletonData(FbxNode * pNode);
 private:
-	void ProcessData(FbxSkeleton * pSkeleton);
+#pragma region attributes
+	int jointCount;
+#pragma endregion
+#pragma region functions
+	void ProcessData(FbxNode * pNode);
+	void ProcessPosition(FbxNode * pNode);
+	void ProcessCurve(FbxAnimCurve * pCurve);
+#pragma endregion
 };
 
