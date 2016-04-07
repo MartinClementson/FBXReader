@@ -7,7 +7,7 @@
 
 #include "SkeletonHandler.h"
 #include "BrfExporter.h"
->>>>>>> refs/remotes/origin/master
+
 class FbxImport
 {
 private:

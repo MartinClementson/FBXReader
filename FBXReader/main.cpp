@@ -13,8 +13,8 @@ void main()
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	#endif
 
-	//const char* fileName = "test2.fbx";
-	const char* fileName = "3_shapes_1_Cam.fbx";
+	const char* fileName = "test2.fbx";
+	//const char* fileName = "3_shapes_1_Cam.fbx";
 	FbxImport* importer = new FbxImport();
 	
 	
