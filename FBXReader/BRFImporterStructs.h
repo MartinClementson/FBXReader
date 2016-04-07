@@ -205,7 +205,7 @@ namespace BRFImporter
 	};
 #pragma endregion
 #pragma region AttributeHeader
-	struct AtributeHeader
+	struct AttributesHeader
 	{
 
 		unsigned int floatAmount;
@@ -256,5 +256,8 @@ namespace BRFImporter
 		unsigned int min;
 		unsigned int max;
 	};
-#pragma endregion
+
+
+	#pragma endregion
 }
+

@@ -12,21 +12,30 @@ FbxImport::FbxImport()
 
 FbxImport::~FbxImport()
 {
-	ios->Destroy();
-	fbxManager->Destroy(); //destroy the manager. do this last
-}
-//
-//void FbxImport::ConvertFbxToFile(FbxNode * pNode, OurFileClass *output file)
-//{
-//}
+	if(ios)
+		ios->Destroy();
+	
+	if(scene)
+		scene->Destroy();
+	if(fbxManager)
+		fbxManager->Destroy(); //destroy the manager. do this last
 
-void FbxImport::ConvertFbxToFile( dummyStructClass * outputFile)
+
+	
+}
+
+void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 {
 	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
 	{
-		GetMeshData(this->rootNode->GetChild(i));
-		GetCameraData(this->rootNode->GetChild(i));
+
+		
+
+		GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
+		GetCameraData(this->rootNode->GetChild(i),outputFile->GetCamerasRef());
+		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
 		lightHandler.DisplayLight(this->rootNode->GetChild(i));
+
 	}
 }
 
@@ -73,6 +82,7 @@ void FbxImport::LoadFbxFile(const char * fileName)
 	fImporter->Import(scene);
 
 	//the file is imported. Destroy the importer
+	
 	fImporter->Destroy();
 
 
@@ -108,16 +118,48 @@ void FbxImport::PrintScene()
 
 }
 
-dummyStructVert FbxImport::GetMeshData(FbxNode * pNode)
+void FbxImport::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputMeshes)
 {
-	meshHandler.GetMeshData(pNode);
 
-	return dummyStructVert();
+	
+
+	meshHandler.GetMeshData(pNode, outputMeshes); //Extract all the meshes.
+
+	
 }
 
-BRFImporter::CameraHeader FbxImport::GetCameraData(FbxNode* pNode)
+void FbxImport::GetCameraData(FbxNode* pNode, std::vector<CameraHeader>* outputCameras)
 {
-	cameraHandler.GetCameraData(pNode);
+	//cameraHandler.GetCameraData(pNode);
 
-	return BRFImporter::CameraHeader();
+	
 }
+
+void FbxImport::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport>* outputSkeletons)
+{
+	//skeletonHandler.GetSkeletonData(pNode);
+
+	
+}
+
+//void FbxImport::GetAnimationData(FbxNode * pNode, BrfExporter * outputClass)
+//{
+//}
+
+void FbxImport::GetMaterialData(FbxNode * pNode, std::vector<MaterialHeader>* outputMat)
+{
+}
+
+void FbxImport::GetLightData(FbxNode * pNode, LightExport* lights)
+{
+}
+
+void FbxImport::GetMorphAnimData(FbxNode * pNode, std::vector<MorphAnimExport>* outputMorphs)
+{
+}
+
+void FbxImport::GetGroupData(FbxNode * pNode, std::vector<GroupHeader>* outputGroups)
+{
+}
+
+
