@@ -41,11 +41,9 @@ void CameraHandler::ProcessCameraData(FbxCamera* pCamera)
 
 void CameraHandler::GetCamRoll(FbxCamera* pCamera, float* pTargetRoll)
 {
-	FbxDouble3 tmp = pCamera->Roll.Get;
+	FbxDouble tmp = pCamera->Roll.Get();
 
-	pTargetRoll[0] = (float)tmp[0];
-	pTargetRoll[1] = (float)tmp[1];
-	pTargetRoll[2] = (float)tmp[2];
+	pTargetRoll[0] = (float)tmp;
 }
 
 void GetCamIntrest(FbxCamera* pCamera, float* pTargetIntrest)

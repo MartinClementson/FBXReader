@@ -13,49 +13,60 @@ GroupHandler::~GroupHandler()
 void GroupHandler::GetGroupData(FbxNode * pNode)
 {
 
-	
+	//FbxNode* pGroup;
 
 	for (int i = 0; i < pNode->GetChildCount(); i++)
 	{
-		FbxNode* lChild = pNode->GetChild(i);
-		if (lChild->GetNodeAttribute())
+		 pNode->GetChild(i);
+		
+		if (pNode->GetMesh())
+		{
+			std::cout << pNode->GetName() << std::endl;
+		
+		}
+		if (pNode->GetLight())
+		{
+			std::cout << pNode->GetName() << std::endl;
+			
+		}
+
+		if (pNode->GetCamera())
+		{
+			std::cout << pNode->GetName() << std::endl;
+			
+		}
+
+		/*if (lChild->GetNodeAttribute())
 		{
 			if (lChild->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eMesh)
 			{
 				FbxMesh* pMesh = (FbxMesh*)lChild->GetNodeAttribute();
+
 			}
 			if (lChild->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eLight)
 			{
-				processLightData();
+				FbxLight* pLight = (FbxLight*)lChild->GetNodeAttribute();
+
 			}
 			if (lChild->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eCamera)
 			{
-				processCameraData();
+				FbxCamera* pCamera = (FbxCamera*)lChild->GetNodeAttribute();
 			}
-		}
+		}*/
+	}
+
+	
+	
 		
-
-		std::cout << pNode->GetName() << std::endl;
-
-	}
-
-	if (pNode->GetNodeAttribute())
-	{
-
-
-	}
-	
-	
 }
 
 void GroupHandler::ProcessGroupData(FbxNode * pGroup)
-{
-	const char * lLevelsGroup;
-
-	
+{	
 
 
 }
+
+
 
 //STUFF
 //if (pNode->GetMesh())
