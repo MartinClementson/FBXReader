@@ -6,6 +6,7 @@
 
 FbxImport::FbxImport()
 {
+
 }
 
 
@@ -27,9 +28,14 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 {
 	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
 	{
+
+		
+
 		GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
 		GetCameraData(this->rootNode->GetChild(i),outputFile->GetCamerasRef());
 		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
+		lightHandler.DisplayLight(this->rootNode->GetChild(i));
+
 	}
 }
 
