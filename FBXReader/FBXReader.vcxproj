@@ -164,18 +164,13 @@
     <ClCompile Include="GetMeshData.cpp" />
     <ClCompile Include="LightExport.cpp" />
     <ClCompile Include="main.cpp" />
-
+    <ClCompile Include="MaterialExportcpp.cpp" />
     <ClCompile Include="MaterialHandler.cpp" />
-
     <ClCompile Include="MeshExport.cpp" />
-
     <ClCompile Include="MeshHandler.cpp" />
-
     <ClCompile Include="MorphAnimExport.cpp" />
     <ClCompile Include="SkeletonExport.cpp" />
-
     <ClCompile Include="SkeletonHandler.cpp" />
-
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttributesExport.h" />
@@ -186,19 +181,14 @@
     <ClInclude Include="fbxSDK.h" />
     <ClInclude Include="GetMeshData.h" />
     <ClInclude Include="CameraHandler.h" />
-
+    <ClInclude Include="MaterialExport.h" />
     <ClInclude Include="MaterialHandler.h" />
-
     <ClInclude Include="LightExport.h" />
     <ClInclude Include="MeshExport.h" />
-
     <ClInclude Include="MeshHandler.h" />
-
     <ClInclude Include="MorphAnimExport.h" />
     <ClInclude Include="SkeletonExport.h" />
-
     <ClInclude Include="SkeletonHandler.h" />
-
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
