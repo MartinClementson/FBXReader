@@ -36,6 +36,7 @@ void SkeletonHandler::ProcessData(FbxNode * pNode)
 		//root node
 		ProcessPosition(pNode);
 		FbxSkeleton *skel = pNode->GetSkeleton();
+		int test = pNode->GetSrcObjectCount<FbxAnimStack>();
 
 		if (skel->IsSkeletonRoot())
 		{
