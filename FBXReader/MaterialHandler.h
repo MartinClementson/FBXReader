@@ -3,6 +3,7 @@
 
 #include "fbxSDK.h"
 #include "BRFImporterStructs.h"
+#include "BrfExporter.h"
 
 
 class MaterialHandler
@@ -11,7 +12,7 @@ public:
 	MaterialHandler();
 	~MaterialHandler();
 
-	void GetMaterialData(FbxNode* pNode);
+	void GetMaterialData(FbxNode* pNode, std::vector<MaterialHeader>* outputMat);
 
 private:
 	void ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int matCount);

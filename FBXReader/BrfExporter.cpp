@@ -32,7 +32,7 @@ BrfExporter::~BrfExporter()
 
 void BrfExporter::WriteToBinaryFile(char * fileName)
 {
-		//Stubby stub stub!
+		//Stubby stub stub! mmmmm... so stubby...
 	std::ofstream outfile;
 
 

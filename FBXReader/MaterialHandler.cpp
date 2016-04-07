@@ -1,4 +1,5 @@
 #include "MaterialHandler.h"
+
 #pragma region Init & Destruct
 
 MaterialHandler::MaterialHandler()
@@ -17,11 +18,11 @@ MaterialHandler::~MaterialHandler()
 
 #pragma region Material Main
 
-void MaterialHandler::GetMaterialData(FbxNode * pNode)
+void MaterialHandler::GetMaterialData(FbxNode * pNode, std::vector<MaterialHeader>* outputMat)
 {
 	//Recursively extract the children
 	for (int j = 0; j < pNode->GetChildCount(); j++)
-		GetMaterialData(pNode->GetChild(j));
+		GetMaterialData(pNode->GetChild(j),outputMat);
 
 
 	FbxGeometry* pGeometry = pNode->GetGeometry();
