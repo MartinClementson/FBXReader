@@ -48,7 +48,7 @@ void SkeletonHandler::ProcessData(FbxNode * pNode)
 
 			//assign the parent system here later, we can now effectively get the parents
 			FbxNode *parent = pNode->GetParent();
-			std::cout << "This is the parent: " << parent->GetName() << "\n";
+			std::cout << "This is the parent: " << parent->GetName() << "\n\n";
 		}
 
 		//Recursively checking itself
