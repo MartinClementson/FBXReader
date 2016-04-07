@@ -139,9 +139,12 @@ void MeshHandler::GetVertPositions(FbxMesh * pMesh, int index, double * targetPo
 void MeshHandler::GetVertNormals(fbxsdk::FbxGeometryElementNormal * pNElement, int index, double * targetNormal)
 {
 	FbxVector4 normal = pNElement->GetDirectArray().GetAt(index);
-	targetNormal[0] = normal[0];
-	targetNormal[1] = normal[1];
-	targetNormal[2] = normal[2];
+	if (pNElement->GetMappingMode() == FbxGeometryElement::eByControlPoint)
+	{
+		targetNormal[0] = normal[0];
+		targetNormal[1] = normal[1];
+		targetNormal[2] = normal[2];
+	}
 }
 
 void MeshHandler::GetVertBiNormals(fbxsdk::FbxGeometryElementBinormal * pBNElement, int index, double * targetBiNormal)
