@@ -8,7 +8,7 @@ void main()
 {
 
 	//const char* fileName = "test2.fbx";
-	const char* fileName = "3_shapes_1_Cam.fbx";
+	const char* fileName = "test.fbx";
 	FbxImport* importer = new FbxImport();
 
 	importer->LoadFbxFile(fileName); //Load the fbx file
