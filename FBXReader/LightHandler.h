@@ -5,17 +5,14 @@
 
 #include "fbxSdk.h"
 #include "BRFImporterStructs.h"
+#include "LightExport.h"
 
 class LightHandler
 {
 
 private:
 	BRFImporter::LightHeader lightTypeStruct;
-	BRFImporter::PointLightHeader point;
-	BRFImporter::DirLightHeader directional;
-	BRFImporter::SpotLightHeader spot;
-	BRFImporter::AmbLightHeader ambient;
-	BRFImporter::AreaLightHeader area;
+	
 
 	void GetLightPos(FbxNode * pNode, double * lightPosition);
 
@@ -29,37 +26,18 @@ public:
 	LightHandler();
 	~LightHandler();
 
-	void GetLightData(FbxNode * pNode);
+	void GetLightData(FbxNode * pNode, LightExport* lights);
 
-	void SpotLight(
-		FbxLight* pLight,
-		float* lightColor,
-		double outerAngle,
-		float intensity,
-		unsigned int iD);
+	BRFImporter::SpotLightHeader SpotLight(FbxLight* pLight);
 
-	void Directional(
-		FbxLight* pLight,
-		float* lightColor,
-		float intensity,
-		unsigned int iD);
+	BRFImporter::DirLightHeader Directional(FbxLight* pLight);
 
-	void PointLight(FbxLight* pLight,
-		float* lightColor,
-		float intensity,
-		unsigned int iD);
+	BRFImporter::PointLightHeader PointLight(FbxLight* pLight);
+		
 
-	void AreaLight(
-		FbxLight* pLight,
-		float* lightColor,
-		float intensity,
-		unsigned int iD);
+	BRFImporter::AreaLightHeader AreaLight(FbxLight* pLight);
 
-	void AmbientLight(
-		FbxLight* pLight,
-		float* lightColor,
-		float intensity,
-		unsigned int iD);
+	BRFImporter::AmbLightHeader AmbientLight(FbxLight* pLight);
 
 };
 #endif // !GETLIGHT_H

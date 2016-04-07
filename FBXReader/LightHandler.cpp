@@ -11,10 +11,17 @@ LightHandler::~LightHandler()
 
 }
 
-void LightHandler::GetLightData(FbxNode* pNode)
+void LightHandler::GetLightData(FbxNode* pNode, LightExport* lights)
 {
-	if (pNode->GetLight())
+		//Recursively extract the children
+		for (int j = 0; j < pNode->GetChildCount(); j++)
+			GetLightData(pNode->GetChild(j), lights);
+
+		if (pNode->GetLight())
 	{
+		if (lights == nullptr)
+			lights = new LightExport;
+
 		FbxLight* lLight = (FbxLight*)pNode->GetNodeAttribute();
 
 		std::cout << std::endl;
@@ -29,26 +36,33 @@ void LightHandler::GetLightData(FbxNode* pNode)
 
 		if (num == 0)
 		{
-			GetLightPos(pNode, point.pos);
+			PointLightHeader temp = PointLight(lLight);
+			GetLightPos(pNode, temp.pos);
 
-			PointLight(lLight, point.color, point.intensity, point.objectID);
+			lights->pointLights->push_back(temp);
 		}
 		if (num == 1)
 		{
-			std::cout << "Directional:" << std::endl;
-			GetLightPos(pNode, directional.pos);
-			GetLightRotation(pNode, directional.rot);
+			DirLightHeader temp;
+			temp = Directional(lLight);
 
-			Directional(lLight, directional.color, directional.intensity, directional.objectID);
+			std::cout << "Directional:" << std::endl;
+			GetLightPos(pNode, temp.pos);
+			GetLightRotation(pNode, temp.rot);
+
+			lights->dirLights->push_back(temp);
+
 		}
 		if (num == 2)
 		{
-			GetLightPos(pNode, spot.pos);
-			GetLightRotation(pNode, spot.rot);
-			GetLightScaling(pNode, spot.scale);
+			SpotLightHeader temp;
+			temp = SpotLight(lLight);
+			GetLightPos(pNode, temp.pos);
+			GetLightRotation(pNode, temp.rot);
+			GetLightScaling(pNode, temp.scale);
 
-			SpotLight(lLight, spot.color, spot.outerAngle, spot.intensity, spot.objectID);
 
+			lights->spotLights->push_back( temp );
 		}
 		/*if ((char*)lLight->LightType.Get() == "Ambient")
 		{
@@ -58,12 +72,14 @@ void LightHandler::GetLightData(FbxNode* pNode)
 		}*/
 		if (num == 3)
 		{
-			std::cout << "Arealight: " << std::endl;
-			GetLightPos(pNode, area.pos);
-			GetLightRotation(pNode, area.rot);
-			GetLightScaling(pNode, area.scale);
+			AreaLightHeader temp;
 
-			AreaLight(lLight, area.color, area.intensity, area.objectID);
+			temp = AreaLight(lLight);
+			std::cout << "Arealight: " << std::endl;
+			GetLightPos(pNode, temp.pos);
+			GetLightRotation(pNode, temp.rot);
+			GetLightScaling(pNode, temp.scale);
+
 		}
 
 	}
@@ -115,198 +131,186 @@ void LightHandler::GetLightScaling(FbxNode* pNode, double* lightScaling)
 }
 
 #pragma region LightValues
-void LightHandler::SpotLight(
-	FbxLight* pLight,
-	float* lightColor,
-	double outerAngle,
-	float intensity,
-	unsigned int iD)
+BRFImporter::SpotLightHeader LightHandler::SpotLight(FbxLight* pLight)
 {
+	SpotLightHeader temp;
 	std::cout << "Spotlight Values: " << std::endl;
 
 	unsigned int ID = pLight->GetUniqueID();
-	iD = ID;
+	//iD = ID;
 	std::cout << "Spotlight ID:";
 	std::cout << ID;
 	std::cout << std::endl;
 
 
 	FbxDouble3 lColor = pLight->Color.Get();
-	lightColor[0] = (double)lColor[0];
+	temp.color[0] = (double)lColor[0];
 	std::cout << "Color R: ";
-	std::cout << lightColor[0] << " ";
-	lightColor[1] = (double)lColor[1];
+	std::cout << temp.color[0] << " ";
+	temp.color[1] = (double)lColor[1];
 	std::cout << "Color G: ", lColor;
-	std::cout << lightColor[1] << " ";
-	lightColor[2] = (double)lColor[2];
+	std::cout << temp.color[1] << " ";
+	temp.color[2] = (double)lColor[2];
 	std::cout << "Color B: ", lColor;
-	std::cout << lightColor[2] << " ";
+	std::cout << temp.color[2] << " ";
 	std::cout << std::endl;
 
 
-	float lightIntensity = pLight->Intensity.Get();
-	intensity = lightIntensity;
+	double lightIntensity = pLight->Intensity.Get();
+	temp.intensity = lightIntensity;
 	std::cout << "Intensity: ";
 	std::cout << lightIntensity;
 	std::cout << std::endl;
 
 
 	double outerangle = pLight->OuterAngle.Get();
-	outerAngle = outerangle;
+	temp.outerAngle = outerangle;
 	std::cout << "Outer Angle: ";
 	std::cout << outerangle;
 	std::cout << std::endl;
 
 
-	lightTypeStruct.spotCount++;
+
+	return temp;
 }
 
-void LightHandler::Directional(
-	FbxLight* pLight,
-	float* lightColor,
-	float intensity,
-	unsigned int iD)
+BRFImporter::DirLightHeader LightHandler::Directional(FbxLight* pLight)
 {
+	DirLightHeader temp;
 	std::cout << "Directional Values: " << std::endl;
 
 	unsigned int ID = pLight->GetUniqueID();
-	iD = ID;
+	//iD = ID;
 	std::cout << "Directional ID:";
 	std::cout << ID;
 	std::cout << std::endl;
 
 	FbxDouble3 lColor = pLight->Color.Get();
-	lightColor[0] = (double)lColor[0];
+	temp.color[0] = (double)lColor[0];
 	std::cout << "Color R: ";
-	std::cout << lightColor[0] << " ";
-	lightColor[1] = (double)lColor[1];
+	std::cout << temp.color[0] << " ";
+	temp.color[1] = (double)lColor[1];
 	std::cout << "Color G: ", lColor;
-	std::cout << lightColor[1] << " ";
-	lightColor[2] = (double)lColor[2];
+	std::cout << temp.color[1] << " ";
+	temp.color[2] = (double)lColor[2];
 	std::cout << "Color B: ", lColor;
-	std::cout << lightColor[2] << " ";
+	std::cout << temp.color[2] << " ";
 	std::cout << std::endl;
 
-	float lightIntensity = pLight->Intensity.Get();
-	intensity = lightIntensity;
+	double lightIntensity = pLight->Intensity.Get();
+	temp.intensity = lightIntensity;
 	std::cout << "Intensity: ";
 	std::cout << lightIntensity << std::endl;
 
-	lightTypeStruct.directionalCount;
+	return temp;
 
 }
 
-void LightHandler::PointLight(
-	FbxLight* pLight,
-	float* lightColor,
-	float intensity,
-	unsigned int iD)
+BRFImporter::PointLightHeader LightHandler::PointLight(FbxLight* pLight)
 {
+	PointLightHeader temp;
 	std::cout << "Point Values: " << std::endl;
 
 	unsigned int ID = pLight->GetUniqueID();
-	iD = ID;
+	//iD = ID;
 	std::cout << "Point ID :";
 	std::cout << ID;
 	std::cout << std::endl;
 
 
 	FbxDouble3 lColor = pLight->Color.Get();
-	lightColor[0] = (double)lColor[0];
+	temp.color[0] = (double)lColor[0];
 	std::cout << "Color R: ";
-	std::cout << lightColor[0] << " ";
-	lightColor[1] = (double)lColor[1];
+	std::cout << temp.color[0] << " ";
+	temp.color[1] = (double)lColor[1];
 	std::cout << "Color G: ", lColor;
-	std::cout << lightColor[1] << " ";
-	lightColor[2] = (double)lColor[2];
+	std::cout << temp.color[1] << " ";
+	temp.color[2] = (double)lColor[2];
 	std::cout << "Color B: ", lColor;
-	std::cout << lightColor[2] << " ";
+	std::cout << temp.color[2] << " ";
 	std::cout << std::endl;
 
 
-	float lightIntensity = pLight->Intensity.Get();
-	intensity = lightIntensity;
+	double lightIntensity = pLight->Intensity.Get();
+	temp.intensity = lightIntensity;
 	std::cout << "Intensity: ";
 	std::cout << lightIntensity;
 	std::cout << std::endl;
 
 
-	lightTypeStruct.pointCount++;
+	
+	return temp;
 }
 
-void LightHandler::AreaLight(
-	FbxLight* pLight,
-	float* lightColor,
-	float intensity,
-	unsigned int iD)
+BRFImporter::AreaLightHeader LightHandler::AreaLight(FbxLight* pLight)
 {
+	AreaLightHeader temp;
 	std::cout << "Area Values: " << std::endl;
 
 	unsigned int ID = pLight->GetUniqueID();
-	iD = ID;
+	//iD = ID;
 	std::cout << "Area ID: ";
 	std::cout << ID;
 	std::cout << std::endl;
 
 
 	FbxDouble3 lColor = pLight->Color.Get();
-	lightColor[0] = (double)lColor[0];
+	temp.color[0] = (double)lColor[0];
 	std::cout << "Color R: ";
-	std::cout << lightColor[0] << " ";
-	lightColor[1] = (double)lColor[1];
+	std::cout << temp.color[0] << " ";
+	temp.color[1] = (double)lColor[1];
 	std::cout << "Color G: ", lColor;
-	std::cout << lightColor[1] << " ";
-	lightColor[2] = (double)lColor[2];
+	std::cout << temp.color[1] << " ";
+	temp.color[2] = (double)lColor[2];
 	std::cout << "Color B: ", lColor;
-	std::cout << lightColor[2] << " ";
+	std::cout << temp.color[2] << " ";
 	std::cout << std::endl;
 
 
-	float lightIntensity = pLight->Intensity.Get();
-	intensity = lightIntensity;
+	double lightIntensity = pLight->Intensity.Get();
+	temp.intensity = lightIntensity;
 	std::cout << "Intensity: ";
 	std::cout << lightIntensity;
 	std::cout << std::endl;
 
 
-	lightTypeStruct.areaCount++;
+	
+	return temp;
 }
 
-void LightHandler::AmbientLight(
-	FbxLight* pLight,
-	float* lightColor,
-	float intensity,
-	unsigned int iD)
+BRFImporter::AmbLightHeader LightHandler::AmbientLight(FbxLight* pLight)
 {
+	AmbLightHeader temp;
+
 	std::cout << "Ambient Values: " << std::endl;
 
 	unsigned int ID = pLight->GetUniqueID();
-	iD = ID;
+	//iD = ID;
 	std::cout << "Ambient ID :";
 	std::cout << ID;
 	std::cout << std::endl;
 
 
 	FbxDouble3 lColor = pLight->Color.Get();
-	lightColor[0] = (double)lColor[0];
+	temp.color[0] = (double)lColor[0];
 	std::cout << "Color R: ";
-	std::cout << lightColor[0] << " ";
-	lightColor[1] = (double)lColor[1];
+	std::cout << temp.color[0] << " ";
+	temp.color[1] = (double)lColor[1];
 	std::cout << "Color G: ", lColor;
-	std::cout << lightColor[1] << " ";
-	lightColor[2] = (double)lColor[2];
+	std::cout << temp.color[1] << " ";
+	temp.color[2] = (double)lColor[2];
 	std::cout << "Color B: ", lColor;
-	std::cout << lightColor[2] << " ";
+	std::cout << temp.color[2] << " ";
 	std::cout << std::endl;
 
 
-	float lightIntensity = pLight->Intensity.Get();
-	intensity = lightIntensity;
+	double lightIntensity = pLight->Intensity.Get();
+	temp.intensity = lightIntensity;
 	std::cout << "Intensity: ";
 	std::cout << lightIntensity;
 	std::cout << std::endl;
 
 
-	lightTypeStruct.ambientCount++;
+	return temp;
 }
 #pragma endregion
