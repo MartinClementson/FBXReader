@@ -146,6 +146,7 @@ namespace BRFImporter
 	{
 		unsigned int objectID;
 		unsigned int parentID;		// 0 = Default
+		double pos[3];
 		float color[3];
 		float intensity;
 	};
@@ -154,9 +155,8 @@ namespace BRFImporter
 		unsigned int objectID;
 		unsigned int parentID;		// 0 = Default
 		double pos[3];
-		double rotation[3];
-		double width;
-		double height;
+		double rot[3];
+		double scale[3];
 		float color[3];
 		float intensity;
 	};
