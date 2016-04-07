@@ -89,8 +89,8 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 		startindex = pMesh->GetPolygonVertexIndex(i); 
 		vert = &pMesh->GetPolygonVertices()[startindex];
 		int count = pMesh->GetPolygonSize(i);
-		/*for (int j = 0; j < count; j++)
-			std::cout << i << ": " << vert[j] << "\n";*/
+		for (int j = 0; j < count; j++)
+			std::cout << i << ": " << vert[j] << "\n";
 	}
 
 	//Get all the mesh elements (normals, binormals, position...)
@@ -139,12 +139,9 @@ void MeshHandler::GetVertPositions(FbxMesh * pMesh, int index, double * targetPo
 void MeshHandler::GetVertNormals(fbxsdk::FbxGeometryElementNormal * pNElement, int index, double * targetNormal)
 {
 	FbxVector4 normal = pNElement->GetDirectArray().GetAt(index);
-	if (pNElement->GetMappingMode() == FbxGeometryElement::eByControlPoint)
-	{
-		targetNormal[0] = normal[0];
-		targetNormal[1] = normal[1];
-		targetNormal[2] = normal[2];
-	}
+	targetNormal[0] = normal[0];
+	targetNormal[1] = normal[1];
+	targetNormal[2] = normal[2];
 }
 
 void MeshHandler::GetVertBiNormals(fbxsdk::FbxGeometryElementBinormal * pBNElement, int index, double * targetBiNormal)
