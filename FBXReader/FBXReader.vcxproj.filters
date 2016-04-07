@@ -28,12 +28,9 @@
     <Filter Include="Classes\CameraHandler">
       <UniqueIdentifier>{912fbbc8-3c8a-47cc-b057-27b7a447af90}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="Classes\MaterialHandler">
       <UniqueIdentifier>{d50f8b34-8cb9-4485-a982-45fa3fd77619}</UniqueIdentifier>
     </Filter>
-
-
     <Filter Include="Classes\BrfExporter">
       <UniqueIdentifier>{bf6cb66d-967f-4cdb-8146-054a8b2d18b6}</UniqueIdentifier>
     </Filter>

@@ -67,7 +67,7 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 
 	MaterialExport* tmpMaterial = new MaterialExport();
 
-	MaterialHeader materialStruct;
+	MaterialHeader* materialStruct;
 	
 	//diffuse property
 	FbxProperty diffProp = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
@@ -77,11 +77,12 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	//check if there are texturemaps
 	if (diffMapCount == 0)
 	{
-		GetDiffuse(pMaterial, materialStruct.diffuseVal);
+		GetDiffuse(pMaterial, materialStruct->diffuseVal);
 	}
 	else
 	{
-		materialStruct.diffMap = GetTextureMap(diffProp, diffMapCount);
+		memcpy(materialStruct->diffMap, GetTextureMap(diffProp), sizeof(char) * 256);
+		//materialStruct.diffMap = GetTextureMap(diffProp, diffMapCount);
 	}
 
 	//SpecularProperty
@@ -89,11 +90,11 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	unsigned int specMapCount = specProp.GetSrcObjectCount<FbxFileTexture>();
 	if (diffMapCount == 0)
 	{
-		GetSpecular(pMaterial, materialStruct.specularVal);
+		GetSpecular(pMaterial, materialStruct->specularVal);
 	}
 	else
 	{
-		GetSpecularMap(specProp, specMapCount);
+		memcpy(materialStruct->specMap, GetTextureMap(specProp), sizeof(char) * 256);
 	}
 
 	//NormalMap properties
@@ -102,7 +103,7 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 
 	if (normMapCount > 0)
 	{
-		GetNormalMap(normMapProp, normMapCount);
+		GetNormalMap(normMapProp);
 	}
 
 	//GlowMap proporties
@@ -112,7 +113,7 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 
 	if (glowMapCount > 0)
 	{
-		GetGlowMap(glowMapProp, glowMapCount);
+		GetGlowMap(glowMapProp);
 	}
 	
 }
@@ -123,7 +124,7 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 
 #pragma region Get Texture Map
 
-const char* MaterialHandler::GetTextureMap(FbxProperty diffMapProp ,unsigned int mapCount)
+const char* MaterialHandler::GetTextureMap(FbxProperty diffMapProp)
 {
 	const char* textureName;
 	
@@ -149,22 +150,21 @@ const char* MaterialHandler::GetTextureMap(FbxProperty diffMapProp ,unsigned int
 #pragma region Get Specular Map
 
 //In the alpha channel we have placed cosine power
-const char* MaterialHandler::GetSpecularMap(FbxProperty specProp, unsigned int mapCount)
+const char* MaterialHandler::GetSpecularMap(FbxProperty specProp)
 {
 	
 
-	std::cout << "filenumbers: " << mapCount << "\n";
-	for (int j = 0; j<mapCount; j++)
-	{
-		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(specProp.GetSrcObject<FbxFileTexture>(j));
+
+	
+	const FbxFileTexture* texture = FbxCast<FbxFileTexture>(specProp.GetSrcObject<FbxFileTexture>(0));
 
 
-		const char* filePath = texture->GetFileName();
-		const char* textureName = texture->GetRelativeFileName();
+	const char* filePath = texture->GetFileName();
+	const char* textureName = texture->GetRelativeFileName();
 
-		std::cout << filePath << std::endl;
-		std::cout << textureName << std::endl;
-	}
+	std::cout << filePath << std::endl;
+	std::cout << textureName << std::endl;
+	
 }
 
 #pragma endregion

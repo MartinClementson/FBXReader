@@ -23,10 +23,10 @@ private:
 	void GetSpecular(FbxSurfaceMaterial* pMaterial, double *pTargetSpecular);
 
 	//GetMaps
-	const char* GetTextureMap(FbxProperty diffMapProp, unsigned int mapCount);
-	const char* GetSpecularMap(FbxProperty specMapProp, unsigned int mapCount);
-	const char* GetNormalMap(FbxProperty normMapProp, unsigned int mapCount);
-	const char* GetGlowMap(FbxProperty glowMapProp, unsigned int mapCount);
+	const char* GetTextureMap(FbxProperty diffMapProp);
+	const char* GetSpecularMap(FbxProperty specMapProp);
+	const char* GetNormalMap(FbxProperty normMapProp);
+	const char* GetGlowMap(FbxProperty glowMapProp);
 };
 
 

@@ -12,6 +12,7 @@ MaterialExport::MaterialExport()
 MaterialExport::~MaterialExport()
 {
 	
+	delete material;
 
 	if (this->matAttributes != nullptr)
 		delete matAttributes;
