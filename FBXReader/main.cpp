@@ -1,16 +1,23 @@
-#include "FbxPrintFunctions.h"
+
 #include "FbxImport.h"
-#include "GetMeshData.h"
+#include <iostream>
+
 #include <crtdbg.h>
 #define _CRTDBG_MAP_ALLOC
+#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+
 
 void main()
 {
+	#ifdef _DEBUG
+		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	#endif
 
 	const char* fileName = "test2.fbx";
 	//const char* fileName = "3_shapes_1_Cam.fbx";
 	FbxImport* importer = new FbxImport();
-
+	
+	
 	importer->LoadFbxFile(fileName); //Load the fbx file
 	importer->PrintScene(); 
 
@@ -23,17 +30,19 @@ void main()
 
 	//done
 
+	delete outputClass;
+	delete importer;
 	std::getchar();
 	
 	
-	delete outputClass;
-	delete importer;
 	
-	_CrtCheckMemory();
-	_CrtDumpMemoryLeaks();
+
+	
+
 	return;
 
 }
+
 
 
 

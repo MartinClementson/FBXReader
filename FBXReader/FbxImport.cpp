@@ -6,15 +6,19 @@
 
 FbxImport::FbxImport()
 {
+
 }
 
 
 FbxImport::~FbxImport()
 {
-	//ios->Destroy();
+	if(ios)
+		ios->Destroy();
 	
-	//scene->Destroy();
-	fbxManager->Destroy(); //destroy the manager. do this last
+	if(scene)
+		scene->Destroy();
+	if(fbxManager)
+		fbxManager->Destroy(); //destroy the manager. do this last
 
 
 	
@@ -24,9 +28,14 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 {
 	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
 	{
+
+		
+
 		GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
 		GetCameraData(this->rootNode->GetChild(i),outputFile->GetCamerasRef());
 		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
+		lightHandler.DisplayLight(this->rootNode->GetChild(i));
+
 	}
 }
 
@@ -121,14 +130,14 @@ void FbxImport::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputMes
 
 void FbxImport::GetCameraData(FbxNode* pNode, std::vector<CameraHeader>* outputCameras)
 {
-	cameraHandler.GetCameraData(pNode);
+	//cameraHandler.GetCameraData(pNode);
 
 	
 }
 
 void FbxImport::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport>* outputSkeletons)
 {
-	skeletonHandler.GetSkeletonData(pNode);
+	//skeletonHandler.GetSkeletonData(pNode);
 
 	
 }
