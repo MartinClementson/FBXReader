@@ -113,6 +113,9 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 			FbxAnimCurve * rotationCurve = pNode->LclRotation.GetCurve(animLayer);
 			FbxAnimCurve * scalingCurve = pNode->LclScaling.GetCurve(animLayer);
 
+			FbxTimeSpan animTime;
+			pNode->GetAnimationInterval(animTime, animStack, layerIndex);
+
 			if (scalingCurve != NULL)
 			{
 				//getting the number of set key for this attrubute
@@ -199,11 +202,11 @@ void SkeletonHandler::ProcessJoints(FbxMesh * pMesh)
 	{
 		//bonecount can be number of joints
 		int boneCount = pSkin->GetClusterCount();
-		for (int boneIndex = 0; boneIndex < boneCount; boneIndex)
+		for (int boneIndex = 0; boneIndex < boneCount; boneIndex++)
 		{
 			FbxCluster * pCluster = pSkin->GetCluster(boneIndex);
 			FbxNode* pBone = pCluster->GetLink();
-			std::cout << "\n\n" << pBone->GetName();
+			//std::cout << "\n\n" << pBone->GetName();
 			//Getting the bindpose
 			FbxAMatrix bindPose;
 			pCluster->GetTransformLinkMatrix(bindPose);
