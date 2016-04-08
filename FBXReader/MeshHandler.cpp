@@ -28,8 +28,11 @@ void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputM
 		if (!IsBoundingBox(pNode)) // Don't export a mesh that is a boundingBox
 		{
 
-			MeshExport* tempMesh = new MeshExport(); // Create a temporary object to fill the information
+			bool hasSkeleton = HasSkeleton(pNode);
 
+			MeshExport* tempMesh = new MeshExport(hasSkeleton); // Create a temporary object to fill the information
+
+			tempMesh->meshInfo.hasSkeleton = hasSkeleton;
 
 			std::cout << pNode->GetName() << std::endl;
 			/*
@@ -59,7 +62,7 @@ void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputM
 
 			//std::cout << pNode->GetMaterial(0) << "\n"; //TODO! We need to get info on what material is used here!
 
-			ProcessData(pNode->GetMesh(), tempMesh); //fill the information needed
+			ProcessData(pNode->GetMesh(), tempMesh, hasSkeleton); //fill the information needed
 
 
 			// Check if it has a boundingBox, If it has. then calculate it and store the information with the mesh
@@ -82,7 +85,7 @@ void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputM
 	}
 }
 
-void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
+void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh, bool hasSkeleton)
 {
 	/* Here we process all the data for the mesh,
 	
@@ -105,9 +108,13 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 	std::cout << pNode->GetMaterialCount();
 	std::cout << (pNode->GetMaterial(0))->GetName();
 
-
-	outPutMesh->vertices->resize(vertCount);
-	outPutMesh->weights.resize(vertCount);
+	if (hasSkeleton)
+	{
+		outPutMesh->vertices->resize(vertCount);
+		outPutMesh->weights.resize(vertCount);
+	}
+	else
+		outPutMesh->verticesNoSkeleton->resize(vertCount);
 
 	unsigned int polyCount = pMesh->GetPolygonCount();
 
@@ -133,15 +140,23 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 	//Get all the mesh elements (normals, binormals, position...)
 	for (int i = 0; i < vertCount; i++)
 	{
-		GetVertPositions(pMesh, i, outPutMesh->vertices->at(i).pos);
-		GetVertNormals(pMesh->GetElementNormal(), i, outPutMesh->vertices->at(i).normal);
-	
-		
-		GetVertBiNormals(pMesh->GetElementBinormal(), i, outPutMesh->vertices->at(i).biTangent);
-		
-		GetVertTangents(pMesh->GetElementTangent(), i, outPutMesh->vertices->at(i).tangent);
-		GetVertTextureUV(pMesh->GetElementUV(), i, outPutMesh->vertices->at(i).uv);
-		GetSkeletonWeights(pMesh, i, outPutMesh);
+		if (hasSkeleton)
+		{
+			GetVertPositions(pMesh, i, outPutMesh->vertices->at(i).pos);
+			GetVertNormals(pMesh->GetElementNormal(), i, outPutMesh->vertices->at(i).normal);
+			GetVertBiNormals(pMesh->GetElementBinormal(), i, outPutMesh->vertices->at(i).biTangent);
+			GetVertTangents(pMesh->GetElementTangent(), i, outPutMesh->vertices->at(i).tangent);
+			GetVertTextureUV(pMesh->GetElementUV(), i, outPutMesh->vertices->at(i).uv);
+			GetSkeletonWeights(pMesh, i, outPutMesh);
+		}
+		else
+		{
+			GetVertPositions(pMesh, i, outPutMesh->verticesNoSkeleton->at(i).pos);
+			GetVertNormals(pMesh->GetElementNormal(), i, outPutMesh->verticesNoSkeleton->at(i).normal);
+			GetVertBiNormals(pMesh->GetElementBinormal(), i, outPutMesh->verticesNoSkeleton->at(i).biTangent);
+			GetVertTangents(pMesh->GetElementTangent(), i, outPutMesh->verticesNoSkeleton->at(i).tangent);
+			GetVertTextureUV(pMesh->GetElementUV(), i, outPutMesh->verticesNoSkeleton->at(i).uv);
+		}
 		//test print
 		/*std::cout << "Vert #" << i
 			<< " (" << vertices.at(i).position[0]
@@ -333,4 +348,14 @@ bool MeshHandler::IsBoundingBox(FbxNode * pNode)
 	}
 	else
 	return false;
+}
+
+bool MeshHandler::HasSkeleton(FbxNode * pNode)
+{
+	FbxMesh * pMesh = pNode->GetMesh();
+	FbxSkin * pSkin = (FbxSkin*)pMesh->GetDeformer(0, FbxDeformer::eSkin);
+	if (pSkin != NULL)
+		return true;
+	else
+		return false;
 }
