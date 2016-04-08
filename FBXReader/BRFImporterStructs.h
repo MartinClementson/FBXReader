@@ -27,7 +27,7 @@ namespace BRFImporter
 		unsigned int indexCount;
 		unsigned int materialID;
 
-		unsigned int attrCount;		// 0 = Default
+		unsigned int attrCount = 0;		// 0 = Default
 
 		bool boundingBox;
 
