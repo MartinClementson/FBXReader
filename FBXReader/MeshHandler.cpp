@@ -92,18 +92,20 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 	bitangent
 	*/
 
-
-
-
+	FbxGeometryElementMaterial * matte = pMesh->GetElementMaterial(0);
+	std::cout << matte->GetOwner();
+	//matte->get
 	//Get vertices amount
 	unsigned int vertCount = pMesh->GetControlPointsCount();
 	//outPutMesh->meshInfo.vertexCount = vertCount;
 
-	int numMaterials = pMesh->GetElementMaterialCount();
+	FbxNode * pNode = (FbxNode*)pMesh->GetDstObject();
+
+	int numMaterials = pNode->GetSrcObjectCount<FbxSurfaceMaterial::ClassId>();
 	for (int i = 0; i < numMaterials; i++)
 	{
-		FbxGeometryElementMaterial * mat;
-		mat = pMesh->GetElementMaterial(i);
+		FbxSurfaceMaterial * mat;
+		mat = pNode->GetMaterial(i);
 		std::cout << "\n\n" << mat->GetName();
 	}
 
