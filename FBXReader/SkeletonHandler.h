@@ -17,6 +17,7 @@ private:
 	void ProcessData(FbxNode * pNode);
 	void ProcessPosition(FbxNode * pNode);
 	void ProcessKeyFrames(FbxNode * pNode);
+	void ProcessJoints(FbxMesh * pMesh);
 #pragma endregion
 };
 

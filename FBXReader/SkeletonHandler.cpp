@@ -113,6 +113,8 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 
 			if (scalingCurve != NULL)
 			{
+				//getting the number of set key for this attrubute
+				//for this joint
 				int numKeys = scalingCurve->KeyGetCount();
 				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
 				{
@@ -135,11 +137,13 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 			}
 			if (rotationCurve != NULL)
 			{
+				//getting the number of set key for this attrubute
+				//for this joint
 				int numKeys = rotationCurve->KeyGetCount();
 				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
 				{
 					FbxTime frameTime = rotationCurve->KeyGetTime(keyIndex);
-					FbxDouble3 rotationVector = pNode->EvaluateLocalScaling(frameTime);
+					FbxDouble3 rotationVector = pNode->EvaluateLocalRotation(frameTime);
 					float x = (float)rotationVector[0];
 					float y = (float)rotationVector[1];
 					float z = (float)rotationVector[2];
@@ -157,11 +161,13 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 			}
 			if (translationCurve != NULL)
 			{
+				//getting the number of set key for this attrubute
+				//for this joint
 				int numKeys = translationCurve->KeyGetCount();
 				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
 				{
 					FbxTime frameTime = translationCurve->KeyGetTime(keyIndex);
-					FbxDouble3 translationVector = pNode->EvaluateLocalScaling(frameTime);
+					FbxDouble3 translationVector = pNode->EvaluateLocalTranslation(frameTime);
 					float x = (float)translationVector[0];
 					float y = (float)translationVector[1];
 					float z = (float)translationVector[2];
@@ -172,11 +178,15 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 			else
 			{
 				//if the animation layer doesnt have a scaling curve, make a default one
-				FbxDouble3 translationVector = pNode->LclRotation.Get();
+				FbxDouble3 translationVector = pNode->LclTranslation.Get();
 				float x = (float)translationVector[0];
 				float y = (float)translationVector[1];
 				float z = (float)translationVector[2];
 			}
 		}
 	}
+}
+
+void SkeletonHandler::ProcessJoints(FbxMesh * pMesh)
+{
 }
