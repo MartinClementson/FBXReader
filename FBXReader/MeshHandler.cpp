@@ -196,6 +196,34 @@ void MeshHandler::GetVertTextureUV(fbxsdk::FbxGeometryElementUV * uvElement, int
 	targetUV[1] = uvs[1];
 }
 
+void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh)
+{
+	//int numDeformers = pMesh->GetDeformerCount();
+	FbxSkin * pSkin = (FbxSkin*)pMesh->GetDeformer(0, FbxDeformer::eSkin);
+	if (pSkin != NULL)
+	{
+		int boneCount = pSkin->GetClusterCount();
+		for (int boneIndex = 0; boneIndex < boneCount; boneIndex++)
+		{
+			FbxCluster * pCluster = pSkin->GetCluster(boneIndex);
+			FbxNode* pBone = pCluster->GetLink();
+
+			//std::cout << "\n\n" << pBone->GetName();
+
+			int * pBoneVertIndices = pCluster->GetControlPointIndices();
+			double * pBoneVertWeights = pCluster->GetControlPointWeights();
+
+			int numBoneVertIndices = pCluster->GetControlPointIndicesCount();
+			for (int boneVertIndex = 0; boneVertIndex < numBoneVertIndices; boneVertIndex++)
+			{
+				//store the weights here in the mesh vertices
+				int boneVertexIndex = pBoneVertIndices[boneVertIndex];
+				double boneWeight = pBoneVertWeights[boneVertIndex];
+			}
+		}
+	}
+}
+
 bool MeshHandler::GetBoundingBox(FbxNode * pNode,OOBBHeader* boundingBox)
 {
 	for (int j = 0; j < pNode->GetChildCount(); j++)
