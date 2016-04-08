@@ -101,13 +101,8 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 	//trying to find the material
 	FbxNode * pNode = (FbxNode*)pMesh->GetDstObject();
 
-	int numMaterials = pNode->GetSrcObjectCount<FbxSurfaceMaterial>();
-	for (int i = 0; i < numMaterials; i++)
-	{
-		FbxSurfaceMaterial * mat;
-		mat = pNode->GetMaterial(i);
-		std::cout << "\n\n" << mat->GetName();
-	}
+	std::cout << pNode->GetMaterialCount();
+	std::cout << (pNode->GetMaterial(0))->GetName();
 
 
 	outPutMesh->vertices->resize(vertCount);
@@ -144,7 +139,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 		
 		GetVertTangents(pMesh->GetElementTangent(), i, outPutMesh->vertices->at(i).tangent);
 		GetVertTextureUV(pMesh->GetElementUV(), i, outPutMesh->vertices->at(i).uv);
-		GetSkeletonWeights(pMesh, i);
+		GetSkeletonWeights(pMesh, i, outPutMesh);
 		//test print
 		/*std::cout << "Vert #" << i
 			<< " (" << vertices.at(i).position[0]
@@ -206,7 +201,7 @@ void MeshHandler::GetVertTextureUV(fbxsdk::FbxGeometryElementUV * uvElement, int
 	targetUV[1] = uvs[1];
 }
 
-void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index)
+void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index, MeshExport* outputMesh)
 {
 	//int numDeformers = pMesh->GetDeformerCount();
 	FbxSkin * pSkin = (FbxSkin*)pMesh->GetDeformer(0, FbxDeformer::eSkin);
@@ -215,6 +210,7 @@ void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index)
 		int boneCount = pSkin->GetClusterCount();
 		for (int boneIndex = 0; boneIndex < boneCount; boneIndex++)
 		{
+			WeigthsHeader tempWeight;
 			FbxCluster * pCluster = pSkin->GetCluster(boneIndex);
 			FbxNode* pBone = pCluster->GetLink();
 
@@ -227,7 +223,11 @@ void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index)
 			
 				//store the weights here in the mesh vertices
 			//int boneVertexIndex = pBoneVertIndices[index];
-			double boneWeight = pBoneVertWeights[index];
+			//double boneWeight = pBoneVertWeights[index];
+			tempWeight.influence = pBoneVertWeights[index];
+			tempWeight.jointID = boneIndex;
+
+			outputMesh->AddWeight(tempWeight);
 		}
 	}
 }

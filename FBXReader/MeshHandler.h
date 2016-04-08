@@ -18,7 +18,7 @@ private:
 	void GetVertBiNormals(fbxsdk::FbxGeometryElementBinormal* pBNElement, int index, double* targetBiNormal);
 	void GetVertTangents(fbxsdk::FbxGeometryElementTangent* pTElement, int index, double* targetTangent);
 	void GetVertTextureUV(fbxsdk::FbxGeometryElementUV* uvElement, int index, double* targetUV);
-	void GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index);
+	void GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index, MeshExport* outputMesh);
 	bool GetBoundingBox(FbxNode*pNode, OOBBHeader* boundingBox);
 	bool IsBoundingBox(FbxNode* pNode);
 
