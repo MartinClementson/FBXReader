@@ -125,8 +125,7 @@ namespace BRFImporter
 		char camName[256];
 
 		double position[3];
-		double roll;
-		double intrest[3];
+		double rotation[3];
 	};
 #pragma endregion
 #pragma region LightHeader

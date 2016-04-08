@@ -34,8 +34,7 @@ void CameraHandler::ProcessCameraData(FbxCamera* pCamera, CameraExporter* outCam
 	memcpy(cameras.camName, pCamera->GetName(), sizeof(char) * 256);
 	
 	GetCamPos(pCamera, cameras.position);
-	GetCamIntrest(pCamera, cameras.intrest);
-	GetCamRoll(pCamera, &cameras.roll);
+	GetCamRotation(pCamera->GetNode(), cameras.rotation);
 
 	outCamera->cameras->push_back(cameras);
 
@@ -52,17 +51,11 @@ void CameraHandler::GetCamPos(FbxCamera* pCamera, double* pTargetPos)
 	pTargetPos[2] = (double)tmp[2];
 }
 
-void CameraHandler::GetCamIntrest(FbxCamera* pCamera, double* pTargetIntrest)
+void CameraHandler::GetCamRotation(FbxNode* pCamNode, double* pTargetRotation)
 {
-	FbxDouble3 tmp = pCamera->InterestPosition.Get();
+	FbxDouble3 tmp = pCamNode->LclRotation;
 
-	pTargetIntrest[0] = (double)tmp[0];
-	pTargetIntrest[1] = (double)tmp[1];
-	pTargetIntrest[2] = (double)tmp[2];
-
-}
-
-void CameraHandler::GetCamRoll(FbxCamera* pCamera, double* pTargetRoll)
-{
-	pTargetRoll[0] = pCamera->Roll.Get();
+	pTargetRotation[0] = (double)tmp[0];
+	pTargetRotation[1] = (double)tmp[1];
+	pTargetRotation[2] = (double)tmp[2];
 }

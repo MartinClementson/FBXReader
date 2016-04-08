@@ -16,8 +16,7 @@ public:
 private:
 	void ProcessCameraData(FbxCamera* pCamera, CameraExporter* outCamera);
 	void GetCamPos(FbxCamera* pCamera, double* pTargetPos);
-	void GetCamIntrest(FbxCamera* pCamera, double* pTargetIntrest);
-	void GetCamRoll(FbxCamera* pCamera, double* pTargetRoll);
+	void GetCamRotation(FbxNode* pCamNode, double* pTargetRot);
 };
 
 #endif // !CAMERAHANDLER_H
