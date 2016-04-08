@@ -99,8 +99,15 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 	unsigned int vertCount = pMesh->GetControlPointsCount();
 	//outPutMesh->meshInfo.vertexCount = vertCount;
 
-	
-	
+	int numMaterials = pMesh->GetElementMaterialCount();
+	for (int i = 0; i < numMaterials; i++)
+	{
+		FbxGeometryElementMaterial * mat;
+		mat = pMesh->GetElementMaterial(i);
+		std::cout << "\n\n" << mat->GetName();
+	}
+
+
 	outPutMesh->vertices->resize(vertCount);
 
 	unsigned int polyCount = pMesh->GetPolygonCount();
