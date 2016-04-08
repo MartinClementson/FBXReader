@@ -1,8 +1,3 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (FBXReader.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  MaterialHandler.cpp
-c:\users\gaffel\documents\github\fbxreader\fbxreader\materialhandler.cpp(84): error C3863: array type 'char [256]' is not assignable
-c:\users\gaffel\documents\github\fbxreader\fbxreader\materialhandler.cpp(134): error C2086: 'const char *textureName': redefinition
-  c:\users\gaffel\documents\github\fbxreader\fbxreader\materialhandler.cpp(128): note: see declaration of 'textureName'
-c:\users\gaffel\documents\github\fbxreader\fbxreader\materialhandler.cpp(157): warning C4018: '<': signed/unsigned mismatch
-c:\users\gaffel\documents\github\fbxreader\fbxreader\materialhandler.cpp(179): warning C4018: '<': signed/unsigned mismatch
-c:\users\gaffel\documents\github\fbxreader\fbxreader\materialhandler.cpp(199): warning C4018: '<': signed/unsigned mismatch
+  MaterialExport.cpp
+  FBXReader.vcxproj -> C:\Users\Gaffel\Documents\GitHub\FBXReader\x64\Debug\FBXImporter.exe

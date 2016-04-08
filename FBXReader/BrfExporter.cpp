@@ -7,7 +7,7 @@
 BrfExporter::BrfExporter()
 {
 	meshes = new std::vector<MeshExport*>;
-	materials = new std::vector<MaterialHeader>;
+	materials = new MaterialExport;
 	skeletons = new std::vector<SkeletonExport> ;
 	lights = new LightExport ;
 	groups = new std::vector<GroupHeader>;
@@ -54,6 +54,9 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 		meshes->at(i)->WriteToBinaryFile(&outfile);
 
 	}
+
+	if (this->materials != nullptr)
+		materials->WriteToBinaryFile(&outfile);
 
 	if (this->lights != nullptr)
 		lights->WriteToBinaryFile(&outfile);

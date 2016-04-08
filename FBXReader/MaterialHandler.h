@@ -13,10 +13,10 @@ public:
 	MaterialHandler();
 	~MaterialHandler();
 
-	void GetMaterialData(FbxNode* pNode, std::vector<MaterialHeader>* outputMat);
+	void GetMaterialData(FbxNode* pNode, MaterialExport* outputMat);
 
 private:
-	void ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int matCount, std::vector<MaterialHeader>* outputMat);
+	void ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int matCount, MaterialExport* outputMat);
 
 	//get RGB(A) values
 	void GetDiffuse(FbxSurfaceMaterial* pMaterial, double *pTargetDiffuse);

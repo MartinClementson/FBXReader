@@ -134,7 +134,7 @@ void FbxImport::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputMes
 
 
 
-void FbxImport::GetMaterialData(FbxNode* pNode, std::vector<MaterialHeader>* outputMat)
+void FbxImport::GetMaterialData(FbxNode* pNode, MaterialExport* outputMat)
 {
 	materialHandler.GetMaterialData(pNode, outputMat);
 }

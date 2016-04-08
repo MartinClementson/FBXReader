@@ -4,7 +4,7 @@ using namespace BRFImporter;
 MaterialExport::MaterialExport()
 {
 
-	material = new MaterialHeader;
+	materials = new std::vector<MaterialHeader>;
 
 }
 
@@ -12,32 +12,24 @@ MaterialExport::MaterialExport()
 MaterialExport::~MaterialExport()
 {
 	
-	delete material;
+	delete materials;
 
-	if (this->matAttributes != nullptr)
-		delete matAttributes;
 }
 
 void MaterialExport::WriteToBinaryFile(std::ofstream * outfile)
 {
-
-	std::cout << "Mesh name  : " << this->matInfo.matName << std::endl;
-	std::cout << "Diffuse Map Name: " << this->matInfo.diffMap << std::endl;
-	std::cout << "Diffuse Value: R: "<< this->matInfo.diffuseVal[0] << "G: "<< this->matInfo.diffuseVal[1] << "B: " << this->matInfo.diffuseVal[2] << std::endl;
-	std::cout << "Glow Map Name: " << this->matInfo.glowMap << std::endl;
-	std::cout << "ID: " << this->matInfo.Id << std::endl;
-	std::cout << "Normal Map Name: " << this->matInfo.normalMap << std::endl;
-	std::cout << "Specular Map Name: " << this->matInfo.specMap << std::endl;
-	std::cout << "Specular ValueR: " << this->matInfo.specularVal[0] << "G: " << this->matInfo.specularVal[1] << "B: " << this->matInfo.specularVal[2] << std::endl;
-}
-
-AttributesExport * MaterialExport::GetAttributeHandler()
-{
-
-	if (this->matAttributes == nullptr)
+	for (int i = 0; i < materials->size(); i++)
 	{
-		matAttributes = new AttributesExport;
+		std::cout << "Material name  : " << this->materials->at(i).matName << std::endl;
+		std::cout << "Diffuse Map Name: " << this->materials->at(i).diffMap << std::endl;
+		std::cout << "Diffuse Value: R: "<< this->materials->at(i).diffuseVal[0] << "G: "<< this->materials->at(0).diffuseVal[1] << "B: " << this->materials->at(0).diffuseVal[2] << std::endl;
+		std::cout << "Glow Map Name: " << this->materials->at(i).glowMap << std::endl;
+		std::cout << "ID: " << this->materials->at(i).Id << std::endl;
+		std::cout << "Normal Map Name: " << this->materials->at(i).normalMap << std::endl;
+		std::cout << "Specular Map Name: " << this->materials->at(i).specMap << std::endl;
+		std::cout << "Specular ValueR: " << this->materials->at(i).specularVal[0] << "G: " << this->materials->at(0).specularVal[1] << "B: " << this->materials->at(0).specularVal[2] << std::endl;
+		std::cout << "\n\n\n";
 	}
-
-	return matAttributes;
 }
+
+

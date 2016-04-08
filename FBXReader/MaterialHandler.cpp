@@ -18,7 +18,7 @@ MaterialHandler::~MaterialHandler()
 
 #pragma region Material Main
 
-void MaterialHandler::GetMaterialData(FbxNode * pNode, std::vector<MaterialHeader>* outputMat)
+void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat)
 {
 	//Recursively extract the children
 	for (int j = 0; j < pNode->GetChildCount(); j++)
@@ -59,42 +59,49 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode, std::vector<MaterialHeade
 
 #pragma region Process Data
 
-void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int materialCount, std::vector<MaterialHeader>* outputMat)
+void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int materialCount, MaterialExport* outputMat)
 {
+	
 
 	
 	std::vector<BRFImporter::MaterialHeader> materials(materialCount);
 
-	MaterialExport* tmpMaterial = new MaterialExport();
-
-	MaterialHeader* materialStruct;
+	MaterialHeader materialStruct;
 	
 	//diffuse property
 	FbxProperty diffProp = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
 	unsigned int diffMapCount = diffProp.GetSrcObjectCount<FbxFileTexture>();
 	
-
+	memcpy(materialStruct.matName, pMaterial->GetName(), sizeof(char) * 256);
 	//check if there are texturemaps
-	if (diffMapCount == 0)
+	if (diffMapCount > 0)
 	{
-		GetDiffuse(pMaterial, materialStruct->diffuseVal);
+		memcpy(materialStruct.diffMap, GetTextureMap(diffProp), sizeof(char) * 256);
+		materialStruct.diffuseVal[0] = 0.0f;
+		materialStruct.diffuseVal[1] = 0.0f;
+		materialStruct.diffuseVal[2] = 0.0f;
 	}
 	else
 	{
-		memcpy(materialStruct->diffMap, GetTextureMap(diffProp), sizeof(char) * 256);
-		//materialStruct.diffMap = GetTextureMap(diffProp, diffMapCount);
+		GetDiffuse(pMaterial, materialStruct.diffuseVal);
+		memcpy(materialStruct.diffMap, "", sizeof(char) * 256);
 	}
 
 	//SpecularProperty
 	FbxProperty specProp = pMaterial->FindProperty(FbxSurfaceMaterial::sSpecular);
 	unsigned int specMapCount = specProp.GetSrcObjectCount<FbxFileTexture>();
-	if (diffMapCount == 0)
+	if (specMapCount > 0)
 	{
-		GetSpecular(pMaterial, materialStruct->specularVal);
+		memcpy(materialStruct.specMap, GetSpecularMap(specProp), sizeof(char) * 256);
+		materialStruct.specularVal[0] = 0.0f;
+		materialStruct.specularVal[1] = 0.0f;
+		materialStruct.specularVal[2] = 0.0f;
+		
 	}
 	else
 	{
-		memcpy(materialStruct->specMap, GetTextureMap(specProp), sizeof(char) * 256);
+		GetSpecular(pMaterial, materialStruct.specularVal);
+		memcpy(materialStruct.specMap, "", sizeof(char) * 256);
 	}
 
 	//NormalMap properties
@@ -103,7 +110,12 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 
 	if (normMapCount > 0)
 	{
-		GetNormalMap(normMapProp);
+		memcpy(materialStruct.normalMap, GetNormalMap(normMapProp), sizeof(char) * 256);
+	}
+	else
+	{
+
+		memcpy(materialStruct.normalMap, "", sizeof(char) * 256);
 	}
 
 	//GlowMap proporties
@@ -113,8 +125,15 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 
 	if (glowMapCount > 0)
 	{
-		GetGlowMap(glowMapProp);
+		memcpy(materialStruct.glowMap, GetGlowMap(glowMapProp), sizeof(char) * 256);
 	}
+	else
+	{
+		memcpy(materialStruct.glowMap, "", sizeof(char) * 256);
+	}
+
+	outputMat->materials->push_back(materialStruct);
+	std::cout << "";
 	
 }
 
@@ -130,18 +149,9 @@ const char* MaterialHandler::GetTextureMap(FbxProperty diffMapProp)
 	
 	const FbxFileTexture* texture = FbxCast<FbxFileTexture>(diffMapProp.GetSrcObject<FbxFileTexture>(0));
 
+	textureName = texture->GetRelativeFileName();
 
-	const char* filePath = texture->GetFileName();
-	const char* textureName = texture->GetRelativeFileName();
-
-	std::cout << filePath << std::endl;
-	std::cout << textureName << std::endl;
-	
 	return textureName;
-
-	
-
-	
 
 }
 
@@ -152,18 +162,11 @@ const char* MaterialHandler::GetTextureMap(FbxProperty diffMapProp)
 //In the alpha channel we have placed cosine power
 const char* MaterialHandler::GetSpecularMap(FbxProperty specProp)
 {
-	
-
-
-	
+	const char* textureName;
 	const FbxFileTexture* texture = FbxCast<FbxFileTexture>(specProp.GetSrcObject<FbxFileTexture>(0));
+	textureName = texture->GetRelativeFileName();
 
-
-	const char* filePath = texture->GetFileName();
-	const char* textureName = texture->GetRelativeFileName();
-
-	std::cout << filePath << std::endl;
-	std::cout << textureName << std::endl;
+	return textureName;
 	
 }
 
@@ -171,43 +174,33 @@ const char* MaterialHandler::GetSpecularMap(FbxProperty specProp)
 
 #pragma region Get Normal Map
 
-const char* MaterialHandler::GetNormalMap(FbxProperty normMapProp, unsigned int mapCount)
+const char* MaterialHandler::GetNormalMap(FbxProperty normMapProp)
 {
 
 
-	std::cout << "filenumbers: " << mapCount << "\n";
-	for (int j = 0; j<mapCount; j++)
-	{
-		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(normMapProp.GetSrcObject<FbxFileTexture>(j));
+	const FbxFileTexture* texture = FbxCast<FbxFileTexture>(normMapProp.GetSrcObject<FbxFileTexture>(0));
 
+	const char* textureName = texture->GetRelativeFileName();
 
-		const char* filePath = texture->GetFileName();
-		const char* textureName = texture->GetRelativeFileName();
+	return textureName;
 
-		std::cout << filePath << std::endl;
-		std::cout << textureName << std::endl;
-	}
 }
 
 #pragma endregion
 
 #pragma region Get Glow Map
 
-const char* MaterialHandler::GetGlowMap(FbxProperty glowMapProp, unsigned int mapCount)
+const char* MaterialHandler::GetGlowMap(FbxProperty glowMapProp)
 {
-	std::cout << "filenumbers: " << mapCount << "\n";
-	for (int j = 0; j<mapCount; j++)
-	{
 
-		const FbxFileTexture* texture = FbxCast<FbxFileTexture>(glowMapProp.GetSrcObject<FbxFileTexture>(j));
+	const FbxFileTexture* texture = FbxCast<FbxFileTexture>(glowMapProp.GetSrcObject<FbxFileTexture>(0));
 
-		const char* filePath = texture->GetFileName();
-		const char* textureName = texture->GetRelativeFileName();
 
-		std::cout << filePath << std::endl;
-		std::cout << textureName << std::endl;
+	const char* textureName = texture->GetRelativeFileName();
 
-	}
+	return textureName;
+
+
 }
 
 #pragma endregion

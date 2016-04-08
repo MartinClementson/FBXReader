@@ -23,15 +23,13 @@ class MaterialExport
 
 
 public:
-	MaterialHeader matInfo;
-	MaterialHeader* material;
-	AttributesExport* matAttributes = nullptr;
+	std::vector<MaterialHeader>* materials;
+	
 
 public:
 	MaterialExport();
 	~MaterialExport();
 
 	void WriteToBinaryFile(std::ofstream* outfile);
-	AttributesExport* GetAttributeHandler();
 };
 

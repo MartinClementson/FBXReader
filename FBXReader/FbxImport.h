@@ -51,7 +51,7 @@ public:
 	//void GetAnimationData(FbxNode* pNode, BrfExporter* outputClass); //Maybe connected to skeleton?
 
 
-	void GetMaterialData(FbxNode* pNode,	std::vector<MaterialHeader>* outputMat);
+	void GetMaterialData(FbxNode* pNode,	MaterialExport* outputMat);
 	void GetLightData(FbxNode* pNode,		LightExport* lights);
 	void GetMorphAnimData(FbxNode* pNode,	std::vector<MorphAnimExport>* outputMorphs);
 	void GetGroupData(FbxNode* pNode,		std::vector<GroupHeader>* outputGroups);
