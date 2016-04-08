@@ -29,8 +29,8 @@ namespace BRFImporter
 
 		unsigned int attrCount = 0;		// 0 = Default
 
-		bool boundingBox;
-		bool hasSkeleton;
+		bool boundingBox = false;
+		bool hasSkeleton = false;
 
 		double translation[3];
 		double rotation[3];

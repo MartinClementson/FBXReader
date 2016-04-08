@@ -33,6 +33,7 @@ MeshExport::~MeshExport()
 {
 	delete indices;
 	delete vertices; 
+	delete verticesNoSkeleton;
 
 	if (this->meshAttributes != nullptr)
 		delete meshAttributes;
@@ -77,31 +78,31 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 
 	//export
 
-	if (outfile)
-	{
-		outfile->write((const char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
+	//if (outfile)
+	//{
+	//	outfile->write((const char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
 
-		//write all the vertices 
-		outfile->write(reinterpret_cast<char*>(&this->vertices[0]), sizeof(VertexHeader) * this->vertices->size());
+	//	//write all the vertices 
+	//	outfile->write(reinterpret_cast<char*>(&this->vertices[0]), sizeof(VertexHeader) * this->vertices->size());
 
-		//write all the indices
-		outfile->write(reinterpret_cast<char*>(&this->indices[0]), sizeof(IndexHeader) * this->indices->size());
+	//	//write all the indices
+	//	outfile->write(reinterpret_cast<char*>(&this->indices[0]), sizeof(IndexHeader) * this->indices->size());
 
-		//if there is a bounding box, write it to the file.
-		if(this->meshInfo.boundingBox)
-			outfile->write(reinterpret_cast<char*>(&this->boundingBox), sizeof(OOBBHeader));
+	//	//if there is a bounding box, write it to the file.
+	//	if(this->meshInfo.boundingBox)
+	//		outfile->write(reinterpret_cast<char*>(&this->boundingBox), sizeof(OOBBHeader));
 
-		//write the weights to the file
+	//	//write the weights to the file
 
-		//outfile->write(reinterpret_cast<char*>(&this->weights[0]), sizeof(weights) * 4);
+	//	//outfile->write(reinterpret_cast<char*>(&this->weights[0]), sizeof(weights) * 4);
 
 
 
-		//if there are any attributes, write it to the file.
-		if (this->meshInfo.attrCount > 0)
-			meshAttributes->WriteToBinaryFile(outfile);
+	//	//if there are any attributes, write it to the file.
+	//	if (this->meshInfo.attrCount > 0)
+	//		meshAttributes->WriteToBinaryFile(outfile);
 
-	}
+	//}
 
 
 
