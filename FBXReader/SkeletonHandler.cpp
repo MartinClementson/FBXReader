@@ -197,12 +197,13 @@ void SkeletonHandler::ProcessJoints(FbxMesh * pMesh)
 	FbxSkin * pSkin = (FbxSkin*)pMesh->GetDeformer(0, FbxDeformer::eSkin);
 	if (pSkin != NULL)
 	{
+		//bonecount can be number of joints
 		int boneCount = pSkin->GetClusterCount();
 		for (int boneIndex = 0; boneIndex < boneCount; boneIndex)
 		{
 			FbxCluster * pCluster = pSkin->GetCluster(boneIndex);
 			FbxNode* pBone = pCluster->GetLink();
-
+			std::cout << "\n\n" << pBone->GetName();
 			//Getting the bindpose
 			FbxAMatrix bindPose;
 			pCluster->GetTransformLinkMatrix(bindPose);
@@ -213,6 +214,7 @@ void SkeletonHandler::ProcessJoints(FbxMesh * pMesh)
 			int numBoneVertIndices = pCluster->GetControlPointIndicesCount();
 			for (int boneVertIndex = 0; boneVertIndex < numBoneVertIndices; boneVertIndex++)
 			{
+				//store the weights here in the mesh vertices
 				int boneVertexIndex = pBoneVertIndices[boneVertIndex];
 				double boneWeight = pBoneVertWeights[boneVertIndex];
 			}
