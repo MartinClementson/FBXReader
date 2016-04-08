@@ -21,6 +21,7 @@ public:
 
 	AttributesExport* groupAttributes = nullptr;
 
+	void addGroupInfo(GroupHeader info);
 
 
 	GroupExport();

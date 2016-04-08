@@ -20,7 +20,7 @@ public:
 private:
 
 	
-	void ProcessGroupData(FbxNode* pGroup,std::vector<GroupExport*>*group);
+	void ProcessGroupData(FbxNode* pGroup, std::vector<GroupExport*>*group);
 
 };
 #endif // !GROUPHANDLER

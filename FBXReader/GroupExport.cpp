@@ -14,6 +14,12 @@ void GroupExport::WriteToBinaryFile(std::ofstream * outfile)
 
 }
 
+void GroupExport::addGroupInfo(GroupHeader info)
+{
+
+	this->groupInfo = info;
+}
+
 GroupExport::GroupExport()
 {
 
@@ -21,7 +27,7 @@ GroupExport::GroupExport()
 
 GroupExport::~GroupExport()
 {
-
+	
 }
 
 AttributesExport * GroupExport::GetAttributeHandler()

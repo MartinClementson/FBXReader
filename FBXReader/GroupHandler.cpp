@@ -44,6 +44,7 @@ void GroupHandler::GetGroupData(FbxNode * pNode,std::vector<GroupExport*>*output
 	{
 		GetGroupData(pNode->GetChild(i), outputGroup);
 	}
+	
 }
 
 void GroupHandler::ProcessGroupData(FbxNode * pGroup,std::vector<GroupExport*>*group)
