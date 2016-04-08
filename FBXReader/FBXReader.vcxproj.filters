@@ -108,7 +108,7 @@
     <ClCompile Include="MaterialExport.cpp">
       <Filter>Classes\BrfExporter\MaterialExport</Filter>
     </ClCompile>
-    <ClCompile Include="CameraExporter.cpp">
+    <ClCompile Include="CameraExport.cpp">
       <Filter>Classes\BrfExporter\CameraExporter</Filter>
     </ClCompile>
   </ItemGroup>
@@ -161,7 +161,7 @@
     <ClInclude Include="MaterialExport.h">
       <Filter>Classes\BrfExporter\MaterialExport</Filter>
     </ClInclude>
-    <ClInclude Include="CameraExporter.h">
+    <ClInclude Include="CameraExport.h">
       <Filter>Classes\BrfExporter\CameraExporter</Filter>
     </ClInclude>
   </ItemGroup>

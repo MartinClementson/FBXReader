@@ -11,63 +11,58 @@ CameraHandler::~CameraHandler()
 
 }
 
-void CameraHandler::GetCamPos(FbxCamera* pCamera, double* pTargetPos)
+
+
+void CameraHandler::GetCameraData(FbxNode* pNode, CameraExporter* outCamera)
 {
-	
-	FbxDouble3 tmp = pCamera->Position.Get();
-	std::cout << "Camera Position" << std::endl;
-
-	pTargetPos[0] = (double)tmp[0];
-	std::cout << "x: " << pTargetPos[0] << " ";
-
-	pTargetPos[1] = (double)tmp[1];
-	std::cout << "y: " << pTargetPos[1] << " ";
-
-	pTargetPos[2] = (double)tmp[2];
-	std::cout << "z: " << pTargetPos[2] << " " << std::endl;
-}
-
-void CameraHandler::GetCameraData(FbxNode* pNode)
-{
+	for (int j = 0; j < pNode->GetChildCount(); j++)
+		GetCameraData(pNode->GetChild(j), outCamera);
 	
 	if (pNode->GetCamera())
 	{
-		std::cout << "CAMERA!!!!" << std::endl;
+		//std::cout << "CAMERA!!!!" << std::endl;
 		std::cout << pNode->GetName() << std::endl;
-		ProcessCameraData(pNode->GetCamera());
+		ProcessCameraData(pNode->GetCamera(), outCamera);
 	}
 }
 
-void CameraHandler::ProcessCameraData(FbxCamera* pCamera)
+void CameraHandler::ProcessCameraData(FbxCamera* pCamera, CameraExporter* outCamera)
 {
 	
 	BRFImporter::CameraHeader cameras;
+
+	memcpy(cameras.camName, pCamera->GetName(), sizeof(char) * 256);
 	
 	GetCamPos(pCamera, cameras.position);
 	GetCamIntrest(pCamera, cameras.intrest);
 	GetCamRoll(pCamera, &cameras.roll);
 
+	outCamera->cameras->push_back(cameras);
 
+
+}
+
+void CameraHandler::GetCamPos(FbxCamera* pCamera, double* pTargetPos)
+{
+
+	FbxDouble3 tmp = pCamera->Position.Get();
+
+	pTargetPos[0] = (double)tmp[0];
+	pTargetPos[1] = (double)tmp[1];
+	pTargetPos[2] = (double)tmp[2];
 }
 
 void CameraHandler::GetCamIntrest(FbxCamera* pCamera, double* pTargetIntrest)
 {
 	FbxDouble3 tmp = pCamera->InterestPosition.Get();
 
-	std::cout << "Camera Intrest Position: " << std::endl;
-
 	pTargetIntrest[0] = (double)tmp[0];
-	std::cout << "x: " << pTargetIntrest[0] << " ";
-
 	pTargetIntrest[1] = (double)tmp[1];
-	std::cout << "y: " << pTargetIntrest[1] << " ";
-
 	pTargetIntrest[2] = (double)tmp[2];
-	std::cout << "z: " << pTargetIntrest[2] << " " << std::endl;
+
 }
 
 void CameraHandler::GetCamRoll(FbxCamera* pCamera, double* pTargetRoll)
 {
 	pTargetRoll[0] = pCamera->Roll.Get();
-	std::cout << "Roll: " << pTargetRoll[0] << " " << std::endl;
 }

@@ -158,7 +158,7 @@
   <ItemGroup>
     <ClCompile Include="AttributesExport.cpp" />
     <ClCompile Include="BrfExporter.cpp" />
-    <ClCompile Include="CameraExporter.cpp" />
+    <ClCompile Include="CameraExport.cpp" />
     <ClCompile Include="CameraHandler.cpp" />
     <ClCompile Include="FbxImport.cpp" />
     <ClCompile Include="FbxPrinter.cpp" />
@@ -177,7 +177,7 @@
     <ClInclude Include="AttributesExport.h" />
     <ClInclude Include="BrfExporter.h" />
     <ClInclude Include="BRFImporterStructs.h" />
-    <ClInclude Include="CameraExporter.h" />
+    <ClInclude Include="CameraExport.h" />
     <ClInclude Include="FbxImport.h" />
     <ClInclude Include="FbxPrinter.h" />
     <ClInclude Include="fbxSDK.h" />
