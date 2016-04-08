@@ -141,10 +141,10 @@ void FbxImport::GetMaterialData(FbxNode* pNode, MaterialExport* outputMat)
 
 
 
-void FbxImport::GetCameraData(FbxNode* pNode, std::vector<CameraHeader>* outputCameras)
+void FbxImport::GetCameraData(FbxNode* pNode, CameraExporter* outputCameras)
 
 {
-	//cameraHandler.GetCameraData(pNode);
+	cameraHandler.GetCameraData(pNode, outputCameras);
 
 	
 }

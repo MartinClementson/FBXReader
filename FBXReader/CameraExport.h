@@ -9,24 +9,20 @@ using namespace BRFImporter;
 #pragma region Explaination
 /*
 
-This class handles all materials
+This class handles all cameras
 
 */
-
 #pragma endregion
 
-class MaterialExport
+class CameraExporter
 {
-
-
 public:
-	std::vector<MaterialHeader>* materials;
-	
-
+	std::vector<CameraHeader>* cameras;
 public:
-	MaterialExport();
-	~MaterialExport();
+	CameraExporter();
+	~CameraExporter();
 
 	void WriteToBinaryFile(std::ofstream* outfile);
-};
 
+
+};

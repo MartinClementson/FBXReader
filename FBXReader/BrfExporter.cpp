@@ -12,7 +12,7 @@ BrfExporter::BrfExporter()
 	lights = new LightExport ;
 	groups = new std::vector<GroupHeader>;
 	morphAnim = new std::vector<MorphAnimExport>;
-	cameras = new std::vector<CameraHeader>;
+	cameras = new CameraExporter;
 }
 
 
@@ -54,6 +54,9 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 		meshes->at(i)->WriteToBinaryFile(&outfile);
 
 	}
+
+	if (this->cameras != nullptr)
+		cameras->WriteToBinaryFile(&outfile);
 
 	if (this->materials != nullptr)
 		materials->WriteToBinaryFile(&outfile);
