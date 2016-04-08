@@ -2,6 +2,7 @@
 #include "MeshExport.h"
 #include "BRFImporterStructs.h"
 #include "fbxSDK.h"
+
 class MeshHandler
 {
 public:
@@ -17,5 +18,9 @@ private:
 	void GetVertBiNormals(fbxsdk::FbxGeometryElementBinormal* pBNElement, int index, double* targetBiNormal);
 	void GetVertTangents(fbxsdk::FbxGeometryElementTangent* pTElement, int index, double* targetTangent);
 	void GetVertTextureUV(fbxsdk::FbxGeometryElementUV* uvElement, int index, double* targetUV);
+	bool GetBoundingBox(FbxNode*pNode, OOBBHeader* boundingBox);
+	bool IsBoundingBox(FbxNode* pNode);
+
+
 };
 
