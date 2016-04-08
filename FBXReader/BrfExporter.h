@@ -5,6 +5,7 @@
 #include "LightExport.h"
 #include "SkeletonExport.h"
 #include "MorphAnimExport.h"
+#include "MaterialExport.h"
 
 
 using namespace BRFImporter;
@@ -39,7 +40,7 @@ private:
 	MainHeader sceneInfo;
 
 	std::vector<MeshExport*>* meshes;
-	std::vector<MaterialHeader>* materials;
+	MaterialExport* materials;
 	std::vector<SkeletonExport>* skeletons;
 	LightExport* lights = nullptr;
 	std::vector<GroupHeader>* groups;
@@ -56,7 +57,7 @@ public:
 
 
 	std::vector<MeshExport*>* GetMeshesRef()			{return this->meshes; };
-	std::vector<MaterialHeader>* GetMatRef()		{ return this->materials; };
+	MaterialExport* GetMatRef()						{ return this->materials; };
 	std::vector<SkeletonExport>* GetSkeletonRef()   { return this->skeletons; };
 	LightExport* GetLightsRef()						{ return this->lights; };
 	std::vector<GroupHeader>* GetGroupsRef()		{ return this->groups; };
