@@ -11,7 +11,7 @@ class LightHandler
 {
 
 private:
-	BRFImporter::LightHeader lightTypeStruct;
+	
 	
 
 	void GetLightPos(FbxNode * pNode, double * lightPosition);
