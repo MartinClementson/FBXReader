@@ -111,7 +111,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2016.1.2\lib\vs2015\x64\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2016.1.2\lib\vs2015\x64\debug</AdditionalLibraryDirectories>
       <AdditionalDependencies>wininet.lib;libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBMCT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -162,6 +162,7 @@
     <ClCompile Include="FbxImport.cpp" />
     <ClCompile Include="FbxPrinter.cpp" />
     <ClCompile Include="GetMeshData.cpp" />
+    <ClCompile Include="GroupExport.cpp" />
     <ClCompile Include="GroupHandler.cpp" />
     <ClCompile Include="LightHandler.cpp" />
     <ClCompile Include="LightExport.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="FbxPrinter.h" />
     <ClInclude Include="fbxSDK.h" />
     <ClInclude Include="CameraHandler.h" />
+    <ClInclude Include="GroupExport.h" />
     <ClInclude Include="GroupHandler.h" />
     <ClInclude Include="LightHandler.h" />
     <ClInclude Include="LightExport.h" />

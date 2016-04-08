@@ -29,13 +29,11 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
 	{
 
-		
-
 		GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
 		GetCameraData(this->rootNode->GetChild(i),outputFile->GetCamerasRef());
 		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
 		lightHandler.DisplayLight(this->rootNode->GetChild(i));
-
+		GetGroupData(this->rootNode->GetChild(i), outputFile->GetGroupsRef());
 	}
 }
 
@@ -89,13 +87,6 @@ void FbxImport::LoadFbxFile(const char * fileName)
 
 	rootNode = scene->GetRootNode();
 	
-
-
-
-
-	
-
-
 }
 
 void FbxImport::PrintNode(FbxNode * pNode)
@@ -158,8 +149,11 @@ void FbxImport::GetMorphAnimData(FbxNode * pNode, std::vector<MorphAnimExport>* 
 {
 }
 
-void FbxImport::GetGroupData(FbxNode * pNode, std::vector<GroupHeader>* outputGroups)
+void FbxImport::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>* outputGroups)
 {
+
+	groupHandler.GetGroupData(pNode,outputGroups);
+
 }
 
 

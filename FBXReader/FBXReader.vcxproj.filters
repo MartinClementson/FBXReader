@@ -28,13 +28,12 @@
     <Filter Include="Classes\CameraHandler">
       <UniqueIdentifier>{912fbbc8-3c8a-47cc-b057-27b7a447af90}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="Classes\GroupHandler">
       <UniqueIdentifier>{87878c46-23dc-47cd-bd72-16883d9e2aa6}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="Classes\LightHandler">
       <UniqueIdentifier>{2c9aec51-786a-47cf-b2c7-d163a6612153}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="Classes\BrfExporter">
       <UniqueIdentifier>{bf6cb66d-967f-4cdb-8146-054a8b2d18b6}</UniqueIdentifier>
     </Filter>
@@ -56,6 +55,9 @@
     <Filter Include="Classes\SkeletonHandler">
       <UniqueIdentifier>{c1329d25-f2ae-4a10-bf22-0e01e774799d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\BrfExporter\GroupExport">
+      <UniqueIdentifier>{7fb11b57-518d-42f5-afa7-8b3c25113a4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -75,7 +77,7 @@
     </ClCompile>
     <ClCompile Include="LightHandler.cpp">
       <Filter>Classes\LightHandler</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="BrfExporter.cpp">
       <Filter>Classes\BrfExporter</Filter>
     </ClCompile>
@@ -99,6 +101,12 @@
     </ClCompile>
     <ClCompile Include="GroupHandler.cpp">
       <Filter>Classes\GroupHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="GetMeshData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GroupExport.cpp">
+      <Filter>Classes\BrfExporter\GroupExport</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,7 +133,7 @@
     </ClInclude>
     <ClInclude Include="LightHandler.h">
       <Filter>Classes\LightHandler</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="BrfExporter.h">
       <Filter>Classes\BrfExporter</Filter>
     </ClInclude>
@@ -146,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="SkeletonHandler.h">
       <Filter>Classes\SkeletonHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupExport.h">
+      <Filter>Classes\BrfExporter\GroupExport</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

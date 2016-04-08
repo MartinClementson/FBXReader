@@ -2,6 +2,7 @@
 #include <vector>
 #include "BRFImporterStructs.h"
 #include "MeshExport.h"
+#include "GroupExport.h"
 #include "LightExport.h"
 #include "SkeletonExport.h"
 #include "MorphAnimExport.h"
@@ -42,7 +43,7 @@ private:
 	std::vector<MaterialHeader>* materials;
 	std::vector<SkeletonExport>* skeletons;
 	LightExport* lights;
-	std::vector<GroupHeader>* groups;
+	std::vector<GroupExport*>* groups;
 	std::vector<CameraHeader>* cameras;
 	std::vector<MorphAnimExport>* morphAnim;
 
@@ -57,7 +58,7 @@ public:
 	std::vector<MaterialHeader>* GetMatRef()		{ return this->materials; };
 	std::vector<SkeletonExport>* GetSkeletonRef()   { return this->skeletons; };
 	LightExport* GetLightsRef()						{ return this->lights; };
-	std::vector<GroupHeader>* GetGroupsRef()		{ return this->groups; };
+	std::vector<GroupExport*>* GetGroupsRef()		{ return this->groups; };
 	std::vector<MorphAnimExport>* GetMorphAnimRef() {return this->morphAnim; };
 	std::vector<CameraHeader>* GetCamerasRef()		{ return this->cameras; };
 	

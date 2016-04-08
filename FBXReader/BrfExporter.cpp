@@ -8,7 +8,7 @@ BrfExporter::BrfExporter()
 	materials = new std::vector<MaterialHeader>;
 	skeletons = new std::vector<SkeletonExport> ;
 	lights = new LightExport ;
-	groups = new std::vector<GroupHeader>;
+	groups = new std::vector<GroupExport*>;
 	morphAnim = new std::vector<MorphAnimExport>;
 	cameras = new std::vector<CameraHeader>;
 }
@@ -45,5 +45,10 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 		std::cout << "Mesh #" << i+1 << "\n";
 		meshes->at(i)->WriteToBinaryFile(&outfile);
 
+	}
+	for (unsigned int i = 0; i < groups->size(); i++)
+	{
+		std::cout << "Group #" << i + 1 << "\n";
+		groups->at(i)->WriteToBinaryFile(&outfile);
 	}
 }

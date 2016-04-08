@@ -10,76 +10,46 @@ GroupHandler::~GroupHandler()
 
 }
 
-void GroupHandler::GetGroupData(FbxNode * pNode)
-{
+void GroupHandler::GetGroupData(FbxNode * pNode,std::vector<GroupExport*>*outputGroup)
+{	
+	FbxNodeAttribute::EType lAttributeType = pNode->GetNodeAttribute()->GetAttributeType();
 
-	//FbxNode* pGroup;
+	
+	if (lAttributeType == FbxNodeAttribute::EType::eNull)
+	{
+		GroupExport* tmpGroup = new GroupExport();
 
+		std::cout << pNode->GetName() << std::endl;
+
+		memcpy(tmpGroup->groupInfo.groupName, pNode->GetName(), sizeof(char) * 256);
+
+		FbxDouble3 translation = pNode->LclTranslation.Get();
+		tmpGroup->groupInfo.translation[0] = translation[0];
+		tmpGroup->groupInfo.translation[1] = translation[1];
+		tmpGroup->groupInfo.translation[2] = translation[2];
+
+		FbxDouble3 rotation = pNode->LclRotation.Get();
+		tmpGroup->groupInfo.rotation[0] = rotation[0];
+		tmpGroup->groupInfo.rotation[1] = rotation[1];
+		tmpGroup->groupInfo.rotation[2] = rotation[2];
+
+		FbxDouble3 scaling = pNode->LclScaling.Get();
+		tmpGroup->groupInfo.scale[0] = scaling[0];
+		tmpGroup->groupInfo.scale[1] = scaling[1];
+		tmpGroup->groupInfo.scale[2] = scaling[2];
+
+		outputGroup->push_back(tmpGroup);
+	}
 	for (int i = 0; i < pNode->GetChildCount(); i++)
 	{
-		 pNode->GetChild(i);
-		
-		if (pNode->GetMesh())
-		{
-			std::cout << pNode->GetName() << std::endl;
-		
-		}
-		if (pNode->GetLight())
-		{
-			std::cout << pNode->GetName() << std::endl;
-			
-		}
-
-		if (pNode->GetCamera())
-		{
-			std::cout << pNode->GetName() << std::endl;
-			
-		}
-
-		/*if (lChild->GetNodeAttribute())
-		{
-			if (lChild->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eMesh)
-			{
-				FbxMesh* pMesh = (FbxMesh*)lChild->GetNodeAttribute();
-
-			}
-			if (lChild->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eLight)
-			{
-				FbxLight* pLight = (FbxLight*)lChild->GetNodeAttribute();
-
-			}
-			if (lChild->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eCamera)
-			{
-				FbxCamera* pCamera = (FbxCamera*)lChild->GetNodeAttribute();
-			}
-		}*/
+		GetGroupData(pNode->GetChild(i), outputGroup);
 	}
-
-	
-	
-		
 }
 
-void GroupHandler::ProcessGroupData(FbxNode * pGroup)
+void GroupHandler::ProcessGroupData(FbxNode * pGroup,std::vector<GroupExport*>*group)
 {	
-
-
+	
 }
 
 
-
-//STUFF
-//if (pNode->GetMesh())
-//{
-//	std::cout << pNode->GetName() << std::endl;
-//	ProcessData(pNode->GetMesh());
-//}
-//if (pNode->GetCamera())
-//{
-//	std::cout << pNode->GetName() << std::endl;
-//}
-//if (pNode->GetLight())
-//{
-//	std::cout << pNode->GetName() << std::endl;
-//}
 
