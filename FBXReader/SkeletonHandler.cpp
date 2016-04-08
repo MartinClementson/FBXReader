@@ -29,7 +29,7 @@ void SkeletonHandler::ProcessData(FbxNode * pNode)
 	if (pNode->GetSkeleton())
 	{
 		//joint count will keep the count of all the joints in a skeleton
-		jointCount += 1;
+		//jointCount += 1;
 		std::cout << "currentJointCount: " << jointCount << "\n";
 
 		FbxSkeleton *skel = pNode->GetSkeleton();
@@ -113,13 +113,19 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 			FbxAnimCurve * rotationCurve = pNode->LclRotation.GetCurve(animLayer);
 			FbxAnimCurve * scalingCurve = pNode->LclScaling.GetCurve(animLayer);
 
+			if (translationCurve != NULL ||
+				rotationCurve    != NULL ||
+				scalingCurve     != NULL)
+				jointCount += 1;
+
 			FbxTimeSpan animTime;
-			pNode->GetAnimationInterval(animTime, animStack, layerIndex);
+			pNode->GetAnimationInterval(animTime, animStack);
+			FbxTime tid = animTime.GetStop();
 
 			if (scalingCurve != NULL)
 			{
 				//getting the number of set key for this attrubute
-				//for this joint
+				//for this joint, store this later for frameCount!
 				int numKeys = scalingCurve->KeyGetCount();
 				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
 				{
@@ -132,14 +138,14 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 					float frameSeconds = (float)frameTime.GetSecondDouble();
 				}
 			}
-			else
-			{
-				//if the animation layer doesnt have a scaling curve, make a default one
-				FbxDouble3 scalingVector = pNode->LclScaling.Get();
-				float x = (float)scalingVector[0];
-				float y = (float)scalingVector[1];
-				float z = (float)scalingVector[2];
-			}
+			//else
+			//{
+			//	//if the animation layer doesnt have a scaling curve, make a default one
+			//	FbxDouble3 scalingVector = pNode->LclScaling.Get();
+			//	float x = (float)scalingVector[0];
+			//	float y = (float)scalingVector[1];
+			//	float z = (float)scalingVector[2];
+			//}
 			if (rotationCurve != NULL)
 			{
 				//getting the number of set key for this attrubute
@@ -156,14 +162,14 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 					float frameSeconds = (float)frameTime.GetSecondDouble();
 				}
 			}
-			else
-			{
-				//if the animation layer doesnt have a scaling curve, make a default one
-				FbxDouble3 rotationVector = pNode->LclRotation.Get();
-				float x = (float)rotationVector[0];
-				float y = (float)rotationVector[1];
-				float z = (float)rotationVector[2];
-			}
+			//else
+			//{
+			//	//if the animation layer doesnt have a scaling curve, make a default one
+			//	FbxDouble3 rotationVector = pNode->LclRotation.Get();
+			//	float x = (float)rotationVector[0];
+			//	float y = (float)rotationVector[1];
+			//	float z = (float)rotationVector[2];
+			//}
 			if (translationCurve != NULL)
 			{
 				//getting the number of set key for this attrubute
@@ -180,14 +186,14 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 					float frameSeconds = (float)frameTime.GetSecondDouble();
 				}
 			}
-			else
-			{
-				//if the animation layer doesnt have a scaling curve, make a default one
-				FbxDouble3 translationVector = pNode->LclTranslation.Get();
-				float x = (float)translationVector[0];
-				float y = (float)translationVector[1];
-				float z = (float)translationVector[2];
-			}
+			//else
+			//{
+			//	//if the animation layer doesnt have a scaling curve, make a default one
+			//	FbxDouble3 translationVector = pNode->LclTranslation.Get();
+			//	float x = (float)translationVector[0];
+			//	float y = (float)translationVector[1];
+			//	float z = (float)translationVector[2];
+			//}
 		}
 	}
 }
