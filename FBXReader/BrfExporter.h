@@ -5,8 +5,12 @@
 #include "LightExport.h"
 #include "SkeletonExport.h"
 #include "MorphAnimExport.h"
+
+#include <fstream>
+
 #include "MaterialExport.h"
 #include "CameraExport.h"
+
 
 
 using namespace BRFImporter;
@@ -37,6 +41,7 @@ using namespace BRFImporter;
 class BrfExporter
 {
 private:
+	int goldenNumber[2] = { 7,6 }; //this is the file identifier
 
 	MainHeader sceneInfo;
 
