@@ -38,18 +38,26 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 	/*
 		Open file as binary
 	*/
-	std::ofstream outfile(fileName, std::ofstream::binary);
-	//outfile.write((const char*)&this->goldenNumber, 8);
+	std::ofstream outfile(fileName, std::ofstream::out );
+	if (!outfile.is_open())
+	{
+		std::cout << "Cannot write to file : " << fileName << "\n";
+		return;
+	}
+	
 
-	////Write the main header first in the file (after golden number)
+	
+	outfile.write((const char*)&this->goldenNumber, sizeof(int)*2);
+
+	//Write the main header first in the file (after golden number)
 	CreateFileHeader(); //THis only creates the struct, It does not write to file
-	//outfile.write((const char*)&this->sceneInfo, sizeof(MainHeader)); //now write it
+	outfile.write((const char*)&this->sceneInfo, sizeof(MainHeader)); //now write it
 
-	//meshes->at(0)->WriteToBinaryFile(&outfile);
-	//outfile.close();
+	meshes->at(0)->WriteToBinaryFile(&outfile);
+	outfile.close();
 
-	//std::cout << "\n\n\n\n\nWriting to binary file ........" << "NOT! \n";
-	//this->sceneInfo.meshAmount = meshes->size();
+	std::cout << "\n\n\n\n\nWriting to binary file ........" << "NOT! \n";
+	this->sceneInfo.meshAmount = meshes->size();
 
 	std::cout << "Total amount of meshes exported : " << sceneInfo.meshAmount <<"\n";
 	for (unsigned int i = 0; i < sceneInfo.meshAmount; i++)

@@ -26,7 +26,7 @@ using namespace BRFImporter;
 	In the end we will call "WriteToBinaryFile". What it does is -
 	that it gathers the information from the vector arrays
 	and fills the "sceneInfo" struct with the information.
-	Then it starts by printing the mainHeader to the BRF.
+	Then it starts by printing the goldenNumber & mainHeader to the BRF.
 	After that it will call all the objects in each vector array.
 	Easy object will have their own "WriteToBinaryFile" function -
 	where we pass on a pointer to the file output stream.

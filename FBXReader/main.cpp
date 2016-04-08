@@ -20,7 +20,9 @@ void main()
 	//const char* fileName = "BoundingBoxScene.fbx";
 	FbxImport* importer = new FbxImport();
 	
-	int size = sizeof(int);
+	
+	int size = sizeof(int) * 2;
+
 	importer->LoadFbxFile(fileName); //Load the fbx file
 	importer->PrintScene(); 
 
@@ -29,7 +31,7 @@ void main()
 	importer->ConvertFbxToFile(outputClass); //convert information from fbx to our format
 
 	//information is in the outPutClass.
-	outputClass->WriteToBinaryFile("oneMesh.brf"); //write to file
+	outputClass->WriteToBinaryFile("oneMeshV2.brf"); //write to file
 
 	//done
 
