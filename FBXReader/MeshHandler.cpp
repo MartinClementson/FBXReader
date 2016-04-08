@@ -92,16 +92,16 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 	bitangent
 	*/
 
-	FbxGeometryElementMaterial * matte = pMesh->GetElementMaterial(0);
-	std::cout << matte->GetOwner();
-	//matte->get
+	//FbxGeometryElementMaterial * matte = (FbxGeometryElementMaterial*)pMesh->GetAttributeType();
 	//Get vertices amount
 	unsigned int vertCount = pMesh->GetControlPointsCount();
 	//outPutMesh->meshInfo.vertexCount = vertCount;
 
+
+	//trying to find the material
 	FbxNode * pNode = (FbxNode*)pMesh->GetDstObject();
 
-	int numMaterials = pNode->GetSrcObjectCount<FbxSurfaceMaterial::ClassId>();
+	int numMaterials = pNode->GetSrcObjectCount<FbxSurfaceMaterial>();
 	for (int i = 0; i < numMaterials; i++)
 	{
 		FbxSurfaceMaterial * mat;
@@ -144,6 +144,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 		
 		GetVertTangents(pMesh->GetElementTangent(), i, outPutMesh->vertices->at(i).tangent);
 		GetVertTextureUV(pMesh->GetElementUV(), i, outPutMesh->vertices->at(i).uv);
+		GetSkeletonWeights(pMesh, i);
 		//test print
 		/*std::cout << "Vert #" << i
 			<< " (" << vertices.at(i).position[0]
@@ -205,7 +206,7 @@ void MeshHandler::GetVertTextureUV(fbxsdk::FbxGeometryElementUV * uvElement, int
 	targetUV[1] = uvs[1];
 }
 
-void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh)
+void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index)
 {
 	//int numDeformers = pMesh->GetDeformerCount();
 	FbxSkin * pSkin = (FbxSkin*)pMesh->GetDeformer(0, FbxDeformer::eSkin);
@@ -219,16 +220,14 @@ void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh)
 
 			//std::cout << "\n\n" << pBone->GetName();
 
-			int * pBoneVertIndices = pCluster->GetControlPointIndices();
+			//int * pBoneVertIndices = pCluster->GetControlPointIndices();
 			double * pBoneVertWeights = pCluster->GetControlPointWeights();
 
-			int numBoneVertIndices = pCluster->GetControlPointIndicesCount();
-			for (int boneVertIndex = 0; boneVertIndex < numBoneVertIndices; boneVertIndex++)
-			{
+			//int numBoneVertIndices = pCluster->GetControlPointIndicesCount();
+			
 				//store the weights here in the mesh vertices
-				int boneVertexIndex = pBoneVertIndices[boneVertIndex];
-				double boneWeight = pBoneVertWeights[boneVertIndex];
-			}
+			//int boneVertexIndex = pBoneVertIndices[index];
+			double boneWeight = pBoneVertWeights[index];
 		}
 	}
 }
