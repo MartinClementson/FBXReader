@@ -5,7 +5,12 @@
 #include "LightExport.h"
 #include "SkeletonExport.h"
 #include "MorphAnimExport.h"
+
 #include <fstream>
+
+#include "MaterialExport.h"
+#include "CameraExport.h"
+
 
 
 using namespace BRFImporter;
@@ -41,11 +46,11 @@ private:
 	MainHeader sceneInfo;
 
 	std::vector<MeshExport*>* meshes;
-	std::vector<MaterialHeader>* materials;
+	MaterialExport* materials;
 	std::vector<SkeletonExport>* skeletons;
 	LightExport* lights = nullptr;
 	std::vector<GroupHeader>* groups;
-	std::vector<CameraHeader>* cameras;
+	CameraExporter* cameras;
 	std::vector<MorphAnimExport>* morphAnim;
 
 	void CreateFileHeader(); //this is called before writing to file. it gathers the information for the main header
@@ -57,13 +62,13 @@ public:
 	void WriteToBinaryFile(char* fileName); //return type could change
 
 
-	std::vector<MeshExport*>* GetMeshesRef()			{return this->meshes; };
-	std::vector<MaterialHeader>* GetMatRef()		{ return this->materials; };
+	std::vector<MeshExport*>* GetMeshesRef()		{ return this->meshes; };
+	MaterialExport* GetMatRef()						{ return this->materials; };
 	std::vector<SkeletonExport>* GetSkeletonRef()   { return this->skeletons; };
 	LightExport* GetLightsRef()						{ return this->lights; };
 	std::vector<GroupHeader>* GetGroupsRef()		{ return this->groups; };
 	std::vector<MorphAnimExport>* GetMorphAnimRef() {return this->morphAnim; };
-	std::vector<CameraHeader>* GetCamerasRef()		{ return this->cameras; };
+	CameraExporter* GetCamerasRef()					{ return this->cameras; };
 	
 };
 

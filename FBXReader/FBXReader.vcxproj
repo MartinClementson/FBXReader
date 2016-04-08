@@ -158,12 +158,15 @@
   <ItemGroup>
     <ClCompile Include="AttributesExport.cpp" />
     <ClCompile Include="BrfExporter.cpp" />
+    <ClCompile Include="CameraExport.cpp" />
     <ClCompile Include="CameraHandler.cpp" />
     <ClCompile Include="FbxImport.cpp" />
     <ClCompile Include="FbxPrinter.cpp" />
     <ClCompile Include="LightHandler.cpp" />
     <ClCompile Include="LightExport.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MaterialExport.cpp" />
+    <ClCompile Include="MaterialHandler.cpp" />
     <ClCompile Include="MeshExport.cpp" />
     <ClCompile Include="MeshHandler.cpp" />
     <ClCompile Include="MorphAnimExport.cpp" />
@@ -174,10 +177,13 @@
     <ClInclude Include="AttributesExport.h" />
     <ClInclude Include="BrfExporter.h" />
     <ClInclude Include="BRFImporterStructs.h" />
+    <ClInclude Include="CameraExport.h" />
     <ClInclude Include="FbxImport.h" />
     <ClInclude Include="FbxPrinter.h" />
     <ClInclude Include="fbxSDK.h" />
     <ClInclude Include="CameraHandler.h" />
+    <ClInclude Include="MaterialExport.h" />
+    <ClInclude Include="MaterialHandler.h" />
     <ClInclude Include="LightHandler.h" />
     <ClInclude Include="LightExport.h" />
     <ClInclude Include="MeshExport.h" />

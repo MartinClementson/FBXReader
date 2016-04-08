@@ -21,6 +21,7 @@ void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputM
 	for (int j = 0; j < pNode->GetChildCount(); j++)
 		GetMeshData(pNode->GetChild(j),outputMeshes);
 
+	
 
 	if (pNode->GetMesh())
 	{
