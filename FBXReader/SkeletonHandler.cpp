@@ -11,7 +11,7 @@ SkeletonHandler::~SkeletonHandler()
 {
 }
 
-void SkeletonHandler::GetSkeletonData(FbxNode * pNode)
+void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport>* outputSkeletons)
 {
 	if (pNode->GetSkeleton())
 	{
@@ -28,18 +28,21 @@ void SkeletonHandler::ProcessData(FbxNode * pNode)
 	//is in fact a joint
 	if (pNode->GetSkeleton())
 	{
-		//joint count will keep the coun t of all the joints in a skeleton
-		jointCount += 1;
+		//joint count will keep the count of all the joints in a skeleton
+		//jointCount += 1;
 		std::cout << "currentJointCount: " << jointCount << "\n";
 
-		//we need to get the skeleton to check if it's the
-		//root node
-		ProcessPosition(pNode);
 		FbxSkeleton *skel = pNode->GetSkeleton();
+
+		ProcessKeyFrames(pNode);
+		ProcessJoints((FbxMesh*)skel->GetDstObject());
+
+		//skel->GetSrcObject()
+		/*ProcessPosition(pNode);
 		FbxTimeSpan animTime;
 		pNode->GetAnimationInterval(animTime);
 		FbxAnimEvaluator *anim = pNode->GetAnimationEvaluator();
-		FbxVector4 test = anim->GetNodeLocalTranslation(pNode, animTime.GetStart(), pNode->eSourcePivot, false, false);
+		FbxVector4 test = anim->GetNodeLocalTranslation(pNode, animTime.GetStart(), pNode->eSourcePivot, false, false);*/
 		/*FbxScene* scene = pNode->GetScene();
 		FbxAnimStack* lAnimstack = scene->GetSrcObject<FbxAnimStack>(0);
 		for (int i = 0; i < lAnimstack->GetSrcObjectCount<FbxAnimLayer>(); i++)
@@ -49,6 +52,8 @@ void SkeletonHandler::ProcessData(FbxNode * pNode)
 			ProcessCurve(curve);
 		}*/
 
+		//we need to get the skeleton to check if it's the
+		//root node
 		if (skel->IsSkeletonRoot())
 		{
 			std::cout << "\n it's the root!!! \n";
@@ -83,7 +88,145 @@ void SkeletonHandler::ProcessPosition(FbxNode * pNode)
 	std::cout << "Scale      : (" << scaling[0] << "," << scaling[1] << "," << scaling[2] << ")\n" << "\n\t";
 }
 
-void SkeletonHandler::ProcessCurve(FbxAnimCurve * pCurve)
+void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 {
-	//std::cout << pCurve->KeyGetCount();
+	FbxScene * scene = pNode->GetScene();
+
+	//Getting the number of animation stacks for this mesh
+	//seeing as you can have different ones such as (running, walking...)
+	int numAnimations = scene->GetSrcObjectCount<FbxAnimStack>();
+	for (int animIndex = 0; animIndex < numAnimations; animIndex++)
+	{
+		//getting the current stack and evaluator
+		FbxAnimStack *animStack = (FbxAnimStack*)scene->GetSrcObject<FbxAnimStack>(animIndex);
+		FbxAnimEvaluator *animEval = scene->GetAnimationEvaluator();
+		std::cout << animStack->GetName();
+		//so far so good
+
+		int numLayers = animStack->GetMemberCount();
+		for (int layerIndex = 0; layerIndex < numLayers; layerIndex++)
+		{
+			FbxAnimLayer *animLayer = (FbxAnimLayer*)animStack->GetMember(layerIndex);
+			std::cout << animLayer->GetName();
+
+			FbxAnimCurve * translationCurve = pNode->LclTranslation.GetCurve(animLayer);
+			FbxAnimCurve * rotationCurve = pNode->LclRotation.GetCurve(animLayer);
+			FbxAnimCurve * scalingCurve = pNode->LclScaling.GetCurve(animLayer);
+
+			if (translationCurve != NULL ||
+				rotationCurve    != NULL ||
+				scalingCurve     != NULL)
+				jointCount += 1;
+
+			FbxTimeSpan animTime;
+			pNode->GetAnimationInterval(animTime, animStack);
+			FbxTime tid = animTime.GetStop();
+
+			if (scalingCurve != NULL)
+			{
+				//getting the number of set key for this attrubute
+				//for this joint, store this later for frameCount!
+				int numKeys = scalingCurve->KeyGetCount();
+				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
+				{
+					FbxTime frameTime = scalingCurve->KeyGetTime(keyIndex);
+					FbxDouble3 scalingVector = pNode->EvaluateLocalScaling(frameTime);
+					float x = (float)scalingVector[0];
+					float y = (float)scalingVector[1];
+					float z = (float)scalingVector[2];
+
+					float frameSeconds = (float)frameTime.GetSecondDouble();
+				}
+			}
+			//else
+			//{
+			//	//if the animation layer doesnt have a scaling curve, make a default one
+			//	FbxDouble3 scalingVector = pNode->LclScaling.Get();
+			//	float x = (float)scalingVector[0];
+			//	float y = (float)scalingVector[1];
+			//	float z = (float)scalingVector[2];
+			//}
+			if (rotationCurve != NULL)
+			{
+				//getting the number of set key for this attrubute
+				//for this joint
+				int numKeys = rotationCurve->KeyGetCount();
+				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
+				{
+					FbxTime frameTime = rotationCurve->KeyGetTime(keyIndex);
+					FbxDouble3 rotationVector = pNode->EvaluateLocalRotation(frameTime);
+					float x = (float)rotationVector[0];
+					float y = (float)rotationVector[1];
+					float z = (float)rotationVector[2];
+
+					float frameSeconds = (float)frameTime.GetSecondDouble();
+				}
+			}
+			//else
+			//{
+			//	//if the animation layer doesnt have a scaling curve, make a default one
+			//	FbxDouble3 rotationVector = pNode->LclRotation.Get();
+			//	float x = (float)rotationVector[0];
+			//	float y = (float)rotationVector[1];
+			//	float z = (float)rotationVector[2];
+			//}
+			if (translationCurve != NULL)
+			{
+				//getting the number of set key for this attrubute
+				//for this joint
+				int numKeys = translationCurve->KeyGetCount();
+				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
+				{
+					FbxTime frameTime = translationCurve->KeyGetTime(keyIndex);
+					FbxDouble3 translationVector = pNode->EvaluateLocalTranslation(frameTime);
+					float x = (float)translationVector[0];
+					float y = (float)translationVector[1];
+					float z = (float)translationVector[2];
+
+					float frameSeconds = (float)frameTime.GetSecondDouble();
+				}
+			}
+			//else
+			//{
+			//	//if the animation layer doesnt have a scaling curve, make a default one
+			//	FbxDouble3 translationVector = pNode->LclTranslation.Get();
+			//	float x = (float)translationVector[0];
+			//	float y = (float)translationVector[1];
+			//	float z = (float)translationVector[2];
+			//}
+		}
+	}
+}
+
+void SkeletonHandler::ProcessJoints(FbxMesh * pMesh)
+{
+	//send in a matrix here as well to store the
+	//transformation matrix of the baseposition
+	int numDeformers = pMesh->GetDeformerCount();
+	FbxSkin * pSkin = (FbxSkin*)pMesh->GetDeformer(0, FbxDeformer::eSkin);
+	if (pSkin != NULL)
+	{
+		//bonecount can be number of joints
+		int boneCount = pSkin->GetClusterCount();
+		for (int boneIndex = 0; boneIndex < boneCount; boneIndex++)
+		{
+			FbxCluster * pCluster = pSkin->GetCluster(boneIndex);
+			FbxNode* pBone = pCluster->GetLink();
+			//std::cout << "\n\n" << pBone->GetName();
+			//Getting the bindpose
+			FbxAMatrix bindPose;
+			pCluster->GetTransformLinkMatrix(bindPose);
+
+			int * pBoneVertIndices = pCluster->GetControlPointIndices();
+			double * pBoneVertWeights = pCluster->GetControlPointWeights();
+
+			int numBoneVertIndices = pCluster->GetControlPointIndicesCount();
+			for (int boneVertIndex = 0; boneVertIndex < numBoneVertIndices; boneVertIndex++)
+			{
+				//store the weights here in the mesh vertices
+				int boneVertexIndex = pBoneVertIndices[boneVertIndex];
+				double boneWeight = pBoneVertWeights[boneVertIndex];
+			}
+		}
+	}
 }

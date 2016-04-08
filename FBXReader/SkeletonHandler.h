@@ -1,12 +1,14 @@
 #pragma once
 #include "fbxSDK.h"
+#include "BRFImporterStructs.h"
+#include "BrfExporter.h"
 class SkeletonHandler
 {
 public:
 	SkeletonHandler();
 	~SkeletonHandler();
 
-	void GetSkeletonData(FbxNode * pNode);
+	void GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport>* outputSkeletons);
 private:
 #pragma region attributes
 	int jointCount;
@@ -14,7 +16,8 @@ private:
 #pragma region functions
 	void ProcessData(FbxNode * pNode);
 	void ProcessPosition(FbxNode * pNode);
-	void ProcessCurve(FbxAnimCurve * pCurve);
+	void ProcessKeyFrames(FbxNode * pNode);
+	void ProcessJoints(FbxMesh * pMesh);
 #pragma endregion
 };
 

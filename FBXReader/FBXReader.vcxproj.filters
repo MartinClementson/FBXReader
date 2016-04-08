@@ -29,9 +29,12 @@
       <UniqueIdentifier>{912fbbc8-3c8a-47cc-b057-27b7a447af90}</UniqueIdentifier>
     </Filter>
 
+    <Filter Include="Classes\MaterialHandler">
+      <UniqueIdentifier>{d50f8b34-8cb9-4485-a982-45fa3fd77619}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Classes\LightHandler">
       <UniqueIdentifier>{2c9aec51-786a-47cf-b2c7-d163a6612153}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="Classes\BrfExporter">
       <UniqueIdentifier>{bf6cb66d-967f-4cdb-8146-054a8b2d18b6}</UniqueIdentifier>
     </Filter>
@@ -53,6 +56,9 @@
     <Filter Include="Classes\SkeletonHandler">
       <UniqueIdentifier>{c1329d25-f2ae-4a10-bf22-0e01e774799d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\BrfExporter\MaterialExport">
+      <UniqueIdentifier>{2bf2fa1c-5661-4263-914d-5c18ffe566ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -70,9 +76,12 @@
     <ClCompile Include="CameraHandler.cpp">
       <Filter>Classes\CameraHandler</Filter>
     </ClCompile>
+    <ClCompile Include="MaterialHandler.cpp">
+      <Filter>Classes\MaterialHandler</Filter>
+    </ClCompile>
     <ClCompile Include="LightHandler.cpp">
       <Filter>Classes\LightHandler</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="BrfExporter.cpp">
       <Filter>Classes\BrfExporter</Filter>
     </ClCompile>
@@ -94,6 +103,9 @@
     <ClCompile Include="SkeletonHandler.cpp">
       <Filter>Classes\SkeletonHandler</Filter>
     </ClCompile>
+    <ClCompile Include="MaterialExport.cpp">
+      <Filter>Classes\BrfExporter\MaterialExport</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fbxSDK.h">
@@ -111,12 +123,15 @@
     <ClInclude Include="CameraHandler.h">
       <Filter>Classes\CameraHandler</Filter>
     </ClInclude>
+    <ClInclude Include="MaterialHandler.h">
+      <Filter>Classes\MaterialHandler</Filter>
+    </ClInclude>
     <ClInclude Include="BRFImporterStructs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LightHandler.h">
       <Filter>Classes\LightHandler</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="BrfExporter.h">
       <Filter>Classes\BrfExporter</Filter>
     </ClInclude>
@@ -137,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="SkeletonHandler.h">
       <Filter>Classes\SkeletonHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialExport.h">
+      <Filter>Classes\BrfExporter\MaterialExport</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

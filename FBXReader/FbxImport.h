@@ -1,6 +1,7 @@
 #pragma once
 #include "FbxPrinter.h"
 #include "MeshHandler.h"
+#include "MaterialHandler.h"
 #include "CameraHandler.h"
 #include "LightHandler.h"
 #include "BRFImporterStructs.h"
@@ -13,6 +14,7 @@ class FbxImport
 private:
 	FbxPrinter printer;
 	MeshHandler meshHandler;
+	MaterialHandler materialHandler;
 	CameraHandler cameraHandler;
 
 	LightHandler lightHandler;
@@ -25,6 +27,7 @@ private:
 	FbxIOSettings* ios = nullptr;
 	FbxScene* scene = nullptr;
 	FbxNode* rootNode = nullptr;
+
 
 public:
 	FbxImport();
@@ -48,7 +51,7 @@ public:
 	//void GetAnimationData(FbxNode* pNode, BrfExporter* outputClass); //Maybe connected to skeleton?
 
 
-	void GetMaterialData(FbxNode* pNode,	std::vector<MaterialHeader>* outputMat);
+	void GetMaterialData(FbxNode* pNode,	MaterialExport* outputMat);
 	void GetLightData(FbxNode* pNode,		LightExport* lights);
 	void GetMorphAnimData(FbxNode* pNode,	std::vector<MorphAnimExport>* outputMorphs);
 	void GetGroupData(FbxNode* pNode,		std::vector<GroupHeader>* outputGroups);
