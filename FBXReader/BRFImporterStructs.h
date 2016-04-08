@@ -1,7 +1,7 @@
 #pragma once
 namespace BRFImporter
 {
-//STRUCTS WITH #PRAGMA REGION IN ORDER: 1. STATIC 2. DYNAMICS OF THAT STATIC, REPEAT
+	//STRUCTS WITH #PRAGMA REGION IN ORDER: 1. STATIC 2. DYNAMICS OF THAT STATIC, REPEAT
 #pragma region Mainheader
 	struct MainHeader
 	{
@@ -36,11 +36,11 @@ namespace BRFImporter
 		double scale[3];
 	};
 #pragma endregion
-	#pragma region MeshHeader Dynamics
+#pragma region MeshHeader Dynamics
 	struct OOBBHeader
 	{
-		float extents[3];
-		float orientation[4];
+		double extents[3];
+		double orientation[3];
 
 	};
 	struct IndexHeader
@@ -61,7 +61,7 @@ namespace BRFImporter
 		double influence;
 		unsigned int jointID;
 	};
-	#pragma endregion
+#pragma endregion
 #pragma region MaterialHeader
 	struct MaterialHeader
 	{
@@ -87,7 +87,7 @@ namespace BRFImporter
 		unsigned int animationCount;
 	};
 #pragma endregion
-	#pragma region SkeletonHeader Dynamics
+#pragma region SkeletonHeader Dynamics
 	struct JointHeader
 	{
 		char jointName[256];
@@ -115,7 +115,7 @@ namespace BRFImporter
 		double pos[3];
 		double rotation[3];
 	};
-	#pragma endregion
+#pragma endregion
 #pragma region CameraHeader
 	struct CameraHeader
 	{
@@ -137,53 +137,54 @@ namespace BRFImporter
 		unsigned int pointCount;
 	};
 #pragma endregion
-	#pragma region LightHeader Dynamics
+#pragma region LightHeader Dynamics
 	struct SpotLightHeader
 	{
 		unsigned int objectID;
 		unsigned int parentID;		// 0 = Default
 		double pos[3];
-		double rotation[3];
+		double rot[3];
+		double scale[3];
 		double outerAngle;
-		float color[3];
-		float intensity;
+		double color[3];
+		double intensity;
 	};
 	struct AmbLightHeader
 	{
 		unsigned int objectID;
 		unsigned int parentID;		// 0 = Default
-		float color[3];
-		float intensity;
+		double pos[3];
+		double color[3];
+		double intensity;
 	};
 	struct AreaLightHeader
 	{
 		unsigned int objectID;
 		unsigned int parentID;		// 0 = Default
 		double pos[3];
-		double rotation[3];
-		double width;
-		double height;
-		float color[3];
-		float intensity;
+		double rot[3];
+		double scale[3];
+		double color[3];
+		double intensity;
 	};
 	struct PointLightHeader
 	{
 		unsigned int objectID;
 		unsigned int parentID;		// 0 = Default
 		double pos[3];
-		float color[3];
-		float intensity;
+		double color[3];
+		double intensity;
 	};
 	struct DirLightHeader
 	{
 		unsigned int objectID;
 		unsigned int parentID;		// 0 = Default
 		double pos[3];
-		double rotation[3];
-		float color[3];
-		float intensity;
+		double rot[3];
+		double color[3];
+		double intensity;
 	};
-	#pragma endregion
+#pragma endregion
 #pragma region GroupHeader
 	struct GroupHeader
 	{
@@ -203,13 +204,13 @@ namespace BRFImporter
 		unsigned int shapeID;
 	};
 #pragma endregion
-	#pragma region MorphAnimHeader Dynamics
+#pragma region MorphAnimHeader Dynamics
 	struct MorphVertexHeader
 	{
 		double pos[3];
 		unsigned int vertIndex;
 	};
-	#pragma endregion
+#pragma endregion
 #pragma region AttributeHeader
 	struct AttributesHeader
 	{
@@ -221,7 +222,7 @@ namespace BRFImporter
 		unsigned int vectorAmount;
 	};
 #pragma endregion
-	#pragma region AttributeHeader Dynamics
+#pragma region AttributeHeader Dynamics
 	struct VectorAttrHeader
 	{
 		char attrName[256];
@@ -262,6 +263,8 @@ namespace BRFImporter
 		unsigned int min;
 		unsigned int max;
 	};
+
+
 	#pragma endregion
 }
 
