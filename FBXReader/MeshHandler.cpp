@@ -114,9 +114,6 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 		vert = &pMesh->GetPolygonVertices()[startindex];
 		int count = pMesh->GetPolygonSize(i);
 		for (int j = 0; j < count; j++)
-<<<<<<< HEAD
-			std::cout << i << ": " << vert[j] << "\n";
-=======
 		{
 
 			//std::cout << i << ": " << vert[j] << "\n";
@@ -124,8 +121,6 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 			temp.vertIndex = vert[j];
 			outPutMesh->Addindex(temp);
 		}
-
->>>>>>> refs/remotes/origin/skeleton
 	}
 	//outPutMesh->meshInfo.indexCount = outPutMesh->indices->size(); //store the amount of indices found
 
