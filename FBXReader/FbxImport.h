@@ -4,6 +4,7 @@
 #include "MaterialHandler.h"
 #include "CameraHandler.h"
 #include "LightHandler.h"
+#include "MorphHandler.h"
 #include "BRFImporterStructs.h"
 
 #include "SkeletonHandler.h"
@@ -16,9 +17,8 @@ private:
 	MeshHandler meshHandler;
 	MaterialHandler materialHandler;
 	CameraHandler cameraHandler;
-
+	MorphHandler morphHandler;
 	LightHandler lightHandler;
-
 	SkeletonHandler skeletonHandler;
 
 
@@ -53,7 +53,7 @@ public:
 
 	void GetMaterialData(FbxNode* pNode,	MaterialExport* outputMat);
 	void GetLightData(FbxNode* pNode,		LightExport* lights);
-	void GetMorphAnimData(FbxNode* pNode,	std::vector<MorphAnimExport>* outputMorphs);
+	void GetMorphData(FbxNode* pNode/*,	std::vector<MorphAnimExport>* outputMorphs*/);
 	void GetGroupData(FbxNode* pNode,		std::vector<GroupHeader>* outputGroups);
 
 

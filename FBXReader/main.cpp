@@ -1,4 +1,3 @@
-
 #include "FbxImport.h"
 #include <iostream>
 
@@ -15,7 +14,8 @@ void main()
 
 	//const char* fileName = "test.fbx"; //lights
 	//const char* fileName = "test2.fbx";
-	const char* fileName = "3_shapes_1_Cam.fbx";
+	//const char* fileName = "3_shapes_1_Cam.fbx";
+	const char* fileName = "blend.fbx";
 	//const char* fileName = "GroupScene.fbx";
 	//const char* fileName = "BoundingBoxScene.fbx";
 	FbxImport* importer = new FbxImport();
