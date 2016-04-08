@@ -64,7 +64,6 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	
 
 	
-	std::vector<BRFImporter::MaterialHeader> materials(materialCount);
 
 	MaterialHeader materialStruct;
 	
