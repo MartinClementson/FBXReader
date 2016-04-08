@@ -9,6 +9,8 @@ struct dummyStructVert
 	float scale[3];
 	float normal[3];
 	float uv[2];
+	float biNormal[2];
+	float tangents[2];
 
 };
 
