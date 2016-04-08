@@ -202,7 +202,7 @@ void SkeletonHandler::ProcessJoints(FbxMesh * pMesh)
 {
 	//send in a matrix here as well to store the
 	//transformation matrix of the baseposition
-	int numDeformers = pMesh->GetDeformerCount();
+	//int numDeformers = pMesh->GetDeformerCount();
 	FbxSkin * pSkin = (FbxSkin*)pMesh->GetDeformer(0, FbxDeformer::eSkin);
 	if (pSkin != NULL)
 	{
@@ -211,22 +211,23 @@ void SkeletonHandler::ProcessJoints(FbxMesh * pMesh)
 		for (int boneIndex = 0; boneIndex < boneCount; boneIndex++)
 		{
 			FbxCluster * pCluster = pSkin->GetCluster(boneIndex);
-			FbxNode* pBone = pCluster->GetLink();
+			//FbxNode* pBone = pCluster->GetLink();
 			//std::cout << "\n\n" << pBone->GetName();
+
 			//Getting the bindpose
 			FbxAMatrix bindPose;
 			pCluster->GetTransformLinkMatrix(bindPose);
 
-			int * pBoneVertIndices = pCluster->GetControlPointIndices();
-			double * pBoneVertWeights = pCluster->GetControlPointWeights();
+			//int * pBoneVertIndices = pCluster->GetControlPointIndices();
+			//double * pBoneVertWeights = pCluster->GetControlPointWeights();
 
-			int numBoneVertIndices = pCluster->GetControlPointIndicesCount();
-			for (int boneVertIndex = 0; boneVertIndex < numBoneVertIndices; boneVertIndex++)
-			{
-				//store the weights here in the mesh vertices
-				int boneVertexIndex = pBoneVertIndices[boneVertIndex];
-				double boneWeight = pBoneVertWeights[boneVertIndex];
-			}
+			//int numBoneVertIndices = pCluster->GetControlPointIndicesCount();
+			//for (int boneVertIndex = 0; boneVertIndex < numBoneVertIndices; boneVertIndex++)
+			//{
+			//	//store the weights here in the mesh vertices
+			//	int boneVertexIndex = pBoneVertIndices[boneVertIndex];
+			//	double boneWeight = pBoneVertWeights[boneVertIndex];
+			//}
 		}
 	}
 }
