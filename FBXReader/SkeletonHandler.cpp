@@ -35,7 +35,9 @@ void SkeletonHandler::ProcessData(FbxNode * pNode)
 		FbxSkeleton *skel = pNode->GetSkeleton();
 
 		ProcessKeyFrames(pNode);
+		ProcessJoints((FbxMesh*)skel->GetDstObject());
 
+		//skel->GetSrcObject()
 		/*ProcessPosition(pNode);
 		FbxTimeSpan animTime;
 		pNode->GetAnimationInterval(animTime);
@@ -189,4 +191,31 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 
 void SkeletonHandler::ProcessJoints(FbxMesh * pMesh)
 {
+	//send in a matrix here as well to store the
+	//transformation matrix of the baseposition
+	int numDeformers = pMesh->GetDeformerCount();
+	FbxSkin * pSkin = (FbxSkin*)pMesh->GetDeformer(0, FbxDeformer::eSkin);
+	if (pSkin != NULL)
+	{
+		int boneCount = pSkin->GetClusterCount();
+		for (int boneIndex = 0; boneIndex < boneCount; boneIndex)
+		{
+			FbxCluster * pCluster = pSkin->GetCluster(boneIndex);
+			FbxNode* pBone = pCluster->GetLink();
+
+			//Getting the bindpose
+			FbxAMatrix bindPose;
+			pCluster->GetTransformLinkMatrix(bindPose);
+
+			int * pBoneVertIndices = pCluster->GetControlPointIndices();
+			double * pBoneVertWeights = pCluster->GetControlPointWeights();
+
+			int numBoneVertIndices = pCluster->GetControlPointIndicesCount();
+			for (int boneVertIndex = 0; boneVertIndex < numBoneVertIndices; boneVertIndex++)
+			{
+				int boneVertexIndex = pBoneVertIndices[boneVertIndex];
+				double boneWeight = pBoneVertWeights[boneVertIndex];
+			}
+		}
+	}
 }
