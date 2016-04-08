@@ -9,7 +9,7 @@ MeshExport::MeshExport()
 
 	indices  = new std::vector<IndexHeader>;
 	vertices = new std::vector<VertexHeader>;
-	weights.resize(4);
+	
 	
 }
 
@@ -64,7 +64,8 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 			outfile->write(reinterpret_cast<char*>(&this->boundingBox), sizeof(OOBBHeader));
 
 		//write the weights to the file
-		outfile->write(reinterpret_cast<char*>(&this->weights[0]), sizeof(weights) * 4);
+
+		//outfile->write(reinterpret_cast<char*>(&this->weights[0]), sizeof(weights) * 4);
 
 
 
@@ -96,19 +97,19 @@ void MeshExport::AddBoundingBox(OOBBHeader input)
 
 void MeshExport::AddWeight(WeigthsHeader input)
 {
-	if (this->weights.size() < 4) //make sure we have a maximum of 4 weights
-	{
-		this->weights.push_back(input);
+	//if (this->weights.size() < 4) //make sure we have a maximum of 4 weights
+	//{
+	//	this->weights.push_back(input);
 
-	}
-	else
-	{
-		std::cout << "Maximum amount of weights reached." << "\n"
-			<< "Weight not added \n"<<
-			"OBJECT ID: " << this->meshInfo.objectID;
+	//}
+	//else
+	//{
+	//	std::cout << "Maximum amount of weights reached." << "\n"
+	//		<< "Weight not added \n"<<
+	//		"OBJECT ID: " << this->meshInfo.objectID;
 
-		return;
-	}
+	//	return;
+	//}
 }
 
 void MeshExport::AddMeshInfo(MeshHeader info)

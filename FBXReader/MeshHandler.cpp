@@ -107,6 +107,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 
 
 	outPutMesh->vertices->resize(vertCount);
+	outPutMesh->weights.resize(vertCount);
 
 	unsigned int polyCount = pMesh->GetPolygonCount();
 
@@ -228,8 +229,9 @@ void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index, MeshExp
 			tempWeight.influence = pBoneVertWeights[index];
 			tempWeight.jointID = boneIndex;
 
-			outputMesh->AddWeight(tempWeight);
+			outputMesh->weights.at(index).push_back(tempWeight);
 		}
+		
 	}
 }
 
