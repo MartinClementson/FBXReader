@@ -222,14 +222,21 @@ void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index, MeshExp
 			double * pBoneVertWeights = pCluster->GetControlPointWeights();
 
 			//int numBoneVertIndices = pCluster->GetControlPointIndicesCount();
-			
+
 				//store the weights here in the mesh vertices
 			//int boneVertexIndex = pBoneVertIndices[index];
 			//double boneWeight = pBoneVertWeights[index];
-			tempWeight.influence = pBoneVertWeights[index];
-			tempWeight.jointID = boneIndex;
+			for (int i = 0; i < pCluster->GetControlPointIndicesCount(); i++)
+			{
+				if (index == pCluster->GetControlPointIndices()[i])
+				{
+					tempWeight.influence = pBoneVertWeights[index];
+					tempWeight.jointID = boneIndex;
 
-			outputMesh->weights.at(index).push_back(tempWeight);
+					outputMesh->weights.at(index).push_back(tempWeight);
+					break;
+				}
+			}
 		}
 		
 	}

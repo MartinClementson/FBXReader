@@ -46,6 +46,12 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 
 	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n\n";
 
+	for (int i = 0; i < this->meshInfo.vertexCount; i++)
+	{
+		std::cout << "\nCurrent weights on vert nr" << i+1 << ": "
+			<< weights.at(i).size();
+	}
+
 
 	//export
 
