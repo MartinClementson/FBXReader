@@ -13,6 +13,21 @@ MeshExport::MeshExport()
 	
 }
 
+MeshExport::MeshExport(bool hasSkeleton)
+{
+	if (hasSkeleton)
+	{
+		vertices = new std::vector<VertexHeader>;
+		verticesNoSkeleton = NULL;
+	}
+	else
+	{
+		vertices = NULL;
+		verticesNoSkeleton = new std::vector<VertexHeaderNoSkeleton>;
+	}
+	indices = new std::vector<IndexHeader>;
+}
+
 
 MeshExport::~MeshExport()
 {

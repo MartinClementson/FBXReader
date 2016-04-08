@@ -30,6 +30,7 @@ namespace BRFImporter
 		unsigned int attrCount = 0;		// 0 = Default
 
 		bool boundingBox;
+		bool hasSkeleton;
 
 		double translation[3];
 		double rotation[3];
@@ -46,6 +47,14 @@ namespace BRFImporter
 	struct IndexHeader
 	{
 		unsigned int vertIndex;
+	};
+	struct VertexHeaderNoSkeleton
+	{
+		double pos[3];
+		double normal[3];
+		double uv[2];
+		double tangent[2];
+		double biTangent[2];
 	};
 	struct VertexHeader
 	{

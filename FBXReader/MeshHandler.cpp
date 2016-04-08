@@ -240,6 +240,10 @@ void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index, MeshExp
 		}
 		
 	}
+	else
+	{
+
+	}
 }
 
 bool MeshHandler::GetBoundingBox(FbxNode * pNode,OOBBHeader* boundingBox)

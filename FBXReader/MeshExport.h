@@ -26,6 +26,7 @@ public:
 	MeshHeader meshInfo;
 	std::vector<IndexHeader>* indices;
 	std::vector<VertexHeader>* vertices;
+	std::vector<VertexHeaderNoSkeleton>* verticesNoSkeleton;
 	OOBBHeader boundingBox;
 	std::vector<std::vector<WeigthsHeader>> weights; // the 4 count will be controlled in the "AddWeight" function
 
@@ -33,6 +34,7 @@ public:
 
 public:
 	MeshExport();
+	MeshExport(bool hasSkeleton);
 	~MeshExport();
 
 	void WriteToBinaryFile(std::ofstream* outfile);
