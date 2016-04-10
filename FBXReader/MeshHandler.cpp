@@ -225,7 +225,7 @@ bool MeshHandler::GetBoundingBox(FbxNode * pNode,OOBBHeader* boundingBox)
 			double maxZ = -INFINITY;
 			
 
-			//Find the extentions of the axises
+			//Find the extensions of the axises
 			
 			for (unsigned int i = 0; i < vertCount; i++)
 			{

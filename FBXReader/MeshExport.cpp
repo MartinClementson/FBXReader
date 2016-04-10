@@ -54,21 +54,15 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 		outfile->write((char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
 
 		//write all the vertices 
-		//convert the vertices to POD
-		/*VertexHeader* vertPOD = new VertexHeader[this->vertices->size()];
-		for (int i = 0; i < this->vertices->size(); i++)
-		{
-			vertPOD[i] = this->vertices->at(i);
-		}*/
-
+		
 		outfile->write((char*)(this->vertices->data()), sizeof(VertexHeader) * this->vertices->size());
-		//delete vertPOD;
+		
 		//write all the indices
-	//	outfile->write((char*)(this->indices->data()), sizeof(IndexHeader) * this->indices->size());
+		outfile->write((char*)(this->indices->data()), sizeof(IndexHeader) * this->indices->size());
 
-	//	//if there is a bounding box, write it to the file.
-	//	if(this->meshInfo.boundingBox)
-	//		outfile->write((char*)(&this->boundingBox), sizeof(OOBBHeader));
+		//if there is a bounding box, write it to the file.
+		if(this->meshInfo.boundingBox)
+			outfile->write((char*)(&this->boundingBox), sizeof(OOBBHeader));
 
 	//	//write the weights to the file
 	//	outfile->write((char*)(this->weights.data()), sizeof(weights) * 4);
@@ -103,19 +97,22 @@ void MeshExport::AddBoundingBox(OOBBHeader input)
 
 void MeshExport::AddWeight(WeigthsHeader input)
 {
-	if (this->weights.size() < 4) //make sure we have a maximum of 4 weights
-	{
-		this->weights.push_back(input);
 
-	}
-	else
-	{
-		std::cout << "Maximum amount of weights reached." << "\n"
-			<< "Weight not added \n"<<
-			"OBJECT ID: " << this->meshInfo.objectID;
+	// this code is wrong
 
-		return;
-	}
+	//if (this->weights.size() < 4) //make sure we have a maximum of 4 weights
+	//{
+	//	this->weights.push_back(input);
+
+	//}
+	//else
+	//{
+	//	std::cout << "Maximum amount of weights reached." << "\n"
+	//		<< "Weight not added \n"<<
+	//		"OBJECT ID: " << this->meshInfo.objectID;
+
+	//	return;
+	//}
 }
 
 void MeshExport::AddMeshInfo(MeshHeader info)
