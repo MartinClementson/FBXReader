@@ -89,6 +89,7 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	//SpecularProperty
 	FbxProperty specProp = pMaterial->FindProperty(FbxSurfaceMaterial::sSpecular);
 	unsigned int specMapCount = specProp.GetSrcObjectCount<FbxFileTexture>();
+	FbxSurfacePhong* tmpCompare = (FbxSurfacePhong*)pMaterial;
 	if (specMapCount > 0)
 	{
 		memcpy(materialStruct.specMap, GetSpecularMap(specProp), sizeof(char) * 256);
@@ -99,8 +100,19 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	}
 	else
 	{
-		GetSpecular(pMaterial, materialStruct.specularVal);
-		memcpy(materialStruct.specMap, "", sizeof(char) * 256);
+		if (pMaterial->GetClassId().Is(FbxSurfacePhong::ClassId))
+		{
+			GetSpecular(pMaterial, materialStruct.specularVal);
+			memcpy(materialStruct.specMap, "", sizeof(char) * 256);
+		}
+		else
+		{
+			materialStruct.specularVal[0] = 0.0f;
+			materialStruct.specularVal[1] = 0.0f;
+			materialStruct.specularVal[2] = 0.0f;
+			memcpy(materialStruct.specMap, "", sizeof(char) * 256);
+		}
+
 	}
 
 	//NormalMap properties
