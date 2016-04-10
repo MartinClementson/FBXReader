@@ -31,7 +31,7 @@ void main()
 	importer->ConvertFbxToFile(outputClass); //convert information from fbx to our format
 
 	//information is in the outPutClass.
-	outputClass->WriteToBinaryFile("oneMeshVecData.brf"); //write to file
+	outputClass->WriteToBinaryFile("cylinder.brf"); //write to file
 
 	//done
 

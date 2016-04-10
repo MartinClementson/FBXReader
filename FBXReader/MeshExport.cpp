@@ -44,25 +44,36 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 
 	std::cout << "Scale      : (" << this->meshInfo.scale[0] << "," << this->meshInfo.scale[1] << "," << this->meshInfo.scale[2] << ")\n" << std::endl;
 
-	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n\n";
+ 	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n\n";
 
 
 	//export
-
+	IndexHeader* tempIndex;
+	tempIndex = new IndexHeader[2];
 	if (outfile)
 	{
-		outfile->write((char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
+		outfile->write( (const char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
 
 		//write all the vertices 
 		
-		outfile->write((char*)(this->vertices->data()), sizeof(VertexHeader) * this->vertices->size());
-		
-		//write all the indices
-		outfile->write((char*)(this->indices->data()), sizeof(IndexHeader) * this->indices->size());
+		outfile->write( (const char*)(this->vertices->data()), sizeof(VertexHeader) * this->vertices->size());
+		outfile->flush();
+		delete[] tempIndex;
+		tempIndex = new IndexHeader[indices->size()];
+		//convert to POD
+		for (unsigned int i = 0; i < indices->size(); i++)
+		{
+			tempIndex[i] = indices->at(i);
 
+		}
+		
+
+		//write all the indices
+		outfile->write( (const char*) tempIndex,  sizeof(IndexHeader) * this->indices->size());
+		outfile->flush();
 		//if there is a bounding box, write it to the file.
 		if(this->meshInfo.boundingBox)
-			outfile->write((char*)(&this->boundingBox), sizeof(OOBBHeader));
+			outfile->write((const char*)(&this->boundingBox), sizeof(OOBBHeader));
 
 	//	//write the weights to the file
 	//	outfile->write((char*)(this->weights.data()), sizeof(weights) * 4);
@@ -74,6 +85,20 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 	//		meshAttributes->WriteToBinaryFile(outfile);
 
 	}
+	for (unsigned int i = 0; i < this->vertices->size(); i++)
+	{
+		std::cout << "vert #" << i << ": (" << vertices->at(i).pos[0] << "," << vertices->at(i).pos[1]  << "," << vertices->at(i).pos[2]<< " )\n";
+
+
+	}
+
+	for (unsigned int i = 0; i < indices->size(); i++)
+	{
+		//std::cout << "vert #" << i << ": (" << vertices[i].pos[0] << "," << vertices[i].pos[1] <<"," << vertices[i].pos[2] << " )\n";
+		std::cout << "Index #" << i << ": (" << tempIndex[i].vertIndex << " )\n";
+
+	}
+		delete tempIndex;
 
 
 

@@ -48,24 +48,23 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 	
 
 	
-	outfile.write((char*)&this->goldenNumber, sizeof(int)*2);
+	outfile.write((const char*)&this->goldenNumber, sizeof(int)*2);
 
 	//Write the main header first in the file (after golden number)
 	CreateFileHeader(); //THis only creates the struct, It does not write to file
-	outfile.write((char*)&this->sceneInfo, sizeof(MainHeader)); //now write it
+	outfile.write((const char*)&this->sceneInfo, sizeof(MainHeader)); //now write it
 
-	meshes->at(0)->WriteToBinaryFile(&outfile);
-	//outfile.write((char*)&meshes->at(0)->vertices->at(0) , sizeof(VertexHeader));
-	outfile.close();
+	
 
 	std::cout << "\n\n\n\n\nWriting to binary file ........" << "NOT! \n";
 	this->sceneInfo.meshAmount = meshes->size();
-
+	meshes->at(1)->WriteToBinaryFile(&outfile);
+	outfile.close();
 	std::cout << "Total amount of meshes exported : " << sceneInfo.meshAmount <<"\n";
 	for (unsigned int i = 0; i < sceneInfo.meshAmount; i++)
 	{
 		std::cout << "Mesh #" << i+1 << "\n";
-		/*meshes->at(i)->WriteToBinaryFile(&outfile);*/
+		meshes->at(i)->WriteToBinaryFile(&outfile);
 
 	}
 
