@@ -54,8 +54,15 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 		outfile->write((const char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
 
 		//write all the vertices 
-		outfile->write((char*)(&this->vertices[0]), sizeof(VertexHeader) * this->vertices->size());
+		//convert the vertices to POD
+		VertexHeader* vertPOD = new VertexHeader[this->vertices->size()];
+		for (int i = 0; i < this->vertices->size(); i++)
+		{
+			vertPOD[i] = this->vertices->at(i);
+		}
 
+		outfile->write((const char*)(&vertPOD), sizeof(VertexHeader) * this->vertices->size());
+		delete vertPOD;
 		//write all the indices
 		outfile->write((char*)(&this->indices[0]), sizeof(IndexHeader) * this->indices->size());
 
