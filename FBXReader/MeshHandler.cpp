@@ -109,7 +109,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 	//Get the vertex indices
 	int startindex;
 	int *vert;
-	for (int i = 0; i < polyCount; i++)
+	for (unsigned int i = 0; i < polyCount; i++)
 	{
 		startindex = pMesh->GetPolygonVertexIndex(i); 
 		vert = &pMesh->GetPolygonVertices()[startindex];
@@ -127,7 +127,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 	//outPutMesh->meshInfo.indexCount = outPutMesh->indices->size(); //store the amount of indices found
 
 	//Get all the mesh elements (normals, binormals, position...)
-	for (int i = 0; i < vertCount; i++)
+	for (unsigned int i = 0; i < vertCount; i++)
 	{
 		GetVertPositions(pMesh, i, outPutMesh->vertices->at(i).pos);
 		GetVertNormals(pMesh->GetElementNormal(), i, outPutMesh->vertices->at(i).normal);
@@ -227,7 +227,7 @@ bool MeshHandler::GetBoundingBox(FbxNode * pNode,OOBBHeader* boundingBox)
 
 			//Find the extentions of the axises
 			
-			for (int i = 0; i < vertCount; i++)
+			for (unsigned int i = 0; i < vertCount; i++)
 			{
 				double vert[3];
 

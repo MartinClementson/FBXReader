@@ -9,7 +9,7 @@ BrfExporter::BrfExporter()
 	meshes = new std::vector<MeshExport*>;
 	materials = new MaterialExport;
 	skeletons = new std::vector<SkeletonExport> ;
-	lights = new LightExport ;
+	//lights = new LightExport ;
 	groups = new std::vector<GroupHeader>;
 	morphAnim = new std::vector<MorphAnimExport>;
 	cameras = new CameraExporter;
@@ -38,6 +38,7 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 	/*
 		Open file as binary
 	*/
+
 	std::ofstream outfile(fileName, std::ofstream::out );
 	if (!outfile.is_open())
 	{
@@ -47,13 +48,14 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 	
 
 	
-	outfile.write((const char*)&this->goldenNumber, sizeof(int)*2);
+	outfile.write((char*)&this->goldenNumber, sizeof(int)*2);
 
 	//Write the main header first in the file (after golden number)
 	CreateFileHeader(); //THis only creates the struct, It does not write to file
-	outfile.write((const char*)&this->sceneInfo, sizeof(MainHeader)); //now write it
+	outfile.write((char*)&this->sceneInfo, sizeof(MainHeader)); //now write it
 
 	meshes->at(0)->WriteToBinaryFile(&outfile);
+	//outfile.write((char*)&meshes->at(0)->vertices->at(0) , sizeof(VertexHeader));
 	outfile.close();
 
 	std::cout << "\n\n\n\n\nWriting to binary file ........" << "NOT! \n";
@@ -87,6 +89,18 @@ void BrfExporter::CreateFileHeader()
 		this->sceneInfo.lights = false;
 
 	this->sceneInfo.meshAmount = this->meshes->size();
+
+	this->sceneInfo.attributeAmount = 0;
+
+	this->sceneInfo.cameraAmount = 0;
+
+	this->sceneInfo.materialAmount = 0;
+
+	this->sceneInfo.groupAmount = 0;
+
+	this->sceneInfo.morphAnimAmount = 0;
+
+	this->sceneInfo.skeletonAmount = 0;
 	//ADD ALL ATTRIBUTES HERE
 
 

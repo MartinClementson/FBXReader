@@ -51,33 +51,33 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 
 	if (outfile)
 	{
-		outfile->write((const char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
+		outfile->write((char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
 
 		//write all the vertices 
 		//convert the vertices to POD
-		VertexHeader* vertPOD = new VertexHeader[this->vertices->size()];
+		/*VertexHeader* vertPOD = new VertexHeader[this->vertices->size()];
 		for (int i = 0; i < this->vertices->size(); i++)
 		{
 			vertPOD[i] = this->vertices->at(i);
-		}
+		}*/
 
-		outfile->write((const char*)(&vertPOD), sizeof(VertexHeader) * this->vertices->size());
-		delete vertPOD;
+		outfile->write((char*)(this->vertices->data()), sizeof(VertexHeader) * this->vertices->size());
+		//delete vertPOD;
 		//write all the indices
-		outfile->write((char*)(&this->indices[0]), sizeof(IndexHeader) * this->indices->size());
+	//	outfile->write((char*)(this->indices->data()), sizeof(IndexHeader) * this->indices->size());
 
-		//if there is a bounding box, write it to the file.
-		if(this->meshInfo.boundingBox)
-			outfile->write((char*)(&this->boundingBox), sizeof(OOBBHeader));
+	//	//if there is a bounding box, write it to the file.
+	//	if(this->meshInfo.boundingBox)
+	//		outfile->write((char*)(&this->boundingBox), sizeof(OOBBHeader));
 
-		//write the weights to the file
-		outfile->write((char*)(&this->weights[0]), sizeof(weights) * 4);
+	//	//write the weights to the file
+	//	outfile->write((char*)(this->weights.data()), sizeof(weights) * 4);
 
 
 
-		//if there are any attributes, write it to the file.
-		if (this->meshInfo.attrCount > 0)
-			meshAttributes->WriteToBinaryFile(outfile);
+	//	//if there are any attributes, write it to the file.
+	//	if (this->meshInfo.attrCount > 0)
+	//		meshAttributes->WriteToBinaryFile(outfile);
 
 	}
 
