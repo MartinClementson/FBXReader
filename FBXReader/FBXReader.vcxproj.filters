@@ -28,8 +28,13 @@
     <Filter Include="Classes\CameraHandler">
       <UniqueIdentifier>{912fbbc8-3c8a-47cc-b057-27b7a447af90}</UniqueIdentifier>
     </Filter>
+
     <Filter Include="Classes\GroupHandler">
       <UniqueIdentifier>{87878c46-23dc-47cd-bd72-16883d9e2aa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\MaterialHandler">
+      <UniqueIdentifier>{d50f8b34-8cb9-4485-a982-45fa3fd77619}</UniqueIdentifier>
+
     </Filter>
     <Filter Include="Classes\LightHandler">
       <UniqueIdentifier>{2c9aec51-786a-47cf-b2c7-d163a6612153}</UniqueIdentifier>
@@ -55,8 +60,16 @@
     <Filter Include="Classes\SkeletonHandler">
       <UniqueIdentifier>{c1329d25-f2ae-4a10-bf22-0e01e774799d}</UniqueIdentifier>
     </Filter>
+
     <Filter Include="Classes\BrfExporter\GroupExport">
       <UniqueIdentifier>{7fb11b57-518d-42f5-afa7-8b3c25113a4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\BrfExporter\MaterialExport">
+      <UniqueIdentifier>{2bf2fa1c-5661-4263-914d-5c18ffe566ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\BrfExporter\CameraExporter">
+      <UniqueIdentifier>{1170e06f-cf15-42c8-bf6b-aa207b5275d7}</UniqueIdentifier>
+
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +87,9 @@
     </ClCompile>
     <ClCompile Include="CameraHandler.cpp">
       <Filter>Classes\CameraHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialHandler.cpp">
+      <Filter>Classes\MaterialHandler</Filter>
     </ClCompile>
     <ClCompile Include="LightHandler.cpp">
       <Filter>Classes\LightHandler</Filter>
@@ -99,6 +115,7 @@
     <ClCompile Include="SkeletonHandler.cpp">
       <Filter>Classes\SkeletonHandler</Filter>
     </ClCompile>
+
     <ClCompile Include="GroupHandler.cpp">
       <Filter>Classes\GroupHandler</Filter>
     </ClCompile>
@@ -107,6 +124,13 @@
     </ClCompile>
     <ClCompile Include="GroupExport.cpp">
       <Filter>Classes\BrfExporter\GroupExport</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialExport.cpp">
+      <Filter>Classes\BrfExporter\MaterialExport</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraExport.cpp">
+      <Filter>Classes\BrfExporter\CameraExporter</Filter>
+
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="CameraHandler.h">
       <Filter>Classes\CameraHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialHandler.h">
+      <Filter>Classes\MaterialHandler</Filter>
     </ClInclude>
     <ClInclude Include="BRFImporterStructs.h">
       <Filter>Header Files</Filter>
@@ -155,8 +182,16 @@
     <ClInclude Include="SkeletonHandler.h">
       <Filter>Classes\SkeletonHandler</Filter>
     </ClInclude>
+
     <ClInclude Include="GroupExport.h">
       <Filter>Classes\BrfExporter\GroupExport</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialExport.h">
+      <Filter>Classes\BrfExporter\MaterialExport</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraExport.h">
+      <Filter>Classes\BrfExporter\CameraExporter</Filter>
+
     </ClInclude>
   </ItemGroup>
 </Project>

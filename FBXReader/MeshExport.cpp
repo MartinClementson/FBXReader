@@ -9,6 +9,7 @@ MeshExport::MeshExport()
 
 	indices  = new std::vector<IndexHeader>;
 	vertices = new std::vector<VertexHeader>;
+	weights.resize(4);
 	
 }
 
@@ -24,11 +25,19 @@ MeshExport::~MeshExport()
 
 void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 {
+	meshInfo.vertexCount = vertices->size();
+	meshInfo.indexCount = indices->size();
 
 	std::cout << "Mesh name  : " << this->meshInfo.meshName << std::endl;
 	std::cout << "Vert amount  : " << this->meshInfo.vertexCount << std::endl;
-
-	
+	std::cout << "Index amount  : " << this->meshInfo.indexCount << std::endl;
+	std::cout << "Bounding Box  : " <<  (this->meshInfo.boundingBox ? "Yes" : "NO") << std::endl;
+	if (this->meshInfo.boundingBox)
+	{
+		std::cout << "\t Extents: (" << this->boundingBox.extents[0] << "," << this->boundingBox.extents[1] << "," << this->boundingBox.extents[2] << ")" << std::endl;
+		std::cout << "\t Orientation: (" << this->boundingBox.orientation[0] << "," << this->boundingBox.orientation[1] << "," << this->boundingBox.orientation[2] << ")" << std::endl;
+	}
+	//std::cout << "Test Index: (" << this->indices->at(0).vertIndex << "," << this->indices->at(1).vertIndex << "," << this->indices->at(2).vertIndex << ")" << std::endl;
 	std::cout << "Translation: (" << this->meshInfo.translation[0] << "," << this->meshInfo.translation[1] << "," << this->meshInfo.translation[2] << ")" << std::endl;
 	
 	std::cout << "Rotation   : (" << this->meshInfo.rotation[0] << "," << this->meshInfo.rotation[1] << "," << this->meshInfo.rotation[2] << ")" << std::endl;
@@ -36,6 +45,35 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 	std::cout << "Scale      : (" << this->meshInfo.scale[0] << "," << this->meshInfo.scale[1] << "," << this->meshInfo.scale[2] << ")\n" << std::endl;
 
 	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n\n";
+
+
+	//export
+
+	if (outfile)
+	{
+		outfile->write((const char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
+
+		//write all the vertices 
+		outfile->write(reinterpret_cast<char*>(&this->vertices[0]), sizeof(VertexHeader) * this->vertices->size());
+
+		//write all the indices
+		outfile->write(reinterpret_cast<char*>(&this->indices[0]), sizeof(IndexHeader) * this->indices->size());
+
+		//if there is a bounding box, write it to the file.
+		if(this->meshInfo.boundingBox)
+			outfile->write(reinterpret_cast<char*>(&this->boundingBox), sizeof(OOBBHeader));
+
+		//write the weights to the file
+		outfile->write(reinterpret_cast<char*>(&this->weights[0]), sizeof(weights) * 4);
+
+
+
+		//if there are any attributes, write it to the file.
+		if (this->meshInfo.attrCount > 0)
+			meshAttributes->WriteToBinaryFile(outfile);
+
+	}
+
 
 
 }

@@ -27,7 +27,7 @@ namespace BRFImporter
 		unsigned int indexCount;
 		unsigned int materialID;
 
-		unsigned int attrCount;		// 0 = Default
+		unsigned int attrCount = 0;		// 0 = Default
 
 		bool boundingBox;
 
@@ -39,8 +39,8 @@ namespace BRFImporter
 #pragma region MeshHeader Dynamics
 	struct OOBBHeader
 	{
-		float extents[3];
-		float orientation[4];
+		double extents[3];
+		double orientation[3];
 
 	};
 	struct IndexHeader
@@ -65,12 +65,19 @@ namespace BRFImporter
 #pragma region MaterialHeader
 	struct MaterialHeader
 	{
-		unsigned int materialID;
+		unsigned int Id;
 
-		//float diffuseR,diffuseG,diffuseB
-		//float specR,specG,specB
-		//float norR,norB,norG
-		//TO BE CONTINUED
+		char matName[256];
+
+		double ambientVal[3];
+		double diffuseVal[3];
+		double specularVal[3];
+
+		char diffMap[256];
+		char specMap[256];
+		char normalMap[256];
+		char reflectMap[256]; //Was Gloss
+		char glowMap[256];
 	};
 #pragma endregion
 #pragma region SkeletonHeader
@@ -115,9 +122,10 @@ namespace BRFImporter
 		unsigned int objectID;
 		unsigned int parentID;		// 0 = Default
 
+		char camName[256];
+
 		double position[3];
-		double roll;
-		double intrest[3];
+		double rotation[3];
 	};
 #pragma endregion
 #pragma region LightHeader
@@ -139,16 +147,16 @@ namespace BRFImporter
 		double rot[3];
 		double scale[3];
 		double outerAngle;
-		float color[3];
-		float intensity;
+		double color[3];
+		double intensity;
 	};
 	struct AmbLightHeader
 	{
 		unsigned int objectID;
 		unsigned int parentID;		// 0 = Default
 		double pos[3];
-		float color[3];
-		float intensity;
+		double color[3];
+		double intensity;
 	};
 	struct AreaLightHeader
 	{
@@ -157,16 +165,16 @@ namespace BRFImporter
 		double pos[3];
 		double rot[3];
 		double scale[3];
-		float color[3];
-		float intensity;
+		double color[3];
+		double intensity;
 	};
 	struct PointLightHeader
 	{
 		unsigned int objectID;
 		unsigned int parentID;		// 0 = Default
 		double pos[3];
-		float color[3];
-		float intensity;
+		double color[3];
+		double intensity;
 	};
 	struct DirLightHeader
 	{
@@ -174,8 +182,8 @@ namespace BRFImporter
 		unsigned int parentID;		// 0 = Default
 		double pos[3];
 		double rot[3];
-		float color[3];
-		float intensity;
+		double color[3];
+		double intensity;
 	};
 #pragma endregion
 #pragma region GroupHeader
