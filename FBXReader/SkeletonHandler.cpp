@@ -4,7 +4,6 @@
 
 SkeletonHandler::SkeletonHandler()
 {
-	jointID = 0;
 }
 
 
@@ -18,7 +17,12 @@ void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExpor
 	{
 		SkeletonExport tempSkeleton;
 		jointCount = 0;
+		jointID = 0;
 		std::cout << "skeleton name: " << pNode->GetName() << "\n";
+		FbxSkeleton *skel = pNode->GetSkeleton();
+		FbxSkin * pSkin = (FbxSkin*)((FbxMesh*)skel->GetDstObject())->GetDeformer(0, FbxDeformer::eSkin);
+		if (pSkin != NULL)
+			tempSkeleton.skeletonInfo.jointCount = pSkin->GetClusterCount();
 		//tempSkeleton.skeletonInfo.animationCount
 		ProcessData(pNode, tempSkeleton);
 		outputSkeletons->push_back(tempSkeleton);
@@ -44,7 +48,7 @@ void SkeletonHandler::ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleto
 
 		FbxSkeleton *skel = pNode->GetSkeleton();
 		ProcessKeyFrames(pNode, outputSkeleton);
-		ProcessJoints((FbxMesh*)skel->GetDstObject());
+		ProcessJoints((FbxMesh*)skel->GetDstObject(), jointID);
 
 		//skel->GetSrcObject()
 		/*ProcessPosition(pNode);
@@ -77,7 +81,7 @@ void SkeletonHandler::ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleto
 			FbxNode *parent = pNode->GetParent();
 			std::cout << "This is the parent: " << parent->GetName() << "\n\n";
 		}
-		//jointID += 1;
+		jointID += 1;
 
 		//Recursively checking itself
 		for (int i = 0; i < pNode->GetChildCount(); i++)
@@ -261,7 +265,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 	}
 }
 
-void SkeletonHandler::ProcessJoints(FbxMesh * pMesh)
+void SkeletonHandler::ProcessJoints(FbxMesh * pMesh, int index)
 {
 	//send in a matrix here as well to store the
 	//transformation matrix of the baseposition
@@ -271,9 +275,9 @@ void SkeletonHandler::ProcessJoints(FbxMesh * pMesh)
 	{
 		//bonecount can be number of joints
 		int boneCount = pSkin->GetClusterCount();
-		for (int boneIndex = 0; boneIndex < boneCount; boneIndex++)
-		{
-			FbxCluster * pCluster = pSkin->GetCluster(boneIndex);
+		//for (int boneIndex = 0; boneIndex < boneCount; boneIndex++)
+		//{
+			FbxCluster * pCluster = pSkin->GetCluster(jointID);
 			//FbxNode* pBone = pCluster->GetLink();
 			//std::cout << "\n\n" << pBone->GetName();
 
@@ -291,6 +295,6 @@ void SkeletonHandler::ProcessJoints(FbxMesh * pMesh)
 			//	int boneVertexIndex = pBoneVertIndices[boneVertIndex];
 			//	double boneWeight = pBoneVertWeights[boneVertIndex];
 			//}
-		}
+		//}
 	}
 }
