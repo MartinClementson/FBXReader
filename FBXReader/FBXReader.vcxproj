@@ -162,7 +162,6 @@
     <ClCompile Include="CameraHandler.cpp" />
     <ClCompile Include="FbxImport.cpp" />
     <ClCompile Include="FbxPrinter.cpp" />
-    <ClCompile Include="GetMeshData.cpp" />
     <ClCompile Include="GroupExport.cpp" />
     <ClCompile Include="GroupHandler.cpp" />
     <ClCompile Include="LightHandler.cpp" />

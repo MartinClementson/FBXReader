@@ -1,6 +1,6 @@
 #include "GroupHandler.h"
 
-#define PROPERTY "attribute_name"
+#define PROPERTY ""
 
 GroupHandler::GroupHandler()
 {
@@ -43,16 +43,41 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 		
 		int attrCount = pNode->GetNodeAttributeCount();
 		//FbxMesh* pMesh = (FbxMesh*)pNode->GetNodeAttribute();
+		FbxProperty prop = pNode->GetFirstProperty();
+		std::vector<FbxProperty> properties;
+		while (prop != NULL)
+		{
+			//std::cout << "\n\nProperty name: " << prop.GetName() << "\n\n";
+			if( prop.GetName().Find("Attr") == 0 || prop.GetName().Find("attr") == 0)
+			{
+				if (prop.GetName().Find("Default") == -1)
+				{
+					properties.push_back(prop);
+				}
+			}
+				//properties.push_back(prop);
+			prop = pNode->GetNextProperty(prop);
+			
+		}
+
+		for (int i = 0; i < properties.size(); i++)
+		{
+			std::cout << "\n\nGroupAttr: " << properties[i].GetName()<<"\n\n";
+		}
+
 		
-		
-		FbxProperty p = pNode->FindProperty(PROPERTY,false);
+	/*	
+		FbxProperty p = pNode->FindProperty("AttrGroupTest",false);
 		if (p.IsValid())
 		{
 			FbxString nodeName = p.GetName();
 
-			std::cout << "found property: " << nodeName << "\n\n\n";
+			std::cout << "\n\n\n" << "found property: " << nodeName << "\n\n\n";
+			memcpy(tmpGroup->groupInfo.groupAttrName, nodeName, sizeof(char) * 256);
 
-		}
+		}*/
+
+
 
 
 		
@@ -67,17 +92,6 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 		GetGroupData(pNode->GetChild(i), outputGroup);
 		
 	}
-
-
-	FbxProperty p = pNode->FindProperty("GroupAttrTest", false);
-	if (p.IsValid())
-	{
-		FbxString nodeName = p.GetName();
-
-		std::cout << "found property: " << nodeName << "\n\n\n";
-
-	}
-	
 	
 }
 
