@@ -12,11 +12,12 @@ public:
 private:
 #pragma region attributes
 	int jointCount;
+	//static int jointID;
 #pragma endregion
 #pragma region functions
-	void ProcessData(FbxNode * pNode);
+	void ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleton);
 	void ProcessPosition(FbxNode * pNode);
-	void ProcessKeyFrames(FbxNode * pNode);
+	void ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSkeleton);
 	void ProcessJoints(FbxMesh * pMesh);
 #pragma endregion
 };

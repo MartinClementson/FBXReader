@@ -4,6 +4,7 @@
 
 SkeletonHandler::SkeletonHandler()
 {
+	jointID = 0;
 }
 
 
@@ -15,26 +16,34 @@ void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExpor
 {
 	if (pNode->GetSkeleton())
 	{
+		SkeletonExport tempSkeleton;
 		jointCount = 0;
 		std::cout << "skeleton name: " << pNode->GetName() << "\n";
-		ProcessData(pNode);
+		//tempSkeleton.skeletonInfo.animationCount
+		ProcessData(pNode, tempSkeleton);
+		outputSkeletons->push_back(tempSkeleton);
 	}
 }
 
-void SkeletonHandler::ProcessData(FbxNode * pNode)
+void SkeletonHandler::ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleton)
 {
 	//a joint can have several things as children here we
 	//are controlling the proccesserd node to see that it
 	//is in fact a joint
 	if (pNode->GetSkeleton())
 	{
+		JointHeader tempJoint;
+		
+		//copy the name of the joint
+		memcpy(tempJoint.jointName, pNode->GetName(), sizeof(char) * 256);
+
+		//set the jointID
 		//joint count will keep the count of all the joints in a skeleton
 		//jointCount += 1;
 		std::cout << "currentJointCount: " << jointCount << "\n";
 
 		FbxSkeleton *skel = pNode->GetSkeleton();
-
-		ProcessKeyFrames(pNode);
+		ProcessKeyFrames(pNode, outputSkeleton);
 		ProcessJoints((FbxMesh*)skel->GetDstObject());
 
 		//skel->GetSrcObject()
@@ -57,6 +66,7 @@ void SkeletonHandler::ProcessData(FbxNode * pNode)
 		if (skel->IsSkeletonRoot())
 		{
 			std::cout << "\n it's the root!!! \n";
+			tempJoint.ParentJointID = 0;
 			//assign the parent int to 0 here later
 		}
 		else
@@ -67,10 +77,11 @@ void SkeletonHandler::ProcessData(FbxNode * pNode)
 			FbxNode *parent = pNode->GetParent();
 			std::cout << "This is the parent: " << parent->GetName() << "\n\n";
 		}
+		//jointID += 1;
 
 		//Recursively checking itself
 		for (int i = 0; i < pNode->GetChildCount(); i++)
-			ProcessData(pNode->GetChild(i));
+			ProcessData(pNode->GetChild(i), outputSkeleton);
 	}
 	return;
 }
@@ -88,7 +99,7 @@ void SkeletonHandler::ProcessPosition(FbxNode * pNode)
 	std::cout << "Scale      : (" << scaling[0] << "," << scaling[1] << "," << scaling[2] << ")\n" << "\n\t";
 }
 
-void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
+void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSkeleton)
 {
 	FbxScene * scene = pNode->GetScene();
 
