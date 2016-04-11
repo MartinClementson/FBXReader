@@ -29,7 +29,8 @@ namespace BRFImporter
 
 		unsigned int attrCount = 0;		// 0 = Default
 
-		bool boundingBox;
+		bool boundingBox = false;
+		bool hasSkeleton = false;
 
 		double translation[3];
 		double rotation[3];
@@ -46,6 +47,14 @@ namespace BRFImporter
 	struct IndexHeader
 	{
 		unsigned int vertIndex;
+	};
+	struct VertexHeaderNoSkeleton
+	{
+		double pos[3];
+		double normal[3];
+		double uv[2];
+		double tangent[2];
+		double biTangent[2];
 	};
 	struct VertexHeader
 	{
@@ -93,27 +102,25 @@ namespace BRFImporter
 		char jointName[256];
 		unsigned int jointID;
 		unsigned int ParentJointID;		// 0 = Default;
-
+		double bindPoseMatrix[4][4];
 		double pos[3];
 		double rotation[3];
 	};
 	struct AnimationHeader
 	{
 		char animationName[256];
-		unsigned int frameCount;
+		unsigned int jointCount;
 	};
 	struct JointCountHeader
 	{
-		unsigned int jointCount;
+		unsigned int frameCount;
+		unsigned int jointID;
 	};
 	struct FrameHeader
 	{
-		unsigned int jointID;
 		unsigned int frameID;
-
 		double time;
-		double pos[3];
-		double rotation[3];
+		double frameMatrix[4][4];
 	};
 #pragma endregion
 #pragma region CameraHeader

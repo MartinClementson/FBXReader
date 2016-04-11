@@ -2,6 +2,7 @@
 #include <fbxsdk.h>
 #include <iostream>
 #include <vector>
+#include <DirectXMath.h>
 struct dummyStructVert
 {
 	float position[3];
