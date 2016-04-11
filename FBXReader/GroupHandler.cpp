@@ -71,14 +71,14 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 	}
 
 
-	//FbxProperty p = pNode->FindProperty("GroupAttrTest", false);
-	//if (p.IsValid())
-	//{
-	//	FbxString nodeName = p.GetName();
+	FbxProperty p = pNode->FindProperty("GroupAttrTest", false);
+	if (p.IsValid())
+	{
+		FbxString nodeName = p.GetName();
 
-	//	std::cout << "found property: " << nodeName << "\n\n\n";
+		std::cout << "found property: " << nodeName << "\n\n\n";
 
-	//}
+	}
 	
 	
 }
