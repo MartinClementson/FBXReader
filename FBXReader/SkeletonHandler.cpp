@@ -36,7 +36,7 @@ void SkeletonHandler::ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleto
 		
 		//copy the name of the joint
 		memcpy(tempJoint.jointName, pNode->GetName(), sizeof(char) * 256);
-
+		ProcessPosition(pNode, tempJoint);
 		//set the jointID
 		//joint count will keep the count of all the joints in a skeleton
 		//jointCount += 1;
@@ -86,17 +86,21 @@ void SkeletonHandler::ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleto
 	return;
 }
 
-void SkeletonHandler::ProcessPosition(FbxNode * pNode)
+void SkeletonHandler::ProcessPosition(FbxNode * pNode, JointHeader &skeletonJoint)
 {
 	FbxDouble3 translation = pNode->LclTranslation.Get();
 	FbxDouble3 rotation = pNode->LclRotation.Get();
-	FbxDouble3 scaling = pNode->LclScaling.Get();
 
 	//just a temporary print, store the positions here
-	std::cout << "JointName  : " << pNode->GetName() << "\n\t";
 	std::cout << "Translation: (" << translation[0] << "," << translation[1] << "," << translation[2] << ")" << "\n\t";
+	skeletonJoint.pos[0] = translation[0];
+	skeletonJoint.pos[1] = translation[1];
+	skeletonJoint.pos[2] = translation[2];
+
 	std::cout << "Rotation   : (" << rotation[0] << "," << rotation[1] << "," << rotation[2] << ")" << "\n\t";
-	std::cout << "Scale      : (" << scaling[0] << "," << scaling[1] << "," << scaling[2] << ")\n" << "\n\t";
+	skeletonJoint.rotation[0] = rotation[0];
+	skeletonJoint.rotation[1] = rotation[1];
+	skeletonJoint.rotation[2] = rotation[2];
 }
 
 void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSkeleton)

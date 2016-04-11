@@ -16,7 +16,7 @@ private:
 #pragma endregion
 #pragma region functions
 	void ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleton);
-	void ProcessPosition(FbxNode * pNode);
+	void ProcessPosition(FbxNode * pNode, JointHeader &skeletonJoint);
 	void ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSkeleton);
 	void ProcessJoints(FbxMesh * pMesh);
 #pragma endregion
