@@ -6,7 +6,6 @@
 #include "BRFImporterStructs.h"
 #include "GroupExport.h"
 #include <string.h>
-#include <regex>
 
 
 class GroupHandler
