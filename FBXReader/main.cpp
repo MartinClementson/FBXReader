@@ -13,7 +13,7 @@ void main()
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	#endif
 
-	const char* fileName = "GroupinGroup.fbx";
+	const char* fileName = "GroupAttrTest.fbx";
 	//FbxImport importer;
 
 	//importer.LoadFbxFile(fileName); //Load the fbx file

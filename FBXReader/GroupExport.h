@@ -23,11 +23,11 @@ public:
 
 	void addGroupInfo(GroupHeader info);
 
-
 	GroupExport();
 	~GroupExport();
 
 	AttributesExport* GetAttributeHandler();
+
 private: 
 
 

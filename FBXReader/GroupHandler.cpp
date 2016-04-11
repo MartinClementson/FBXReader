@@ -1,5 +1,7 @@
 #include "GroupHandler.h"
 
+#define PROPERTY "attribute_name"
+
 GroupHandler::GroupHandler()
 {
 
@@ -10,11 +12,11 @@ GroupHandler::~GroupHandler()
 
 }
 
-void GroupHandler::GetGroupData(FbxNode * pNode,std::vector<GroupExport*>*outputGroup)
-{	
+void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outputGroup)
+{
 	FbxNodeAttribute::EType lAttributeType = pNode->GetNodeAttribute()->GetAttributeType();
 
-	
+
 	if (lAttributeType == FbxNodeAttribute::EType::eNull)
 	{
 		GroupExport* tmpGroup = new GroupExport();
@@ -38,12 +40,46 @@ void GroupHandler::GetGroupData(FbxNode * pNode,std::vector<GroupExport*>*output
 		tmpGroup->groupInfo.scale[1] = scaling[1];
 		tmpGroup->groupInfo.scale[2] = scaling[2];
 
+		
+		int attrCount = pNode->GetNodeAttributeCount();
+		//FbxMesh* pMesh = (FbxMesh*)pNode->GetNodeAttribute();
+
+		
+
+		
+		FbxProperty p = pNode->FindProperty("GroupAttrTest", false);
+		if (p.IsValid())
+		{
+			FbxString nodeName = p.GetName();
+
+			std::cout << "found property: " << nodeName << "\n\n\n";
+
+		}
+
+
+		
+
 		outputGroup->push_back(tmpGroup);
 	}
+
+
 	for (int i = 0; i < pNode->GetChildCount(); i++)
 	{
+
 		GetGroupData(pNode->GetChild(i), outputGroup);
+		
 	}
+
+
+	//FbxProperty p = pNode->FindProperty("GroupAttrTest", false);
+	//if (p.IsValid())
+	//{
+	//	FbxString nodeName = p.GetName();
+
+	//	std::cout << "found property: " << nodeName << "\n\n\n";
+
+	//}
+	
 	
 }
 

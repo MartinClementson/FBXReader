@@ -5,6 +5,7 @@
 #include "fbxSDK.h"
 #include "BRFImporterStructs.h"
 #include "GroupExport.h"
+#include <string.h>
 
 class GroupHandler
 {
