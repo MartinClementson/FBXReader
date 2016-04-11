@@ -1,5 +1,6 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (FBXReader.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   MorphHandler.cpp
-c:\users\gaffel\documents\github\fbxreader\fbxreader\morphhandler.cpp(31): warning C4018: '<': signed/unsigned mismatch
-c:\users\gaffel\documents\github\fbxreader\fbxreader\morphhandler.cpp(43): warning C4018: '<': signed/unsigned mismatch
+c:\users\gaffel\documents\github\fbxreader\fbxreader\morphhandler.cpp(28): warning C4018: '<': signed/unsigned mismatch
+c:\users\gaffel\documents\github\fbxreader\fbxreader\morphhandler.cpp(36): warning C4018: '<': signed/unsigned mismatch
+c:\users\gaffel\documents\github\fbxreader\fbxreader\morphhandler.cpp(48): warning C4018: '<': signed/unsigned mismatch
   FBXReader.vcxproj -> C:\Users\Gaffel\Documents\GitHub\FBXReader\x64\Debug\FBXImporter.exe
