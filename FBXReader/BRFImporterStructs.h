@@ -120,8 +120,7 @@ namespace BRFImporter
 	{
 		unsigned int frameID;
 		double time;
-		double pos[3];
-		double rotation[3];
+		double frameMatrix[4][4];
 	};
 #pragma endregion
 #pragma region CameraHeader

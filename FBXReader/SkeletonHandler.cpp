@@ -127,6 +127,8 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 				//getting the number of set key for this attrubute
 				//for this joint, store this later for frameCount!
 				int numKeys = scalingCurve->KeyGetCount();
+				scalingCurve->GetTimeInterval(animTime);
+				std::cout << "\nstart: " << "to end: " ;
 				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
 				{
 					FbxTime frameTime = scalingCurve->KeyGetTime(keyIndex);
@@ -162,14 +164,6 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 					float frameSeconds = (float)frameTime.GetSecondDouble();
 				}
 			}
-			//else
-			//{
-			//	//if the animation layer doesnt have a scaling curve, make a default one
-			//	FbxDouble3 rotationVector = pNode->LclRotation.Get();
-			//	float x = (float)rotationVector[0];
-			//	float y = (float)rotationVector[1];
-			//	float z = (float)rotationVector[2];
-			//}
 			if (translationCurve != NULL)
 			{
 				//getting the number of set key for this attrubute
@@ -186,14 +180,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 					float frameSeconds = (float)frameTime.GetSecondDouble();
 				}
 			}
-			//else
-			//{
-			//	//if the animation layer doesnt have a scaling curve, make a default one
-			//	FbxDouble3 translationVector = pNode->LclTranslation.Get();
-			//	float x = (float)translationVector[0];
-			//	float y = (float)translationVector[1];
-			//	float z = (float)translationVector[2];
-			//}
+			//add matyrix here
 		}
 	}
 }
