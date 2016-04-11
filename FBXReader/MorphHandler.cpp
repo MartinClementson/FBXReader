@@ -22,7 +22,7 @@ void MorphHandler::GetMorphData(FbxNode* pNode)
 	int morphChannelCount;
 	int targetShapeCount;
 
-	std::cout << "blendCount!!!!! " << morphAnimCount << "\n\n\n\n";
+	std::cout << "blendCount: " << morphAnimCount << "\n\n";
 	if (morphAnimCount > 0)
 	{
 		for (unsigned int i = 0; i < morphAnimCount; i++)
@@ -31,7 +31,7 @@ void MorphHandler::GetMorphData(FbxNode* pNode)
 			morphAnim = (FbxBlendShape*)pGeo->GetDeformer(i, FbxDeformer::eBlendShape);
 
 			morphChannelCount = morphAnim->GetBlendShapeChannelCount();
-			std::cout << "ChannelCount!!!!! " << morphChannelCount << "\n\n\n\n";
+			std::cout << "ChannelCount: " << morphChannelCount << "\n\n";
 
 			for (unsigned int j = 0; j < morphChannelCount; j++)
 			{
@@ -40,17 +40,17 @@ void MorphHandler::GetMorphData(FbxNode* pNode)
 				FbxBlendShapeChannel* morphChannel;
 				morphChannel = morphAnim->GetBlendShapeChannel(j);
 
-				std::cout << "ChannelName!!!!! " << morphChannel->GetName() << "\n\n\n\n";
+				std::cout << "ChannelName: " << morphChannel->GetName() << "\n\n";
 
 				targetShapeCount = morphChannel->GetTargetShapeCount();
 
-				std::cout << "Target Shape Count!!!!! " << targetShapeCount << "\n\n\n\n";
+				std::cout << "Target Shape Count: " << targetShapeCount << "\n\n";
 				for (unsigned int k = 0; k < targetShapeCount; k++)
 				{
 					FbxShape* shape;
 					shape = morphChannel->GetTargetShape(k);
 
-					std::cout << "Shape name!!!!! " << shape->GetName() << "\n\n\n\n";
+					std::cout << "Shape name: " << shape->GetName() << "\n\n";
 
 
 					int vertexCount = shape->GetControlPointsCount();
