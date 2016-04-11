@@ -18,3 +18,7 @@ SkeletonExport::~SkeletonExport()
 	delete animationJointCount;
 	delete frames;
 }
+
+void SkeletonExport::WriteToBinaryFile(std::ofstream * outfile)
+{
+}

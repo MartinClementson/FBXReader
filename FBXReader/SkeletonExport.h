@@ -13,5 +13,7 @@ public:
 	std::vector<AnimationHeader>* animations;
 	std::vector<JointCountHeader>* animationJointCount;
 	std::vector<FrameHeader>* frames;
+
+	void WriteToBinaryFile(std::ofstream* outfile);
 };
 
