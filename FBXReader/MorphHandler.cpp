@@ -65,6 +65,5 @@ void MorphHandler::GetMorphData(FbxNode* pNode)
 				}
 			}
 		}
-
 	}
 }
