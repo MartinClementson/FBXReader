@@ -70,6 +70,13 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 	{
 		for (int i = 0; i < this->meshInfo.vertexCount; i++)
 		{
+			while (weights.at(i).size() < 4)
+			{
+				WeigthsHeader temp;
+				temp.influence = 0.0;
+				temp.jointID = 0;
+				weights.at(i).push_back(temp);
+			}
 			std::cout << "\nCurrent weights on vert nr" << i + 1 << ": "
 				<< weights.at(i).size();
 		}
