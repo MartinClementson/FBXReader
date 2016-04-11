@@ -130,6 +130,9 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 			std::vector<DirectX::XMMATRIX> rotationMatrix;
 			std::vector<DirectX::XMMATRIX> translationMatrix;
 
+			//temp
+			std::vector<DirectX::XMMATRIX> frameMatrix;
+
 			if (scalingCurve != NULL)
 			{
 				//getting the number of set key for this attrubute
@@ -216,14 +219,28 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 			for (int i = 0; i < max; i++)
 			{
 				DirectX::XMMATRIX tempFrameMatrix;
-				if (scalingCurve != NULL)
-				{
-					//add the temp matrix here
-				}
-				if (rotationCurve != NULL)
-				{
-					//add to temp Matrix here
-				}
+
+				//checking if the size of the matrices are in the range of the max value
+				//seeing as the rotationMatrix might have 3 stored values while the scale
+				//Matris has only 1. This way we check the matrices and assign an identity
+				//matrix as a base value and add the other values.
+				if (scaleMatrix.size() >= i)
+					tempFrameMatrix = DirectX::XMMatrixMultiply(scaleMatrix.at(i), DirectX::XMMatrixIdentity());
+
+				//if the scaleMatrix doesnt exist, we assign it to an identity matrix so that we can
+				//easily multiply the other values. This check is only performed here because if it doesnt
+				//the matrix get the identity value, and if the rotation doesnt exist, the matrix would need
+				//to be multiplied by an identity matrix which according the mathmagic is the same as the
+				//matrix inserted. Hence, we do not need to assign another value.
+				else
+					tempFrameMatrix = DirectX::XMMatrixIdentity();
+				if (rotationMatrix.size() >= i)
+					tempFrameMatrix = DirectX::XMMatrixMultiply(rotationMatrix.at(i), tempFrameMatrix);
+				if (translationMatrix.size() >= i)
+					tempFrameMatrix = DirectX::XMMatrixMultiply(translationMatrix.at(i), tempFrameMatrix);
+
+				//now that we have the combined matrix of the whole position, we store it here
+				frameMatrix.push_back(tempFrameMatrix);
 			}
 		}
 	}
