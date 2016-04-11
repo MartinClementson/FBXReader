@@ -48,29 +48,29 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 
 
 	//export
-	IndexHeader* tempIndex;
-	tempIndex = new IndexHeader[2];
-	if (outfile)
+	//IndexHeader* tempIndex;
+	//tempIndex = new IndexHeader[2];
+	if (outfile->is_open())
 	{
 		outfile->write( (const char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
 
 		//write all the vertices 
 		
 		outfile->write( (const char*)(this->vertices->data()), sizeof(VertexHeader) * this->vertices->size());
-		outfile->flush();
-		delete[] tempIndex;
-		tempIndex = new IndexHeader[indices->size()];
+		//outfile->flush();
+		//delete[] tempIndex;
+		//tempIndex = new IndexHeader[indices->size()];
 		//convert to POD
-		for (unsigned int i = 0; i < indices->size(); i++)
-		{
-			tempIndex[i] = indices->at(i);
+		//for (unsigned int i = 0; i < indices->size(); i++)
+		//{
+		//	tempIndex[i] = indices->at(i);
 
-		}
-		
+		//}
+		//
 
-		//write all the indices
-		outfile->write( (const char*) tempIndex,  sizeof(IndexHeader) * this->indices->size());
-		outfile->flush();
+		////write all the indices
+		outfile->write( (const char*) this->indices->data(),  sizeof(IndexHeader) * this->indices->size());
+		//outfile->flush();
 		//if there is a bounding box, write it to the file.
 		if(this->meshInfo.boundingBox)
 			outfile->write((const char*)(&this->boundingBox), sizeof(OOBBHeader));
@@ -95,10 +95,10 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 	for (unsigned int i = 0; i < indices->size(); i++)
 	{
 		//std::cout << "vert #" << i << ": (" << vertices[i].pos[0] << "," << vertices[i].pos[1] <<"," << vertices[i].pos[2] << " )\n";
-		std::cout << "Index #" << i << ": (" << tempIndex[i].vertIndex << " )\n";
+		std::cout << "Index #" << i << ": (" << this->indices->at(i).vertIndex << " )\n";
 
 	}
-		delete tempIndex;
+	//	delete tempIndex;
 
 
 
