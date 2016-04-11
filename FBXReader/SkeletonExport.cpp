@@ -13,10 +13,26 @@ SkeletonExport::SkeletonExport()
 
 SkeletonExport::~SkeletonExport()
 {
-	delete joints;
-	delete animations;
-	delete animationJointCount;
-	delete frames;
+	if (joints != nullptr)
+	{
+		joints->clear();
+		joints = nullptr;
+	}
+	if (animations != nullptr)
+	{
+		animations->clear();
+		animations = nullptr;
+	}
+	if (animationJointCount != nullptr)
+	{
+		animationJointCount->clear();
+		animationJointCount = nullptr;
+	}
+	if (frames != nullptr)
+	{
+		frames->clear();
+		frames = nullptr;
+	}
 }
 
 void SkeletonExport::WriteToBinaryFile(std::ofstream * outfile)

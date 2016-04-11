@@ -18,7 +18,7 @@ private:
 	void ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleton);
 	void ProcessPosition(FbxNode * pNode, JointHeader &skeletonJoint);
 	void ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSkeleton);
-	void ProcessJoints(FbxMesh * pMesh, int index);
+	void ProcessJoints(FbxMesh * pMesh, JointHeader &skeletonJoint);
 #pragma endregion
 };
 

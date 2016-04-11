@@ -37,18 +37,16 @@ void SkeletonHandler::ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleto
 	if (pNode->GetSkeleton())
 	{
 		JointHeader tempJoint;
+		FbxSkeleton *skel = pNode->GetSkeleton();
 		
-		//copy the name of the joint
+		//Getting all of the joint information
 		memcpy(tempJoint.jointName, pNode->GetName(), sizeof(char) * 256);
 		ProcessPosition(pNode, tempJoint);
-		//set the jointID
-		//joint count will keep the count of all the joints in a skeleton
-		//jointCount += 1;
+		ProcessJoints((FbxMesh*)skel->GetDstObject(),tempJoint);
 		std::cout << "currentJointCount: " << jointCount << "\n";
 
-		FbxSkeleton *skel = pNode->GetSkeleton();
+
 		ProcessKeyFrames(pNode, outputSkeleton);
-		ProcessJoints((FbxMesh*)skel->GetDstObject(), jointID);
 
 		//skel->GetSrcObject()
 		/*ProcessPosition(pNode);
@@ -65,13 +63,11 @@ void SkeletonHandler::ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleto
 			ProcessCurve(curve);
 		}*/
 
-		//we need to get the skeleton to check if it's the
 		//root node
 		if (skel->IsSkeletonRoot())
 		{
 			std::cout << "\n it's the root!!! \n";
 			tempJoint.ParentJointID = 0;
-			//assign the parent int to 0 here later
 		}
 		else
 		{
@@ -81,8 +77,10 @@ void SkeletonHandler::ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleto
 			FbxNode *parent = pNode->GetParent();
 			std::cout << "This is the parent: " << parent->GetName() << "\n\n";
 		}
+		
+		//When all of the infromation for the current joint is extracted
+		//we plus the jointID with one, to be used for the next joint
 		jointID += 1;
-
 		//Recursively checking itself
 		for (int i = 0; i < pNode->GetChildCount(); i++)
 			ProcessData(pNode->GetChild(i), outputSkeleton);
@@ -265,7 +263,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 	}
 }
 
-void SkeletonHandler::ProcessJoints(FbxMesh * pMesh, int index)
+void SkeletonHandler::ProcessJoints(FbxMesh * pMesh, JointHeader &skeletonJoint)
 {
 	//send in a matrix here as well to store the
 	//transformation matrix of the baseposition
@@ -274,17 +272,37 @@ void SkeletonHandler::ProcessJoints(FbxMesh * pMesh, int index)
 	if (pSkin != NULL)
 	{
 		//bonecount can be number of joints
-		int boneCount = pSkin->GetClusterCount();
+		//int boneCount = pSkin->GetClusterCount();
 		//for (int boneIndex = 0; boneIndex < boneCount; boneIndex++)
 		//{
-			FbxCluster * pCluster = pSkin->GetCluster(jointID);
+		FbxCluster * pCluster = pSkin->GetCluster(jointID);
 			//FbxNode* pBone = pCluster->GetLink();
 			//std::cout << "\n\n" << pBone->GetName();
 
 			//Getting the bindpose
-			FbxAMatrix bindPose;
-			pCluster->GetTransformLinkMatrix(bindPose);
+		FbxAMatrix bindPose;
+		pCluster->GetTransformLinkMatrix(bindPose);
 
+		//setting the bindpose matrix
+		skeletonJoint.bindPoseMatrix[0][0] = bindPose[0][0];
+		skeletonJoint.bindPoseMatrix[0][1] = bindPose[0][1];
+		skeletonJoint.bindPoseMatrix[0][2] = bindPose[0][2];
+		skeletonJoint.bindPoseMatrix[0][3] = bindPose[0][3];
+
+		skeletonJoint.bindPoseMatrix[1][0] = bindPose[1][0];
+		skeletonJoint.bindPoseMatrix[1][1] = bindPose[1][1];
+		skeletonJoint.bindPoseMatrix[1][2] = bindPose[1][2];
+		skeletonJoint.bindPoseMatrix[1][3] = bindPose[1][3];
+
+		skeletonJoint.bindPoseMatrix[2][0] = bindPose[2][0];
+		skeletonJoint.bindPoseMatrix[2][1] = bindPose[2][1];
+		skeletonJoint.bindPoseMatrix[2][2] = bindPose[2][2];
+		skeletonJoint.bindPoseMatrix[2][3] = bindPose[2][3];
+
+		skeletonJoint.bindPoseMatrix[3][0] = bindPose[3][0];
+		skeletonJoint.bindPoseMatrix[3][1] = bindPose[3][1];
+		skeletonJoint.bindPoseMatrix[3][2] = bindPose[3][2];
+		skeletonJoint.bindPoseMatrix[3][3] = bindPose[3][3];
 			//int * pBoneVertIndices = pCluster->GetControlPointIndices();
 			//double * pBoneVertWeights = pCluster->GetControlPointWeights();
 
@@ -298,3 +316,4 @@ void SkeletonHandler::ProcessJoints(FbxMesh * pMesh, int index)
 		//}
 	}
 }
+
