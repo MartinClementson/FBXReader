@@ -102,24 +102,23 @@ namespace BRFImporter
 		char jointName[256];
 		unsigned int jointID;
 		unsigned int ParentJointID;		// 0 = Default;
-
+		double bindPoseMatrix[4][4];
 		double pos[3];
 		double rotation[3];
 	};
 	struct AnimationHeader
 	{
 		char animationName[256];
-		unsigned int frameCount;
+		unsigned int jointCount;
 	};
 	struct JointCountHeader
 	{
-		unsigned int jointCount;
+		unsigned int frameCount;
+		unsigned int jointID;
 	};
 	struct FrameHeader
 	{
-		unsigned int jointID;
 		unsigned int frameID;
-
 		double time;
 		double pos[3];
 		double rotation[3];
