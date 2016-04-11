@@ -8,8 +8,5 @@ public:
 	MorphHandler();
 	~MorphHandler();
 
-	void GetMorphData(FbxNode* pNode);
-private:
-	void ProcessData(FbxGeometry* pGeo);
-	
+	void GetMorphData(FbxNode* pNode);	
 };

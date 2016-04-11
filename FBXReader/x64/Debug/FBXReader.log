@@ -3,4 +3,8 @@
 c:\users\gaffel\documents\github\fbxreader\fbxreader\morphhandler.cpp(28): warning C4018: '<': signed/unsigned mismatch
 c:\users\gaffel\documents\github\fbxreader\fbxreader\morphhandler.cpp(36): warning C4018: '<': signed/unsigned mismatch
 c:\users\gaffel\documents\github\fbxreader\fbxreader\morphhandler.cpp(48): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  main.cpp
+  FbxImport.cpp
   FBXReader.vcxproj -> C:\Users\Gaffel\Documents\GitHub\FBXReader\x64\Debug\FBXImporter.exe

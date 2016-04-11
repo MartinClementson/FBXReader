@@ -58,18 +58,13 @@ void MorphHandler::GetMorphData(FbxNode* pNode)
 
 					for (int l = 0; l < vertexCount; l++)
 					{
-						std::cout << " x? " << ((double*)shape->GetControlPointAt(l))[0] << "";
-						std::cout << " y? " << ((double*)shape->GetControlPointAt(l))[1] << "";
-						std::cout << " z? " << ((double*)shape->GetControlPointAt(l))[2] << "\n\n";
+						std::cout << " x: " << ((double*)shape->GetControlPointAt(l))[0] << "";
+						std::cout << " y: " << ((double*)shape->GetControlPointAt(l))[1] << "";
+						std::cout << " z: " << ((double*)shape->GetControlPointAt(l))[2] << "\n\n";
 					}
 				}
 			}
 		}
 
 	}
-}
-
-void MorphHandler::ProcessData(FbxGeometry* pGeo)
-{
-
 }
