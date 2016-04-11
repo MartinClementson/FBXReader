@@ -29,6 +29,7 @@ void MorphHandler::GetMorphData(FbxNode* pNode)
 		{
 			FbxBlendShape* morphAnim;
 			morphAnim = (FbxBlendShape*)pGeo->GetDeformer(i, FbxDeformer::eBlendShape);
+			
 
 			morphChannelCount = morphAnim->GetBlendShapeChannelCount();
 			std::cout << "ChannelCount: " << morphChannelCount << "\n\n";
