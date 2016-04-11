@@ -27,8 +27,8 @@ public:
 	std::vector<IndexHeader>* indices;
 	std::vector<VertexHeader>* vertices;
 	std::vector<VertexHeaderNoSkeleton>* verticesNoSkeleton;
-	OOBBHeader boundingBox;
 	std::vector<std::vector<WeigthsHeader>> weights; // the 4 count will be controlled in the "AddWeight" function
+	OOBBHeader boundingBox;
 
 	AttributesExport* meshAttributes = nullptr;
 
