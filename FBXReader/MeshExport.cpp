@@ -9,8 +9,23 @@ MeshExport::MeshExport()
 
 	indices  = new std::vector<IndexHeader>;
 	vertices = new std::vector<VertexHeader>;
-	weights.resize(4);
 	
+	
+}
+
+MeshExport::MeshExport(bool hasSkeleton)
+{
+	if (hasSkeleton)
+	{
+		vertices = new std::vector<VertexHeader>;
+		verticesNoSkeleton = NULL;
+	}
+	else
+	{
+		vertices = NULL;
+		verticesNoSkeleton = new std::vector<VertexHeaderNoSkeleton>;
+	}
+	indices = new std::vector<IndexHeader>;
 }
 
 
@@ -18,6 +33,7 @@ MeshExport::~MeshExport()
 {
 	delete indices;
 	delete vertices; 
+	delete verticesNoSkeleton;
 
 	if (this->meshAttributes != nullptr)
 		delete meshAttributes;
@@ -25,9 +41,13 @@ MeshExport::~MeshExport()
 
 void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 {
-	meshInfo.vertexCount = vertices->size();
+	if (this->meshInfo.hasSkeleton)
+		meshInfo.vertexCount = vertices->size();
+	else
+		meshInfo.vertexCount = verticesNoSkeleton->size();
 	meshInfo.indexCount = indices->size();
 
+	std::cout << "has skeleton:" << (this->meshInfo.hasSkeleton ? "Yes" : "No") << "\n";
 	std::cout << "Mesh name  : " << this->meshInfo.meshName << std::endl;
 	std::cout << "Vert amount  : " << this->meshInfo.vertexCount << std::endl;
 	std::cout << "Index amount  : " << this->meshInfo.indexCount << std::endl;
@@ -46,33 +66,50 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 
 	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n\n";
 
+	if (meshInfo.hasSkeleton)
+	{
+		for (int i = 0; i < this->meshInfo.vertexCount; i++)
+		{
+			while (weights.at(i).size() < 4)
+			{
+				WeigthsHeader temp;
+				temp.influence = 0.0;
+				temp.jointID = 0;
+				weights.at(i).push_back(temp);
+			}
+			std::cout << "\nCurrent weights on vert nr" << i + 1 << ": "
+				<< weights.at(i).size();
+		}
+	}
+
 
 	//export
 
-	if (outfile)
-	{
-		outfile->write((const char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
+	//if (outfile)
+	//{
+	//	outfile->write((const char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
 
-		//write all the vertices 
-		outfile->write(reinterpret_cast<char*>(&this->vertices[0]), sizeof(VertexHeader) * this->vertices->size());
+	//	//write all the vertices 
+	//	outfile->write(reinterpret_cast<char*>(&this->vertices[0]), sizeof(VertexHeader) * this->vertices->size());
 
-		//write all the indices
-		outfile->write(reinterpret_cast<char*>(&this->indices[0]), sizeof(IndexHeader) * this->indices->size());
+	//	//write all the indices
+	//	outfile->write(reinterpret_cast<char*>(&this->indices[0]), sizeof(IndexHeader) * this->indices->size());
 
-		//if there is a bounding box, write it to the file.
-		if(this->meshInfo.boundingBox)
-			outfile->write(reinterpret_cast<char*>(&this->boundingBox), sizeof(OOBBHeader));
+	//	//if there is a bounding box, write it to the file.
+	//	if(this->meshInfo.boundingBox)
+	//		outfile->write(reinterpret_cast<char*>(&this->boundingBox), sizeof(OOBBHeader));
 
-		//write the weights to the file
-		outfile->write(reinterpret_cast<char*>(&this->weights[0]), sizeof(weights) * 4);
+	//	//write the weights to the file
+
+	//	//outfile->write(reinterpret_cast<char*>(&this->weights[0]), sizeof(weights) * 4);
 
 
 
-		//if there are any attributes, write it to the file.
-		if (this->meshInfo.attrCount > 0)
-			meshAttributes->WriteToBinaryFile(outfile);
+	//	//if there are any attributes, write it to the file.
+	//	if (this->meshInfo.attrCount > 0)
+	//		meshAttributes->WriteToBinaryFile(outfile);
 
-	}
+	//}
 
 
 
@@ -96,19 +133,19 @@ void MeshExport::AddBoundingBox(OOBBHeader input)
 
 void MeshExport::AddWeight(WeigthsHeader input)
 {
-	if (this->weights.size() < 4) //make sure we have a maximum of 4 weights
-	{
-		this->weights.push_back(input);
+	//if (this->weights.size() < 4) //make sure we have a maximum of 4 weights
+	//{
+	//	this->weights.push_back(input);
 
-	}
-	else
-	{
-		std::cout << "Maximum amount of weights reached." << "\n"
-			<< "Weight not added \n"<<
-			"OBJECT ID: " << this->meshInfo.objectID;
+	//}
+	//else
+	//{
+	//	std::cout << "Maximum amount of weights reached." << "\n"
+	//		<< "Weight not added \n"<<
+	//		"OBJECT ID: " << this->meshInfo.objectID;
 
-		return;
-	}
+	//	return;
+	//}
 }
 
 void MeshExport::AddMeshInfo(MeshHeader info)

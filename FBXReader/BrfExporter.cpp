@@ -55,7 +55,7 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 	for (unsigned int i = 0; i < sceneInfo.meshAmount; i++)
 	{
 		std::cout << "Mesh #" << i+1 << "\n";
-		/*meshes->at(i)->WriteToBinaryFile(&outfile);*/
+		meshes->at(i)->WriteToBinaryFile(&outfile);
 
 	}
 
