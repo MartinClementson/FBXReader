@@ -118,17 +118,25 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 				scalingCurve     != NULL)
 				jointCount += 1;
 
-			FbxTimeSpan animTime;
-			pNode->GetAnimationInterval(animTime, animStack);
-			FbxTime tid = animTime.GetStop();
+			//FbxTimeSpan animTime;
+			//pNode->GetAnimationInterval(animTime, animStack);
+			//FbxTime tid = animTime.GetStop();
+
+			
+			int max = 0;
+
+			//can have three different matrices and in the end multiply them into the real one!
+			std::vector<DirectX::XMMATRIX> scaleMatrix;
+			std::vector<DirectX::XMMATRIX> rotationMatrix;
+			std::vector<DirectX::XMMATRIX> translationMatrix;
 
 			if (scalingCurve != NULL)
 			{
 				//getting the number of set key for this attrubute
 				//for this joint, store this later for frameCount!
 				int numKeys = scalingCurve->KeyGetCount();
-				scalingCurve->GetTimeInterval(animTime);
-				std::cout << "\nstart: " << "to end: " ;
+				//scalingCurve->GetTimeInterval(animTime);
+				//std::cout << "\nstart: " << "to end: " ;
 				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
 				{
 					FbxTime frameTime = scalingCurve->KeyGetTime(keyIndex);
@@ -137,6 +145,8 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 					float y = (float)scalingVector[1];
 					float z = (float)scalingVector[2];
 
+					//for the worldMatrix of the frame
+					scaleMatrix.push_back(DirectX::XMMatrixScaling(x, y, z));
 					float frameSeconds = (float)frameTime.GetSecondDouble();
 				}
 			}
@@ -161,6 +171,16 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 					float y = (float)rotationVector[1];
 					float z = (float)rotationVector[2];
 
+					//for the worldmatrix of the frame
+					DirectX::XMMATRIX tempRotation;
+					DirectX::XMMATRIX rotationx = DirectX::XMMatrixRotationX(x);
+					DirectX::XMMATRIX rotationy = DirectX::XMMatrixRotationY(y);
+					DirectX::XMMATRIX rotationz = DirectX::XMMatrixRotationZ(z);
+					
+					tempRotation = rotationx*rotationy; tempRotation = tempRotation*rotationz;
+					rotationMatrix.push_back(tempRotation);
+
+
 					float frameSeconds = (float)frameTime.GetSecondDouble();
 				}
 			}
@@ -177,10 +197,34 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode)
 					float y = (float)translationVector[1];
 					float z = (float)translationVector[2];
 
+					translationMatrix.push_back(DirectX::XMMatrixTranslation(x, y, z));
+
 					float frameSeconds = (float)frameTime.GetSecondDouble();
 				}
 			}
-			//add matyrix here
+
+			//getting the maximum value of keyframes
+			//from the number of keyframes
+			if (max < scaleMatrix.size())
+				max = scaleMatrix.size();
+			if (max < rotationMatrix.size())
+				max = rotationMatrix.size();
+			if (max < translationMatrix.size())
+				max = translationMatrix.size();
+
+			//add matrix here
+			for (int i = 0; i < max; i++)
+			{
+				DirectX::XMMATRIX tempFrameMatrix;
+				if (scalingCurve != NULL)
+				{
+					//add the temp matrix here
+				}
+				if (rotationCurve != NULL)
+				{
+					//add to temp Matrix here
+				}
+			}
 		}
 	}
 }
