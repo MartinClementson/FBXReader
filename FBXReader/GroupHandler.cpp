@@ -43,11 +43,9 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 		
 		int attrCount = pNode->GetNodeAttributeCount();
 		//FbxMesh* pMesh = (FbxMesh*)pNode->GetNodeAttribute();
-
 		
-
 		
-		FbxProperty p = pNode->FindProperty("GroupAttrTest", false);
+		FbxProperty p = pNode->FindProperty(PROPERTY,false);
 		if (p.IsValid())
 		{
 			FbxString nodeName = p.GetName();

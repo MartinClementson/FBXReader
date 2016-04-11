@@ -51,7 +51,6 @@ private:
 	std::vector<SkeletonExport>* skeletons;
 	std::vector<GroupExport*>* groups;
 	LightExport* lights = nullptr;
-	std::vector<GroupHeader>* groups;
 	CameraExporter* cameras;
 	std::vector<MorphAnimExport>* morphAnim;
 
