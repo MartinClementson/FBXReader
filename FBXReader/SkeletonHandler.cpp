@@ -81,6 +81,7 @@ void SkeletonHandler::ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleto
 		//When all of the infromation for the current joint is extracted
 		//we plus the jointID with one, to be used for the next joint
 		jointID += 1;
+		outputSkeleton.joints->push_back(tempJoint);
 		//Recursively checking itself
 		for (int i = 0; i < pNode->GetChildCount(); i++)
 			ProcessData(pNode->GetChild(i), outputSkeleton);
