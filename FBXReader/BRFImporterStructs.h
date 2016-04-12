@@ -198,6 +198,9 @@ namespace BRFImporter
 	{
 		char groupName[256];
 		char groupAttrName[256];
+		char dataType[256];
+
+		unsigned int attrCount;
 		unsigned int objectID;		// 0 = Default	
 		unsigned int parentID;		// 0 = Default
 

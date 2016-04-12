@@ -8,7 +8,10 @@ void GroupExport::WriteToBinaryFile(std::ofstream * outfile)
 	std::cout << "translation :("<<this->groupInfo.translation[0]<<","<<this->groupInfo.translation[1]<<","<<this->groupInfo.translation[2]<<")"<<std::endl;
 	std::cout << "rotation    :("<<this->groupInfo.rotation[0]<<","<<this->groupInfo.rotation[1]<<","<<this->groupInfo.rotation[2]<<")"<<std::endl;
 	std::cout << "scale       :("<<this->groupInfo.scale[0]<<","<<this->groupInfo.scale[1]<<","<<this->groupInfo.scale[2]<<")"<<std::endl;
+	std::cout << "Attrcount    :" << this->groupInfo.attrCount << std::endl;
 	std::cout << "Custom Attr Name: "<<this->groupInfo.groupAttrName<<std::endl;
+	std::cout << "Custom Data Type  : " << this->groupInfo.dataType<<std::endl;
+
 	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n";
 
 

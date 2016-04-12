@@ -1,3 +1,10 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (FBXReader.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   GroupHandler.cpp
-  FBXReader.vcxproj -> C:\Users\Sebbe\Documents\FBXReader\FBXReader\x64\Debug\FBXImporter.exe
+c:\users\sebbe\documents\fbxreader\fbxreader\fbxreader\grouphandler.cpp(101): warning C4267: 'initializing': conversion from 'size_t' to 'fbxsdk::FbxInt', possible loss of data
+c:\users\sebbe\documents\fbxreader\fbxreader\fbxreader\grouphandler.cpp(109): error C2664: 'void std::vector<GroupExport *,std::allocator<_Ty>>::push_back(GroupExport *const &)': cannot convert argument 1 from 'fbxsdk::FbxProperty' to 'GroupExport *&&'
+          with
+          [
+              _Ty=GroupExport *
+          ]
+  c:\users\sebbe\documents\fbxreader\fbxreader\fbxreader\grouphandler.cpp(109): note: Reason: cannot convert from 'fbxsdk::FbxProperty' to 'GroupExport *'
+  c:\users\sebbe\documents\fbxreader\fbxreader\fbxreader\grouphandler.cpp(109): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called

@@ -20,7 +20,6 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 	if (lAttributeType == FbxNodeAttribute::EType::eNull)
 	{
 		GroupExport* tmpGroup = new GroupExport();
-
 		std::cout << pNode->GetName() << std::endl;
 
 		memcpy(tmpGroup->groupInfo.groupName, pNode->GetName(), sizeof(char) * 256);
@@ -42,45 +41,69 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 
 		
 		int attrCount = pNode->GetNodeAttributeCount();
-		//FbxMesh* pMesh = (FbxMesh*)pNode->GetNodeAttribute();
 		FbxProperty prop = pNode->GetFirstProperty();
 		std::vector<FbxProperty> properties;
 		while (prop != NULL)
 		{
-			//std::cout << "\n\nProperty name: " << prop.GetName() << "\n\n";
-			if( prop.GetName().Find("Attr") == 0 || prop.GetName().Find("attr") == 0)
+			if( prop.GetName().Find("Attr_") == 0 || prop.GetName().Find("attr_") == 0)
 			{
-				if (prop.GetName().Find("Default") == -1)
-				{
-					properties.push_back(prop);
-				}
+				properties.push_back(prop);
 			}
-				//properties.push_back(prop);
+
 			prop = pNode->GetNextProperty(prop);
 			
 		}
 
-		for (int i = 0; i < properties.size(); i++)
-		{
-			std::cout << "\n\nGroupAttr: " << properties[i].GetName()<<"\n\n";
-		}
+			for (int i = 0; i < properties.size(); i++)
+			{
+				std::cout << "\n\nGroupAttr: " << properties[i].GetName() << "\n\n";
+				if (properties[i].HasMaxLimit())
+				{
+					std::cout << "\n\nMaxLimit: " << properties[i].GetMaxLimit();
+				}
+				if (properties[i].HasMinLimit())
+				{
+					std::cout << "\n\nMinLimit: " << properties[i].GetMinLimit();
+				}
+				switch (properties[i].GetPropertyDataType().GetType())
+				{
+				case eFbxBool:
+					std::cout << "\n\nDataType:  " << properties[i].GetPropertyDataType().GetName() << std::endl;
+					std::cout << "\n\nTrue/false: " << properties[i].Get<FbxBool>() << std::endl;
+					break;
+				case eFbxFloat:
+					std::cout << "\n\nDataType:  " << properties[i].GetPropertyDataType().GetName() << std::endl;
+					std::cout << "\n\nFloat: " << properties[i].Get<FbxFloat>()<< std::endl;
+					break;
+				case eFbxString:
+					std::cout << "\n\nDataType:  " << properties[i].GetPropertyDataType().GetName() << std::endl;
+					std::cout << "\n\nString: " << properties[i].Get<FbxString>()<< std::endl;
+					break;
+				case eFbxInt:
+					std::cout << "\n\nDataType:  " << properties[i].GetPropertyDataType().GetName() << std::endl;
+					std::cout << "\n\nInt: " << properties[i].Get<FbxInt>()<< std::endl;
+					break;
+				case eFbxEnum:
+					std::cout << "\n\nDataType:  " << properties[i].GetPropertyDataType().GetName() << std::endl;
+					std::cout << "\n\n enum: " <<properties[i].Get<FbxEnum>()<< std::endl;
+					break;
+				case eFbxDouble:
+					std::cout << "\n\nDataType:  " << properties[i].GetPropertyDataType().GetName() << std::endl;
+					std::cout << "\n\nDouble: " <<properties[i].Get<FbxDouble>()<< std::endl;
+					break;
+				}
 
-		
-	/*	
-		FbxProperty p = pNode->FindProperty("AttrGroupTest",false);
-		if (p.IsValid())
-		{
-			FbxString nodeName = p.GetName();
+				FbxInt attrcount = properties.size();
+				tmpGroup->groupInfo.attrCount = attrcount;
 
-			std::cout << "\n\n\n" << "found property: " << nodeName << "\n\n\n";
-			memcpy(tmpGroup->groupInfo.groupAttrName, nodeName, sizeof(char) * 256);
+				memcpy(tmpGroup->groupInfo.groupAttrName, properties[i].GetName(), sizeof(char) * 256);
 
-		}*/
+				memcpy(tmpGroup->groupInfo.dataType, properties[i].GetPropertyDataType().GetName(), sizeof(char) * 256);
 
+				
+				outputGroup->push_back(tmpGroup);
 
-
-
-		
+			}
 
 		outputGroup->push_back(tmpGroup);
 	}
