@@ -163,6 +163,13 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 				scalingCurve->GetTimeInterval(terra);
 				FbxTime test = terra.GetDuration();
 				int bajs = test.GetFrameCount(FbxTime::eFrames24);
+				FbxTime kiss;
+				kiss.SetFrame(20, FbxTime::eFrames24);
+				kiss.SetFrame(1, FbxTime::eFrames24);
+				kiss.SetFrame(10, FbxTime::eFrames24);
+				kiss.SetFrame(34, FbxTime::eFrames24);
+				
+				//double kiss = test.GetFrameRate(FbxTime::eFrames24);
 				//FbxDouble3 test = pNode->EvaluateLocalScaling(frameTime);
 				//scalingCurve->GetTimeInterval(animTime);
 				//std::cout << "\nstart: " << "to end: " ;
