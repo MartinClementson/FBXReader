@@ -8,7 +8,7 @@ public:
 	SkeletonHandler();
 	~SkeletonHandler();
 
-	void GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport>* outputSkeletons);
+	void GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport*>* outputSkeletons);
 private:
 #pragma region attributes
 	int jointCount;

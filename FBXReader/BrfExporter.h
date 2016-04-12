@@ -47,7 +47,7 @@ private:
 
 	std::vector<MeshExport*>* meshes;
 	MaterialExport* materials;
-	std::vector<SkeletonExport>* skeletons;
+	std::vector<SkeletonExport*>* skeletons;
 	LightExport* lights = nullptr;
 	std::vector<GroupHeader>* groups;
 	CameraExporter* cameras;
@@ -64,7 +64,7 @@ public:
 
 	std::vector<MeshExport*>* GetMeshesRef()		{ return this->meshes; };
 	MaterialExport* GetMatRef()						{ return this->materials; };
-	std::vector<SkeletonExport>* GetSkeletonRef()   { return this->skeletons; };
+	std::vector<SkeletonExport*>* GetSkeletonRef()   { return this->skeletons; };
 	LightExport* GetLightsRef()						{ return this->lights; };
 	std::vector<GroupHeader>* GetGroupsRef()		{ return this->groups; };
 	std::vector<MorphAnimExport>* GetMorphAnimRef() {return this->morphAnim; };

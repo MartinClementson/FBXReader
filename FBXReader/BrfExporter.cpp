@@ -8,7 +8,7 @@ BrfExporter::BrfExporter()
 {
 	meshes = new std::vector<MeshExport*>;
 	materials = new MaterialExport;
-	skeletons = new std::vector<SkeletonExport> ;
+	skeletons = new std::vector<SkeletonExport*> ;
 	lights = new LightExport ;
 	groups = new std::vector<GroupHeader>;
 	morphAnim = new std::vector<MorphAnimExport>;
@@ -25,10 +25,10 @@ BrfExporter::~BrfExporter()
 	delete meshes;
 
 	delete materials;
-	/*for (int i = 0; i < skeletons->size(); i++)
+	for (unsigned int i = 0; i < skeletons->size(); i++)
 	{
-		delete &skeletons->at(i);
-	}*/
+		delete skeletons->at(i);
+	}
 	delete skeletons;
 	delete lights;
 	delete groups;

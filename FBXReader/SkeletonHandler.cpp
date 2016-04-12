@@ -11,20 +11,22 @@ SkeletonHandler::~SkeletonHandler()
 {
 }
 
-void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport>* outputSkeletons)
+void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport*>* outputSkeletons)
 {
 	if (pNode->GetSkeleton())
 	{
-		SkeletonExport tempSkeleton;
+		SkeletonExport *tempSkeleton = new SkeletonExport;
 		jointCount = 0;
 		jointID = 0;
 		std::cout << "skeleton name: " << pNode->GetName() << "\n";
 		FbxSkeleton *skel = pNode->GetSkeleton();
 		FbxSkin * pSkin = (FbxSkin*)((FbxMesh*)skel->GetDstObject())->GetDeformer(0, FbxDeformer::eSkin);
 		if (pSkin != NULL)
-			tempSkeleton.skeletonInfo.jointCount = pSkin->GetClusterCount();
+			tempSkeleton->skeletonInfo.jointCount = pSkin->GetClusterCount();
 		//tempSkeleton.skeletonInfo.animationCount
-		ProcessData(pNode, tempSkeleton);
+		//ProcessData(pNode, tempSkeleton);
+		//outputSkeletons->resize(sizeof(SkeletonExport));
+		ProcessData(pNode, *tempSkeleton);
 		outputSkeletons->push_back(tempSkeleton);
 	}
 }
