@@ -158,6 +158,12 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 				//getting the number of set key for this attrubute
 				//for this joint, store this later for frameCount!
 				int numKeys = scalingCurve->KeyGetCount();
+				//double testKeys = scalingCurve->;
+				FbxTimeSpan terra;
+				scalingCurve->GetTimeInterval(terra);
+				FbxTime test = terra.GetDuration();
+				int bajs = test.GetFrameCount(FbxTime::eFrames24);
+				//FbxDouble3 test = pNode->EvaluateLocalScaling(frameTime);
 				//scalingCurve->GetTimeInterval(animTime);
 				//std::cout << "\nstart: " << "to end: " ;
 				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
@@ -167,20 +173,11 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 					float x = (float)scalingVector[0];
 					float y = (float)scalingVector[1];
 					float z = (float)scalingVector[2];
-
 					//for the worldMatrix of the frame
 					scaleMatrix.push_back(DirectX::XMMatrixScaling(x, y, z));
 					float frameSeconds = (float)frameTime.GetSecondDouble();
 				}
 			}
-			//else
-			//{
-			//	//if the animation layer doesnt have a scaling curve, make a default one
-			//	FbxDouble3 scalingVector = pNode->LclScaling.Get();
-			//	float x = (float)scalingVector[0];
-			//	float y = (float)scalingVector[1];
-			//	float z = (float)scalingVector[2];
-			//}
 			if (rotationCurve != NULL)
 			{
 				//getting the number of set key for this attrubute
