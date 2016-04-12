@@ -25,6 +25,10 @@ BrfExporter::~BrfExporter()
 	delete meshes;
 
 	delete materials;
+	/*for (int i = 0; i < skeletons->size(); i++)
+	{
+		delete &skeletons->at(i);
+	}*/
 	delete skeletons;
 	delete lights;
 	delete groups;
@@ -68,7 +72,6 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 	if (this->lights != nullptr)
 		lights->WriteToBinaryFile(&outfile);
 	
-
 }
 
 void BrfExporter::CreateFileHeader()
