@@ -162,27 +162,28 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 				FbxTimeSpan terra;
 				scalingCurve->GetTimeInterval(terra);
 				FbxTime test = terra.GetDuration();
-				int bajs = test.GetFrameCount(FbxTime::eFrames24);
+				int bajs = (test.GetFrameCount(FbxTime::eFrames24)+1);
 				FbxTime kiss;
-				kiss.SetFrame(20, FbxTime::eFrames24);
-				kiss.SetFrame(1, FbxTime::eFrames24);
-				kiss.SetFrame(10, FbxTime::eFrames24);
-				kiss.SetFrame(34, FbxTime::eFrames24);
+				/*kiss.SetTime(0, 0, 0, 10, 0, FbxTime::eFrames24);
+				kiss.SetTime(0, 0, 0, 35, 0, FbxTime::eFrames24);
+				kiss.SetTime(0, 0, 0, 1, 0, FbxTime::eFrames24);
+				kiss.SetTime(0, 0, 0, 19, 0, FbxTime::eFrames24);*/
 				
 				//double kiss = test.GetFrameRate(FbxTime::eFrames24);
 				//FbxDouble3 test = pNode->EvaluateLocalScaling(frameTime);
 				//scalingCurve->GetTimeInterval(animTime);
 				//std::cout << "\nstart: " << "to end: " ;
-				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
+				for (int keyIndex = 0; keyIndex <= bajs; keyIndex += 5)
 				{
-					FbxTime frameTime = scalingCurve->KeyGetTime(keyIndex);
-					FbxDouble3 scalingVector = pNode->EvaluateLocalScaling(frameTime);
+					//FbxTime frameTime = scalingCurve->KeyGetTime(keyIndex);
+					kiss.SetTime(0, 0, 0, keyIndex, 0, FbxTime::eFrames24);
+					FbxDouble3 scalingVector = pNode->EvaluateLocalScaling(kiss);
 					float x = (float)scalingVector[0];
 					float y = (float)scalingVector[1];
 					float z = (float)scalingVector[2];
 					//for the worldMatrix of the frame
 					scaleMatrix.push_back(DirectX::XMMatrixScaling(x, y, z));
-					float frameSeconds = (float)frameTime.GetSecondDouble();
+					//float frameSeconds = (float)frameTime.GetSecondDouble();
 				}
 			}
 			if (rotationCurve != NULL)
@@ -215,18 +216,24 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 			{
 				//getting the number of set key for this attrubute
 				//for this joint
+				FbxTimeSpan terra;
+				scalingCurve->GetTimeInterval(terra);
+				FbxTime test = terra.GetDuration();
+				int bajs = (test.GetFrameCount(FbxTime::eFrames24) + 1);
+				FbxTime kiss;
 				int numKeys = translationCurve->KeyGetCount();
-				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
+				for (int keyIndex = 1; keyIndex <= bajs; keyIndex += 5)
 				{
-					FbxTime frameTime = translationCurve->KeyGetTime(keyIndex);
-					FbxDouble3 translationVector = pNode->EvaluateLocalTranslation(frameTime);
+					//FbxTime frameTime = translationCurve->KeyGetTime(keyIndex);
+					kiss.SetTime(0, 0, 0, keyIndex, 0, FbxTime::eFrames24);
+					FbxDouble3 translationVector = pNode->EvaluateLocalTranslation(kiss);
 					float x = (float)translationVector[0];
 					float y = (float)translationVector[1];
 					float z = (float)translationVector[2];
 
 					translationMatrix.push_back(DirectX::XMMatrixTranslation(x, y, z));
 
-					float frameSeconds = (float)frameTime.GetSecondDouble();
+					//float frameSeconds = (float)frameTime.GetSecondDouble();
 				}
 			}
 
@@ -240,32 +247,32 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 				max = translationMatrix.size();
 
 			//add matrix here
-			for (int i = 0; i < max; i++)
-			{
-				DirectX::XMMATRIX tempFrameMatrix;
+			//for (int i = 0; i < max; i++)
+			//{
+			//	DirectX::XMMATRIX tempFrameMatrix;
 
-				//checking if the size of the matrices are in the range of the max value
-				//seeing as the rotationMatrix might have 3 stored values while the scale
-				//Matris has only 1. This way we check the matrices and assign an identity
-				//matrix as a base value and add the other values.
-				if (scaleMatrix.size() >= i)
-					tempFrameMatrix = DirectX::XMMatrixMultiply(scaleMatrix.at(i), DirectX::XMMatrixIdentity());
+			//	//checking if the size of the matrices are in the range of the max value
+			//	//seeing as the rotationMatrix might have 3 stored values while the scale
+			//	//Matris has only 1. This way we check the matrices and assign an identity
+			//	//matrix as a base value and add the other values.
+			//	if (scaleMatrix.size() >= i)
+			//		tempFrameMatrix = DirectX::XMMatrixMultiply(scaleMatrix.at(i), DirectX::XMMatrixIdentity());
 
-				//if the scaleMatrix doesnt exist, we assign it to an identity matrix so that we can
-				//easily multiply the other values. This check is only performed here because if it doesnt
-				//the matrix get the identity value, and if the rotation doesnt exist, the matrix would need
-				//to be multiplied by an identity matrix which according the mathmagic is the same as the
-				//matrix inserted. Hence, we do not need to assign another value.
-				else
-					tempFrameMatrix = DirectX::XMMatrixIdentity();
-				if (rotationMatrix.size() >= i)
-					tempFrameMatrix = DirectX::XMMatrixMultiply(rotationMatrix.at(i), tempFrameMatrix);
-				if (translationMatrix.size() >= i)
-					tempFrameMatrix = DirectX::XMMatrixMultiply(translationMatrix.at(i), tempFrameMatrix);
+			//	//if the scaleMatrix doesnt exist, we assign it to an identity matrix so that we can
+			//	//easily multiply the other values. This check is only performed here because if it doesnt
+			//	//the matrix get the identity value, and if the rotation doesnt exist, the matrix would need
+			//	//to be multiplied by an identity matrix which according the mathmagic is the same as the
+			//	//matrix inserted. Hence, we do not need to assign another value.
+			//	else
+			//		tempFrameMatrix = DirectX::XMMatrixIdentity();
+			//	if (rotationMatrix.size() >= i)
+			//		tempFrameMatrix = DirectX::XMMatrixMultiply(rotationMatrix.at(i), tempFrameMatrix);
+			//	if (translationMatrix.size() >= i)
+			//		tempFrameMatrix = DirectX::XMMatrixMultiply(translationMatrix.at(i), tempFrameMatrix);
 
-				//now that we have the combined matrix of the whole position, we store it here
-				frameMatrix.push_back(tempFrameMatrix);
-			}
+			//	//now that we have the combined matrix of the whole position, we store it here
+			//	frameMatrix.push_back(tempFrameMatrix);
+			//}
 		}
 	}
 }
