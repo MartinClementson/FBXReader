@@ -1,4 +1,10 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (FBXReader.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   GroupHandler.cpp
-c:\users\sebbe\documents\fbxreader\fbxreader\fbxreader\grouphandler.cpp(90): warning C4267: 'initializing': conversion from 'size_t' to 'fbxsdk::FbxInt', possible loss of data
+c:\users\sebbe\documents\fbxreader\fbxreader\fbxreader\grouphandler.cpp(60): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\sebbe\documents\fbxreader\fbxreader\fbxreader\grouphandler.cpp(61): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\sebbe\documents\fbxreader\fbxreader\fbxreader\grouphandler.cpp(79): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+c:\users\sebbe\documents\fbxreader\fbxreader\fbxreader\grouphandler.cpp(80): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+c:\users\sebbe\documents\fbxreader\fbxreader\fbxreader\grouphandler.cpp(97): warning C4244: '=': conversion from 'fbxsdk::FbxDouble' to 'float', possible loss of data
+c:\users\sebbe\documents\fbxreader\fbxreader\fbxreader\grouphandler.cpp(98): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\sebbe\documents\fbxreader\fbxreader\fbxreader\grouphandler.cpp(99): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   FBXReader.vcxproj -> C:\Users\Sebbe\Documents\FBXReader\FBXReader\x64\Debug\FBXImporter.exe

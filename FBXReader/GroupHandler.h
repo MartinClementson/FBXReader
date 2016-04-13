@@ -14,6 +14,8 @@ class GroupHandler
 public:
 	GroupHandler();
 	~GroupHandler();
+	GroupExport* tmpGroup;
+	
 
 	void GetGroupData(FbxNode* pNode,std::vector<GroupExport*>* outputGroup);
 

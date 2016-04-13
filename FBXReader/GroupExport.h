@@ -18,6 +18,14 @@ public:
 
 	void WriteToBinaryFile(std::ofstream* outfile);
 	GroupHeader groupInfo;
+	AttributesHeader attrInfo;
+	VectorAttrHeader vecAttr;
+	StringAttrHeader stringAttr;
+	FloatAttrHeader floatAttr;
+	BoolAttrHeader boolAttr;
+	IntAttrHeader intAttr;
+	
+
 
 	AttributesExport* groupAttributes = nullptr;
 

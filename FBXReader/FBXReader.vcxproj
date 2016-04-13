@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AttributeHandler.cpp" />
     <ClCompile Include="AttributesExport.cpp" />
     <ClCompile Include="BrfExporter.cpp" />
     <ClCompile Include="CameraExport.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="SkeletonHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttributeHandler.h" />
     <ClInclude Include="AttributesExport.h" />
     <ClInclude Include="BrfExporter.h" />
     <ClInclude Include="BRFImporterStructs.h" />

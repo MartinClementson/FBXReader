@@ -67,6 +67,9 @@
     <Filter Include="Classes\BrfExporter\CameraExporter">
       <UniqueIdentifier>{1170e06f-cf15-42c8-bf6b-aa207b5275d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\AttributeHandler">
+      <UniqueIdentifier>{0cb92209-c9d8-4ea2-bb57-84ce03bc9e7f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -122,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="CameraExport.cpp">
       <Filter>Classes\BrfExporter\CameraExporter</Filter>
+    </ClCompile>
+    <ClCompile Include="AttributeHandler.cpp">
+      <Filter>Classes\AttributeHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="CameraExport.h">
       <Filter>Classes\BrfExporter\CameraExporter</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributeHandler.h">
+      <Filter>Classes\AttributeHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

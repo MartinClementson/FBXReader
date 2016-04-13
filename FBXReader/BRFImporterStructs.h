@@ -226,7 +226,6 @@ namespace BRFImporter
 #pragma region AttributeHeader
 	struct AttributesHeader
 	{
-
 		unsigned int floatAmount;
 		unsigned int intAmount;
 		unsigned int boolAmount;
