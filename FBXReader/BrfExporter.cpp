@@ -45,8 +45,8 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 	CreateFileHeader(); //THis only creates the struct, It does not write to file
 	//outfile.write((const char*)&this->sceneInfo, sizeof(MainHeader)); //now write it
 
+	 outfile.close();
 	//meshes->at(0)->WriteToBinaryFile(&outfile);
-	//outfile.close();
 
 	//std::cout << "\n\n\n\n\nWriting to binary file ........" << "NOT! \n";
 	//this->sceneInfo.meshAmount = meshes->size();
