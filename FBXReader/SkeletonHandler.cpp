@@ -88,6 +88,7 @@ void SkeletonHandler::ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleto
 		for (int i = 0; i < pNode->GetChildCount(); i++)
 			ProcessData(pNode->GetChild(i), outputSkeleton);
 	}
+	std::cout << "slutet";
 	return;
 }
 
@@ -115,6 +116,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 	//Getting the number of animation stacks for this mesh
 	//seeing as you can have different ones such as (running, walking...)
 	int numAnimations = scene->GetSrcObjectCount<FbxAnimStack>();
+	//outputSkeleton.animation
 	for (int animIndex = 0; animIndex < numAnimations; animIndex++)
 	{
 		//getting the current stack and evaluator
@@ -123,6 +125,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 		std::cout << animStack->GetName();
 		//so far so good
 
+		//put control here to se if its the same animation layer
 		int numLayers = animStack->GetMemberCount();
 		for (int layerIndex = 0; layerIndex < numLayers; layerIndex++)
 		{
@@ -146,54 +149,62 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 			int max = 0;
 
 			//can have three different matrices and in the end multiply them into the real one!
-			std::vector<DirectX::XMMATRIX> scaleMatrix;
+			//std::vector<DirectX::XMMATRIX> scaleMatrix;
 			std::vector<DirectX::XMMATRIX> rotationMatrix;
 			std::vector<DirectX::XMMATRIX> translationMatrix;
 
 			//temp
 			std::vector<DirectX::XMMATRIX> frameMatrix;
 
-			if (scalingCurve != NULL)
-			{
-				//getting the number of set key for this attrubute
-				//for this joint, store this later for frameCount!
-				int numKeys = scalingCurve->KeyGetCount();
-				//double testKeys = scalingCurve->;
-				FbxTimeSpan terra;
-				scalingCurve->GetTimeInterval(terra);
-				FbxTime test = terra.GetDuration();
-				int bajs = (test.GetFrameCount(FbxTime::eFrames24)+1);
-				FbxTime kiss;
-				/*kiss.SetTime(0, 0, 0, 10, 0, FbxTime::eFrames24);
-				kiss.SetTime(0, 0, 0, 35, 0, FbxTime::eFrames24);
-				kiss.SetTime(0, 0, 0, 1, 0, FbxTime::eFrames24);
-				kiss.SetTime(0, 0, 0, 19, 0, FbxTime::eFrames24);*/
-				
-				//double kiss = test.GetFrameRate(FbxTime::eFrames24);
-				//FbxDouble3 test = pNode->EvaluateLocalScaling(frameTime);
-				//scalingCurve->GetTimeInterval(animTime);
-				//std::cout << "\nstart: " << "to end: " ;
-				for (int keyIndex = 0; keyIndex <= bajs; keyIndex += 5)
-				{
-					//FbxTime frameTime = scalingCurve->KeyGetTime(keyIndex);
-					kiss.SetTime(0, 0, 0, keyIndex, 0, FbxTime::eFrames24);
-					FbxDouble3 scalingVector = pNode->EvaluateLocalScaling(kiss);
-					float x = (float)scalingVector[0];
-					float y = (float)scalingVector[1];
-					float z = (float)scalingVector[2];
-					//for the worldMatrix of the frame
-					scaleMatrix.push_back(DirectX::XMMatrixScaling(x, y, z));
-					//float frameSeconds = (float)frameTime.GetSecondDouble();
-				}
-			}
+			//if (scalingCurve != NULL)
+			//{
+			//	//getting the number of set key for this attrubute
+			//	//for this joint, store this later for frameCount!
+			//	int numKeys = scalingCurve->KeyGetCount();
+			//	//double testKeys = scalingCurve->;
+			//	FbxTimeSpan terra;
+			//	scalingCurve->GetTimeInterval(terra);
+			//	FbxTime test = terra.GetDuration();
+			//	int bajs = (test.GetFrameCount(FbxTime::eFrames24)+1);
+			//	FbxTime kiss;
+			//	/*kiss.SetTime(0, 0, 0, 10, 0, FbxTime::eFrames24);
+			//	kiss.SetTime(0, 0, 0, 35, 0, FbxTime::eFrames24);
+			//	kiss.SetTime(0, 0, 0, 1, 0, FbxTime::eFrames24);
+			//	kiss.SetTime(0, 0, 0, 19, 0, FbxTime::eFrames24);*/
+			//	
+			//	//double kiss = test.GetFrameRate(FbxTime::eFrames24);
+			//	//FbxDouble3 test = pNode->EvaluateLocalScaling(frameTime);
+			//	//scalingCurve->GetTimeInterval(animTime);
+			//	//std::cout << "\nstart: " << "to end: " ;
+			//	for (int keyIndex = 0; keyIndex <= bajs; keyIndex += 5)
+			//	{
+			//		//FbxTime frameTime = scalingCurve->KeyGetTime(keyIndex);
+			//		kiss.SetTime(0, 0, 0, keyIndex, 0, FbxTime::eFrames24);
+			//		FbxDouble3 scalingVector = pNode->EvaluateLocalScaling(kiss);
+			//		float x = (float)scalingVector[0];
+			//		float y = (float)scalingVector[1];
+			//		float z = (float)scalingVector[2];
+			//		//for the worldMatrix of the frame
+			//		scaleMatrix.push_back(DirectX::XMMatrixScaling(x, y, z));
+			//		//float frameSeconds = (float)frameTime.GetSecondDouble();
+			//	}
+			//}
 			if (rotationCurve != NULL)
 			{
 				//getting the number of set key for this attrubute
 				//for this joint
-				int numKeys = rotationCurve->KeyGetCount();
-				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
+				FbxTimeSpan span;
+				scalingCurve->GetTimeInterval(span);
+				FbxTime duration = span.GetDuration();
+				int numKeys = (duration.GetFrameCount(FbxTime::eFrames24) + 1);
+				FbxTime frameTime;
+				//int numKeys = rotationCurve->KeyGetCount();
+				for (int keyIndex = 1; keyIndex <= numKeys; keyIndex += 5)
 				{
-					FbxTime frameTime = rotationCurve->KeyGetTime(keyIndex);
+					//FbxTime frameTime = rotationCurve->KeyGetTime(keyIndex);
+					if (keyIndex == 6)
+						keyIndex = 5;
+					frameTime.SetTime(0, 0, 0, keyIndex, 0, FbxTime::eFrames24);
 					FbxDouble3 rotationVector = pNode->EvaluateLocalRotation(frameTime);
 					float x = (float)rotationVector[0];
 					float y = (float)rotationVector[1];
@@ -209,70 +220,75 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 					rotationMatrix.push_back(tempRotation);
 
 
-					float frameSeconds = (float)frameTime.GetSecondDouble();
+					//float frameSeconds = (float)frameTime.GetSecondDouble();
 				}
 			}
 			if (translationCurve != NULL)
 			{
 				//getting the number of set key for this attrubute
 				//for this joint
-				FbxTimeSpan terra;
-				scalingCurve->GetTimeInterval(terra);
-				FbxTime test = terra.GetDuration();
-				int bajs = (test.GetFrameCount(FbxTime::eFrames24) + 1);
-				FbxTime kiss;
-				int numKeys = translationCurve->KeyGetCount();
-				for (int keyIndex = 1; keyIndex <= bajs; keyIndex += 5)
+				FbxTimeSpan span;
+				scalingCurve->GetTimeInterval(span);
+				FbxTime duration = span.GetDuration();
+				int numKeys = (duration.GetFrameCount(FbxTime::eFrames24) + 1);
+				FbxTime frameTime;
+				//int numKeys = translationCurve->KeyGetCount();
+				for (int keyIndex = 1; keyIndex <= numKeys; keyIndex += 5)
 				{
+					if (keyIndex == 6)
+						keyIndex = 5;
 					//FbxTime frameTime = translationCurve->KeyGetTime(keyIndex);
-					kiss.SetTime(0, 0, 0, keyIndex, 0, FbxTime::eFrames24);
-					FbxDouble3 translationVector = pNode->EvaluateLocalTranslation(kiss);
+					frameTime.SetTime(0, 0, 0, keyIndex, 0, FbxTime::eFrames24);
+					FbxDouble3 translationVector = pNode->EvaluateLocalTranslation(numKeys);
 					float x = (float)translationVector[0];
 					float y = (float)translationVector[1];
 					float z = (float)translationVector[2];
 
 					translationMatrix.push_back(DirectX::XMMatrixTranslation(x, y, z));
-
-					//float frameSeconds = (float)frameTime.GetSecondDouble();
+					double frameSeconds = frameTime.GetSecondDouble();
 				}
 			}
 
 			//getting the maximum value of keyframes
 			//from the number of keyframes
-			if (max < scaleMatrix.size())
-				max = scaleMatrix.size();
 			if (max < rotationMatrix.size())
 				max = rotationMatrix.size();
 			if (max < translationMatrix.size())
 				max = translationMatrix.size();
 
 			//add matrix here
-			//for (int i = 0; i < max; i++)
-			//{
-			//	DirectX::XMMATRIX tempFrameMatrix;
+			//use int i for frame ID
+			for (int i = 0; i < max; i++)
+			{
+				DirectX::XMMATRIX tempFrameMatrix;
+				FrameHeader tempFrame;
+				//checking if the size of the matrices are in the range of the max value
+				//seeing as the rotationMatrix might have 3 stored values while the scale
+				//Matris has only 1. This way we check the matrices and assign an identity
+				//matrix as a base value and add the other values.
+				//if (scaleMatrix.size() >= i)
+					//tempFrameMatrix = DirectX::XMMatrixMultiply(scaleMatrix.at(i), DirectX::XMMatrixIdentity());
 
-			//	//checking if the size of the matrices are in the range of the max value
-			//	//seeing as the rotationMatrix might have 3 stored values while the scale
-			//	//Matris has only 1. This way we check the matrices and assign an identity
-			//	//matrix as a base value and add the other values.
-			//	if (scaleMatrix.size() >= i)
-			//		tempFrameMatrix = DirectX::XMMatrixMultiply(scaleMatrix.at(i), DirectX::XMMatrixIdentity());
+				//if the scaleMatrix doesnt exist, we assign it to an identity matrix so that we can
+				//easily multiply the other values. This check is only performed here because if it doesnt
+				//the matrix get the identity value, and if the rotation doesnt exist, the matrix would need
+				//to be multiplied by an identity matrix which according the mathmagic is the same as the
+				//matrix inserted. Hence, we do not need to assign another value.
+				//else
+				tempFrameMatrix = DirectX::XMMatrixIdentity();
+				if (rotationMatrix.size() > i)
+					tempFrameMatrix = DirectX::XMMatrixMultiply(rotationMatrix.at(i), tempFrameMatrix);
+				if (translationMatrix.size() > i)
+					tempFrameMatrix = DirectX::XMMatrixMultiply(translationMatrix.at(i), tempFrameMatrix);
 
-			//	//if the scaleMatrix doesnt exist, we assign it to an identity matrix so that we can
-			//	//easily multiply the other values. This check is only performed here because if it doesnt
-			//	//the matrix get the identity value, and if the rotation doesnt exist, the matrix would need
-			//	//to be multiplied by an identity matrix which according the mathmagic is the same as the
-			//	//matrix inserted. Hence, we do not need to assign another value.
-			//	else
-			//		tempFrameMatrix = DirectX::XMMatrixIdentity();
-			//	if (rotationMatrix.size() >= i)
-			//		tempFrameMatrix = DirectX::XMMatrixMultiply(rotationMatrix.at(i), tempFrameMatrix);
-			//	if (translationMatrix.size() >= i)
-			//		tempFrameMatrix = DirectX::XMMatrixMultiply(translationMatrix.at(i), tempFrameMatrix);
+				//now that we have the combined matrix of the whole position, we store it here
+				frameMatrix.push_back(tempFrameMatrix);
+				//FbxAMatrix test = tempFrameMatrix;
+				tempFrame.frameMatrix[0][0] = tempFrameMatrix;
 
-			//	//now that we have the combined matrix of the whole position, we store it here
-			//	frameMatrix.push_back(tempFrameMatrix);
-			//}
+				tempFrame.frameID = i;
+				outputSkeleton.frames->push_back(tempFrame);
+			}
 		}
 	}
 }
