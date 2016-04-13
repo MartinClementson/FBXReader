@@ -5,13 +5,16 @@
 #include "CameraHandler.h"
 #include "LightHandler.h"
 #include "BRFImporterStructs.h"
-
 #include "SkeletonHandler.h"
 #include "BrfExporter.h"
 
+using namespace std;
 class FbxImport
 {
 private:
+
+	SceneMap sceneMap;
+	
 	FbxPrinter printer;
 	MeshHandler meshHandler;
 	MaterialHandler materialHandler;
@@ -55,6 +58,26 @@ public:
 	void GetLightData(FbxNode* pNode,		LightExport* lights);
 	void GetMorphAnimData(FbxNode* pNode,	std::vector<MorphAnimExport>* outputMorphs);
 	void GetGroupData(FbxNode* pNode,		std::vector<GroupHeader>* outputGroups);
+
+
+
+	void MapMeshes(FbxNode* pNode);
+	void MapCameras(FbxNode* pNode);
+	void MapSkeletons(FbxNode* pNode);
+	//void GetAnimationData(FbxNode* pNode, BrfExporter* outputClass); //Maybe connected to skeleton?
+
+
+	void MapMaterials(FbxNode* pNode);
+	void MapLights(FbxNode* pNode);
+	void MapMorphAnim(FbxNode* pNode);
+	void MapGroups(FbxNode* pNode);
+
+
+
+
+
+
+
 
 
 };
