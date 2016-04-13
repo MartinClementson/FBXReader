@@ -55,6 +55,61 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat
 	}
 }
 
+void MaterialHandler::MapMaterials(FbxNode * pNode, SceneMap * sceneMap)
+{
+
+
+	//Recursively extract the children
+	for (int j = 0; j < pNode->GetChildCount(); j++)
+		MapMaterials(pNode->GetChild(j), sceneMap);
+
+	FbxGeometry* pGeometry = pNode->GetGeometry();
+	int materialCount = 0;
+	FbxNode* node = NULL;
+
+
+
+	if (pGeometry) {
+
+		node = pGeometry->GetNode();
+
+		if (node)
+			materialCount = pNode->GetMaterialCount();
+
+
+		if (materialCount > 0)
+		{
+
+			for (int i = 0; i < materialCount; i++)
+			{
+				if (pNode->GetMaterial(i))
+				{
+					FbxSurfaceMaterial *pMaterial = node->GetMaterial(i);
+					std::cout << pMaterial->GetName() << "\n";
+
+						if (sceneMap->materialHash.find(pMaterial->GetName()) == sceneMap->materialHash.end()) {
+							// not found
+							std::cout << "New material found!  mapping..\n";
+							sceneMap->materialHash[pMaterial->GetName()] = sceneMap->materialID;
+							sceneMap->materialID += 1;
+						}
+						else {
+							// found
+							std::cout << "Material " << pMaterial->GetName() << " already exist .. skipping mapping of material" << std::endl;
+						}
+
+					//ProcessData(pMaterial, materialCount, outputMat);
+				}
+
+			}
+		}
+
+
+	}
+
+
+}
+
 #pragma endregion
 
 #pragma region Process Data

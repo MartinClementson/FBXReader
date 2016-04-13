@@ -14,6 +14,7 @@ public:
 	~MaterialHandler();
 
 	void GetMaterialData(FbxNode* pNode, MaterialExport* outputMat);
+	void MapMaterials(FbxNode* pNode, SceneMap* sceneMap);
 
 private:
 	void ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int matCount, MaterialExport* outputMat);
