@@ -11,10 +11,11 @@ class CameraHandler
 public:
 	CameraHandler();
 	~CameraHandler();
+	void GetCameraData(FbxNode * pNode, std::vector<CameraExporter*>* outCamera);
 
-	void GetCameraData(FbxNode* pNode, CameraExporter* outCamera);
+	void ProcessCameraData(FbxCamera * pCamera, CameraExporter * outCamera);
+
 private:
-	void ProcessCameraData(FbxCamera* pCamera, CameraExporter* outCamera);
 	void GetCamPos(FbxCamera* pCamera, double* pTargetPos);
 	void GetCamRotation(FbxNode* pCamNode, double* pTargetRot);
 };

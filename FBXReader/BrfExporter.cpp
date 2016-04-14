@@ -1,18 +1,15 @@
 #include "BrfExporter.h"
 
 
-
-
-
 BrfExporter::BrfExporter()
 {
 	meshes = new std::vector<MeshExport*>;
 	materials = new MaterialExport;
 	skeletons = new std::vector<SkeletonExport> ;
-	//lights = new LightExport ;
+	lights = new LightExport;
 	groups = new std::vector<GroupHeader>;
 	morphAnim = new std::vector<MorphAnimExport>;
-	cameras = new CameraExporter;
+	cameras = new std::vector<CameraExporter*>;
 }
 
 
@@ -39,15 +36,13 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 		Open file as binary
 	*/
 
-	std::ofstream outfile(fileName, std::ofstream::out );
+	std::ofstream outfile(fileName, std::ofstream::binary );
 	if (!outfile.is_open())
 	{
 		std::cout << "Cannot write to file : " << fileName << "\n";
 		return;
 	}
-	
 
-	
 	outfile.write((const char*)&this->goldenNumber, sizeof(int)*2);
 
 	//Write the main header first in the file (after golden number)
@@ -58,26 +53,33 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 
 	std::cout << "\n\n\n\n\nWriting to binary file ........" << "NOT! \n";
 	this->sceneInfo.meshAmount = meshes->size();
-	meshes->at(0)->WriteToBinaryFile(&outfile);
-	outfile.close();
+	this->sceneInfo.cameraAmount = cameras->size();
+	//meshes->at(0)->WriteToBinaryFile(&outfile);
+
 	std::cout << "Total amount of meshes exported : " << sceneInfo.meshAmount <<"\n";
 	for (unsigned int i = 0; i < sceneInfo.meshAmount; i++)
 	{
-		std::cout << "Mesh #" << i+1 << "\n";
+		std::cout << "Mesh #" << i << "\n";
 		meshes->at(i)->WriteToBinaryFile(&outfile);
-
 	}
 
 	if (this->cameras != nullptr)
-		cameras->WriteToBinaryFile(&outfile);
+	{
+		std::cout << "Total amount of cameras exported: " << sceneInfo.cameraAmount << "\n";
+		for (unsigned int a = 0; a < sceneInfo.cameraAmount; a++)
+		{
+			std::cout << "Camera #" << a << "\n";
+			cameras->at(a)->WriteToBinaryFile(&outfile);
+		}
+	}
 
 	if (this->materials != nullptr)
 		materials->WriteToBinaryFile(&outfile);
 
 	if (this->lights != nullptr)
 		lights->WriteToBinaryFile(&outfile);
+	outfile.close();
 	
-
 }
 
 void BrfExporter::CreateFileHeader()
@@ -91,7 +93,7 @@ void BrfExporter::CreateFileHeader()
 
 	this->sceneInfo.attributeAmount = 0;
 
-	this->sceneInfo.cameraAmount = 0;
+	this->sceneInfo.cameraAmount = this->cameras->size();
 
 	this->sceneInfo.materialAmount = 0;
 

@@ -16,6 +16,7 @@ This class handles all cameras
 
 class CameraExporter
 {
+	MainHeader mainStruct;
 public:
 	std::vector<CameraHeader>* cameras;
 public:
@@ -24,5 +25,8 @@ public:
 
 	void WriteToBinaryFile(std::ofstream* outfile);
 
+	void AddCamera(MainHeader info);
+
+	void AddCamera(CameraHeader input);
 
 };

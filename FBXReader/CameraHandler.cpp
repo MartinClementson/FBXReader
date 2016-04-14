@@ -13,7 +13,7 @@ CameraHandler::~CameraHandler()
 
 
 
-void CameraHandler::GetCameraData(FbxNode* pNode, CameraExporter* outCamera)
+void CameraHandler::GetCameraData(FbxNode* pNode, std::vector<CameraExporter*>* outCamera)
 {
 	for (int j = 0; j < pNode->GetChildCount(); j++)
 		GetCameraData(pNode->GetChild(j), outCamera);
@@ -37,7 +37,6 @@ void CameraHandler::ProcessCameraData(FbxCamera* pCamera, CameraExporter* outCam
 	GetCamRotation(pCamera->GetNode(), cameras.rotation);
 
 	outCamera->cameras->push_back(cameras);
-
 
 }
 

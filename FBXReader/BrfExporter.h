@@ -50,7 +50,7 @@ private:
 	std::vector<SkeletonExport>* skeletons;
 	LightExport* lights = nullptr;
 	std::vector<GroupHeader>* groups;
-	CameraExporter* cameras;
+	std::vector<CameraExporter*>* cameras;
 	std::vector<MorphAnimExport>* morphAnim;
 
 	void CreateFileHeader(); //this is called before writing to file. it gathers the information for the main header
@@ -68,7 +68,7 @@ public:
 	LightExport* GetLightsRef()						{ return this->lights; };
 	std::vector<GroupHeader>* GetGroupsRef()		{ return this->groups; };
 	std::vector<MorphAnimExport>* GetMorphAnimRef() {return this->morphAnim; };
-	CameraExporter* GetCamerasRef()					{ return this->cameras; };
+	std::vector<CameraExporter*>* GetCamerasRef()	{ return this->cameras; };
 	
 };
 

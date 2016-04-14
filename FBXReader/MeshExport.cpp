@@ -6,11 +6,9 @@
 using namespace BRFImporter;
 MeshExport::MeshExport()
 {
-
 	indices  = new std::vector<IndexHeader>;
 	vertices = new std::vector<VertexHeader>;
 	weights.resize(4);
-	
 }
 
 
@@ -32,11 +30,13 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 	std::cout << "Vert amount  : " << this->meshInfo.vertexCount << std::endl;
 	std::cout << "Index amount  : " << this->meshInfo.indexCount << std::endl;
 	std::cout << "Bounding Box  : " <<  (this->meshInfo.boundingBox ? "Yes" : "NO") << std::endl;
+	
 	if (this->meshInfo.boundingBox)
 	{
 		std::cout << "\t Extents: (" << this->boundingBox.extents[0] << "," << this->boundingBox.extents[1] << "," << this->boundingBox.extents[2] << ")" << std::endl;
 		std::cout << "\t Orientation: (" << this->boundingBox.orientation[0] << "," << this->boundingBox.orientation[1] << "," << this->boundingBox.orientation[2] << ")" << std::endl;
 	}
+
 	//std::cout << "Test Index: (" << this->indices->at(0).vertIndex << "," << this->indices->at(1).vertIndex << "," << this->indices->at(2).vertIndex << ")" << std::endl;
 	std::cout << "Translation: (" << this->meshInfo.translation[0] << "," << this->meshInfo.translation[1] << "," << this->meshInfo.translation[2] << ")" << std::endl;
 	
@@ -45,7 +45,6 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 	std::cout << "Scale      : (" << this->meshInfo.scale[0] << "," << this->meshInfo.scale[1] << "," << this->meshInfo.scale[2] << ")\n" << std::endl;
 
  	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n\n";
-
 
 	//export
 	//IndexHeader* tempIndex;
@@ -87,23 +86,22 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 	}
 	for (unsigned int i = 0; i < this->vertices->size(); i++)
 	{
-		std::cout << "vert #" << i << ": (" << vertices->at(i).pos[0] << "," << vertices->at(i).pos[1]  << "," << vertices->at(i).pos[2]<< " )\n";
-
-
+		std::cout << "vert #" << i << ": (" << vertices->at(i).pos[0] << "," << vertices->at(i).pos[1]  << "," << vertices->at(i).pos[2]<< ")\n";
+	}
+	for (unsigned int i = 0; i < this->vertices->size(); i++)
+	{
+		std::cout << "UV #" << i << ": (" << vertices->at(i).uv[0] << "," << vertices->at(i).uv[1] << ")" << "\n";
 	}
 
-	for (unsigned int i = 0; i < indices->size(); i++)
+	for (unsigned int i = 0; i < indices->size(); i += 3)
 	{
-		//std::cout << "vert #" << i << ": (" << vertices[i].pos[0] << "," << vertices[i].pos[1] <<"," << vertices[i].pos[2] << " )\n";
-		std::cout << "Index #" << i << ": (" << this->indices->at(i).vertIndex << " )\n";
+		std::cout << "F #" << i << ": (" << this->indices->at(i).vertIndex << "," << this->indices->at(i+1).vertIndex << "," << this->indices->at(i+2).vertIndex << ")\n";
 
 	}
 	//	delete tempIndex;
-
-
-
 }
 
+#pragma region Addfunctions
 void MeshExport::AddVertex(VertexHeader input)
 {
 	this->vertices->push_back(input);
@@ -156,3 +154,4 @@ AttributesExport * MeshExport::GetAttributeHandler()
 
 	return meshAttributes;
 }
+#pragma endregion
