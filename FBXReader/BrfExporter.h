@@ -53,6 +53,7 @@ private:
 	LightExport* lights = nullptr;
 	CameraExporter* cameras;
 	std::vector<MorphAnimExport>* morphAnim;
+	AttributesExport * attributes;
 
 	void CreateFileHeader(); //this is called before writing to file. it gathers the information for the main header
 
@@ -70,6 +71,7 @@ public:
 	std::vector<GroupExport*>* GetGroupsRef()		{ return this->groups; };
 	std::vector<MorphAnimExport>* GetMorphAnimRef() {return this->morphAnim; };
 	CameraExporter* GetCamerasRef()					{ return this->cameras; };
+	AttributesExport * GetAttributesRef() { return this->attributes; };
 	
 };
 

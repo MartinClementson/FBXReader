@@ -197,12 +197,13 @@ namespace BRFImporter
 	struct GroupHeader
 	{
 		char groupName[256];
-		char groupAttrName[256];
 		char dataType[256];
 
 		unsigned int attrCount;
 		unsigned int objectID;		// 0 = Default	
 		unsigned int parentID;		// 0 = Default
+
+		unsigned int attrNr = 0;
 
 		double translation[3];
 		double rotation[3];

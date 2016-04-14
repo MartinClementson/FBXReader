@@ -5,6 +5,7 @@
 #include "CameraHandler.h"
 #include "GroupHandler.h"
 #include "LightHandler.h"
+#include "AttributeHandler.h"
 #include "BRFImporterStructs.h"
 
 #include "SkeletonHandler.h"
@@ -19,7 +20,7 @@ private:
 	CameraHandler cameraHandler;
 	GroupHandler groupHandler;
 	LightHandler lightHandler;
-
+	AttributeHandler attributeHandler;
 	SkeletonHandler skeletonHandler;
 
 
@@ -50,7 +51,7 @@ public:
 	void GetCameraData(FbxNode* pNode,		CameraExporter* outputCameras);
 	void GetSkeletonData(FbxNode* pNode,	std::vector<SkeletonExport>* outputSkeletons);
 	//void GetAnimationData(FbxNode* pNode, BrfExporter* outputClass); //Maybe connected to skeleton?
-
+	void GetAttributeData(FbxNode* pNode,   AttributesExport* outPutAttributes);
 
 	void GetMaterialData(FbxNode* pNode,	MaterialExport* outputMat);
 	void GetLightData(FbxNode* pNode,		LightExport* lights);

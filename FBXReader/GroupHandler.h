@@ -15,16 +15,22 @@ public:
 	GroupHandler();
 	~GroupHandler();
 	GroupExport* tmpGroup;
-	
 
-	void GetGroupData(FbxNode* pNode,std::vector<GroupExport*>* outputGroup);
+	AttributesExport* tmpAttr;
 
+	void GetGroupData(FbxNode* pNode, std::vector<GroupExport*>* outputGroup);
+
+	BRFImporter::FloatAttrHeader FloatAttr(AttributesExport*tmpAttr);
+	BRFImporter::IntAttrHeader intAttr(AttributesExport*tmpAttr);
+	BRFImporter::StringAttrHeader stringAttr(AttributesExport*tmpAttr);
+	BRFImporter::BoolAttrHeader boolAttr(AttributesExport*tmpAttr);
+	BRFImporter::VectorAttrHeader vectorAttr(AttributesExport*tmpAttr);
 
 
 private:
 
 	
-	void ProcessGroupData(FbxNode* pGroup, std::vector<GroupExport*>*group);
+	//void ProcessGroupData(FbxNode* pGroup, std::vector<GroupExport*>*group);
 
 };
 #endif // !GROUPHANDLER

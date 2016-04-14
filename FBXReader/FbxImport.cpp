@@ -36,6 +36,7 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
 		GetGroupData(this->rootNode->GetChild(i), outputFile->GetGroupsRef());
 		GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());
+		GetAttributeData(this->rootNode->GetChild(i), outputFile->GetAttributesRef());
 		
 	}
 
@@ -145,6 +146,11 @@ void FbxImport::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport>* ou
 	skeletonHandler.GetSkeletonData(pNode, outputSkeletons);
 
 
+}
+
+void FbxImport::GetAttributeData(FbxNode * pNode, AttributesExport* outPutAttributes)
+{
+	attributeHandler.GetAttrData(pNode, outPutAttributes);
 }
 
 //void FbxImport::GetAnimationData(FbxNode * pNode, BrfExporter * outputClass)

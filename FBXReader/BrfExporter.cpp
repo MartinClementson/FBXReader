@@ -13,6 +13,7 @@ BrfExporter::BrfExporter()
 	groups = new std::vector<GroupExport*>;
 	morphAnim = new std::vector<MorphAnimExport>;
 	cameras = new CameraExporter;
+	attributes = new AttributesExport;
 }
 
 
@@ -30,6 +31,7 @@ BrfExporter::~BrfExporter()
 	delete groups;
 	delete morphAnim;
 	delete cameras;
+	delete attributes;
 }
 
 void BrfExporter::WriteToBinaryFile(char * fileName)
@@ -76,7 +78,9 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 
 	if (this->lights != nullptr)
 		lights->WriteToBinaryFile(&outfile);
-	
+
+	if (this->attributes != nullptr)
+		attributes->WriteToBinaryFile(&outfile);
 
 
 }
