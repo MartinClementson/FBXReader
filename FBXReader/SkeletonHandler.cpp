@@ -27,6 +27,7 @@ void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExpor
 		//ProcessData(pNode, tempSkeleton);
 		//outputSkeletons->resize(sizeof(SkeletonExport));
 		ProcessData(pNode, *tempSkeleton);
+		//tempSkeleton->animations->at(0).jointCount = jointCount;
 		outputSkeletons->push_back(tempSkeleton);
 	}
 }
@@ -154,7 +155,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 			std::vector<FbxAMatrix> translationMatrix;
 
 			//temp
-			std::vector<FbxAMatrix> frameMatrix;
+			//std::vector<FbxAMatrix> frameMatrix;
 
 			//if (scalingCurve != NULL)
 			//{
@@ -263,6 +264,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 
 			//add matrix here
 			//use int i for frame ID
+			FbxSkeleton *skel = pNode->GetSkeleton();
 			for (int i = 0; i < max; i++)
 			{
 				FbxAMatrix tempFrameMatrix;
@@ -283,7 +285,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 				tempFrameMatrix.SetIdentity();
 				if (rotationMatrix.size() > i)
 					tempFrameMatrix = tempFrameMatrix*rotationMatrix.at(i);
-				if (translationMatrix.size() > i)
+				if (translationMatrix.size() > i && skel->IsSkeletonRoot())
 					tempFrameMatrix = tempFrameMatrix*translationMatrix.at(i);
 
 				//now that we have the combined matrix of the whole position, we store it here
@@ -311,6 +313,12 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 
 				tempFrame.frameID = i;
 				outputSkeleton.frames->push_back(tempFrame);
+			}
+			if (max != 0)
+			{
+				JointCountHeader tempJointHeader;
+				tempJointHeader.frameCount = max;
+				//tempJointHeader.jointID = 0;
 			}
 		}
 	}
