@@ -20,6 +20,7 @@ void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExpor
 		jointID = 0;
 		animationID = 0;
 		skeletonLayers.clear();
+		layerJointCount.clear();
 		std::cout << "skeleton name: " << pNode->GetName() << "\n";
 		FbxSkeleton *skel = pNode->GetSkeleton();
 		FbxSkin * pSkin = (FbxSkin*)((FbxMesh*)skel->GetDstObject())->GetDeformer(0, FbxDeformer::eSkin);
@@ -141,9 +142,11 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 			FbxAnimCurve * scalingCurve = pNode->LclScaling.GetCurve(animLayer);
 
 			if (translationCurve != NULL ||
-				rotationCurve    != NULL ||
-				scalingCurve     != NULL)
-				jointCount += 1;
+				rotationCurve != NULL ||
+				scalingCurve != NULL)
+				//jointCount += 1;
+				addLayerJointCount((FbxString)animStack->GetName());
+
 
 			//FbxTimeSpan animTime;
 			//pNode->GetAnimationInterval(animTime, animStack);
@@ -421,5 +424,40 @@ int SkeletonHandler::getLayerID(FbxString input)
 	animationID++;
 	skeletonLayers.push_back(temp);
 	return temp.ID;
+}
+
+int SkeletonHandler::getLayerJointCount(FbxString input)
+{
+	for (unsigned int i = 0; i < layerJointCount.size(); i++)
+	{
+		if (input == layerJointCount.at(i).layerName)
+			return layerJointCount.at(i).jointCount;
+	}
+	return -1;
+}
+
+void SkeletonHandler::addLayerJointCount(FbxString input)
+{
+	if (layerJointCount.size() == 0)
+	{
+		layerJoints temp;
+		temp.layerName = input;
+		temp.jointCount = 1;
+		layerJointCount.push_back(temp);
+		return;
+	}
+	for (unsigned int i = 0; i < layerJointCount.size(); i++)
+	{
+		if (input == layerJointCount.at(i).layerName)
+		{
+			layerJointCount.at(i).jointCount += 1;
+			return;
+		}
+	}
+	layerJoints temp;
+	temp.layerName = input;
+	temp.jointCount = 1;
+	layerJointCount.push_back(temp);
+	return;
 }
 
