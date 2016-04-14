@@ -314,7 +314,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 				tempFrame.frameMatrix[3][2] = tempFrameMatrix[3][2];
 				tempFrame.frameMatrix[3][3] = tempFrameMatrix[3][3];
 
-				tempFrame.frameID = i;
+				tempFrame.frameID = getLayerID((FbxString)animStack->GetName());
 				outputSkeleton.frames->push_back(tempFrame);
 			}
 			if (max != 0)
@@ -378,6 +378,24 @@ void SkeletonHandler::ProcessJoints(FbxMesh * pMesh, JointHeader &skeletonJoint)
 			//	double boneWeight = pBoneVertWeights[boneVertIndex];
 			//}
 		//}
+	}
+}
+
+void SkeletonHandler::ProcessAnimation(FbxNode * pNode, SkeletonExport & outputSkeleton)
+{
+	FbxScene * scene = pNode->GetScene();
+	int numAnimations = scene->GetSrcObjectCount<FbxAnimStack>();
+	for (int animIndex = 0; animIndex < numAnimations; animIndex++)
+	{
+		AnimationHeader tempAnim;
+		//getting the current stack and evaluator
+		FbxAnimStack *animStack = (FbxAnimStack*)scene->GetSrcObject<FbxAnimStack>(animIndex);
+		FbxAnimEvaluator *animEval = scene->GetAnimationEvaluator();
+		std::cout << animStack->GetName();
+		memcpy(tempAnim.animationName, animStack->GetName(), sizeof(char) * 256);
+		tempAnim.animationID = getLayerID((FbxString)animStack->GetName());
+		//tempAnim.jointCount
+		outputSkeleton.animations->push_back(tempAnim);
 	}
 }
 

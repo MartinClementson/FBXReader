@@ -28,6 +28,7 @@ private:
 	void ProcessPosition(FbxNode * pNode, JointHeader &skeletonJoint);
 	void ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSkeleton);
 	void ProcessJoints(FbxMesh * pMesh, JointHeader &skeletonJoint);
+	void ProcessAnimation(FbxNode * pNode, SkeletonExport &outputSkeleton);
 	int getLayerID(FbxString input);
 #pragma endregion
 };
