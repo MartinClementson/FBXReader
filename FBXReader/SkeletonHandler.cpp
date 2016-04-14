@@ -18,6 +18,8 @@ void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExpor
 		SkeletonExport *tempSkeleton = new SkeletonExport;
 		jointCount = 0;
 		jointID = 0;
+		animationID = 0;
+		skeletonLayers.clear();
 		std::cout << "skeleton name: " << pNode->GetName() << "\n";
 		FbxSkeleton *skel = pNode->GetSkeleton();
 		FbxSkin * pSkin = (FbxSkin*)((FbxMesh*)skel->GetDstObject())->GetDeformer(0, FbxDeformer::eSkin);
@@ -127,6 +129,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 		//so far so good
 
 		//put control here to se if its the same animation layer
+		int layerTest = getLayerID((FbxString)animStack->GetName());
 		int numLayers = animStack->GetMemberCount();
 		for (int layerIndex = 0; layerIndex < numLayers; layerIndex++)
 		{
@@ -376,5 +379,29 @@ void SkeletonHandler::ProcessJoints(FbxMesh * pMesh, JointHeader &skeletonJoint)
 			//}
 		//}
 	}
+}
+
+int SkeletonHandler::getLayerID(FbxString input)
+{
+	if (skeletonLayers.size() == 0)
+	{
+		layer temp;
+		temp.layerName = input;
+		temp.ID = animationID;
+		animationID++;
+		skeletonLayers.push_back(temp);
+		return 0;
+	}
+	for (unsigned int i = 0; i < skeletonLayers.size(); i++)
+	{
+		if (input == skeletonLayers.at(i).layerName)
+			return skeletonLayers.at(i).ID;
+	}
+	layer temp;
+	temp.layerName = input;
+	temp.ID = animationID;
+	animationID++;
+	skeletonLayers.push_back(temp);
+	return temp.ID;
 }
 
