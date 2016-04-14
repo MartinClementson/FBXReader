@@ -18,6 +18,9 @@ void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExpor
 		SkeletonExport *tempSkeleton = new SkeletonExport;
 		jointCount = 0;
 		jointID = 0;
+		animationID = 0;
+		skeletonLayers.clear();
+		layerJointCount.clear();
 		std::cout << "skeleton name: " << pNode->GetName() << "\n";
 		FbxSkeleton *skel = pNode->GetSkeleton();
 		FbxSkin * pSkin = (FbxSkin*)((FbxMesh*)skel->GetDstObject())->GetDeformer(0, FbxDeformer::eSkin);
@@ -27,6 +30,8 @@ void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExpor
 		//ProcessData(pNode, tempSkeleton);
 		//outputSkeletons->resize(sizeof(SkeletonExport));
 		ProcessData(pNode, *tempSkeleton);
+		ProcessAnimation(pNode, *tempSkeleton);
+		//tempSkeleton->animations->at(0).jointCount = jointCount;
 		outputSkeletons->push_back(tempSkeleton);
 	}
 }
@@ -126,6 +131,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 		//so far so good
 
 		//put control here to se if its the same animation layer
+		int layerTest = getLayerID((FbxString)animStack->GetName());
 		int numLayers = animStack->GetMemberCount();
 		for (int layerIndex = 0; layerIndex < numLayers; layerIndex++)
 		{
@@ -137,9 +143,11 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 			FbxAnimCurve * scalingCurve = pNode->LclScaling.GetCurve(animLayer);
 
 			if (translationCurve != NULL ||
-				rotationCurve    != NULL ||
-				scalingCurve     != NULL)
-				jointCount += 1;
+				rotationCurve != NULL ||
+				scalingCurve != NULL)
+				//jointCount += 1;
+				addLayerJointCount((FbxString)animStack->GetName());
+
 
 			//FbxTimeSpan animTime;
 			//pNode->GetAnimationInterval(animTime, animStack);
@@ -154,7 +162,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 			std::vector<FbxAMatrix> translationMatrix;
 
 			//temp
-			std::vector<FbxAMatrix> frameMatrix;
+			//std::vector<FbxAMatrix> frameMatrix;
 
 			//if (scalingCurve != NULL)
 			//{
@@ -263,6 +271,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 
 			//add matrix here
 			//use int i for frame ID
+			FbxSkeleton *skel = pNode->GetSkeleton();
 			for (int i = 0; i < max; i++)
 			{
 				FbxAMatrix tempFrameMatrix;
@@ -283,7 +292,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 				tempFrameMatrix.SetIdentity();
 				if (rotationMatrix.size() > i)
 					tempFrameMatrix = tempFrameMatrix*rotationMatrix.at(i);
-				if (translationMatrix.size() > i)
+				if (translationMatrix.size() > i && skel->IsSkeletonRoot())
 					tempFrameMatrix = tempFrameMatrix*translationMatrix.at(i);
 
 				//now that we have the combined matrix of the whole position, we store it here
@@ -309,8 +318,16 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 				tempFrame.frameMatrix[3][2] = tempFrameMatrix[3][2];
 				tempFrame.frameMatrix[3][3] = tempFrameMatrix[3][3];
 
-				tempFrame.frameID = i;
+				tempFrame.frameID = getLayerID((FbxString)animStack->GetName());
 				outputSkeleton.frames->push_back(tempFrame);
+			}
+			if (max != 0)
+			{
+				JointCountHeader tempJointHeader;
+				tempJointHeader.frameCount = max;
+				//get the jointID here and insert it
+				//tempJointHeader.jointID = 0;
+				outputSkeleton.animationJointCount->push_back(tempJointHeader);
 			}
 		}
 	}
@@ -368,5 +385,82 @@ void SkeletonHandler::ProcessJoints(FbxMesh * pMesh, JointHeader &skeletonJoint)
 			//}
 		//}
 	}
+}
+
+void SkeletonHandler::ProcessAnimation(FbxNode * pNode, SkeletonExport & outputSkeleton)
+{
+	FbxScene * scene = pNode->GetScene();
+	int numAnimations = scene->GetSrcObjectCount<FbxAnimStack>();
+	for (int animIndex = 0; animIndex < numAnimations; animIndex++)
+	{
+		AnimationHeader tempAnim;
+		//getting the current stack and evaluator
+		FbxAnimStack *animStack = (FbxAnimStack*)scene->GetSrcObject<FbxAnimStack>(animIndex);
+		FbxAnimEvaluator *animEval = scene->GetAnimationEvaluator();
+		std::cout << animStack->GetName();
+		memcpy(tempAnim.animationName, animStack->GetName(), sizeof(char) * 256);
+		tempAnim.animationID = getLayerID((FbxString)animStack->GetName());
+		tempAnim.jointCount = getLayerJointCount((FbxString)animStack->GetName());
+		outputSkeleton.animations->push_back(tempAnim);
+	}
+}
+
+int SkeletonHandler::getLayerID(FbxString input)
+{
+	if (skeletonLayers.size() == 0)
+	{
+		layer temp;
+		temp.layerName = input;
+		temp.ID = animationID;
+		animationID++;
+		skeletonLayers.push_back(temp);
+		return 0;
+	}
+	for (unsigned int i = 0; i < skeletonLayers.size(); i++)
+	{
+		if (input == skeletonLayers.at(i).layerName)
+			return skeletonLayers.at(i).ID;
+	}
+	layer temp;
+	temp.layerName = input;
+	temp.ID = animationID;
+	animationID++;
+	skeletonLayers.push_back(temp);
+	return temp.ID;
+}
+
+int SkeletonHandler::getLayerJointCount(FbxString input)
+{
+	for (unsigned int i = 0; i < layerJointCount.size(); i++)
+	{
+		if (input == layerJointCount.at(i).layerName)
+			return layerJointCount.at(i).jointCount;
+	}
+	return -1;
+}
+
+void SkeletonHandler::addLayerJointCount(FbxString input)
+{
+	if (layerJointCount.size() == 0)
+	{
+		layerJoints temp;
+		temp.layerName = input;
+		temp.jointCount = 1;
+		layerJointCount.push_back(temp);
+		return;
+	}
+	for (unsigned int i = 0; i < layerJointCount.size(); i++)
+	{
+		if (input == layerJointCount.at(i).layerName)
+		{
+			layerJointCount.at(i).jointCount += 1;
+			return;
+		}
+	}
+	layerJoints temp;
+	temp.layerName = input;
+	temp.jointCount = 1;
+	layerJointCount.push_back(temp);
+	return;
 }
 

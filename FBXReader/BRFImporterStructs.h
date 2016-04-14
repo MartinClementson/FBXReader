@@ -110,6 +110,7 @@ namespace BRFImporter
 	{
 		char animationName[256];
 		unsigned int jointCount;
+		unsigned int animationID;
 	};
 	struct JointCountHeader
 	{
