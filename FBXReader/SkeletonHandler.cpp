@@ -150,11 +150,11 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 
 			//can have three different matrices and in the end multiply them into the real one!
 			//std::vector<DirectX::XMMATRIX> scaleMatrix;
-			std::vector<FbxMatrix> rotationMatrix;
-			std::vector<FbxMatrix> translationMatrix;
+			std::vector<FbxAMatrix> rotationMatrix;
+			std::vector<FbxAMatrix> translationMatrix;
 
 			//temp
-			std::vector<FbxMatrix> frameMatrix;
+			std::vector<FbxAMatrix> frameMatrix;
 
 			//if (scalingCurve != NULL)
 			//{
@@ -218,9 +218,9 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 					
 					tempRotation = rotationx*rotationy; tempRotation = tempRotation*rotationz;
 					FbxAMatrix rot;
-					FbxVector4 rotV(x, y, z, 1);
+					//FbxVector4 rotV(x, y, z, 1);
 					rot.SetR(FbxVector4(x,y,z,1));
-					//rotationMatrix.push_back(tempRotation);
+					rotationMatrix.push_back(rot);
 
 
 					//float frameSeconds = (float)frameTime.GetSecondDouble();
@@ -246,9 +246,11 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 					float x = (float)translationVector[0];
 					float y = (float)translationVector[1];
 					float z = (float)translationVector[2];
-
+					FbxAMatrix trans;
+					trans.SetT(FbxVector4(x, y, z, 1));
 					//translationMatrix.push_back(DirectX::XMMatrixTranslation(x, y, z));
-					double frameSeconds = frameTime.GetSecondDouble();
+					translationMatrix.push_back(trans);
+					//double frameSeconds = frameTime.GetSecondDouble();
 				}
 			}
 
@@ -263,7 +265,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 			//use int i for frame ID
 			for (int i = 0; i < max; i++)
 			{
-				DirectX::XMMATRIX tempFrameMatrix;
+				FbxAMatrix tempFrameMatrix;
 				FrameHeader tempFrame;
 				//checking if the size of the matrices are in the range of the max value
 				//seeing as the rotationMatrix might have 3 stored values while the scale
@@ -278,16 +280,34 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 				//to be multiplied by an identity matrix which according the mathmagic is the same as the
 				//matrix inserted. Hence, we do not need to assign another value.
 				//else
-				tempFrameMatrix = DirectX::XMMatrixIdentity();
+				tempFrameMatrix.SetIdentity();
 				if (rotationMatrix.size() > i)
-					//tempFrameMatrix = DirectX::XMMatrixMultiply(rotationMatrix.at(i), tempFrameMatrix);
+					tempFrameMatrix = tempFrameMatrix*rotationMatrix.at(i);
 				if (translationMatrix.size() > i)
-					//tempFrameMatrix = DirectX::XMMatrixMultiply(translationMatrix.at(i), tempFrameMatrix);
+					tempFrameMatrix = tempFrameMatrix*translationMatrix.at(i);
 
 				//now that we have the combined matrix of the whole position, we store it here
 				//frameMatrix.push_back(tempFrameMatrix);
 				//FbxAMatrix test = tempFrameMatrix;
-				//tempFrame.frameMatrix[0][0] = tempFrameMatrix;
+				tempFrame.frameMatrix[0][0] = tempFrameMatrix[0][0];
+				tempFrame.frameMatrix[0][1] = tempFrameMatrix[0][1];
+				tempFrame.frameMatrix[0][2] = tempFrameMatrix[0][2];
+				tempFrame.frameMatrix[0][3] = tempFrameMatrix[0][3];
+
+				tempFrame.frameMatrix[1][0] = tempFrameMatrix[1][0];
+				tempFrame.frameMatrix[1][1] = tempFrameMatrix[1][1];
+				tempFrame.frameMatrix[1][2] = tempFrameMatrix[1][2];
+				tempFrame.frameMatrix[1][3] = tempFrameMatrix[1][3];
+
+				tempFrame.frameMatrix[2][0] = tempFrameMatrix[2][0];
+				tempFrame.frameMatrix[2][1] = tempFrameMatrix[2][1];
+				tempFrame.frameMatrix[2][2] = tempFrameMatrix[2][2];
+				tempFrame.frameMatrix[2][3] = tempFrameMatrix[2][3];
+
+				tempFrame.frameMatrix[3][0] = tempFrameMatrix[3][0];
+				tempFrame.frameMatrix[3][1] = tempFrameMatrix[3][1];
+				tempFrame.frameMatrix[3][2] = tempFrameMatrix[3][2];
+				tempFrame.frameMatrix[3][3] = tempFrameMatrix[3][3];
 
 				tempFrame.frameID = i;
 				outputSkeleton.frames->push_back(tempFrame);
