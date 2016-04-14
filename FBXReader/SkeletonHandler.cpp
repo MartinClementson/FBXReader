@@ -30,6 +30,7 @@ void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExpor
 		//ProcessData(pNode, tempSkeleton);
 		//outputSkeletons->resize(sizeof(SkeletonExport));
 		ProcessData(pNode, *tempSkeleton);
+		ProcessAnimation(pNode, *tempSkeleton);
 		//tempSkeleton->animations->at(0).jointCount = jointCount;
 		outputSkeletons->push_back(tempSkeleton);
 	}
@@ -324,7 +325,9 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 			{
 				JointCountHeader tempJointHeader;
 				tempJointHeader.frameCount = max;
+				//get the jointID here and insert it
 				//tempJointHeader.jointID = 0;
+				outputSkeleton.animationJointCount->push_back(tempJointHeader);
 			}
 		}
 	}
@@ -397,7 +400,7 @@ void SkeletonHandler::ProcessAnimation(FbxNode * pNode, SkeletonExport & outputS
 		std::cout << animStack->GetName();
 		memcpy(tempAnim.animationName, animStack->GetName(), sizeof(char) * 256);
 		tempAnim.animationID = getLayerID((FbxString)animStack->GetName());
-		//tempAnim.jointCount
+		tempAnim.jointCount = getLayerJointCount((FbxString)animStack->GetName());
 		outputSkeleton.animations->push_back(tempAnim);
 	}
 }
