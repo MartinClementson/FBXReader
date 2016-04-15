@@ -9,7 +9,7 @@ BrfExporter::BrfExporter()
 	lights = new LightExport;
 	groups = new std::vector<GroupHeader>;
 	morphAnim = new std::vector<MorphAnimExport>;
-	cameras = new std::vector<CameraExporter*>;
+	cameras = new CameraExporter;
 }
 
 
@@ -53,7 +53,6 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 
 	std::cout << "\n\n\n\n\nWriting to binary file ........" << "NOT! \n";
 	this->sceneInfo.meshAmount = meshes->size();
-	this->sceneInfo.cameraAmount = cameras->size();
 	//meshes->at(0)->WriteToBinaryFile(&outfile);
 
 	std::cout << "Total amount of meshes exported : " << sceneInfo.meshAmount <<"\n";
@@ -62,15 +61,10 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 		std::cout << "Mesh #" << i << "\n";
 		meshes->at(i)->WriteToBinaryFile(&outfile);
 	}
-
 	if (this->cameras != nullptr)
 	{
 		std::cout << "Total amount of cameras exported: " << sceneInfo.cameraAmount << "\n";
-		for (unsigned int a = 0; a < sceneInfo.cameraAmount; a++)
-		{
-			std::cout << "Camera #" << a << "\n";
-			cameras->at(a)->WriteToBinaryFile(&outfile);
-		}
+		cameras->WriteToBinaryFile(&outfile);
 	}
 
 	if (this->materials != nullptr)
@@ -93,7 +87,7 @@ void BrfExporter::CreateFileHeader()
 
 	this->sceneInfo.attributeAmount = 0;
 
-	this->sceneInfo.cameraAmount = this->cameras->size();
+	this->sceneInfo.cameraAmount = cameras->cameras->size();
 
 	this->sceneInfo.materialAmount = 0;
 

@@ -4,18 +4,16 @@ using namespace BRFImporter;
 
 CameraExporter::CameraExporter()
 {
-
+	cameras = new std::vector<CameraHeader>;
 }
 
 CameraExporter::~CameraExporter()
 {
-
+	delete cameras;
 }
-
 
 void CameraExporter::WriteToBinaryFile(std::ofstream* outfile)
 {
-	this->mainStruct.cameraAmount = cameras->size();
 
 	for (unsigned int i = 0; i < cameras->size(); i++)
 	{
@@ -28,6 +26,7 @@ void CameraExporter::WriteToBinaryFile(std::ofstream* outfile)
 		std::cout << "Camera Rotation: X:" << cameras->at(i).rotation[0] << " Y: " << cameras->at(i).rotation[1] << " Z: " << cameras->at(i).rotation[2] << "\n";
 
 		std::cout << "\n\n\n";
+		
 
 		if (outfile->is_open())
 		{
@@ -36,8 +35,3 @@ void CameraExporter::WriteToBinaryFile(std::ofstream* outfile)
 	}
 
 }
-void CameraExporter::AddCamera(CameraHeader input)
-{
-	this->camInfo = input;
-}
-

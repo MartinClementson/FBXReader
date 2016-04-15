@@ -30,6 +30,11 @@ void MaterialExport::WriteToBinaryFile(std::ofstream * outfile)
 		std::cout << "Specular Value R: " << this->materials->at(i).specularVal[0] << " G: " << this->materials->at(0).specularVal[1] << " B: " << this->materials->at(0).specularVal[2] << std::endl;
 		std::cout << "\n\n\n";
 	}
+
+	if (outfile->is_open())
+	{
+		outfile->write((const char*)(this->materials->data()), sizeof(MaterialHeader));
+	}
 }
 
 

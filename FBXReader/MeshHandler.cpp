@@ -27,9 +27,7 @@ void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputM
 	{
 		if (!IsBoundingBox(pNode)) // Don't export a mesh that is a boundingBox
 		{
-
 			MeshExport* tempMesh = new MeshExport(); // Create a temporary object to fill the information
-
 
 			std::cout << pNode->GetName() << std::endl;
 			/*
@@ -157,6 +155,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 void MeshHandler::GetVertPositions(FbxMesh * pMesh, int index, double * targetPos)
 {
 	FbxVector4 position = pMesh->GetControlPointAt(index);
+
 	targetPos[0] = (double)position[0];
 	targetPos[1] = (double)position[1];
 	targetPos[2] = (double)position[2];
@@ -165,6 +164,7 @@ void MeshHandler::GetVertPositions(FbxMesh * pMesh, int index, double * targetPo
 void MeshHandler::GetVertNormals(fbxsdk::FbxGeometryElementNormal * pNElement, int index, double * targetNormal)
 {
 	FbxVector4 normal = pNElement->GetDirectArray().GetAt(index);
+
 	targetNormal[0] = normal[0];
 	targetNormal[1] = normal[1];
 	targetNormal[2] = normal[2];

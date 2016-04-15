@@ -46,7 +46,7 @@ public:
 
 
 	void GetMeshData(FbxNode* pNode,		std::vector<MeshExport*>* outputMeshes);
-	void GetCameraData(FbxNode * pNode, std::vector<CameraExporter*>* outputCameras);
+	void GetCameraData(FbxNode * pNode, CameraExporter * outputCameras);
 	void GetSkeletonData(FbxNode* pNode,	std::vector<SkeletonExport>* outputSkeletons);
 	//void GetAnimationData(FbxNode* pNode, BrfExporter* outputClass); //Maybe connected to skeleton?
 

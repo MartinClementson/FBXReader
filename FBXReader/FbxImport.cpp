@@ -119,24 +119,15 @@ void FbxImport::PrintScene()
 
 void FbxImport::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputMeshes)
 {
-
-	
-
 	meshHandler.GetMeshData(pNode, outputMeshes); //Extract all the meshes.
-
-	
 }
-
-
 
 void FbxImport::GetMaterialData(FbxNode* pNode, MaterialExport* outputMat)
 {
 	materialHandler.GetMaterialData(pNode, outputMat);
 }
 
-
-
-void FbxImport::GetCameraData(FbxNode* pNode, std::vector<CameraExporter*>* outputCameras)
+void FbxImport::GetCameraData(FbxNode* pNode, CameraExporter* outputCameras)
 
 {
 	cameraHandler.GetCameraData(pNode, outputCameras);
@@ -145,8 +136,6 @@ void FbxImport::GetCameraData(FbxNode* pNode, std::vector<CameraExporter*>* outp
 void FbxImport::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport>* outputSkeletons)
 {
 	//skeletonHandler.GetSkeletonData(pNode);
-
-
 }
 
 //void FbxImport::GetAnimationData(FbxNode * pNode, BrfExporter * outputClass)
