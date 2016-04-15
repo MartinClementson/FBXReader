@@ -18,26 +18,36 @@ void CameraHandler::GetCameraData(FbxNode* pNode, std::vector<CameraExporter*>* 
 	for (int j = 0; j < pNode->GetChildCount(); j++)
 		GetCameraData(pNode->GetChild(j), outCamera);
 	
+	CameraExporter* tempCam = new CameraExporter();
+
+	//BRFImporter::CameraHeader cameras;
+
+	memcpy(tempCam->camInfo.camName, pNode->GetName(), sizeof(char) * 256);
+
 	if (pNode->GetCamera())
 	{
 		//std::cout << "CAMERA!!!!" << std::endl;
 		std::cout << pNode->GetName() << std::endl;
-		ProcessCameraData(pNode->GetCamera(), outCamera);
+		ProcessCameraData(pNode->GetCamera(), tempCam);
 	}
+	outCamera->push_back(tempCam);
+
 }
 
 void CameraHandler::ProcessCameraData(FbxCamera* pCamera, CameraExporter* outCamera)
 {
 	
-	BRFImporter::CameraHeader cameras;
+	//BRFImporter::CameraHeader cameras;
 
-	memcpy(cameras.camName, pCamera->GetName(), sizeof(char) * 256);
+	//memcpy(cameras.camName, pCamera->GetName(), sizeof(char) * 256);
 	
-	GetCamPos(pCamera, cameras.position);
-	GetCamRotation(pCamera->GetNode(), cameras.rotation);
+	for (unsigned int i = 0; i < 2; i++)
+	{
+		GetCamPos(pCamera, outCamera->cameras->at(i).position);
+		GetCamRotation(pCamera->GetNode(), outCamera->cameras->at(i).rotation);
+	}
 
-	outCamera->cameras->push_back(cameras);
-
+	//outCamera->cameras->push_back(cameras);
 }
 
 void CameraHandler::GetCamPos(FbxCamera* pCamera, double* pTargetPos)

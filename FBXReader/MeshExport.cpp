@@ -140,7 +140,6 @@ void MeshExport::AddWeight(WeigthsHeader input)
 
 void MeshExport::AddMeshInfo(MeshHeader info)
 {
-
 	this->meshInfo = info;
 }
 

@@ -38,16 +38,7 @@ void main()
 	delete outputClass;
 	delete importer;
 	std::getchar();
-	
-	
-	
-
-	
 
 	return;
 
 }
-
-
-
-

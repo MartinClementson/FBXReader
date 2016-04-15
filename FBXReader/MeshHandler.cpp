@@ -93,15 +93,10 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 	bitangent
 	*/
 
-
-
-
 	//Get vertices amount
 	unsigned int vertCount = pMesh->GetControlPointsCount();
 	//outPutMesh->meshInfo.vertexCount = vertCount;
 
-	
-	
 	outPutMesh->vertices->resize(vertCount);
 
 	unsigned int polyCount = pMesh->GetPolygonCount();
@@ -156,8 +151,6 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh)
 			<< "UVs: (" << vertices.at(i).uv[0]
 			<< "," << vertices.at(i).uv[1]
 			<< ")" << "\n";*/
-			
-
 	}
 }
 
