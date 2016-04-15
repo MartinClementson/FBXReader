@@ -60,7 +60,8 @@ void SkeletonExport::WriteToBinaryFile(std::ofstream * outfile)
 
 	if (outfile)
 	{
-		outfile->write((const char*)&this->skeletonInfo, sizeof(SkeletonHeader)); //write the information of the mesh to file
+		//write the information of the skeleton to file
+		outfile->write((const char*)&this->skeletonInfo, sizeof(SkeletonHeader)); 
 
 		//write all the the joints 
 		outfile->write(reinterpret_cast<char*>(&this->joints[0]), sizeof(JointHeader) * this->joints->size());
@@ -68,12 +69,25 @@ void SkeletonExport::WriteToBinaryFile(std::ofstream * outfile)
 		//write all the animations
 		outfile->write(reinterpret_cast<char*>(&this->animations[0]), sizeof(AnimationHeader) * this->animations->size());
 
-		//write the joint/frames
+		//making an int to hold the offset between the frames
 		int frameIndex = 0;
+
+		//write the joint/frame animations
 		for (unsigned int i = 0; i < animationJointCount->size(); i++)
 		{
+			//First we write the jointContHeader which hold the information
+			//on how many frames that specified joint has the frames
 			outfile->write(reinterpret_cast<char*>(&this->animationJointCount[i]), sizeof(JointCountHeader));
+
+			//writing the specified number of frames that belong to the
+			//processed joint. The frame also holds which animation layer
+			//it belongs to (ex. Running animation, Walking animation)
 			outfile->write(reinterpret_cast<char*>(&this->frames[frameIndex]), sizeof(FrameHeader) * this->animationJointCount->at(i).frameCount);
+
+			//calculating the offset between the frames. Seeing as the
+			//layers are stored in a long list, we use the offset to
+			//store the frames that belong to the processed joint after
+			//we have written the joint
 			frameIndex += this->animationJointCount->at(i).frameCount;
 		}
 	}
