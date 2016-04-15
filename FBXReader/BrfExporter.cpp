@@ -31,31 +31,27 @@ BrfExporter::~BrfExporter()
 
 void BrfExporter::WriteToBinaryFile(char * fileName)
 {
-
 	/*
 		Open file as binary
 	*/
-
-	std::ofstream outfile(fileName, std::ofstream::binary );
+	std::ofstream outfile(fileName, std::ofstream::binary);
 	if (!outfile.is_open())
 	{
 		std::cout << "Cannot write to file : " << fileName << "\n";
 		return;
 	}
 
-	outfile.write((const char*)&this->goldenNumber, sizeof(int)*2);
+	outfile.write((const char*)&this->goldenNumber, sizeof(int) * 2);
 
 	//Write the main header first in the file (after golden number)
 	CreateFileHeader(); //THis only creates the struct, It does not write to file
 	outfile.write((const char*)&this->sceneInfo, sizeof(MainHeader)); //now write it
 
-	
-
 	std::cout << "\n\n\n\n\nWriting to binary file ........" << "NOT! \n";
 	this->sceneInfo.meshAmount = meshes->size();
 	//meshes->at(0)->WriteToBinaryFile(&outfile);
 
-	std::cout << "Total amount of meshes exported : " << sceneInfo.meshAmount <<"\n";
+	std::cout << "Total amount of meshes exported : " << sceneInfo.meshAmount << "\n";
 	for (unsigned int i = 0; i < sceneInfo.meshAmount; i++)
 	{
 		std::cout << "Mesh #" << i << "\n";
@@ -66,9 +62,11 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 		std::cout << "Total amount of cameras exported: " << sceneInfo.cameraAmount << "\n";
 		cameras->WriteToBinaryFile(&outfile);
 	}
-
 	if (this->materials != nullptr)
-		materials->WriteToBinaryFile(&outfile);
+	{
+			std::cout << "Total amount of materials exported: " << sceneInfo.materialAmount << "\n";
+			materials->WriteToBinaryFile(&outfile);
+	}
 
 	if (this->lights != nullptr)
 		lights->WriteToBinaryFile(&outfile);
@@ -89,7 +87,7 @@ void BrfExporter::CreateFileHeader()
 
 	this->sceneInfo.cameraAmount = cameras->cameras->size();
 
-	this->sceneInfo.materialAmount = 0;
+	this->sceneInfo.materialAmount = materials->materials->size();
 
 	this->sceneInfo.groupAmount = 0;
 
@@ -97,7 +95,4 @@ void BrfExporter::CreateFileHeader()
 
 	this->sceneInfo.skeletonAmount = 0;
 	//ADD ALL ATTRIBUTES HERE
-
-
-
 }

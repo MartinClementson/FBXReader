@@ -27,7 +27,7 @@ FbxImport::~FbxImport()
 void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 {
 
-	//GetMaterialData(this->rootNode, outputFile->GetMatRef());
+	GetMaterialData(this->rootNode, outputFile->GetMatRef());
 	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
 	{
 		GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());

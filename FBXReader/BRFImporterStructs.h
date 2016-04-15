@@ -69,7 +69,6 @@ namespace BRFImporter
 
 		char matName[256];
 
-		double ambientVal[3];
 		double diffuseVal[3];
 		double specularVal[3];
 
