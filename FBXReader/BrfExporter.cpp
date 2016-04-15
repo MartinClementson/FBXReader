@@ -71,7 +71,12 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 
 	if (this->lights != nullptr)
 		lights->WriteToBinaryFile(&outfile);
-	
+	for (unsigned int i = 0; i < sceneInfo.skeletonAmount; i++)
+	{
+		std::cout << "Skeleton #" << i + 1 << "\n";
+		skeletons->at(i)->WriteToBinaryFile(&outfile);
+
+	}
 }
 
 void BrfExporter::CreateFileHeader()
@@ -82,6 +87,7 @@ void BrfExporter::CreateFileHeader()
 		this->sceneInfo.lights = false;
 
 	this->sceneInfo.meshAmount = this->meshes->size();
+	this->sceneInfo.skeletonAmount = this->skeletons->size();
 	//ADD ALL ATTRIBUTES HERE
 
 
