@@ -15,23 +15,32 @@ void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExpor
 {
 	if (pNode->GetSkeleton())
 	{
+		//making a temporary skeleton to store all the values in
 		SkeletonExport *tempSkeleton = new SkeletonExport;
+
+		//resetting the attributes
 		jointCount = 0;
 		jointID = 0;
 		animationID = 0;
 		skeletonLayers.clear();
 		layerJointCount.clear();
-		std::cout << "skeleton name: " << pNode->GetName() << "\n";
+
+		//getting the joint count for the whole skeleton
 		FbxSkeleton *skel = pNode->GetSkeleton();
 		FbxSkin * pSkin = (FbxSkin*)((FbxMesh*)skel->GetDstObject())->GetDeformer(0, FbxDeformer::eSkin);
 		if (pSkin != NULL)
 			tempSkeleton->skeletonInfo.jointCount = pSkin->GetClusterCount();
-		//tempSkeleton.skeletonInfo.animationCount
-		//ProcessData(pNode, tempSkeleton);
-		//outputSkeletons->resize(sizeof(SkeletonExport));
+
+		//processing all the joint data
 		ProcessData(pNode, *tempSkeleton);
+		//processing all the animations
 		ProcessAnimation(pNode, *tempSkeleton);
-		//tempSkeleton->animations->at(0).jointCount = jointCount;
+		//Getting the number of animation associated with this mesh
+		tempSkeleton->skeletonInfo.animationCount = tempSkeleton->animations->size();
+
+		//assigning stub IDs, for testing the export/import
+
+		//storing the skeleton information in the export class
 		outputSkeletons->push_back(tempSkeleton);
 	}
 }

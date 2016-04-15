@@ -17,56 +17,43 @@ SkeletonExport::~SkeletonExport()
 	delete animations;
 	delete animationJointCount;
 	delete frames;
-	/*for (int i = 0; i < joints->size(); i++)
-	{
-		delete &joints->at(i);
-	}
-	delete joints;
-	for (int i = 0; i < animations->size(); i++)
-	{
-		delete &animations->at(i);
-	}
-	delete animations;
-	for (int i = 0; i < animationJointCount->size(); i++)
-	{
-		delete &animationJointCount->at(i);
-	}
-	delete animationJointCount;
-	for (int i = 0; i < frames->size(); i++)
-	{
-		delete &frames->at(i);
-	}
-	delete frames;*/
-	//if (joints != nullptr)
-	//{
-	//	joints->clear();
-	//	joints = NULL;
-	//	delete joints;
-	//	//joints->shrink_to_fit();
-	//}
-	//if (animations != nullptr)
-	//{
-	//	animations->clear();
-	//	animations = NULL;
-	//	delete animations;
-	//	//animations->shrink_to_fit();
-	//}
-	//if (animationJointCount != nullptr)
-	//{
-	//	animationJointCount->clear();
-	//	animationJointCount = NULL;
-	//	delete animationJointCount;
-	//	//animationJointCount->shrink_to_fit();
-	//}
-	//if (frames != nullptr)
-	//{
-	//	frames->clear();
-	//	frames = NULL;
-	//	delete frames;
-	//	//frames->shrink_to_fit();
-	//}
 }
 
 void SkeletonExport::WriteToBinaryFile(std::ofstream * outfile)
 {
+	std::cout << "Processing skeleton\nNumber of Joints: " << skeletonInfo.jointCount << "\n";
+	std::cout << "Number of animations: " << skeletonInfo.animationCount << "\n";
+
+	for (unsigned int i = 0; i < skeletonInfo.jointCount; i++)
+	{
+		std::cout << "\tJoint name: " << joints->at(i).jointName << "\n";
+		std::cout << "\tJoint ID: " << joints->at(i).jointID << "\n";
+		std::cout << "\tParent ID: " << joints->at(i).ParentJointID << "\n\n";
+		std::cout << "\tPosition: (" << joints->at(i).pos[0] << ", " << joints->at(i).pos[1]
+			<< ", " << joints->at(i).pos[2] << ")\n";
+		std::cout << "\tRotation: (" << joints->at(i).rotation[0] << ", "
+			<< joints->at(i).rotation[1] << ", " << joints->at(i).rotation[2] << ")\n";
+	}
+	int frameIndex = 0;
+	for (unsigned int k = 0; k < skeletonInfo.animationCount; k++)
+	{
+		std::cout << "\nProcessing animation\nAnimation name: " << animations->at(k).animationName
+			<< "\n";
+		std::cout << "Animation ID: " << animations->at(k).animationID << "\n";
+		std::cout << "Number of joints in this animation: " << animations->at(k).jointCount << "\n";
+		for (unsigned int i = 0; i < animations->at(k).jointCount; i++)
+		{
+			std::cout << "Number of frames for Joint"
+				<< animationJointCount->at(i).jointID << ": " << animationJointCount->at(i).frameCount
+				<< "\n";
+			for (unsigned int j = 0; j < animationJointCount->at(i).frameCount; j++)
+			{
+				std::cout << "Frame ID: " << frames->at(frameIndex).frameID << "\n";
+				std::cout << "Matrix: (" << frames->at(frameIndex).frameMatrix[0][0] << ", "
+					<< frames->at(frameIndex).frameMatrix[0][1] << ", " << frames->at(frameIndex).frameMatrix[0][2]
+					<< ", " << frames->at(frameIndex).frameMatrix[0][3] << ", etc.\n";
+				frameIndex++;
+			}
+		}
+	}
 }
