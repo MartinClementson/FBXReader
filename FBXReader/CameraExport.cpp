@@ -38,6 +38,6 @@ void CameraExporter::WriteToBinaryFile(std::ofstream* outfile)
 }
 void CameraExporter::AddCamera(CameraHeader input)
 {
-	this->cameras->push_back(input);
+	this->camInfo = input;
 }
 
