@@ -18,11 +18,11 @@ MaterialHandler::~MaterialHandler()
 
 #pragma region Material Main
 
-void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat)
+void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat, SceneMap* sceneMap)
 {
 	//Recursively extract the children
 	for (int j = 0; j < pNode->GetChildCount(); j++)
-		GetMaterialData(pNode->GetChild(j),outputMat);
+		GetMaterialData(pNode->GetChild(j),outputMat,sceneMap);
 
 
 	FbxGeometry* pGeometry = pNode->GetGeometry();
@@ -45,7 +45,7 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat
 				if (pNode->GetMaterial(i))
 				{
 					FbxSurfaceMaterial *pMaterial = node->GetMaterial(i);
-					ProcessData(pMaterial, materialCount, outputMat);
+					ProcessData(pMaterial, materialCount, outputMat,sceneMap);
 				}
 				
 			}
@@ -55,11 +55,66 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat
 	}
 }
 
+void MaterialHandler::MapMaterials(FbxNode * pNode, SceneMap * sceneMap)
+{
+
+
+	//Recursively extract the children
+	for (int j = 0; j < pNode->GetChildCount(); j++)
+		MapMaterials(pNode->GetChild(j), sceneMap);
+
+	FbxGeometry* pGeometry = pNode->GetGeometry();
+	int materialCount = 0;
+	FbxNode* node = NULL;
+
+
+
+	if (pGeometry) {
+
+		node = pGeometry->GetNode();
+
+		if (node)
+			materialCount = pNode->GetMaterialCount();
+
+
+		if (materialCount > 0)
+		{
+
+			for (int i = 0; i < materialCount; i++)
+			{
+				if (pNode->GetMaterial(i))
+				{
+					FbxSurfaceMaterial *pMaterial = node->GetMaterial(i);
+					std::cout << pMaterial->GetName() << "\n";
+
+						if (sceneMap->materialHash.find(pMaterial->GetName()) == sceneMap->materialHash.end()) {
+							// not found
+							std::cout << "New material found!  mapping..\n";
+							sceneMap->materialHash[pMaterial->GetName()] = sceneMap->materialID;
+							sceneMap->materialID += 1;
+						}
+						else {
+							// found
+							std::cout << "Material " << pMaterial->GetName() << " already exist .. skipping mapping of material" << std::endl;
+						}
+
+					//ProcessData(pMaterial, materialCount, outputMat);
+				}
+
+			}
+		}
+
+
+	}
+
+
+}
+
 #pragma endregion
 
 #pragma region Process Data
 
-void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int materialCount, MaterialExport* outputMat)
+void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int materialCount, MaterialExport* outputMat, SceneMap* sceneMap)
 {
 	
 
@@ -67,11 +122,14 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 
 	MaterialHeader materialStruct;
 	
+	
 	//diffuse property
 	FbxProperty diffProp = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
 	unsigned int diffMapCount = diffProp.GetSrcObjectCount<FbxFileTexture>();
 	
 	memcpy(materialStruct.matName, pMaterial->GetName(), sizeof(char) * 256);
+
+	materialStruct.Id = sceneMap->materialHash[pMaterial->GetName()];
 	//check if there are texturemaps
 	if (diffMapCount > 0)
 	{
