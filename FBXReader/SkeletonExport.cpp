@@ -34,9 +34,9 @@ void SkeletonExport::WriteToBinaryFile(std::ofstream * outfile)
 		std::cout << "\tRotation: (" << joints->at(i).rotation[0] << ", "
 			<< joints->at(i).rotation[1] << ", " << joints->at(i).rotation[2] << ")\n\n";
 	}
-	int frameIndex = 0;
 	for (unsigned int k = 0; k < skeletonInfo.animationCount; k++)
 	{
+		int frameIndex = 0;
 		std::cout << "\nProcessing animation\nAnimation name: " << animations->at(k).animationName
 			<< "\n";
 		std::cout << "Animation ID: " << animations->at(k).animationID << "\n";
@@ -54,6 +54,27 @@ void SkeletonExport::WriteToBinaryFile(std::ofstream * outfile)
 					<< ", " << frames->at(frameIndex).frameMatrix[0][3] << ") etc.\n";
 				frameIndex++;
 			}
+		}
+	}
+	//export
+
+	if (outfile)
+	{
+		outfile->write((const char*)&this->skeletonInfo, sizeof(SkeletonHeader)); //write the information of the mesh to file
+
+		//write all the the joints 
+		outfile->write(reinterpret_cast<char*>(&this->joints[0]), sizeof(JointHeader) * this->joints->size());
+
+		//write all the animations
+		outfile->write(reinterpret_cast<char*>(&this->animations[0]), sizeof(AnimationHeader) * this->animations->size());
+
+		//write the joint/frames
+		int frameIndex = 0;
+		for (unsigned int i = 0; i < animationJointCount->size(); i++)
+		{
+			outfile->write(reinterpret_cast<char*>(&this->animationJointCount[i]), sizeof(JointCountHeader));
+			outfile->write(reinterpret_cast<char*>(&this->frames[frameIndex]), sizeof(FrameHeader) * this->animationJointCount->at(i).frameCount);
+			frameIndex += this->animationJointCount->at(i).frameCount;
 		}
 	}
 }

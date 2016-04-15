@@ -1,6 +1,7 @@
 #pragma once
 #include "BRFImporterStructs.h"
 #include "fbxSDK.h"
+#include <fstream>
 using namespace BRFImporter;
 
 class SkeletonExport
