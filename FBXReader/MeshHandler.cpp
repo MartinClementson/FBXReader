@@ -15,11 +15,11 @@ MeshHandler::~MeshHandler()
 {
 }
 
-void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputMeshes)
+void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputMeshes, SceneMap* sceneMap)
 {
 	//Recursively extract the children
 	for (int j = 0; j < pNode->GetChildCount(); j++)
-		GetMeshData(pNode->GetChild(j),outputMeshes);
+		GetMeshData(pNode->GetChild(j),outputMeshes, sceneMap);
 
 	
 
@@ -60,7 +60,9 @@ void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputM
 			tempMesh->meshInfo.scale[1] = scale[1];
 			tempMesh->meshInfo.scale[2] = scale[2];
 
-			//std::cout << pNode->GetMaterial(0) << "\n"; //TODO! We need to get info on what material is used here!
+			//getting the material id
+			std::cout << pNode->GetMaterial(0)->GetName() << "\n";
+			tempMesh->meshInfo.materialID = sceneMap->materialHash[pNode->GetMaterial(0)->GetName()];
 
 			ProcessData(pNode->GetMesh(), tempMesh, hasSkeleton); //fill the information needed
 

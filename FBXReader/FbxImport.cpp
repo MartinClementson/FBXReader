@@ -152,7 +152,7 @@ void FbxImport::PrintScene()
 
 void FbxImport::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputMeshes)
 {
-	meshHandler.GetMeshData(pNode, outputMeshes); //Extract all the meshes.
+	meshHandler.GetMeshData(pNode, outputMeshes, &this->sceneMap); //Extract all the meshes.
 }
 
 void FbxImport::GetMaterialData(FbxNode* pNode, MaterialExport* outputMat)
