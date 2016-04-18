@@ -17,11 +17,14 @@ void main()
 	//const char* fileName = "test2.fbx";
 	const char* fileName = "skeleton_and_no_skeleton.fbx";
 	//const char* fileName = "3_shapes_1_Cam.fbx";
+	//const char* fileName = "3meshes_1Cam_triangulated.fbx";
 	//const char* fileName = "GroupScene.fbx";
 	//const char* fileName = "BoundingBoxScene.fbx";
 	FbxImport* importer = new FbxImport();
 	
 	
+	int size = sizeof(int) * 2;
+
 	importer->LoadFbxFile(fileName); //Load the fbx file
 	importer->PrintScene(); 
 
@@ -32,21 +35,13 @@ void main()
 	//information is in the outPutClass.
 	outputClass->WriteToBinaryFile("Filename.BRF"); //write to file
 
+	//outputClass->WriteToBinaryFile("lightwithmat.brf");
 	//done
 
 	delete outputClass;
 	delete importer;
 	std::getchar();
-	
-	
-	
-
-	
 
 	return;
 
 }
-
-
-
-

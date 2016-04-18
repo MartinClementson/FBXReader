@@ -78,7 +78,6 @@ namespace BRFImporter
 
 		char matName[256];
 
-		double ambientVal[3];
 		double diffuseVal[3];
 		double specularVal[3];
 
@@ -139,10 +138,10 @@ namespace BRFImporter
 	struct LightHeader
 	{
 		unsigned int spotCount;
-		unsigned int ambientCount;
-		unsigned int directionalCount;
 		unsigned int areaCount;
 		unsigned int pointCount;
+		unsigned int directionalCount;
+
 	};
 #pragma endregion
 #pragma region LightHeader Dynamics
@@ -154,14 +153,6 @@ namespace BRFImporter
 		double rot[3];
 		double scale[3];
 		double outerAngle;
-		double color[3];
-		double intensity;
-	};
-	struct AmbLightHeader
-	{
-		unsigned int objectID;
-		unsigned int parentID;		// 0 = Default
-		double pos[3];
 		double color[3];
 		double intensity;
 	};

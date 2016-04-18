@@ -13,9 +13,6 @@ MaterialHandler::~MaterialHandler()
 
 #pragma endregion
 
-
-
-
 #pragma region Material Main
 
 void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat, SceneMap* sceneMap)
@@ -24,6 +21,10 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat
 	for (int j = 0; j < pNode->GetChildCount(); j++)
 		GetMaterialData(pNode->GetChild(j),outputMat,sceneMap);
 
+	if (outputMat == nullptr)
+	{
+		outputMat == new MaterialExport;
+	}
 
 	FbxGeometry* pGeometry = pNode->GetGeometry();
 	int materialCount = 0;
@@ -35,7 +36,7 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat
 
 		if (node)
 			materialCount = pNode->GetMaterialCount();
-			
+				
 	
 		if (materialCount > 0)
 		{
@@ -116,10 +117,6 @@ void MaterialHandler::MapMaterials(FbxNode * pNode, SceneMap * sceneMap)
 
 void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int materialCount, MaterialExport* outputMat, SceneMap* sceneMap)
 {
-	
-
-	
-
 	MaterialHeader materialStruct;
 	
 	
