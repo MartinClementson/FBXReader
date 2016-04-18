@@ -66,8 +66,8 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 		std::cout << "Mesh #" << i+1 << "\n";
 		meshes->at(i)->WriteToBinaryFile(&outfile);
 
-		std::cout << "Mesh #" << i << "\n";
-		meshes->at(i)->WriteToBinaryFile(&outfile);
+		//std::cout << "Mesh #" << i << "\n";
+		//meshes->at(i)->WriteToBinaryFile(&outfile);
 	}
 	if (this->cameras != nullptr)
 	{
