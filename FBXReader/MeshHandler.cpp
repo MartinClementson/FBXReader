@@ -257,7 +257,7 @@ void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index, MeshExp
 	}
 	else
 	{
-
+		return;
 	}
 }
 
