@@ -67,19 +67,19 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 		meshes->at(i)->WriteToBinaryFile(&outfile);
 
 	}
-	if (this->cameras != nullptr)
+	/*if (this->cameras != nullptr)
 	{
 		std::cout << "Total amount of cameras exported: " << sceneInfo.cameraAmount << "\n";
 		cameras->WriteToBinaryFile(&outfile);
-	}
+	}*/
 	if (this->materials != nullptr)
 	{
 			std::cout << "Total amount of materials exported: " << sceneInfo.materialAmount << "\n";
 			materials->WriteToBinaryFile(&outfile);
 	}
 
-	if (this->lights != nullptr)
-		lights->WriteToBinaryFile(&outfile);
+	/*if (this->lights != nullptr)
+		lights->WriteToBinaryFile(&outfile);*/
 	for (unsigned int i = 0; i < sceneInfo.skeletonAmount; i++)
 	{
 		std::cout << "Skeleton #" << i + 1 << "\n";
