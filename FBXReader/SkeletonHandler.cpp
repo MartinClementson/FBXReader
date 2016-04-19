@@ -4,11 +4,14 @@
 
 SkeletonHandler::SkeletonHandler()
 {
+	skeletonId = nullptr;
+	staticSkeletonID = 0;
 }
 
 
 SkeletonHandler::~SkeletonHandler()
 {
+	delete skeletonId;
 }
 
 void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport*>* outputSkeletons)
@@ -446,6 +449,35 @@ int SkeletonHandler::getLayerJointCount(FbxString input)
 			return layerJointCount.at(i).jointCount;
 	}
 	return -1;
+}
+
+int SkeletonHandler::getSkeletonID(FbxString input)
+{
+	if (skeletonId == nullptr)
+	{
+		skeletonId = new std::vector<skeletonID>;
+		skeletonID temp;
+		temp.skeletonName = input;
+		temp.ID = staticSkeletonID;
+		staticSkeletonID++;
+		skeletonId->push_back(temp);
+		return 0;
+	}
+	else
+	{
+		for (unsigned int i = 0; i < staticSkeletonID; i++)
+		{
+			if (input == skeletonId->at(i).skeletonName)
+				return skeletonId->at(i).ID;
+		}
+	}
+	skeletonId = new std::vector<skeletonID>;
+	skeletonID temp;
+	temp.skeletonName = input;
+	temp.ID = staticSkeletonID;
+	staticSkeletonID++;
+	skeletonId->push_back(temp);
+	return temp.ID;
 }
 
 void SkeletonHandler::addLayerJointCount(FbxString input)

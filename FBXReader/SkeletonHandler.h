@@ -21,11 +21,18 @@ private:
 		FbxString layerName;
 		unsigned int jointCount;
 	};
+	struct skeletonID
+	{
+		FbxString skeletonName;
+		unsigned int ID;
+	};
 #pragma endregion
 #pragma region attributes
 	int jointCount;
 	int jointID;
 	int animationID;
+	int static staticSkeletonID;
+	std::vector<skeletonID>* skeletonId;
 	std::vector<layer> skeletonLayers;
 	std::vector<layerJoints> layerJointCount;
 #pragma endregion
@@ -37,6 +44,7 @@ private:
 	void ProcessAnimation(FbxNode * pNode, SkeletonExport &outputSkeleton);
 	int getLayerID(FbxString input);
 	int getLayerJointCount(FbxString input); //will return -1 if failed
+	int getSkeletonID(FbxString input);
 	void addLayerJointCount(FbxString input);
 
 #pragma endregion
