@@ -87,6 +87,7 @@ void SkeletonHandler::ProcessData(FbxNode * pNode, SkeletonExport &outputSkeleto
 		{
 			std::cout << "\n it's the root!!! \n";
 			tempJoint.ParentJointID = 0;
+			outputSkeleton.skeletonInfo.skeletonID = getSkeletonID(pNode->GetName());
 		}
 		else
 		{

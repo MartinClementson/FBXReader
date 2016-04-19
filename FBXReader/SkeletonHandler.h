@@ -31,7 +31,7 @@ private:
 	int jointCount;
 	int jointID;
 	int animationID;
-	int static staticSkeletonID;
+	int staticSkeletonID;
 	std::vector<skeletonID>* skeletonId;
 	std::vector<layer> skeletonLayers;
 	std::vector<layerJoints> layerJointCount;

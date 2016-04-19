@@ -65,7 +65,7 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 	{
 		GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
 		GetCameraData(this->rootNode->GetChild(i), outputFile->GetCamerasRef());
-		//GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
+		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
 		GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());	
 	}
 
