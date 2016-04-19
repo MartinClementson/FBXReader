@@ -108,10 +108,10 @@ void BrfExporter::CreateFileHeader()
 
 	this->sceneInfo.materialAmount = materials->materials->size();
 
-	this->sceneInfo.groupAmount = 0;
+	//this->sceneInfo.groupAmount = 0;
 
-	this->sceneInfo.morphAnimAmount = 0;
+	//this->sceneInfo.morphAnimAmount = 0;
 
-	this->sceneInfo.skeletonAmount = 0;
+	//this->sceneInfo.skeletonAmount = 0;
 	//ADD ALL ATTRIBUTES HERE
 }
