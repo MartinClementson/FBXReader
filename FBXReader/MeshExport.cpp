@@ -101,7 +101,7 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 	//	if(this->meshInfo.boundingBox)
 	//		outfile->write(reinterpret_cast<char*>(&this->boundingBox), sizeof(OOBBHeader));
 
-	//	//write the weights to the file
+	//	//write the weights to the file 
  	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n\n";
 
 	//export
