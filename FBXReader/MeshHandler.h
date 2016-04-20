@@ -9,7 +9,7 @@ public:
 	MeshHandler();
 	~MeshHandler();
 
-	void GetMeshData(FbxNode* pNode, std::vector<MeshExport*>* outputMeshes);
+	void GetMeshData(FbxNode* pNode, std::vector<MeshExport*>* outputMeshes, SceneMap* sceneMap);
 
 private:
 	void ProcessData(FbxMesh* pMesh, MeshExport* mesh, bool hasSkeleton);

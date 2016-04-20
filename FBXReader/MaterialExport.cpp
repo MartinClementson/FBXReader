@@ -3,11 +3,8 @@
 using namespace BRFImporter;
 MaterialExport::MaterialExport()
 {
-
 	materials = new std::vector<MaterialHeader>;
-
 }
-
 
 MaterialExport::~MaterialExport()
 {
@@ -18,6 +15,8 @@ MaterialExport::~MaterialExport()
 
 void MaterialExport::WriteToBinaryFile(std::ofstream * outfile)
 {
+	this->main.materialAmount = materials->size();
+
 	for (int i = 0; i < materials->size(); i++)
 	{
 		std::cout << "Material name  : " << this->materials->at(i).matName << std::endl;
@@ -29,6 +28,11 @@ void MaterialExport::WriteToBinaryFile(std::ofstream * outfile)
 		std::cout << "Specular Map Name: " << this->materials->at(i).specMap << std::endl;
 		std::cout << "Specular Value R: " << this->materials->at(i).specularVal[0] << " G: " << this->materials->at(0).specularVal[1] << " B: " << this->materials->at(0).specularVal[2] << std::endl;
 		std::cout << "\n\n\n";
+
+	}
+	if (outfile->is_open())
+	{
+		outfile->write((const char*)(this->materials->data()), sizeof(MaterialHeader) * materials->size());
 	}
 }
 

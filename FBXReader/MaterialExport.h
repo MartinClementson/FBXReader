@@ -17,9 +17,9 @@ This class handles all materials
 
 class MaterialExport
 {
-
-
 public:
+	MainHeader main;
+
 	std::vector<MaterialHeader>* materials;
 	
 
