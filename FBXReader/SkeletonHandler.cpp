@@ -5,7 +5,7 @@
 SkeletonHandler::SkeletonHandler()
 {
 	skeletonId = nullptr;
-	staticSkeletonID = 0;
+	staticSkeletonID = 1;
 }
 
 
