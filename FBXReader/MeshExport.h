@@ -24,6 +24,7 @@ class MeshExport
 
 public:
 	MeshHeader meshInfo;
+	MainHeader mainInfo;
 	std::vector<IndexHeader>* indices;
 	std::vector<VertexHeader>* vertices;
 	std::vector<VertexHeaderNoSkeleton>* verticesNoSkeleton;

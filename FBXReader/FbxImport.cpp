@@ -63,15 +63,10 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 	GetMaterialData(this->rootNode, outputFile->GetMatRef());
 	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
 	{
-
-		
-
 		GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
-		GetCameraData(this->rootNode->GetChild(i),outputFile->GetCamerasRef());
+		GetCameraData(this->rootNode->GetChild(i), outputFile->GetCamerasRef());
 		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
-		GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());
-		
-
+		GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());	
 	}
 
 }
@@ -157,36 +152,26 @@ void FbxImport::PrintScene()
 
 void FbxImport::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputMeshes)
 {
-
-	
-
-	meshHandler.GetMeshData(pNode, outputMeshes); //Extract all the meshes.
-
-	
+	meshHandler.GetMeshData(pNode, outputMeshes, &this->sceneMap); //Extract all the meshes.
 }
-
-
 
 void FbxImport::GetMaterialData(FbxNode* pNode, MaterialExport* outputMat)
 {
 	materialHandler.GetMaterialData(pNode, outputMat,&this->sceneMap);
 }
 
-
-
 void FbxImport::GetCameraData(FbxNode* pNode, CameraExporter* outputCameras)
 
 {
 	cameraHandler.GetCameraData(pNode, outputCameras);
-
-	
 }
 
-void FbxImport::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport>* outputSkeletons)
+void FbxImport::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport*>* outputSkeletons)
 {
 	skeletonHandler.GetSkeletonData(pNode, outputSkeletons);
 
 
+	//skeletonHandler.GetSkeletonData(pNode);
 }
 
 //void FbxImport::GetAnimationData(FbxNode * pNode, BrfExporter * outputClass)

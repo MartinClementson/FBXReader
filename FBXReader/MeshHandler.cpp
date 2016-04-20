@@ -15,11 +15,11 @@ MeshHandler::~MeshHandler()
 {
 }
 
-void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputMeshes)
+void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputMeshes, SceneMap* sceneMap)
 {
 	//Recursively extract the children
 	for (int j = 0; j < pNode->GetChildCount(); j++)
-		GetMeshData(pNode->GetChild(j),outputMeshes);
+		GetMeshData(pNode->GetChild(j),outputMeshes, sceneMap);
 
 	
 
@@ -60,7 +60,9 @@ void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputM
 			tempMesh->meshInfo.scale[1] = scale[1];
 			tempMesh->meshInfo.scale[2] = scale[2];
 
-			//std::cout << pNode->GetMaterial(0) << "\n"; //TODO! We need to get info on what material is used here!
+			//getting the material id
+			std::cout << pNode->GetMaterial(0)->GetName() << "\n";
+			tempMesh->meshInfo.materialID = sceneMap->materialHash[pNode->GetMaterial(0)->GetName()];
 
 			ProcessData(pNode->GetMesh(), tempMesh, hasSkeleton); //fill the information needed
 
@@ -121,7 +123,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh, bool hasS
 	//Get the vertex indices
 	int startindex;
 	int *vert;
-	for (int i = 0; i < polyCount; i++)
+	for (unsigned int i = 0; i < polyCount; i++)
 	{
 		startindex = pMesh->GetPolygonVertexIndex(i); 
 		vert = &pMesh->GetPolygonVertices()[startindex];
@@ -138,7 +140,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh, bool hasS
 	//outPutMesh->meshInfo.indexCount = outPutMesh->indices->size(); //store the amount of indices found
 
 	//Get all the mesh elements (normals, binormals, position...)
-	for (int i = 0; i < vertCount; i++)
+	for (unsigned int i = 0; i < vertCount; i++)
 	{
 		if (hasSkeleton)
 		{
@@ -176,14 +178,13 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh, bool hasS
 			<< "UVs: (" << vertices.at(i).uv[0]
 			<< "," << vertices.at(i).uv[1]
 			<< ")" << "\n";*/
-			
-
 	}
 }
 
 void MeshHandler::GetVertPositions(FbxMesh * pMesh, int index, double * targetPos)
 {
 	FbxVector4 position = pMesh->GetControlPointAt(index);
+
 	targetPos[0] = (double)position[0];
 	targetPos[1] = (double)position[1];
 	targetPos[2] = (double)position[2];
@@ -192,6 +193,7 @@ void MeshHandler::GetVertPositions(FbxMesh * pMesh, int index, double * targetPo
 void MeshHandler::GetVertNormals(fbxsdk::FbxGeometryElementNormal * pNElement, int index, double * targetNormal)
 {
 	FbxVector4 normal = pNElement->GetDirectArray().GetAt(index);
+
 	targetNormal[0] = normal[0];
 	targetNormal[1] = normal[1];
 	targetNormal[2] = normal[2];
@@ -257,7 +259,7 @@ void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index, MeshExp
 	}
 	else
 	{
-
+		return;
 	}
 }
 
@@ -288,9 +290,9 @@ bool MeshHandler::GetBoundingBox(FbxNode * pNode,OOBBHeader* boundingBox)
 			double maxZ = -INFINITY;
 			
 
-			//Find the extentions of the axises
+			//Find the extensions of the axises
 			
-			for (int i = 0; i < vertCount; i++)
+			for (unsigned int i = 0; i < vertCount; i++)
 			{
 				double vert[3];
 

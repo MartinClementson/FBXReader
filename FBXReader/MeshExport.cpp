@@ -6,7 +6,6 @@
 using namespace BRFImporter;
 MeshExport::MeshExport()
 {
-
 	indices  = new std::vector<IndexHeader>;
 	vertices = new std::vector<VertexHeader>;
 	
@@ -26,6 +25,7 @@ MeshExport::MeshExport(bool hasSkeleton)
 		verticesNoSkeleton = new std::vector<VertexHeaderNoSkeleton>;
 	}
 	indices = new std::vector<IndexHeader>;
+	weights.resize(4);
 }
 
 
@@ -52,11 +52,13 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 	std::cout << "Vert amount  : " << this->meshInfo.vertexCount << std::endl;
 	std::cout << "Index amount  : " << this->meshInfo.indexCount << std::endl;
 	std::cout << "Bounding Box  : " <<  (this->meshInfo.boundingBox ? "Yes" : "NO") << std::endl;
+	
 	if (this->meshInfo.boundingBox)
 	{
 		std::cout << "\t Extents: (" << this->boundingBox.extents[0] << "," << this->boundingBox.extents[1] << "," << this->boundingBox.extents[2] << ")" << std::endl;
 		std::cout << "\t Orientation: (" << this->boundingBox.orientation[0] << "," << this->boundingBox.orientation[1] << "," << this->boundingBox.orientation[2] << ")" << std::endl;
 	}
+
 	//std::cout << "Test Index: (" << this->indices->at(0).vertIndex << "," << this->indices->at(1).vertIndex << "," << this->indices->at(2).vertIndex << ")" << std::endl;
 	std::cout << "Translation: (" << this->meshInfo.translation[0] << "," << this->meshInfo.translation[1] << "," << this->meshInfo.translation[2] << ")" << std::endl;
 	
@@ -99,7 +101,41 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 	//	if(this->meshInfo.boundingBox)
 	//		outfile->write(reinterpret_cast<char*>(&this->boundingBox), sizeof(OOBBHeader));
 
+	//	//write the weights to the file 
+ 	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n\n";
+
+	//export
+	//IndexHeader* tempIndex;
+	//tempIndex = new IndexHeader[2];
+	if (outfile->is_open())
+	{
+		outfile->write( (const char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
+
+		//write all the vertices 
+		if (this->meshInfo.hasSkeleton)
+			outfile->write( (const char*)(this->vertices->data()), sizeof(VertexHeader) * this->vertices->size());
+		else
+			outfile->write((const char*)(this->verticesNoSkeleton->data()), sizeof(VertexHeaderNoSkeleton) * this->verticesNoSkeleton->size());
+		//outfile->flush();
+		//delete[] tempIndex;
+		//tempIndex = new IndexHeader[indices->size()];
+		//convert to POD
+		//for (unsigned int i = 0; i < indices->size(); i++)
+		//{
+		//	tempIndex[i] = indices->at(i);
+
+		//}
+		//
+
+		////write all the indices
+		outfile->write( (const char*) this->indices->data(),  sizeof(IndexHeader) * this->indices->size());
+		//outfile->flush();
+		//if there is a bounding box, write it to the file.
+		if(this->meshInfo.boundingBox)
+			outfile->write((const char*)(&this->boundingBox), sizeof(OOBBHeader));
+
 	//	//write the weights to the file
+	//	outfile->write((char*)(this->weights.data()), sizeof(weights) * 4);
 
 	//	//outfile->write(reinterpret_cast<char*>(&this->weights[0]), sizeof(weights) * 4);
 
@@ -109,12 +145,30 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 	//	if (this->meshInfo.attrCount > 0)
 	//		meshAttributes->WriteToBinaryFile(outfile);
 
-	//}
+	}
+	//	//if there are any attributes, write it to the file.
+	//	if (this->meshInfo.attrCount > 0)
+	//		meshAttributes->WriteToBinaryFile(outfile);
 
+	/*}
+	for (unsigned int i = 0; i < this->vertices->size(); i++)
+	{
+		std::cout << "vert #" << i << ": (" << vertices->at(i).pos[0] << "," << vertices->at(i).pos[1]  << "," << vertices->at(i).pos[2]<< ")\n";
+	}
+	for (unsigned int i = 0; i < this->vertices->size(); i++)
+	{
+		std::cout << "UV #" << i << ": (" << vertices->at(i).uv[0] << "," << vertices->at(i).uv[1] << ")" << "\n";
+	}
 
+	for (unsigned int i = 0; i < indices->size(); i += 3)
+	{
+		std::cout << "F #" << i << ": (" << this->indices->at(i).vertIndex << "," << this->indices->at(i+1).vertIndex << "," << this->indices->at(i+2).vertIndex << ")\n";
 
+	}*/
+	//	delete tempIndex;
 }
 
+#pragma region Addfunctions
 void MeshExport::AddVertex(VertexHeader input)
 {
 	this->vertices->push_back(input);
@@ -133,6 +187,9 @@ void MeshExport::AddBoundingBox(OOBBHeader input)
 
 void MeshExport::AddWeight(WeigthsHeader input)
 {
+
+	// this code is wrong
+
 	//if (this->weights.size() < 4) //make sure we have a maximum of 4 weights
 	//{
 	//	this->weights.push_back(input);
@@ -150,7 +207,6 @@ void MeshExport::AddWeight(WeigthsHeader input)
 
 void MeshExport::AddMeshInfo(MeshHeader info)
 {
-
 	this->meshInfo = info;
 }
 
@@ -164,3 +220,4 @@ AttributesExport * MeshExport::GetAttributeHandler()
 
 	return meshAttributes;
 }
+#pragma endregion
