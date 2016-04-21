@@ -7,7 +7,7 @@
 
 MeshHandler::MeshHandler()
 {
-	
+	objectID = 0;
 }
 
 
@@ -33,7 +33,8 @@ void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputM
 			MeshExport* tempMesh = new MeshExport(hasSkeleton); // Create a temporary object to fill the information
 
 			tempMesh->meshInfo.hasSkeleton = hasSkeleton;
-
+			tempMesh->meshInfo.objectID = objectID;
+			objectID++;
 			std::cout << pNode->GetName() << std::endl;
 			/*
 			First we need to get some specific information that  is relative to the object node
