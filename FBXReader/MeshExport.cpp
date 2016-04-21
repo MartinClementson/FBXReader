@@ -113,7 +113,11 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 
 		//write all the vertices 
 		if (this->meshInfo.hasSkeleton)
-			outfile->write( (const char*)(this->vertices->data()), sizeof(VertexHeader) * this->vertices->size());
+		{
+			outfile->write((const char*)(this->vertices->data()), sizeof(VertexHeader) * this->vertices->size());
+			for (unsigned int i = 0; i < this->weights.size(); i++)
+				outfile->write((const char*)(&this->weights.at(i).at(0)), sizeof(WeigthsHeader) * 4);
+		}
 		else
 			outfile->write((const char*)(this->verticesNoSkeleton->data()), sizeof(VertexHeaderNoSkeleton) * this->verticesNoSkeleton->size());
 		//outfile->flush();
