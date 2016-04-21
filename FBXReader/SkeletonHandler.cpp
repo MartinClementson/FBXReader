@@ -462,7 +462,7 @@ int SkeletonHandler::getSkeletonID(FbxString input)
 		temp.ID = staticSkeletonID;
 		staticSkeletonID++;
 		skeletonId->push_back(temp);
-		return 0;
+		return 1;
 	}
 	else
 	{
