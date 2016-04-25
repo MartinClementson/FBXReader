@@ -140,6 +140,41 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh, bool hasS
 	}
 	//outPutMesh->meshInfo.indexCount = outPutMesh->indices->size(); //store the amount of indices found
 
+	//t5estingf uvs
+	//int uvcount = pMesh->GetTextureUVIndex();
+	std::vector<int> uvIndex;
+	std::vector<std::vector<FbxVector2>> uvValues;
+	FbxVector2 texturecoords;
+	for (int i = 0; i < polyCount; ++i) 
+	{
+		std::vector<FbxVector2> tempValues;
+		FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
+		pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
+
+		for (int j = 0; j < pMesh->GetPolygonSize(i); ++j) 
+		{
+			int UVIndex = pMesh->GetTextureUVIndex(i, j);
+			uvIndex.push_back(UVIndex);
+			FbxVector2 uv = uvVertices->GetAt(pMesh->GetTextureUVIndex(i, j));
+
+			texturecoords[0] = uv[0];
+			texturecoords[1] = uv[1];
+			tempValues.push_back(texturecoords);
+		}
+		uvValues.push_back(tempValues);
+	}
+	FbxLayerElementUV* elem = pMesh->GetElementUV();
+
+	//std::vector<FbxVector2> bajs;
+	FbxLayerElementArrayTemplate<FbxVector2> bajs(elem->GetDirectArray());
+
+	//bajs = elem->GetDirectArray();
+	int test = bajs.GetCount();
+	if (elem->GetMappingMode() == FbxLayerElement::eByPolygonVertex)
+		std::cout << "rätt";
+	if (elem->GetMappingMode() == FbxLayerElement::eByControlPoint)
+		std::cout << "fel";
+
 	//Get all the mesh elements (normals, binormals, position...)
 	for (unsigned int i = 0; i < vertCount; i++)
 	{
