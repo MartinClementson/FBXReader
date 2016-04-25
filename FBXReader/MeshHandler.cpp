@@ -195,12 +195,13 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh, bool hasS
 	}
 
 	std::vector<IndexHeader> indices;
-	std::vector<VertexHeader> vertex;
+	std::vector<VertexHeader>* vertex;
 	unsigned int indexCounter = 0;
 	bool existWithinVerts = false;
+	VertexHeader tempVertex;
+	vertex = new std::vector<VertexHeader>;
 	for (unsigned int i = 0; i < finalVertex.size(); i++)
 	{
-		VertexHeader tempVertex;
 		IndexHeader tempIndex;
 
 		tempVertex.pos[0] = finalVertex.at(i).pos[0];
@@ -222,24 +223,24 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh, bool hasS
 		tempVertex.uv[0] = finalVertex.at(i).uv[0];
 		tempVertex.uv[1] = finalVertex.at(i).uv[1];
 		
-		if (vertex.size() != 0)
+		if (vertex->size() != 0)
 		{
-			for (unsigned int j = 0; j < vertex.size(); j++)
+			for (unsigned int j = 0; j < vertex->size(); j++)
 			{
-				if (vertex.at(j).pos[0] == tempVertex.pos[0] &&
-					vertex.at(j).pos[1] == tempVertex.pos[1] &&
-					vertex.at(j).pos[2] == tempVertex.pos[2] &&
-					vertex.at(j).normal[0] == tempVertex.normal[0] &&
-					vertex.at(j).normal[1] == tempVertex.normal[1] &&
-					vertex.at(j).normal[2] == tempVertex.normal[2] &&
-					vertex.at(j).biTangent[0] == tempVertex.biTangent[0] &&
-					vertex.at(j).biTangent[1] == tempVertex.biTangent[1] &&
-					vertex.at(j).biTangent[2] == tempVertex.biTangent[2] &&
-					vertex.at(j).tangent[0] == tempVertex.tangent[0] &&
-					vertex.at(j).tangent[1] == tempVertex.tangent[1] &&
-					vertex.at(j).tangent[2] == tempVertex.tangent[2] &&
-					vertex.at(j).uv[0] == tempVertex.uv[0] &&
-					vertex.at(j).uv[0] == tempVertex.uv[0])
+				if (vertex->at(j).pos[0] == tempVertex.pos[0] &&
+					vertex->at(j).pos[1] == tempVertex.pos[1] &&
+					vertex->at(j).pos[2] == tempVertex.pos[2] &&
+					vertex->at(j).normal[0] == tempVertex.normal[0] &&
+					vertex->at(j).normal[1] == tempVertex.normal[1] &&
+					vertex->at(j).normal[2] == tempVertex.normal[2] &&
+					vertex->at(j).biTangent[0] == tempVertex.biTangent[0] &&
+					vertex->at(j).biTangent[1] == tempVertex.biTangent[1] &&
+					vertex->at(j).biTangent[2] == tempVertex.biTangent[2] &&
+					vertex->at(j).tangent[0] == tempVertex.tangent[0] &&
+					vertex->at(j).tangent[1] == tempVertex.tangent[1] &&
+					vertex->at(j).tangent[2] == tempVertex.tangent[2] &&
+					vertex->at(j).uv[0] == tempVertex.uv[0] &&
+					vertex->at(j).uv[0] == tempVertex.uv[0])
 				{
 					existWithinVerts = true;
 					tempIndex.vertIndex = j;
@@ -250,7 +251,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh, bool hasS
 			if (!existWithinVerts)
 			{
 				tempIndex.vertIndex = indexCounter;
-				vertex.push_back(tempVertex);
+				vertex->push_back(tempVertex);
 				indices.push_back(tempIndex);
 				indexCounter++;
 			}
@@ -258,13 +259,12 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh, bool hasS
 		else
 		{
 			tempIndex.vertIndex = indexCounter;
-			vertex.push_back(tempVertex);
+			vertex->push_back(tempVertex);
 			indices.push_back(tempIndex);
 			indexCounter++;
 		}
 		existWithinVerts = false;
 	}
-	
 	FbxLayerElementUV* elem = pMesh->GetElementUV();
 
 	for (int i = 0; i < indices.size(); i++)
@@ -273,57 +273,57 @@ void MeshHandler::ProcessData(FbxMesh * pMesh ,MeshExport* outPutMesh, bool hasS
 	}
 	if (!hasSkeleton)
 	{
-		outPutMesh->verticesNoSkeleton->resize(vertex.size());
-		for (int i = 0; i < vertex.size(); i++)
+		outPutMesh->verticesNoSkeleton->resize(vertex->size());
+		for (int i = 0; i < vertex->size(); i++)
 		{
-			outPutMesh->verticesNoSkeleton->at(i).pos[0] = vertex.at(i).pos[0];
-			outPutMesh->verticesNoSkeleton->at(i).pos[1] = vertex.at(i).pos[1];
-			outPutMesh->verticesNoSkeleton->at(i).pos[2] = vertex.at(i).pos[2];
+			outPutMesh->verticesNoSkeleton->at(i).pos[0] = vertex->at(i).pos[0];
+			outPutMesh->verticesNoSkeleton->at(i).pos[1] = vertex->at(i).pos[1];
+			outPutMesh->verticesNoSkeleton->at(i).pos[2] = vertex->at(i).pos[2];
 
-			outPutMesh->verticesNoSkeleton->at(i).normal[0] = vertex.at(i).normal[0];
-			outPutMesh->verticesNoSkeleton->at(i).normal[1] = vertex.at(i).normal[1];
-			outPutMesh->verticesNoSkeleton->at(i).normal[2] = vertex.at(i).normal[2];
+			outPutMesh->verticesNoSkeleton->at(i).normal[0] = vertex->at(i).normal[0];
+			outPutMesh->verticesNoSkeleton->at(i).normal[1] = vertex->at(i).normal[1];
+			outPutMesh->verticesNoSkeleton->at(i).normal[2] = vertex->at(i).normal[2];
 
-			outPutMesh->verticesNoSkeleton->at(i).tangent[0] = vertex.at(i).tangent[0];
-			outPutMesh->verticesNoSkeleton->at(i).tangent[1] = vertex.at(i).tangent[1];
-			outPutMesh->verticesNoSkeleton->at(i).tangent[2] = vertex.at(i).tangent[2];
+			outPutMesh->verticesNoSkeleton->at(i).tangent[0] = vertex->at(i).tangent[0];
+			outPutMesh->verticesNoSkeleton->at(i).tangent[1] = vertex->at(i).tangent[1];
+			outPutMesh->verticesNoSkeleton->at(i).tangent[2] = vertex->at(i).tangent[2];
 
-			outPutMesh->verticesNoSkeleton->at(i).biTangent[0] = vertex.at(i).biTangent[0];
-			outPutMesh->verticesNoSkeleton->at(i).biTangent[1] = vertex.at(i).biTangent[1];
-			outPutMesh->verticesNoSkeleton->at(i).biTangent[2] = vertex.at(i).biTangent[2];
+			outPutMesh->verticesNoSkeleton->at(i).biTangent[0] = vertex->at(i).biTangent[0];
+			outPutMesh->verticesNoSkeleton->at(i).biTangent[1] = vertex->at(i).biTangent[1];
+			outPutMesh->verticesNoSkeleton->at(i).biTangent[2] = vertex->at(i).biTangent[2];
 
-			outPutMesh->verticesNoSkeleton->at(i).uv[0] = vertex.at(i).uv[0];
-			outPutMesh->verticesNoSkeleton->at(i).uv[1] = vertex.at(i).uv[1];
+			outPutMesh->verticesNoSkeleton->at(i).uv[0] = vertex->at(i).uv[0];
+			outPutMesh->verticesNoSkeleton->at(i).uv[1] = vertex->at(i).uv[1];
 		}
 	}
 	else
 	{
-		outPutMesh->vertices->resize(vertex.size());
-		for (int i = 0; i < vertex.size(); i++)
+		outPutMesh->vertices->resize(vertex->size());
+		for (int i = 0; i < vertex->size(); i++)
 		{
-			outPutMesh->vertices->at(i).pos[0] = vertex.at(i).pos[0];
-			outPutMesh->vertices->at(i).pos[1] = vertex.at(i).pos[1];
-			outPutMesh->vertices->at(i).pos[2] = vertex.at(i).pos[2];
+			outPutMesh->vertices->at(i).pos[0] = vertex->at(i).pos[0];
+			outPutMesh->vertices->at(i).pos[1] = vertex->at(i).pos[1];
+			outPutMesh->vertices->at(i).pos[2] = vertex->at(i).pos[2];
 
-			outPutMesh->vertices->at(i).normal[0] = vertex.at(i).normal[0];
-			outPutMesh->vertices->at(i).normal[1] = vertex.at(i).normal[1];
-			outPutMesh->vertices->at(i).normal[2] = vertex.at(i).normal[2];
+			outPutMesh->vertices->at(i).normal[0] = vertex->at(i).normal[0];
+			outPutMesh->vertices->at(i).normal[1] = vertex->at(i).normal[1];
+			outPutMesh->vertices->at(i).normal[2] = vertex->at(i).normal[2];
 
-			outPutMesh->vertices->at(i).tangent[0] = vertex.at(i).tangent[0];
-			outPutMesh->vertices->at(i).tangent[1] = vertex.at(i).tangent[1];
-			outPutMesh->vertices->at(i).tangent[2] = vertex.at(i).tangent[2];
+			outPutMesh->vertices->at(i).tangent[0] = vertex->at(i).tangent[0];
+			outPutMesh->vertices->at(i).tangent[1] = vertex->at(i).tangent[1];
+			outPutMesh->vertices->at(i).tangent[2] = vertex->at(i).tangent[2];
 
-			outPutMesh->vertices->at(i).biTangent[0] = vertex.at(i).biTangent[0];
-			outPutMesh->vertices->at(i).biTangent[1] = vertex.at(i).biTangent[1];
-			outPutMesh->vertices->at(i).biTangent[2] = vertex.at(i).biTangent[2];
+			outPutMesh->vertices->at(i).biTangent[0] = vertex->at(i).biTangent[0];
+			outPutMesh->vertices->at(i).biTangent[1] = vertex->at(i).biTangent[1];
+			outPutMesh->vertices->at(i).biTangent[2] = vertex->at(i).biTangent[2];
 
-			outPutMesh->vertices->at(i).uv[0] = vertex.at(i).uv[0];
-			outPutMesh->vertices->at(i).uv[1] = vertex.at(i).uv[1];
+			outPutMesh->vertices->at(i).uv[0] = vertex->at(i).uv[0];
+			outPutMesh->vertices->at(i).uv[1] = vertex->at(i).uv[1];
 		}
 		for (int i = 0; i < vertCount; i++)
 			GetSkeletonWeights(pMesh, i, outPutMesh);
 	}
-
+	delete vertex;
 	//std::vector<FbxVector2> bajs;
 	//FbxLayerElementArrayTemplate<FbxVector2> bajs(elem->GetDirectArray());
 
