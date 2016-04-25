@@ -185,13 +185,13 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 		FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
 		pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
 
-		GetVertPositions(pMesh, i, outPutMesh->verticesNoSkeleton->at(i).pos);
+		GetVertPositions(pMesh, polyVertices.at(i), outPutMesh->verticesNoSkeleton->at(i).pos);
 		GetVertNormals(pMesh->GetElementNormal(), polyVertices.at(i), outPutMesh->verticesNoSkeleton->at(i).normal);
 		GetVertBiNormals(pMesh->GetElementBinormal(), polyVertices.at(i), outPutMesh->verticesNoSkeleton->at(i).biTangent);
 		GetVertTangents(pMesh->GetElementTangent(), polyVertices.at(i), outPutMesh->verticesNoSkeleton->at(i).tangent);
 		GetVertTextureUV(pMesh->GetElementUV(), uvIndex.at(i), outPutMesh->verticesNoSkeleton->at(i).uv);
 		IndexHeader tempInd;
-		tempInd.vertIndex = polyVertices.at(i);
+		tempInd.vertIndex = i;
 		outPutMesh->indices->push_back(tempInd);
 	}
 	//for (int i = 0; i < polyVertices.size(); ++i)
