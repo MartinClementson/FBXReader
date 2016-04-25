@@ -173,8 +173,8 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 	{
 
 		//std::vector<FbxVector2> tempValues;
-		FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
-		pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
+		//FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
+		//pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
 
 		GetVertPositions(pMesh, i, temp1Vertex.pos);
 		GetVertNormals(pMesh->GetElementNormal(), i, temp1Vertex.normal);
@@ -182,17 +182,17 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 		GetVertTangents(pMesh->GetElementTangent(), i, temp1Vertex.tangent);
 		//GetVertTextureUV(pMesh->GetElementUV(), i, tempVertex.uv);
 
-		for (int j = 0; j < pMesh->GetPolygonSize(i); ++j)
-		{
-			//int UVIndex = pMesh->GetTextureUVIndex(i, j);
-			//uvIndex.push_back(UVIndex);
-			FbxVector2 uv = uvVertices->GetAt(pMesh->GetTextureUVIndex(i, j));
+		//for (int j = 0; j < pMesh->GetPolygonSize(i); ++j)
+		//{
+		//	//int UVIndex = pMesh->GetTextureUVIndex(i, j);
+		//	//uvIndex.push_back(UVIndex);
+		//	FbxVector2 uv = uvVertices->GetAt(pMesh->GetTextureUVIndex(i, j));
 
-			temp1Vertex.uv[0] = uv[0];
-			temp1Vertex.uv[1] = uv[1];
-			//tempValues.push_back(texturecoords);
-			finalVertex->push_back(temp1Vertex);
-		}
+		//	temp1Vertex.uv[0] = uv[0];
+		//	temp1Vertex.uv[1] = uv[1];
+		//	//tempValues.push_back(texturecoords);
+		//}
+		finalVertex->push_back(temp1Vertex);
 		//uvValues.push_back(tempValues);
 	}
 
@@ -203,7 +203,84 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 	
 	vertex = new std::vector<VertexHeader>;
 	tempVertex = new VertexHeader;
+
+
+	FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
+	pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
+
 	for (unsigned int i = 0; i < finalVertex->size(); i++)
+	{
+		IndexHeader tempIndex;
+
+		tempVertex->pos[0] = finalVertex->at(i).pos[0];
+		tempVertex->pos[1] = finalVertex->at(i).pos[1];
+		tempVertex->pos[2] = finalVertex->at(i).pos[2];
+
+		tempVertex->normal[0] = finalVertex->at(i).normal[0];
+		tempVertex->normal[1] = finalVertex->at(i).normal[1];
+		tempVertex->normal[2] = finalVertex->at(i).normal[2];
+
+		tempVertex->biTangent[0] = finalVertex->at(i).biTangent[0];
+		tempVertex->biTangent[1] = finalVertex->at(i).biTangent[1];
+		tempVertex->biTangent[2] = finalVertex->at(i).biTangent[2];
+
+		tempVertex->tangent[0] = finalVertex->at(i).tangent[0];
+		tempVertex->tangent[1] = finalVertex->at(i).tangent[1];
+		tempVertex->tangent[2] = finalVertex->at(i).tangent[2];
+
+		if (vertex->size() != 0)
+		{
+			for (unsigned int j = 0; j < vertex->size(); j++)
+			{
+				if (vertex->at(j).pos[0] == tempVertex->pos[0] &&
+					vertex->at(j).pos[1] == tempVertex->pos[1] &&
+					vertex->at(j).pos[2] == tempVertex->pos[2] &&
+					vertex->at(j).normal[0] == tempVertex->normal[0] &&
+					vertex->at(j).normal[1] == tempVertex->normal[1] &&
+					vertex->at(j).normal[2] == tempVertex->normal[2] &&
+					vertex->at(j).biTangent[0] == tempVertex->biTangent[0] &&
+					vertex->at(j).biTangent[1] == tempVertex->biTangent[1] &&
+					vertex->at(j).biTangent[2] == tempVertex->biTangent[2] &&
+					vertex->at(j).tangent[0] == tempVertex->tangent[0] &&
+					vertex->at(j).tangent[1] == tempVertex->tangent[1] &&
+					vertex->at(j).tangent[2] == tempVertex->tangent[2])
+				{
+					existWithinVerts = true;
+
+					tempIndex.vertIndex = j;
+					indices.push_back(tempIndex);
+				}
+			}
+			if (!existWithinVerts)
+			{
+				FbxVector2 uv = uvVertices->GetAt(pMesh->GetTextureUVIndex(i, 0));
+
+				tempVertex->uv[0] = uv[0];
+				tempVertex->uv[1] = uv[1];
+
+				vertex->push_back(*tempVertex);
+
+				tempIndex.vertIndex = indexCounter;
+				indexCounter++;
+				indices.push_back(tempIndex);
+			}
+		}
+		else
+		{
+			FbxVector2 uv = uvVertices->GetAt(pMesh->GetTextureUVIndex(i, 0));
+
+			tempVertex->uv[0] = uv[0];
+			tempVertex->uv[1] = uv[1];
+
+			vertex->push_back(*tempVertex);
+
+			tempIndex.vertIndex = indexCounter;
+			indexCounter++;
+			indices.push_back(tempIndex);
+		}
+		existWithinVerts = false;
+	}
+	/*for (unsigned int i = 0; i < finalVertex->size(); i++)
 	{
 		IndexHeader tempIndex;
 
@@ -267,10 +344,10 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 			indexCounter++;
 		}
 		existWithinVerts = false;
-	}
+	}*/
 	FbxLayerElementUV* elem = pMesh->GetElementUV();
 
-	for (int i = 0; i < indices.size(); i++)
+	/*for (int i = 0; i < indices.size(); i++)
 	{
 		outPutMesh->indices->push_back(indices.at(i));
 	}
@@ -325,7 +402,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 		}
 		for (int i = 0; i < vertCount; i++)
 			GetSkeletonWeights(pMesh, i, outPutMesh);
-	}
+	}*/
 	delete vertex;
 	delete finalVertex;
 	//delete tempVertex;
