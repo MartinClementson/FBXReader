@@ -127,7 +127,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 		outPutMesh->weights.resize(polyVertices.size());
 	}
 	else
-		outPutMesh->verticesNoSkeleton->resize(polyVertices.size());
+		//outPutMesh->verticesNoSkeleton->resize(34);
 
 	//Get the vertex indices
 	int startindex;
@@ -176,14 +176,49 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 	//FbxVector2 texturecoords;
 	//finalVertex = new std::vector<VertexHeader>;
 	//unsigned int UVCounter = 0;
-	
+	std::vector<int> tempVert;
+	std::vector<int> tempUV;
+	unsigned int vectorSize = 0;
+	for (unsigned int i = 0; i < polyVertices.size(); i++)
+	{
+		if (tempVert.size() != 0)
+		{
+			bool exist = false;
+			for (unsigned int j = 0; j < tempVert.size(); j++)
+			{
+				if (tempVert.at(j) == polyVertices.at(i) &&
+					tempUV.at(j) == uvIndex.at(i))
+				{
+					exist = true;
+					tempVert.push_back(polyVertices.at(j));
+					tempUV.push_back(uvIndex.at(j));
+					break;
+				}
+			}
+			if (!exist)
+			{
+				tempVert.push_back(polyVertices.at(i));
+				tempUV.push_back(uvIndex.at(i));
+				vectorSize++;
+			}
+		}
+		else
+		{
+			tempVert.push_back(polyVertices.at(i));
+			tempUV.push_back(uvIndex.at(i));
+			vectorSize++;
+		}
+	}
+
+
 	//LÄGG TILL SKELETON SKTI
 	if (!hasSkeleton)
 	{
+		outPutMesh->verticesNoSkeleton->resize(34);
 		for (int i = 0; i < polyVertices.size(); ++i)
 		{
 			//std::vector<FbxVector2> tempValues;
-			VertexHeader tempVertex;
+			VertexHeaderNoSkeleton tempVertex;
 
 			FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
 			pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
@@ -206,10 +241,8 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 						outPutMesh->verticesNoSkeleton->at(j).normal[2] == tempVertex.normal[2] &&
 						outPutMesh->verticesNoSkeleton->at(j).biTangent[0] == tempVertex.biTangent[0] &&
 						outPutMesh->verticesNoSkeleton->at(j).biTangent[1] == tempVertex.biTangent[1] &&
-						outPutMesh->verticesNoSkeleton->at(j).biTangent[2] == tempVertex.biTangent[2] &&
 						outPutMesh->verticesNoSkeleton->at(j).tangent[0] == tempVertex.tangent[0] &&
 						outPutMesh->verticesNoSkeleton->at(j).tangent[1] == tempVertex.tangent[1] &&
-						outPutMesh->verticesNoSkeleton->at(j).tangent[2] == tempVertex.tangent[2] &&
 						outPutMesh->verticesNoSkeleton->at(j).uv[0] == tempVertex.uv[0] &&
 						outPutMesh->verticesNoSkeleton->at(j).uv[1] == tempVertex.uv[1])
 					{
@@ -226,6 +259,29 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 					tempInd.vertIndex = i;
 					outPutMesh->indices->push_back(tempInd);
 
+					unsigned int index = 0;
+					for (unsigned int j = index; j < outPutMesh->verticesNoSkeleton->size(); j++)
+					{
+						if (outPutMesh->verticesNoSkeleton->at(j).pos[0] == (double)0.0f &&
+							outPutMesh->verticesNoSkeleton->at(j).pos[1] == (double)0.0f &&
+							outPutMesh->verticesNoSkeleton->at(j).pos[2] == (double)0.0f &&
+							outPutMesh->verticesNoSkeleton->at(j).normal[0] == (double)0.0f &&
+							outPutMesh->verticesNoSkeleton->at(j).normal[1] == (double)0.0f &&
+							outPutMesh->verticesNoSkeleton->at(j).normal[2] == (double)0.0f &&
+							outPutMesh->verticesNoSkeleton->at(j).biTangent[0] == (double)0.0f &&
+							outPutMesh->verticesNoSkeleton->at(j).biTangent[1] == (double)0.0f &&
+							outPutMesh->verticesNoSkeleton->at(j).tangent[0] == (double)0.0f &&
+							outPutMesh->verticesNoSkeleton->at(j).tangent[1] == (double)0.0f &&
+							outPutMesh->verticesNoSkeleton->at(j).uv[0] == (double)0.0f &&
+							outPutMesh->verticesNoSkeleton->at(j).uv[1] == (double)0.0f)
+						{
+							index++;
+							break;
+						}
+					}
+
+					//outPutMesh->verticesNoSkeleton->at(i).(tempVertex);
+
 					outPutMesh->verticesNoSkeleton->at(i).pos[0] = tempVertex.pos[0];
 					outPutMesh->verticesNoSkeleton->at(i).pos[1] = tempVertex.pos[1];
 					outPutMesh->verticesNoSkeleton->at(i).pos[2] = tempVertex.pos[2];
@@ -236,11 +292,9 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 
 					outPutMesh->verticesNoSkeleton->at(i).biTangent[0] = tempVertex.biTangent[0];
 					outPutMesh->verticesNoSkeleton->at(i).biTangent[1] = tempVertex.biTangent[1];
-					outPutMesh->verticesNoSkeleton->at(i).biTangent[2] = tempVertex.biTangent[2];
 
 					outPutMesh->verticesNoSkeleton->at(i).tangent[0] = tempVertex.tangent[0];
 					outPutMesh->verticesNoSkeleton->at(i).tangent[1] = tempVertex.tangent[1];
-					outPutMesh->verticesNoSkeleton->at(i).tangent[2] = tempVertex.tangent[2];
 
 					outPutMesh->verticesNoSkeleton->at(i).uv[0] = tempVertex.uv[0];
 					outPutMesh->verticesNoSkeleton->at(i).uv[1] = tempVertex.uv[1];
