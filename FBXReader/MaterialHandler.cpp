@@ -217,6 +217,11 @@ const char* MaterialHandler::GetTextureMap(FbxProperty diffMapProp)
 
 	textureName = texture->GetRelativeFileName();
 
+	//recreating the name without the filepath prefix
+	textureString = textureName;
+	textureString = textureString.Mid(textureString.ReverseFind('\\') + 1);
+	textureName = textureString;
+
 	return textureName;
 
 }
@@ -231,6 +236,11 @@ const char* MaterialHandler::GetSpecularMap(FbxProperty specProp)
 	const char* textureName;
 	const FbxFileTexture* texture = FbxCast<FbxFileTexture>(specProp.GetSrcObject<FbxFileTexture>(0));
 	textureName = texture->GetRelativeFileName();
+
+	//recreating the name without the filepath prefix
+	specularString = textureName;
+	specularString = specularString.Mid(specularString.ReverseFind('\\') + 1);
+	textureName = specularString;
 
 	return textureName;
 	
@@ -248,6 +258,11 @@ const char* MaterialHandler::GetNormalMap(FbxProperty normMapProp)
 
 	const char* textureName = texture->GetRelativeFileName();
 
+	//recreating the name without the filepath prefix
+	normalString = textureName;
+	normalString = normalString.Mid(normalString.ReverseFind('\\') + 1);
+	textureName = normalString;
+
 	return textureName;
 
 }
@@ -261,8 +276,12 @@ const char* MaterialHandler::GetGlowMap(FbxProperty glowMapProp)
 
 	const FbxFileTexture* texture = FbxCast<FbxFileTexture>(glowMapProp.GetSrcObject<FbxFileTexture>(0));
 
-
 	const char* textureName = texture->GetRelativeFileName();
+
+	//recreating the name without the filepath prefix
+	glowString = textureName;
+	glowString = glowString.Mid(glowString.ReverseFind('\\') + 1);
+	textureName = glowString;
 
 	return textureName;
 
