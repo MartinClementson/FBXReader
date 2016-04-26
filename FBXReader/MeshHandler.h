@@ -24,5 +24,7 @@ private:
 	bool HasSkeleton(FbxNode* pNode);
 	unsigned int objectID;
 
+	VertexHeader* tempVertex;
+
 };
 

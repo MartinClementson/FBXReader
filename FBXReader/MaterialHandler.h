@@ -28,6 +28,12 @@ private:
 	const char* GetSpecularMap(FbxProperty specMapProp);
 	const char* GetNormalMap(FbxProperty normMapProp);
 	const char* GetGlowMap(FbxProperty glowMapProp);
+
+	//filepath names
+	FbxString textureString;
+	FbxString specularString;
+	FbxString normalString;
+	FbxString glowString;
 };
 
 
