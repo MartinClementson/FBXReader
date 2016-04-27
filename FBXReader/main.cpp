@@ -14,9 +14,9 @@ void main()
 	#endif
 
 	//const char* fileName = "EnemyChar.fbx"; //lights
-	//const char* fileName = "onecube.fbx";
+	const char* fileName = "onecube.fbx";
 	//const char* fileName = "test2.fbx";
-	const char* fileName = "skeleton_and_no_skeleton.fbx";
+	//const char* fileName = "skeleton_and_no_skeleton.fbx";
 	//const char* fileName = "3_shapes_1_Cam.fbx";
 	//const char* fileName = "3meshes_1Cam_triangulated.fbx";
 	//const char* fileName = "GroupScene.fbx";

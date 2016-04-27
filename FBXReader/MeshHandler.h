@@ -22,7 +22,9 @@ private:
 	bool GetBoundingBox(FbxNode*pNode, OOBBHeader* boundingBox);
 	bool IsBoundingBox(FbxNode* pNode);
 	bool HasSkeleton(FbxNode* pNode);
+
 	unsigned int objectID;
+	unsigned int weightIndex;
 
 	VertexHeader* tempVertex;
 

@@ -29,7 +29,7 @@ void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputM
 	{
 		if (!IsBoundingBox(pNode)) // Don't export a mesh that is a boundingBox
 		{
-
+			weightIndex = 0;
 			bool hasSkeleton = HasSkeleton(pNode);
 
 			MeshExport* tempMesh = new MeshExport(hasSkeleton); // Create a temporary object to fill the information
@@ -327,7 +327,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 			GetVertTextureUV(pMesh->GetElementUV(), uvIndex.at(i), tempVertex.uv);
 			
 
-			if (outPutMesh->verticesNoSkeleton->size() != 0)
+			if (outPutMesh->vertices->size() != 0)
 			{
 				bool existWithinVerts = false;
 				for (unsigned int j = 0; j < outPutMesh->vertices->size(); j++)
@@ -355,11 +355,11 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 				if (!existWithinVerts)
 				{
 					IndexHeader tempInd;
-					tempInd.vertIndex = outPutMesh->verticesNoSkeleton->size();
+					tempInd.vertIndex = outPutMesh->vertices->size();
 					outPutMesh->indices->push_back(tempInd);
 
 					outPutMesh->vertices->push_back(tempVertex);
-					GetSkeletonWeights(pMesh, i, outPutMesh);
+					GetSkeletonWeights(pMesh, polyVertices.at(i), outPutMesh);
 					/*outPutMesh->verticesNoSkeleton->at(i).pos[0] = tempVertex.pos[0];
 					outPutMesh->verticesNoSkeleton->at(i).pos[1] = tempVertex.pos[1];
 					outPutMesh->verticesNoSkeleton->at(i).pos[2] = tempVertex.pos[2];
@@ -850,11 +850,6 @@ void MeshHandler::GetVertTangents(fbxsdk::FbxGeometryElementTangent * pTElement,
 
 void MeshHandler::GetVertTextureUV(fbxsdk::FbxGeometryElementUV* uvElement, int index, double * targetUV)
 {
-	/*FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
-	pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
-	FbxVector2 uv = uvVertices->GetAt(index);
-	targetUV[0] = uv[0];
-	targetUV[1] = uv[1];*/
 	FbxVector2 uvs = uvElement->GetDirectArray().GetAt(index);
 	targetUV[0] = uvs[0];
 	targetUV[1] = -uvs[1];
@@ -890,7 +885,9 @@ void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index, MeshExp
 					tempWeight.influence = pBoneVertWeights[index];
 					tempWeight.jointID = boneIndex;
 
-					outputMesh->weights.at(index).push_back(tempWeight);
+					//outputMesh->weights.at(index).push_back(tempWeight);
+					outputMesh->weights.at(weightIndex).push_back(tempWeight);
+					weightIndex++;
 					break;
 				}
 			}
