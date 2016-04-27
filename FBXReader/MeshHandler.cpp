@@ -354,13 +354,18 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 				}
 				if (!existWithinVerts)
 				{
+					if (outPutMesh->vertices->size() >= 4)
+					{
+						std::vector<WeigthsHeader> emptyWeight;
+						outPutMesh->weights.push_back(emptyWeight);
+					}
 					IndexHeader tempInd;
-					std::vector<WeigthsHeader> emptyWeight;
+					//std::vector<WeigthsHeader> emptyWeight;
 					tempInd.vertIndex = outPutMesh->vertices->size();
 					outPutMesh->indices->push_back(tempInd);
 
 					outPutMesh->vertices->push_back(tempVertex);
-					outPutMesh->weights.push_back(emptyWeight);
+					//outPutMesh->weights.push_back(emptyWeight);
 					GetSkeletonWeights(pMesh, polyVertices.at(i), outPutMesh);
 					/*outPutMesh->verticesNoSkeleton->at(i).pos[0] = tempVertex.pos[0];
 					outPutMesh->verticesNoSkeleton->at(i).pos[1] = tempVertex.pos[1];
@@ -382,13 +387,23 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 			}
 			else
 			{
+				if (outPutMesh->weights.size() < 4)
+				{
+					std::vector<WeigthsHeader> emptyWeight;
+					outPutMesh->weights.push_back(emptyWeight);
+				}
+				if (outPutMesh->weights.size() > 4)
+				{
+					std::vector<WeigthsHeader> emptyWeight;
+					outPutMesh->weights.push_back(emptyWeight);
+				}
 				IndexHeader tempInd;
 				std::vector<WeigthsHeader> emptyWeight;
+				//outPutMesh->weights.push_back(emptyWeight);
 				tempInd.vertIndex = i;
 				outPutMesh->indices->push_back(tempInd);
 				outPutMesh->vertices->push_back(tempVertex);
 
-				outPutMesh->weights.push_back(emptyWeight);
 				GetSkeletonWeights(pMesh, i, outPutMesh);
 				/*outPutMesh->verticesNoSkeleton->at(i).pos[0] = tempVertex.pos[0];
 				outPutMesh->verticesNoSkeleton->at(i).pos[1] = tempVertex.pos[1];
