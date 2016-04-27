@@ -325,6 +325,8 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 			GetVertBiNormals(pMesh->GetElementBinormal(), polyVertices.at(i), tempVertex.biTangent);
 			GetVertTangents(pMesh->GetElementTangent(), polyVertices.at(i), tempVertex.tangent);
 			GetVertTextureUV(pMesh->GetElementUV(), uvIndex.at(i), tempVertex.uv);
+			
+
 			if (outPutMesh->verticesNoSkeleton->size() != 0)
 			{
 				bool existWithinVerts = false;
@@ -357,7 +359,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 					outPutMesh->indices->push_back(tempInd);
 
 					outPutMesh->vertices->push_back(tempVertex);
-
+					GetSkeletonWeights(pMesh, i, outPutMesh);
 					/*outPutMesh->verticesNoSkeleton->at(i).pos[0] = tempVertex.pos[0];
 					outPutMesh->verticesNoSkeleton->at(i).pos[1] = tempVertex.pos[1];
 					outPutMesh->verticesNoSkeleton->at(i).pos[2] = tempVertex.pos[2];
@@ -383,6 +385,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 				outPutMesh->indices->push_back(tempInd);
 				outPutMesh->vertices->push_back(tempVertex);
 
+				GetSkeletonWeights(pMesh, i, outPutMesh);
 				/*outPutMesh->verticesNoSkeleton->at(i).pos[0] = tempVertex.pos[0];
 				outPutMesh->verticesNoSkeleton->at(i).pos[1] = tempVertex.pos[1];
 				outPutMesh->verticesNoSkeleton->at(i).pos[2] = tempVertex.pos[2];
@@ -403,7 +406,11 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 				outPutMesh->verticesNoSkeleton->at(i).uv[1] = tempVertex.uv[1];*/
 			}
 		}
-		outPutMesh->weights.resize(outPutMesh->vertices->size());
+		//outPutMesh->weights.resize(outPutMesh->vertices->size());
+		//for (unsigned int i = 0; i < outPutMesh->vertices->size(); i++)
+		//{
+			 //kolla hur detta blir med indexeringen
+		//}
 	}
 
 	//den funkar
