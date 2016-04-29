@@ -871,7 +871,7 @@ void MeshHandler::GetVertTextureUV(fbxsdk::FbxGeometryElementUV* uvElement, int 
 {
 	FbxVector2 uvs = uvElement->GetDirectArray().GetAt(index);
 	targetUV[0] = uvs[0];
-	targetUV[1] = -uvs[1];
+	targetUV[1] = 1 - uvs[1];
 }
 
 void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index, MeshExport* outputMesh)

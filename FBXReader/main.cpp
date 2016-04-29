@@ -13,10 +13,10 @@ void main()
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	#endif
 
-	//const char* fileName = "EnemyChar.fbx"; //lights
+	const char* fileName = "testscene.fbx"; //lights
 	//const char* fileName = "onecube.fbx";
-	//const char* fileName = "test2.fbx";
-	const char* fileName = "skeleton_and_no_skeleton.fbx";
+	//const char* fileName = "level_0.fbx";
+	//const char* fileName = "skeleton_and_no_skeleton.fbx";
 	//const char* fileName = "3_shapes_1_Cam.fbx";
 	//const char* fileName = "3meshes_1Cam_triangulated.fbx";
 	//const char* fileName = "GroupScene.fbx";
@@ -34,7 +34,7 @@ void main()
 	importer->ConvertFbxToFile(outputClass); //convert information from fbx to our format
 
 	//information is in the outPutClass.
-	outputClass->WriteToBinaryFile("ene.BRF"); //write to file
+	outputClass->WriteToBinaryFile("test_scene.BRF"); //write to file
 
 	//outputClass->WriteToBinaryFile("lightwithmat.brf");
 	//done
