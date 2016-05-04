@@ -116,13 +116,22 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 
 
 	std::vector<int> polyVertices;
+	std::vector<FbxVector4> polyNormals;
 	for (int i = 0; i < polyCount; i++)
 	{
 		for (int j = 0; j < pMesh->GetPolygonSize(i); j++)
+		{
+			FbxVector4 tempNormal;
 			polyVertices.push_back(pMesh->GetPolygonVertex(i, j));
+			pMesh->GetPolygonVertexNormal(i, j, tempNormal);
+			polyNormals.push_back(tempNormal); 
+		}
 	}
+	//fbxsdk::FbxGeometryElementNormal* normalElem = pMesh->GetElementNormal();
+	//FbxLayerElementArrayTemplate<int> hej = normalElem->GetIndexArray();
+	
 	//if (hasSkeleton)
-	//{
+	//{polyVertices.at(i*j)
 		//outPutMesh->vertices->resize(polyVertices.size());
 		
 	//}
@@ -225,7 +234,8 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 			pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
 
 			GetVertPositions(pMesh, polyVertices.at(i), tempVertex.pos);
-			GetVertNormals(pMesh->GetElementNormal(), polyVertices.at(i), tempVertex.normal);
+			//GetVertNormals(pMesh->GetElementNormal(), polyVertices.at(i), tempVertex.normal);
+			GetPolygonNormals(tempVertex.normal, &polyNormals.at(i));
 			GetVertBiNormals(pMesh->GetElementBinormal(), polyVertices.at(i), tempVertex.biTangent);
 			GetVertTangents(pMesh->GetElementTangent(), polyVertices.at(i), tempVertex.tangent);
 			GetVertTextureUV(pMesh->GetElementUV(), uvIndex.at(i), tempVertex.uv);
@@ -1016,4 +1026,11 @@ bool MeshHandler::HasSkeleton(FbxNode * pNode)
 		return true;
 	else
 		return false;
+}
+
+void MeshHandler::GetPolygonNormals(double * targetNormal, FbxVector4 * sourceNormals)
+{
+	targetNormal[0] = sourceNormals->mData[0];
+	targetNormal[1] = sourceNormals->mData[1];
+	targetNormal[2] = sourceNormals->mData[2];
 }
