@@ -207,7 +207,7 @@ namespace BRFImporter
 #pragma region MorphAnimHeader
 	struct MorphAnimHeader
 	{
-		unsigned int vertices;
+		unsigned int numberOfFrames;
 		unsigned int shapeID;
 	};
 #pragma endregion
@@ -215,7 +215,11 @@ namespace BRFImporter
 	struct MorphVertexHeader
 	{
 		double pos[3];
-		unsigned int vertIndex;
+		double normal[3];
+		double tangent[2];
+		double biTangent[2];
+		/*double pos[3];
+		unsigned int vertIndex;*/
 	};
 #pragma endregion
 #pragma region AttributeHeader
