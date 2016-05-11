@@ -10,4 +10,7 @@ public:
 	~MorphHandler();
 
 	void GetMorphData(FbxNode* pNode, std::vector<MorphAnimExport>* outputMesh);	
+private:
+	void processMorphData(FbxNode* pNode, MorphAnimExport &output);
+	void processKeyFrames(FbxNode* pNode, MorphAnimExport &output);
 };
