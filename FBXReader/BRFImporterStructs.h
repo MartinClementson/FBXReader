@@ -153,9 +153,12 @@ namespace BRFImporter
 		double pos[3];
 		double rot[3];
 		double scale[3];
-		double outerAngle;
+		double spotRadius;
 		double color[3];
 		double intensity;
+		double lookAtLH[3];//new
+		double lightRange;//new
+		double attenuation;//new
 	};
 	struct AreaLightHeader
 	{
@@ -174,6 +177,9 @@ namespace BRFImporter
 		double pos[3];
 		double color[3];
 		double intensity;
+		double lookAtLH[3];//new
+		double lightRange;//new
+		double attenuation;//new
 	};
 	struct DirLightHeader
 	{
@@ -183,6 +189,7 @@ namespace BRFImporter
 		double rot[3];
 		double color[3];
 		double intensity;
+		double lookAtLH[3];//new
 	};
 #pragma endregion
 #pragma region GroupHeader
