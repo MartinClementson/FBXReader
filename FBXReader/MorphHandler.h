@@ -13,4 +13,6 @@ public:
 private:
 	void processMorphData(FbxNode* pNode, MorphAnimExport &output);
 	void processKeyFrames(FbxNode* pNode, MorphAnimExport &output);
+
+	int tester;
 };
