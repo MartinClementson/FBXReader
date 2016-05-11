@@ -18,11 +18,16 @@ class CameraExporter
 {
 public:
 	std::vector<CameraHeader>* cameras;
+	CameraHeader camInfo;
+	MainHeader mainStruct;
 public:
 	CameraExporter();
 	~CameraExporter();
 
 	void WriteToBinaryFile(std::ofstream* outfile);
 
+	unsigned int Returnsize(unsigned int);
+
+	void AddCamera(CameraHeader input);
 
 };
