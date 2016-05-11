@@ -58,7 +58,7 @@ void LightExport::WriteToBinaryFile(std::ofstream * outfile)
 
 		std::cout << "Intensity: " << spotLights->at(i).intensity << "\n";
 
-		std::cout << "OuterAngle: " << spotLights->at(i).outerAngle << std::endl;
+		std::cout << "OuterAngle: " << spotLights->at(i).spotRadius << std::endl;
 
 		//Continue here if you want more specific information
 	}
