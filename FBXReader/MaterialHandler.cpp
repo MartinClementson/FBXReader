@@ -13,17 +13,18 @@ MaterialHandler::~MaterialHandler()
 
 #pragma endregion
 
-
-
-
 #pragma region Material Main
 
-void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat)
+void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat, SceneMap* sceneMap)
 {
 	//Recursively extract the children
 	for (int j = 0; j < pNode->GetChildCount(); j++)
-		GetMaterialData(pNode->GetChild(j),outputMat);
+		GetMaterialData(pNode->GetChild(j),outputMat,sceneMap);
 
+	if (outputMat == nullptr)
+	{
+		outputMat == new MaterialExport;
+	}
 
 	FbxGeometry* pGeometry = pNode->GetGeometry();
 	int materialCount = 0;
@@ -35,7 +36,7 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat
 
 		if (node)
 			materialCount = pNode->GetMaterialCount();
-			
+				
 	
 		if (materialCount > 0)
 		{
@@ -45,7 +46,7 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat
 				if (pNode->GetMaterial(i))
 				{
 					FbxSurfaceMaterial *pMaterial = node->GetMaterial(i);
-					ProcessData(pMaterial, materialCount, outputMat);
+					ProcessData(pMaterial, materialCount, outputMat,sceneMap);
 				}
 				
 			}
@@ -55,23 +56,77 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat
 	}
 }
 
+void MaterialHandler::MapMaterials(FbxNode * pNode, SceneMap * sceneMap)
+{
+
+
+	//Recursively extract the children
+	for (int j = 0; j < pNode->GetChildCount(); j++)
+		MapMaterials(pNode->GetChild(j), sceneMap);
+
+	FbxGeometry* pGeometry = pNode->GetGeometry();
+	int materialCount = 0;
+	FbxNode* node = NULL;
+
+
+
+	if (pGeometry) {
+
+		node = pGeometry->GetNode();
+
+		if (node)
+			materialCount = pNode->GetMaterialCount();
+
+
+		if (materialCount > 0)
+		{
+
+			for (int i = 0; i < materialCount; i++)
+			{
+				if (pNode->GetMaterial(i))
+				{
+					FbxSurfaceMaterial *pMaterial = node->GetMaterial(i);
+					std::cout << pMaterial->GetName() << "\n";
+
+						if (sceneMap->materialHash.find(pMaterial->GetName()) == sceneMap->materialHash.end()) {
+							// not found
+							std::cout << "New material found!  mapping..\n";
+							sceneMap->materialHash[pMaterial->GetName()] = sceneMap->materialID;
+							sceneMap->materialID += 1;
+						}
+						else {
+							// found
+							std::cout << "Material " << pMaterial->GetName() << " already exist .. skipping mapping of material" << std::endl;
+						}
+
+					//ProcessData(pMaterial, materialCount, outputMat);
+				}
+
+			}
+		}
+
+
+	}
+
+
+}
+
 #pragma endregion
 
 #pragma region Process Data
 
-void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int materialCount, MaterialExport* outputMat)
+void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int materialCount, MaterialExport* outputMat, SceneMap* sceneMap)
 {
-	
-
-	
-
 	MaterialHeader materialStruct;
+	
 	
 	//diffuse property
 	FbxProperty diffProp = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
 	unsigned int diffMapCount = diffProp.GetSrcObjectCount<FbxFileTexture>();
 	
 	memcpy(materialStruct.matName, pMaterial->GetName(), sizeof(char) * 256);
+
+	materialStruct.Id = sceneMap->materialHash[pMaterial->GetName()];
 	//check if there are texturemaps
 	if (diffMapCount > 0)
 	{
@@ -162,6 +217,11 @@ const char* MaterialHandler::GetTextureMap(FbxProperty diffMapProp)
 
 	textureName = texture->GetRelativeFileName();
 
+	//recreating the name without the filepath prefix
+	textureString = textureName;
+	textureString = textureString.Mid(textureString.ReverseFind('\\') + 1);
+	textureName = textureString;
+
 	return textureName;
 
 }
@@ -176,6 +236,11 @@ const char* MaterialHandler::GetSpecularMap(FbxProperty specProp)
 	const char* textureName;
 	const FbxFileTexture* texture = FbxCast<FbxFileTexture>(specProp.GetSrcObject<FbxFileTexture>(0));
 	textureName = texture->GetRelativeFileName();
+
+	//recreating the name without the filepath prefix
+	specularString = textureName;
+	specularString = specularString.Mid(specularString.ReverseFind('\\') + 1);
+	textureName = specularString;
 
 	return textureName;
 	
@@ -193,6 +258,11 @@ const char* MaterialHandler::GetNormalMap(FbxProperty normMapProp)
 
 	const char* textureName = texture->GetRelativeFileName();
 
+	//recreating the name without the filepath prefix
+	normalString = textureName;
+	normalString = normalString.Mid(normalString.ReverseFind('\\') + 1);
+	textureName = normalString;
+
 	return textureName;
 
 }
@@ -206,8 +276,12 @@ const char* MaterialHandler::GetGlowMap(FbxProperty glowMapProp)
 
 	const FbxFileTexture* texture = FbxCast<FbxFileTexture>(glowMapProp.GetSrcObject<FbxFileTexture>(0));
 
-
 	const char* textureName = texture->GetRelativeFileName();
+
+	//recreating the name without the filepath prefix
+	glowString = textureName;
+	glowString = glowString.Mid(glowString.ReverseFind('\\') + 1);
+	textureName = glowString;
 
 	return textureName;
 

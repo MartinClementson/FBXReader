@@ -13,10 +13,11 @@ public:
 	MaterialHandler();
 	~MaterialHandler();
 
-	void GetMaterialData(FbxNode* pNode, MaterialExport* outputMat);
+	void GetMaterialData(FbxNode* pNode, MaterialExport* outputMat,SceneMap* sceneMap);
+	void MapMaterials(FbxNode* pNode, SceneMap* sceneMap);
 
 private:
-	void ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int matCount, MaterialExport* outputMat);
+	void ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int matCount, MaterialExport* outputMat, SceneMap* sceneMap);
 
 	//get RGB(A) values
 	void GetDiffuse(FbxSurfaceMaterial* pMaterial, double *pTargetDiffuse);
@@ -27,6 +28,12 @@ private:
 	const char* GetSpecularMap(FbxProperty specMapProp);
 	const char* GetNormalMap(FbxProperty normMapProp);
 	const char* GetGlowMap(FbxProperty glowMapProp);
+
+	//filepath names
+	FbxString textureString;
+	FbxString specularString;
+	FbxString normalString;
+	FbxString glowString;
 };
 
 

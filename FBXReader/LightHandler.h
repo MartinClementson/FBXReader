@@ -37,7 +37,5 @@ public:
 
 	BRFImporter::AreaLightHeader AreaLight(FbxLight* pLight);
 
-	BRFImporter::AmbLightHeader AmbientLight(FbxLight* pLight);
-
 };
 #endif // !GETLIGHT_H

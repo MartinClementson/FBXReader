@@ -29,7 +29,8 @@ namespace BRFImporter
 
 		unsigned int attrCount = 0;		// 0 = Default
 
-		bool boundingBox;
+		bool boundingBox = false;
+		bool hasSkeleton = false;
 
 		double translation[3];
 		double rotation[3];
@@ -47,6 +48,14 @@ namespace BRFImporter
 	{
 		unsigned int vertIndex;
 	};
+	struct VertexHeaderNoSkeleton
+	{
+		double pos[3];
+		double normal[3];
+		double uv[2];
+		double tangent[2];
+		double biTangent[2];
+	};
 	struct VertexHeader
 	{
 		double pos[3];
@@ -54,7 +63,7 @@ namespace BRFImporter
 		double uv[2];
 		double tangent[2];
 		double biTangent[2];
-		unsigned int weightAmmount;
+		//unsigned int weightAmmount[4];
 	};
 	struct WeigthsHeader
 	{
@@ -69,7 +78,6 @@ namespace BRFImporter
 
 		char matName[256];
 
-		double ambientVal[3];
 		double diffuseVal[3];
 		double specularVal[3];
 
@@ -83,6 +91,7 @@ namespace BRFImporter
 #pragma region SkeletonHeader
 	struct SkeletonHeader
 	{
+		unsigned int skeletonID;
 		unsigned int jointCount;
 		unsigned int animationCount;
 	};
@@ -93,27 +102,25 @@ namespace BRFImporter
 		char jointName[256];
 		unsigned int jointID;
 		unsigned int ParentJointID;		// 0 = Default;
-
+		double bindPoseMatrix[4][4];
 		double pos[3];
 		double rotation[3];
 	};
 	struct AnimationHeader
 	{
 		char animationName[256];
-		unsigned int frameCount;
+		unsigned int jointCount;
+		unsigned int animationID;
 	};
 	struct JointCountHeader
 	{
-		unsigned int jointCount;
+		unsigned int frameCount;
+		unsigned int jointID;
 	};
 	struct FrameHeader
 	{
-		unsigned int jointID;
 		unsigned int frameID;
-
-		double time;
-		double pos[3];
-		double rotation[3];
+		double frameMatrix[4][4];
 	};
 #pragma endregion
 #pragma region CameraHeader
@@ -132,10 +139,10 @@ namespace BRFImporter
 	struct LightHeader
 	{
 		unsigned int spotCount;
-		unsigned int ambientCount;
-		unsigned int directionalCount;
 		unsigned int areaCount;
 		unsigned int pointCount;
+		unsigned int directionalCount;
+
 	};
 #pragma endregion
 #pragma region LightHeader Dynamics
@@ -147,14 +154,6 @@ namespace BRFImporter
 		double rot[3];
 		double scale[3];
 		double outerAngle;
-		double color[3];
-		double intensity;
-	};
-	struct AmbLightHeader
-	{
-		unsigned int objectID;
-		unsigned int parentID;		// 0 = Default
-		double pos[3];
 		double color[3];
 		double intensity;
 	};
