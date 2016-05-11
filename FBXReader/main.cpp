@@ -17,7 +17,7 @@ void main()
 	//const char* fileName = "onecube.fbx";
 	//const char* fileName = "test2.fbx";
 	//const char* fileName = "3_shapes_1_Cam.fbx";
-	const char* fileName = "blend.fbx";
+	const char* fileName = "blend2.fbx";
 	//const char* fileName = "level_0.fbx";
 	//const char* fileName = "skeleton_and_no_skeleton.fbx";
 	//const char* fileName = "3_shapes_1_Cam.fbx";
