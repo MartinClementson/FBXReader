@@ -187,7 +187,7 @@ void FbxImport::GetLightData(FbxNode * pNode, LightExport* lights)
 
 void FbxImport::GetMorphData(FbxNode * pNode, std::vector<MorphAnimExport>* outputMorphs)
 {
-	morphHandler.GetMorphData(pNode);
+	morphHandler.GetMorphData(pNode, outputMorphs);
 }
 
 void FbxImport::GetGroupData(FbxNode * pNode, std::vector<GroupHeader>* outputGroups)

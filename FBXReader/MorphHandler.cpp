@@ -14,7 +14,7 @@ MorphHandler::~MorphHandler()
 
 #pragma endregion
 
-void MorphHandler::GetMorphData(FbxNode* pNode)
+void MorphHandler::GetMorphData(FbxNode* pNode, std::vector<MorphAnimExport>* outputMesh)
 {
 
 	FbxGeometry* pGeo = pNode->GetGeometry();
