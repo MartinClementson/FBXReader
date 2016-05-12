@@ -159,6 +159,8 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 		}
 		//tester++;
 	}
+	animShapes.shrink_to_fit();
+	evaluateAnimation(pNode, output);
 }
 
 void MorphHandler::processKeyFrames(FbxNode * pNode, animatedShapes &animShape)
@@ -206,7 +208,53 @@ void MorphHandler::processKeyFrames(FbxNode * pNode, animatedShapes &animShape)
 	}
 }
 
-void MorphHandler::evaluateAnimation(FbxNode * pNode, MorphAnimExport & output, std::vector<animatedShapes> & animShape)
+void MorphHandler::evaluateAnimation(FbxNode * pNode, MorphAnimExport & output)
 {
+	if (animShapes.size() != 0)
+	{
+		animatedShapes finalShape;
+		struct sameChannelAnimation
+		{
+			FbxTime time;
+			std::vector<FbxBlendShapeChannel*> morphChannels;
+		};
+		std::vector<sameChannelAnimation> tempMorphChannels;
+		if (animShapes.size() > 1)
+		{
+			for (int i = 0; i < animShapes.size(); i++)
+			{
+				for (int j = i + 1; j < animShapes.size(); j++)
+				{
+					for (int k = 0; k < animShapes.at(i).animatedTimes.size(); k++)
+					{
+						for (int l = 0; l < animShapes.at(j).animatedTimes.size(); l++)
+						{
+							sameChannelAnimation temp;
+							temp.morphChannels.push_back(animShapes.at(i).animatedChannels);
+							if (animShapes.at(i).animatedTimes.at(k) == animShapes.at(j).animatedTimes.at(l))
+							{
+								temp.morphChannels.push_back(animShapes.at(j).animatedChannels);
+								//temp.time = animShapes.at(i).animatedTimes.at(k);
+							}
+							//if (temp.morphChannels.size() == 1)
+							temp.time = animShapes.at(i).animatedTimes.at(k);
 
+							tempMorphChannels.push_back(temp);
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < animShapes.at(0).animatedTimes.size(); i++)
+			{
+				sameChannelAnimation temp;
+				temp.morphChannels.push_back(animShapes.at(0).animatedChannels);
+				temp.time = animShapes.at(0).animatedTimes.at(i);
+				tempMorphChannels.push_back(temp);
+			}
+		}
+		//send to function to calculate here
+	}
 }
