@@ -77,7 +77,7 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 	int morphChannelCount;
 	int targetShapeCount;
 
-	processKeyFrames(pNode, output);
+	//processKeyFrames(pNode, output);
 
 	for (unsigned int i = 0; i < morphAnimCount; i++)
 	{
@@ -104,18 +104,21 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 				FbxShape* shape;
 				shape = morphChannel->GetTargetShape(k);
 				
-				FbxProperty kiss = morphChannel->GetFirstProperty();
-				std::cout << kiss.GetName()<< "\n";
-				while (kiss.IsValid())
-				{
-					FbxAnimCurve* bajs = kiss.GetCurve(0);
-					if (bajs != nullptr)
-						std::cout << "hejsan kuk";
-					kiss = morphChannel->GetNextProperty(kiss);
-					std::cout << kiss.GetName() << "\n";
-				}
 				
-				double* test = morphChannel->GetTargetShapeFullWeights();
+				processKeyFrames(pNode, output, morphChannel);
+
+				//FbxProperty kiss = morphChannel->GetFirstProperty();
+				//std::cout << kiss.GetName()<< "\n";
+				//while (test2->IsValid())
+				//{
+				//		FbxAnimCurve* bajs = test2->GetCurve(0);
+				//		if (bajs != nullptr)
+				//			std::cout << "hejsan kuk";
+				//		//kiss = morphChannel->GetNextProperty(kiss);
+				//		std::cout << test2->GetName() << "\n";
+				//}
+				
+				//double* test = morphChannel->GetTargetShapeFullWeights();
 				/*if (tester == 1)
 				{
 					FbxAnimCurve* test = (FbxAnimCurve*)morphChannel;
@@ -128,7 +131,9 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 						FbxTime frameTime;
 					}
 				}*/
-				
+
+				//morphChannel->DeformPercent.GetCurve(0);
+				 
 				std::cout << "Shape name: " << shape->GetName() << "\n\n";
 
 
@@ -146,7 +151,7 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 	}
 }
 
-void MorphHandler::processKeyFrames(FbxNode * pNode, MorphAnimExport & output)
+void MorphHandler::processKeyFrames(FbxNode * pNode, MorphAnimExport & output, FbxBlendShapeChannel* morphChannel)
 {
 	FbxScene * scene = pNode->GetScene();
 
@@ -173,183 +178,19 @@ void MorphHandler::processKeyFrames(FbxNode * pNode, MorphAnimExport & output)
 			FbxAnimCurve * translationCurve = pNode->LclTranslation.GetCurve(animLayer);
 			FbxAnimCurve * rotationCurve = pNode->LclRotation.GetCurve(animLayer);
 			FbxAnimCurve * scalingCurve = pNode->LclScaling.GetCurve(animLayer);
-			FbxAnimEvaluator *kiss = pNode->GetAnimationEvaluator();
-			FbxProperty hejsan = kiss->GetFirstProperty();
+			
+			FbxAnimCurve * deformCurve = morphChannel->DeformPercent.GetCurve(animLayer);
 
-			FbxTimeSpan span;
-			if (pNode->GetAnimationInterval(span, animStack, 0))
-				std::cout << "bajs";
-
-			std::cout << hejsan.GetName() << "\n";
-			FbxAnimCurve* test = hejsan.GetCurve(animLayer);
-			if (test != nullptr)
-					std::cout << "nu";
-			while (hejsan.IsValid())
+			if (deformCurve != nullptr)
 			{
-				hejsan = kiss->GetNextProperty(hejsan);
-				std::cout << hejsan.GetName() << "\n";
-				
-				
-			}
-			FbxGeometry* pGeo = pNode->GetGeometry();
-			//FbxAnimCurve* test = (FbxAnimCurve*)pGeo;
-			//FbxTimeSpan span;
-			////scalingCurve->GetTimeInterval(span);
-			//FbxTime duration = span.GetDuration();
-			//int numKeys = (duration.GetFrameCount(FbxTime::eFrames24) + 1);
-			//FbxTime frameTime;
-			////int numKeys = rotationCurve->KeyGetCount();
-			//for (int keyIndex = 1; keyIndex <= numKeys; keyIndex += 5)
-			//{
-			//	//FbxTime frameTime = rotationCurve->KeyGetTime(keyIndex);
-			//	if (keyIndex == 6)
-			//		keyIndex = 5;
-			//	frameTime.SetTime(0, 0, 0, keyIndex, 0, FbxTime::eFrames24);
-			//	FbxDouble3 rotationVector = pNode->EvaluateLocalRotation(frameTime);
-			//	float x = (float)rotationVector[0];
-			//	float y = (float)rotationVector[1];
-			//	float z = (float)rotationVector[2];
-
-			//	//for the worldmatrix of the frame
-			//	DirectX::XMMATRIX tempRotation;
-			//	DirectX::XMMATRIX rotationx = DirectX::XMMatrixRotationX(x);
-			//	DirectX::XMMATRIX rotationy = DirectX::XMMatrixRotationY(y);
-			//	DirectX::XMMATRIX rotationz = DirectX::XMMatrixRotationZ(z);
-
-			//	tempRotation = rotationx*rotationy; tempRotation = tempRotation*rotationz;
-			//	FbxAMatrix rot;
-			//	//FbxVector4 rotV(x, y, z, 1);
-			//	rot.SetR(FbxVector4(x, y, z, 1));
-			//	//rotationMatrix.push_back(rot);
-
-
-			//	//float frameSeconds = (float)frameTime.GetSecondDouble();
-			//}
-			//if (translationCurve != NULL ||
-			//	rotationCurve != NULL ||
-			//	scalingCurve != NULL)
-			//	//jointCount += 1;
-			//	addLayerJointCount((FbxString)animStack->GetName());
-
-
-			//FbxTimeSpan animTime;
-			//pNode->GetAnimationInterval(animTime, animStack);
-			//FbxTime tid = animTime.GetStop();
-
-
-			int max = 0;
-
-			//can have three different matrices and in the end multiply them into the real one!
-			//std::vector<DirectX::XMMATRIX> scaleMatrix;
-			std::vector<FbxAMatrix> rotationMatrix;
-			std::vector<FbxAMatrix> translationMatrix;
-
-			//temp
-			//std::vector<FbxAMatrix> frameMatrix;
-
-			//if (scalingCurve != NULL)
-			//{
-			//	//getting the number of set key for this attrubute
-			//	//for this joint, store this later for frameCount!
-			//	int numKeys = scalingCurve->KeyGetCount();
-			//	//double testKeys = scalingCurve->;
-			//	FbxTimeSpan terra;
-			//	scalingCurve->GetTimeInterval(terra);
-			//	FbxTime test = terra.GetDuration();
-			//	int bajs = (test.GetFrameCount(FbxTime::eFrames24)+1);
-			//	FbxTime kiss;
-			//	/*kiss.SetTime(0, 0, 0, 10, 0, FbxTime::eFrames24);
-			//	kiss.SetTime(0, 0, 0, 35, 0, FbxTime::eFrames24);
-			//	kiss.SetTime(0, 0, 0, 1, 0, FbxTime::eFrames24);
-			//	kiss.SetTime(0, 0, 0, 19, 0, FbxTime::eFrames24);*/
-			//	
-			//	//double kiss = test.GetFrameRate(FbxTime::eFrames24);
-			//	//FbxDouble3 test = pNode->EvaluateLocalScaling(frameTime);
-			//	//scalingCurve->GetTimeInterval(animTime);
-			//	//std::cout << "\nstart: " << "to end: " ;
-			//	for (int keyIndex = 0; keyIndex <= bajs; keyIndex += 5)
-			//	{
-			//		//FbxTime frameTime = scalingCurve->KeyGetTime(keyIndex);
-			//		kiss.SetTime(0, 0, 0, keyIndex, 0, FbxTime::eFrames24);
-			//		FbxDouble3 scalingVector = pNode->EvaluateLocalScaling(kiss);
-			//		float x = (float)scalingVector[0];
-			//		float y = (float)scalingVector[1];
-			//		float z = (float)scalingVector[2];
-			//		//for the worldMatrix of the frame
-			//		scaleMatrix.push_back(DirectX::XMMatrixScaling(x, y, z));
-			//		//float frameSeconds = (float)frameTime.GetSecondDouble();
-			//	}
-			//}
-			//if (rotationCurve != NULL)
-			//{
-			//	//getting the number of set key for this attrubute
-			//	//for this joint
-			//	FbxTimeSpan span;
-			//	scalingCurve->GetTimeInterval(span);
-			//	FbxTime duration = span.GetDuration();
-			//	int numKeys = (duration.GetFrameCount(FbxTime::eFrames24) + 1);
-			//	FbxTime frameTime;
-			//	//int numKeys = rotationCurve->KeyGetCount();
-			//	for (int keyIndex = 1; keyIndex <= numKeys; keyIndex += 5)
-			//	{
-			//		//FbxTime frameTime = rotationCurve->KeyGetTime(keyIndex);
-			//		if (keyIndex == 6)
-			//			keyIndex = 5;
-			//		frameTime.SetTime(0, 0, 0, keyIndex, 0, FbxTime::eFrames24);
-			//		FbxDouble3 rotationVector = pNode->EvaluateLocalRotation(frameTime);
-			//		float x = (float)rotationVector[0];
-			//		float y = (float)rotationVector[1];
-			//		float z = (float)rotationVector[2];
-
-			//		//for the worldmatrix of the frame
-			//		DirectX::XMMATRIX tempRotation;
-			//		DirectX::XMMATRIX rotationx = DirectX::XMMatrixRotationX(x);
-			//		DirectX::XMMATRIX rotationy = DirectX::XMMatrixRotationY(y);
-			//		DirectX::XMMATRIX rotationz = DirectX::XMMatrixRotationZ(z);
-
-			//		tempRotation = rotationx*rotationy; tempRotation = tempRotation*rotationz;
-			//		FbxAMatrix rot;
-			//		//FbxVector4 rotV(x, y, z, 1);
-			//		rot.SetR(FbxVector4(x, y, z, 1));
-			//		rotationMatrix.push_back(rot);
-
-
-			//		//float frameSeconds = (float)frameTime.GetSecondDouble();
-			//	}
-			//}
-			if (translationCurve != NULL)
-			{
-				//getting the number of set key for this attrubute
-				//for this joint
-				FbxTimeSpan span;
-				scalingCurve->GetTimeInterval(span);
-				FbxTime duration = span.GetDuration();
-				int numKeys = (duration.GetFrameCount(FbxTime::eFrames24) + 1);
-				FbxTime frameTime;
-				//int numKeys = translationCurve->KeyGetCount();
-				for (int keyIndex = 1; keyIndex <= numKeys; keyIndex += 5)
+				int numKeys = deformCurve->KeyGetCount();
+				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
 				{
-					if (keyIndex == 6)
-						keyIndex = 5;
-					//FbxTime frameTime = translationCurve->KeyGetTime(keyIndex);
-					frameTime.SetTime(0, 0, 0, keyIndex, 0, FbxTime::eFrames24);
-					FbxDouble3 translationVector = pNode->EvaluateLocalTranslation(numKeys);
-					float x = (float)translationVector[0];
-					float y = (float)translationVector[1];
-					float z = (float)translationVector[2];
-					FbxAMatrix trans;
-					trans.SetT(FbxVector4(x, y, z, 1));
-					//translationMatrix.push_back(DirectX::XMMatrixTranslation(x, y, z));
-					translationMatrix.push_back(trans);
-					//double frameSeconds = frameTime.GetSecondDouble();
+					FbxTime frameTime = deformCurve->KeyGetTime(keyIndex);
+					double deform = morphChannel->DeformPercent.EvaluateValue(frameTime);
+					std::cout << "\n" << deform << "\n";
 				}
 			}
-
-			//getting the maximum value of keyframes
-			//from the number of keyframes
-
-			//add matrix here
-			//use int i for frame ID
 		}
 	}
 }
