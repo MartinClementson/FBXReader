@@ -131,7 +131,13 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 
 						FbxAnimCurve * deformCurve = morphChannel->DeformPercent.GetCurve(animLayer);
 						if (deformCurve != nullptr)
-							animatedChannels.push_back(morphChannel);
+						{
+							animatedShapes temp;
+							temp.animatedChannels = morphChannel;
+							animShapes.push_back(temp);
+							//animatedChannels.push_back(morphChannel);
+							//animatedTargets.push_back(shape);
+						}
 					}
 				}
 				//morphChannel->DeformPercent.GetCurve(0);
@@ -150,11 +156,11 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 				}
 			}
 		}
-		tester++;
+		//tester++;
 	}
 }
 
-void MorphHandler::processKeyFrames(FbxNode * pNode, MorphAnimExport & output, FbxBlendShapeChannel* morphChannel)
+void MorphHandler::processKeyFrames(FbxNode * pNode, animatedShapes &animShape)
 {
 	FbxScene * scene = pNode->GetScene();
 
@@ -182,7 +188,7 @@ void MorphHandler::processKeyFrames(FbxNode * pNode, MorphAnimExport & output, F
 			FbxAnimCurve * rotationCurve = pNode->LclRotation.GetCurve(animLayer);
 			FbxAnimCurve * scalingCurve = pNode->LclScaling.GetCurve(animLayer);
 			
-			FbxAnimCurve * deformCurve = morphChannel->DeformPercent.GetCurve(animLayer);
+			FbxAnimCurve * deformCurve = animShape.animatedChannels->DeformPercent.GetCurve(animLayer);
 
 			if (deformCurve != nullptr)
 			{
@@ -190,10 +196,15 @@ void MorphHandler::processKeyFrames(FbxNode * pNode, MorphAnimExport & output, F
 				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
 				{
 					FbxTime frameTime = deformCurve->KeyGetTime(keyIndex);
-					double deform = morphChannel->DeformPercent.EvaluateValue(frameTime);
-					std::cout << "\n" << deform << "\n";
+					animShape.animatedTimes.push_back(frameTime);
+					//double deform = animShape.animatedChannels->DeformPercent.EvaluateValue(frameTime);
+					//std::cout << "\n" << deform << "\n";
 				}
 			}
 		}
 	}
+}
+
+void MorphHandler::evaluateAnimation(FbxNode * pNode, MorphAnimExport & output, animatedShapes & animShape)
+{
 }
