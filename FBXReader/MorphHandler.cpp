@@ -134,6 +134,7 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 						{
 							animatedShapes temp;
 							temp.animatedChannels = morphChannel;
+							processKeyFrames(pNode, temp);
 							animShapes.push_back(temp);
 							//animatedChannels.push_back(morphChannel);
 							//animatedTargets.push_back(shape);
@@ -205,6 +206,7 @@ void MorphHandler::processKeyFrames(FbxNode * pNode, animatedShapes &animShape)
 	}
 }
 
-void MorphHandler::evaluateAnimation(FbxNode * pNode, MorphAnimExport & output, animatedShapes & animShape)
+void MorphHandler::evaluateAnimation(FbxNode * pNode, MorphAnimExport & output, std::vector<animatedShapes> & animShape)
 {
+
 }

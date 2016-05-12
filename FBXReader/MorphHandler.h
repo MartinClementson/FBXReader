@@ -24,6 +24,6 @@ private:
 
 	std::vector<animatedShapes> animShapes;
 	void processKeyFrames(FbxNode* pNode, animatedShapes &animShape);
-	void evaluateAnimation(FbxNode* pNode, MorphAnimExport &output, animatedShapes &animShape);
+	void evaluateAnimation(FbxNode* pNode, MorphAnimExport &output, std::vector<animatedShapes> &animShape);
 	int tester;
 };
