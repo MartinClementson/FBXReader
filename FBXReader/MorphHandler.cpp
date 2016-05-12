@@ -319,6 +319,12 @@ void MorphHandler::transferAnimation(FbxNode * pNode, MorphAnimExport & output, 
 
 								GetPolygonNormals(tempvertex.normal, &polyNormals.at(k));//kolla in denna
 
+								/*tanke: 
+								kanske räkna ut en vector mellan orginal vertex positionen och den nya vertex positionen,
+								sen transformera normalerna med det värdet*/
+
+
+
 								fbxsdk::FbxGeometryElementBinormal * test2 = shape->GetElementBinormal(k);
 								//shape->GetBinormals(test2,0);
 								std::cout << "bajs";
