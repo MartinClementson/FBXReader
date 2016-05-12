@@ -72,34 +72,34 @@ void MorphHandler::GetMorphData(FbxNode* pNode, std::vector<MorphAnimExport>* ou
 
 void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 {
-	FbxGeometry* pGeo = pNode->GetGeometry();
-	int morphAnimCount = pGeo->GetDeformerCount(FbxDeformer::eBlendShape);
+	FbxGeometry* pGeo = pNode->GetGeometry();								 // get Source
+	int morphAnimCount = pGeo->GetDeformerCount(FbxDeformer::eBlendShape);	 //get amount of targets
 	int morphChannelCount;
 	int targetShapeCount;
 
 	//processKeyFrames(pNode, output);
 
-	for (unsigned int i = 0; i < morphAnimCount; i++)
+	for (unsigned int i = 0; i < morphAnimCount; i++) //for each target
 	{
-		FbxBlendShape* morphAnim;
-		morphAnim = (FbxBlendShape*)pGeo->GetDeformer(i, FbxDeformer::eBlendShape);
+		FbxBlendShape* morphAnim;						
+		morphAnim = (FbxBlendShape*)pGeo->GetDeformer(i, FbxDeformer::eBlendShape); //Get the blend shape #i
 
-		morphChannelCount = morphAnim->GetBlendShapeChannelCount();
+		morphChannelCount = morphAnim->GetBlendShapeChannelCount(); //Get how many channels the blend shape #i has
 		std::cout << "ChannelCount: " << morphChannelCount << "\n\n";
 
-		for (unsigned int j = 0; j < morphChannelCount; j++)
+		for (unsigned int j = 0; j < morphChannelCount; j++) //for every channel
 		{
 			std::cout << "channel nr: " << j << "\n";
 
 			FbxBlendShapeChannel* morphChannel;
 			morphChannel = morphAnim->GetBlendShapeChannel(j);
 			morphChannel->GetBlendShapeDeformer();
-			std::cout << "ChannelName: " << morphChannel->GetName() << "\n\n";
+ 			std::cout << "ChannelName: " << morphChannel->GetName() << "\n\n";   //usually blendshapeName.meshName
 
 			targetShapeCount = morphChannel->GetTargetShapeCount();
 
 			std::cout << "Target Shape Count: " << targetShapeCount << "\n\n";
-			for (unsigned int k = 0; k < targetShapeCount; k++)
+			for (unsigned int k = 0; k < targetShapeCount; k++) //for every shape in this channel
 			{
 				FbxShape* shape;
 				shape = morphChannel->GetTargetShape(k);
@@ -144,7 +144,7 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 				//morphChannel->DeformPercent.GetCurve(0);
 
 				 
-				std::cout << "Shape name: " << shape->GetName() << "\n\n";
+				std::cout << "Shape name: " << shape->GetName() << "\n\n"; //name of the mesh
 
 
 				int vertexCount = shape->GetControlPointsCount();
@@ -185,7 +185,7 @@ void MorphHandler::processKeyFrames(FbxNode * pNode, animatedShapes &animShape)
 		for (int layerIndex = 0; layerIndex < numLayers; layerIndex++)
 		{
 			FbxAnimLayer *animLayer = (FbxAnimLayer*)animStack->GetMember(layerIndex);
-			std::cout << animLayer->GetName();
+			std::cout << animLayer->GetName() << "\n";
 
 			FbxAnimCurve * translationCurve = pNode->LclTranslation.GetCurve(animLayer);
 			FbxAnimCurve * rotationCurve = pNode->LclRotation.GetCurve(animLayer);
@@ -198,10 +198,15 @@ void MorphHandler::processKeyFrames(FbxNode * pNode, animatedShapes &animShape)
 				int numKeys = deformCurve->KeyGetCount();
 				for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
 				{
+					fbxsdk::FbxAnimCurveKey key = deformCurve->KeyGet(keyIndex);
+					
+
 					FbxTime frameTime = deformCurve->KeyGetTime(keyIndex);
-					animShape.animatedTimes.push_back(frameTime);
-					//double deform = animShape.animatedChannels->DeformPercent.EvaluateValue(frameTime);
-					//std::cout << "\n" << deform << "\n";
+					//framerate är 41 med mode eFrames1000 :S:S:S:S:S
+					std::cout << (frameTime.GetFieldCount(FbxTime::EMode::eFrames1000) / 41)/2 << "\n"; //ful lösning, för att hitta rätt keyframe. inte helt exakt. men nära!
+					animShape.animatedTimes.push_back(frameTime.GetFieldCount(FbxTime::EMode::eCustom) - 1);
+					double deform = animShape.animatedChannels->DeformPercent.EvaluateValue(frameTime);
+					std::cout << "\n" << deform << "\n";
 				}
 			}
 		}
