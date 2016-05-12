@@ -272,6 +272,9 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 
 					outPutMesh->verticesNoSkeleton->push_back(tempVertex);
 
+
+					//std::cout << "\nvertex here: " << tempVertex.pos[0]
+						//<< " " << tempVertex.pos[1] << " " << tempVertex.pos[2] << "\n";
 					/*outPutMesh->verticesNoSkeleton->at(i).pos[0] = tempVertex.pos[0];
 					outPutMesh->verticesNoSkeleton->at(i).pos[1] = tempVertex.pos[1];
 					outPutMesh->verticesNoSkeleton->at(i).pos[2] = tempVertex.pos[2];
@@ -296,6 +299,9 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 				tempInd.vertIndex = i;
 				outPutMesh->indices->push_back(tempInd);
 				outPutMesh->verticesNoSkeleton->push_back(tempVertex);
+
+				//std::cout << "\nvertex here: " << tempVertex.pos[0]
+					//<< " " << tempVertex.pos[1] << " " << tempVertex.pos[2] << "\n";
 
 				/*outPutMesh->verticesNoSkeleton->at(i).pos[0] = tempVertex.pos[0];
 				outPutMesh->verticesNoSkeleton->at(i).pos[1] = tempVertex.pos[1];
@@ -440,6 +446,13 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 		//{
 			 //kolla hur detta blir med indexeringen
 		//}
+	}
+
+	for (int i = 0; i < outPutMesh->verticesNoSkeleton->size(); i++)
+	{
+		std::cout << "Vertex nr " << i + 1 << ": "<<outPutMesh->verticesNoSkeleton->at(i).pos[0]
+			<< " " << outPutMesh->verticesNoSkeleton->at(i).pos[1] << " " << outPutMesh->verticesNoSkeleton->at(i).pos[2]
+			<< "\n";
 	}
 
 	//den funkar

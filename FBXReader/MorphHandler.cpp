@@ -213,11 +213,7 @@ void MorphHandler::evaluateAnimation(FbxNode * pNode, MorphAnimExport & output)
 	if (animShapes.size() != 0)
 	{
 		animatedShapes finalShape;
-		struct sameChannelAnimation
-		{
-			FbxTime time;
-			std::vector<FbxBlendShapeChannel*> morphChannels;
-		};
+		
 		std::vector<sameChannelAnimation> tempMorphChannels;
 		if (animShapes.size() > 1)
 		{
@@ -255,6 +251,70 @@ void MorphHandler::evaluateAnimation(FbxNode * pNode, MorphAnimExport & output)
 				tempMorphChannels.push_back(temp);
 			}
 		}
-		//send to function to calculate here
+		transferAnimation(pNode, output, tempMorphChannels);
+	}
+}
+
+void MorphHandler::transferAnimation(FbxNode * pNode, MorphAnimExport & output, std::vector<sameChannelAnimation>& animations)
+{
+	for (int i = 0; i < animations.size(); i++)
+	{
+
+		//if there's only one keyed blend shape at this key
+		if (animations.at(i).morphChannels.size() == 1)
+		{
+			FbxShape * shape = animations.at(i).morphChannels.at(0)->GetTargetShape(0);
+			if (animations.at(i).time != 1924423250) //this number is the value for the keyframe 0, which we don't want
+			{
+				FbxScene * scene = pNode->GetScene();
+				int numAnimations = scene->GetSrcObjectCount<FbxAnimStack>();
+				for (int animIndex = 0; animIndex < numAnimations; animIndex++)
+				{
+					//getting the current stack and evaluator
+					FbxAnimStack *animStack = (FbxAnimStack*)scene->GetSrcObject<FbxAnimStack>(animIndex);
+					FbxAnimEvaluator *animEval = scene->GetAnimationEvaluator();
+
+					int numLayers = animStack->GetMemberCount();
+					for (int layerIndex = 0; layerIndex < numLayers; layerIndex++)
+					{
+						FbxAnimLayer *animLayer = (FbxAnimLayer*)animStack->GetMember(layerIndex);
+						FbxAnimCurve * deformCurve = animations.at(i).morphChannels.at(0)->DeformPercent.GetCurve(animLayer);
+
+						//getting the deform procent value
+						double deform = animations.at(i).morphChannels.at(0)->DeformPercent.EvaluateValue(animations.at(i).time);
+						
+						if (deform == 0.0)
+						{
+							//deform is the same as the base shape, no need to interpolate
+							//släng in vertiserna från pNode här
+						}
+						else if (deform == 100.0)
+						{
+							//deform value is the same as the "shape" variable, no need to interpolate
+							FbxGeometry* hej = (FbxGeometry*)shape->GetDstObject();
+							FbxMesh* test = (FbxMesh*)hej->GetSrcObject(hej->eMesh);
+							int polyCount = test->GetPolygonCount();
+							for (int k = 0; k < polyCount; k++)
+							{
+								for (int l = 0; l < test->GetPolygonSize(k); l++)
+								{
+									test->GetPolygonVertex(k, l);
+								}
+							}
+						}
+						else
+						{
+							//need to interpolate
+						}
+					}
+				}
+			}
+		}
+
+		//if there's more shapes keyed
+		else
+		{
+			//hitta värde för fler här
+		}
 	}
 }
