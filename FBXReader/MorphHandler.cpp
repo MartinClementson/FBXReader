@@ -149,12 +149,12 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 
 				int vertexCount = shape->GetControlPointsCount();
 				FbxVector4* vertices = shape->GetControlPoints();
-				for (int l = 0; l < vertexCount; l++)
+				/*for (int l = 0; l < vertexCount; l++)
 				{
 					std::cout << " x: " << ((double*)shape->GetControlPointAt(l))[0] << "";
 					std::cout << " y: " << ((double*)shape->GetControlPointAt(l))[1] << "";
 					std::cout << " z: " << ((double*)shape->GetControlPointAt(l))[2] << "\n\n";
-				}
+				}*/
 			}
 		}
 		//tester++;
@@ -291,15 +291,41 @@ void MorphHandler::transferAnimation(FbxNode * pNode, MorphAnimExport & output, 
 						else if (deform == 100.0)
 						{
 							//deform value is the same as the "shape" variable, no need to interpolate
-							FbxGeometry* hej = (FbxGeometry*)shape->GetDstObject();
-							FbxMesh* test = (FbxMesh*)hej->GetSrcObject(hej->eMesh);
-							int polyCount = test->GetPolygonCount();
+							//FbxGeometry* hej = (FbxGeometry*)shape->GetDstObject();
+							FbxMesh* pMesh = pNode->GetMesh();
+							int polyCount = pMesh->GetPolygonCount();
+							std::vector<int> polyVertices;
+							std::vector<FbxVector4> polyNormals;
+
+							//getting the custom index for the vertices and normals
 							for (int k = 0; k < polyCount; k++)
 							{
-								for (int l = 0; l < test->GetPolygonSize(k); l++)
+								for (int l = 0; l < pMesh->GetPolygonSize(k); l++)
 								{
-									test->GetPolygonVertex(k, l);
+									FbxVector4 tempNormal;
+									polyVertices.push_back(pMesh->GetPolygonVertex(k, l));
+									pMesh->GetPolygonVertexNormal(k, l, tempNormal);
+									polyNormals.push_back(tempNormal);
 								}
+							}
+
+							for (int k = 0; k < polyVertices.size(); k++)
+							{
+								BRFImporter::MorphVertexHeader tempvertex;
+								
+								tempvertex.pos[0] = (double)shape->GetControlPointAt(polyVertices.at(k))[0];
+								tempvertex.pos[1] = (double)shape->GetControlPointAt(polyVertices.at(k))[1];
+								tempvertex.pos[2] = (double)shape->GetControlPointAt(polyVertices.at(k))[2];
+
+								GetPolygonNormals(tempvertex.normal, &polyNormals.at(k));//kolla in denna
+
+								fbxsdk::FbxGeometryElementBinormal * test2 = shape->GetElementBinormal(k);
+								//shape->GetBinormals(test2,0);
+								std::cout << "bajs";
+								//GetVertBiNormals(shape->GetElementBinormal(k), polyVertices.at(k), tempvertex.biTangent);
+								//GetVertTangents(shape->GetElementTangent(), polyVertices.at(k), tempvertex.tangent);
+								//fyll i med den här
+								
 							}
 						}
 						else
@@ -317,4 +343,25 @@ void MorphHandler::transferAnimation(FbxNode * pNode, MorphAnimExport & output, 
 			//hitta värde för fler här
 		}
 	}
+}
+
+void MorphHandler::GetPolygonNormals(double * targetNormal, FbxVector4 * sourceNormals)
+{
+	targetNormal[0] = sourceNormals->mData[0];
+	targetNormal[1] = sourceNormals->mData[1];
+	targetNormal[2] = sourceNormals->mData[2];
+}
+
+void MorphHandler::GetVertBiNormals(fbxsdk::FbxGeometryElementBinormal * pBNElement, int index, double * targetBiNormal)
+{
+	FbxVector4 biNormal = pBNElement->GetDirectArray().GetAt(index);
+	targetBiNormal[0] = biNormal[0];
+	targetBiNormal[1] = biNormal[1];
+}
+
+void MorphHandler::GetVertTangents(fbxsdk::FbxGeometryElementTangent * pTElement, int index, double * targetTangent)
+{
+	FbxVector4 tangent = pTElement->GetDirectArray().GetAt(index);
+	targetTangent[0] = tangent[0];
+	targetTangent[1] = tangent[1];
 }

@@ -32,5 +32,8 @@ private:
 	void evaluateAnimation(FbxNode* pNode, MorphAnimExport &output);
 	void transferAnimation(FbxNode* pNode, MorphAnimExport &output, std::vector<sameChannelAnimation> &animations);
 	//need an interpolatefunction here
+	void GetVertBiNormals(fbxsdk::FbxGeometryElementBinormal* pBNElement, int index, double* targetBiNormal);
+	void GetVertTangents(fbxsdk::FbxGeometryElementTangent* pTElement, int index, double* targetTangent);
+	void GetPolygonNormals(double * targetNormal, FbxVector4 * sourceNormals);
 	int tester;
 };
