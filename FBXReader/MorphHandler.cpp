@@ -105,34 +105,37 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 				shape = morphChannel->GetTargetShape(k);
 				
 				
-				processKeyFrames(pNode, output, morphChannel);
+				//processKeyFrames(pNode, output, morphChannel);
 
-				//FbxProperty kiss = morphChannel->GetFirstProperty();
-				//std::cout << kiss.GetName()<< "\n";
-				//while (test2->IsValid())
-				//{
-				//		FbxAnimCurve* bajs = test2->GetCurve(0);
-				//		if (bajs != nullptr)
-				//			std::cout << "hejsan kuk";
-				//		//kiss = morphChannel->GetNextProperty(kiss);
-				//		std::cout << test2->GetName() << "\n";
-				//}
 				
-				//double* test = morphChannel->GetTargetShapeFullWeights();
-				/*if (tester == 1)
-				{
-					FbxAnimCurve* test = (FbxAnimCurve*)morphChannel;
-					FbxTimeSpan span;
-					bool bajs = test->GetTimeInterval(span);
-					if (bajs)
-					{
-						FbxTime duration = span.GetDuration();
-						int numKeys = (duration.GetFrameCount(FbxTime::eFrames24) + 1);
-						FbxTime frameTime;
-					}
-				}*/
+				FbxScene * scene = pNode->GetScene();
 
+				//Getting the number of animation stacks for this mesh
+				//seeing as you can have different ones such as (running, walking...)
+				int numAnimations = scene->GetSrcObjectCount<FbxAnimStack>();
+				//outputSkeleton.animation
+				for (int animIndex = 0; animIndex < numAnimations; animIndex++)
+				{
+					//getting the current stack and evaluator
+					FbxAnimStack *animStack = (FbxAnimStack*)scene->GetSrcObject<FbxAnimStack>(animIndex);
+					FbxAnimEvaluator *animEval = scene->GetAnimationEvaluator();
+					std::cout << animStack->GetName();
+					//so far so good
+
+					//put control here to se if its the same animation layer
+					//int layerTest = getLayerID((FbxString)animStack->GetName());
+					int numLayers = animStack->GetMemberCount();
+					for (int layerIndex = 0; layerIndex < numLayers; layerIndex++)
+					{
+						FbxAnimLayer *animLayer = (FbxAnimLayer*)animStack->GetMember(layerIndex);
+
+						FbxAnimCurve * deformCurve = morphChannel->DeformPercent.GetCurve(animLayer);
+						if (deformCurve != nullptr)
+							animatedChannels.push_back(morphChannel);
+					}
+				}
 				//morphChannel->DeformPercent.GetCurve(0);
+
 				 
 				std::cout << "Shape name: " << shape->GetName() << "\n\n";
 
