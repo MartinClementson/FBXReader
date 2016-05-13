@@ -12,6 +12,7 @@ public:
 	void GetMeshData(FbxNode* pNode, std::vector<MeshExport*>* outputMeshes, SceneMap* sceneMap);
 
 private:
+	bool isATargetMesh(const char* name);
 	void ProcessData(FbxMesh* pMesh, MeshExport* mesh, bool hasSkeleton);
 	void GetVertPositions(FbxMesh* pMesh, int index, double* targetPos);
 	void GetVertNormals(fbxsdk::FbxGeometryElementNormal* pNElement, int index, double* targetNormal);

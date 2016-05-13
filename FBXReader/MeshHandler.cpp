@@ -27,67 +27,105 @@ void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputM
 
 	if (pNode->GetMesh())
 	{
-		if (!IsBoundingBox(pNode)) // Don't export a mesh that is a boundingBox
+		if (!isATargetMesh(pNode->GetName())) //dont export a blendShape as a standard mesh
 		{
-			weightIndex = 0;
-			bool hasSkeleton			   = HasSkeleton(pNode);
-										  
-			MeshExport* tempMesh		   = new MeshExport(hasSkeleton); // Create a temporary object to fill the information
 
-			tempMesh->meshInfo.hasSkeleton = hasSkeleton;
-			tempMesh->meshInfo.objectID	   = objectID;
-			objectID++;
-			std::cout << pNode->GetName() << std::endl;
-			/*
-			First we need to get some specific information that  is relative to the object node
-			this includes, name, translation,rotation and scale.
-
-			After we have extracted that data we call "ProcessData" that processes the "mesh part" that is, vertices and such
-			*/
-			memcpy(tempMesh->meshInfo.meshName,pNode->GetName(),sizeof(char)* 256); //Get the name of the mesh and put it into the header. Memcpy is needed because the function wont return to a static array. So we cap it to 256 chars
-		
-			FbxDouble3 translation = pNode->LclTranslation.Get(); //Get the translation
-			tempMesh->meshInfo.translation[0] = translation[0];
-			tempMesh->meshInfo.translation[1] = translation[1];
-			tempMesh->meshInfo.translation[2] = translation[2];
-
-
-			FbxDouble3 rotation = pNode->LclRotation.Get();
-			tempMesh->meshInfo.rotation[0] = rotation[0];
-			tempMesh->meshInfo.rotation[1] = rotation[1];
-			tempMesh->meshInfo.rotation[2] = rotation[2];
-
-
-			FbxDouble3 scale = pNode->LclScaling.Get();
-			tempMesh->meshInfo.scale[0] = scale[0];
-			tempMesh->meshInfo.scale[1] = scale[1];
-			tempMesh->meshInfo.scale[2] = scale[2];
-
-			//getting the material id
-			std::cout << pNode->GetMaterial(0)->GetName() << "\n";
-			tempMesh->meshInfo.materialID = sceneMap->materialHash[pNode->GetMaterial(0)->GetName()];
-
-			ProcessData(pNode->GetMesh(), tempMesh, hasSkeleton); //fill the information needed
-
-
-			// Check if it has a boundingBox, If it has. then calculate it and store the information with the mesh
-			bool hasBoundingBox = false;
-			
-			hasBoundingBox = GetBoundingBox(pNode,&tempMesh->boundingBox);
-			if (hasBoundingBox)
+			if (!IsBoundingBox(pNode)) // Don't export a mesh that is a boundingBox
 			{
-				tempMesh->meshInfo.boundingBox = hasBoundingBox;
+				weightIndex = 0;
+				bool hasSkeleton			   = HasSkeleton(pNode);
+										  
+				MeshExport* tempMesh		   = new MeshExport(hasSkeleton); // Create a temporary object to fill the information
+
+				tempMesh->meshInfo.hasSkeleton = hasSkeleton;
+				tempMesh->meshInfo.objectID	   = objectID;
+				objectID++;
+				std::cout << pNode->GetName() << std::endl;
+				/*
+				First we need to get some specific information that  is relative to the object node
+				this includes, name, translation,rotation and scale.
+
+				After we have extracted that data we call "ProcessData" that processes the "mesh part" that is, vertices and such
+				*/
+				memcpy(tempMesh->meshInfo.meshName,pNode->GetName(),sizeof(char)* 256); //Get the name of the mesh and put it into the header. Memcpy is needed because the function wont return to a static array. So we cap it to 256 chars
+		
+				FbxDouble3 translation = pNode->LclTranslation.Get(); //Get the translation
+				tempMesh->meshInfo.translation[0] = translation[0];
+				tempMesh->meshInfo.translation[1] = translation[1];
+				tempMesh->meshInfo.translation[2] = translation[2];
+
+
+				FbxDouble3 rotation = pNode->LclRotation.Get();
+				tempMesh->meshInfo.rotation[0] = rotation[0];
+				tempMesh->meshInfo.rotation[1] = rotation[1];
+				tempMesh->meshInfo.rotation[2] = rotation[2];
+
+
+				FbxDouble3 scale = pNode->LclScaling.Get();
+				tempMesh->meshInfo.scale[0] = scale[0];
+				tempMesh->meshInfo.scale[1] = scale[1];
+				tempMesh->meshInfo.scale[2] = scale[2];
+
+				//getting the material id
+				std::cout << pNode->GetMaterial(0)->GetName() << "\n";
+				tempMesh->meshInfo.materialID = sceneMap->materialHash[pNode->GetMaterial(0)->GetName()];
+
+				ProcessData(pNode->GetMesh(), tempMesh, hasSkeleton); //fill the information needed
+
+
+				// Check if it has a boundingBox, If it has. then calculate it and store the information with the mesh
+				bool hasBoundingBox = false;
+			
+				hasBoundingBox = GetBoundingBox(pNode,&tempMesh->boundingBox);
+				if (hasBoundingBox)
+				{
+					tempMesh->meshInfo.boundingBox = hasBoundingBox;
 
 				
-				tempMesh->boundingBox.orientation[0] = rotation[0];
-				tempMesh->boundingBox.orientation[1] = rotation[1];
-				tempMesh->boundingBox.orientation[2] = rotation[2];
+					tempMesh->boundingBox.orientation[0] = rotation[0];
+					tempMesh->boundingBox.orientation[1] = rotation[1];
+					tempMesh->boundingBox.orientation[2] = rotation[2];
 
+				}
+
+				outputMeshes->push_back(tempMesh); //push back the temp mesh to the output class
 			}
-
-			outputMeshes->push_back(tempMesh); //push back the temp mesh to the output class
 		}
 	}
+}
+
+bool MeshHandler::isATargetMesh(const char * name)
+{
+	char compare[12];
+	char target[12];
+	target[0] = 'A';
+	target[1] = 'N';
+	target[2] = 'I';
+	target[3] = 'M';
+	target[4] = '_';
+	target[5] = 'T';
+	target[6] = 'A';
+	target[7] = 'R';
+	target[8] = 'G';
+	target[9] = 'E';
+	target[10] = 'T';
+	target[11] = '\0';
+
+	for (int i = 0; i < 11; i++)
+	{
+		compare[i] = name[i];
+	}
+	compare[11] = '\0';
+	if (strcmp(compare, target) == 0)
+	{
+		std::cout << "TARGET MESH FOUND" << std::endl;
+		return true;
+	}
+	else
+		return false;
+
+
+	return true;
 }
 
 void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasSkeleton)
@@ -105,13 +143,13 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 	//Get vertices amount
 	unsigned int vertCount = pMesh->GetControlPointsCount();
 	//outPutMesh->meshInfo.vertexCount = vertCount;
-	std::cout<< pMesh->GetName();
+	//std::cout<< pMesh->GetName();
 
 	//trying to find the material
 	FbxNode * pNode = (FbxNode*)pMesh->GetDstObject();
 
-	std::cout << pNode->GetMaterialCount();
-	std::cout << (pNode->GetMaterial(0))->GetName();
+	//std::cout << pNode->GetMaterialCount();
+	//std::cout << (pNode->GetMaterial(0))->GetName();
 	unsigned int polyCount = pMesh->GetPolygonCount();
 
 
@@ -448,13 +486,26 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 		//}
 	}
 
-	for (int i = 0; i < outPutMesh->verticesNoSkeleton->size(); i++)
+	/*for (int i = 0; i < outPutMesh->verticesNoSkeleton->size(); i++)
 	{
 		std::cout << "Vertex nr " << i + 1 << ": "<<outPutMesh->verticesNoSkeleton->at(i).pos[0]
 			<< " " << outPutMesh->verticesNoSkeleton->at(i).pos[1] << " " << outPutMesh->verticesNoSkeleton->at(i).pos[2]
 			<< "\n";
-	}
+	}*/
 
+	std::cout << "Source mesh :" << pMesh->GetName() << std::endl;
+	std::cout << "Total amount of vertices on mesh : " << outPutMesh->verticesNoSkeleton->size() << std::endl;
+	for (size_t i = 0; i < 4; i++)
+	{
+		for (size_t t = 0; t < 3; t++)
+		{
+			std::cout << outPutMesh->verticesNoSkeleton->at(i).pos[t]  << " , ";
+
+		}
+		std::cout << "\n";
+	}
+	std::cout << "\n";
+#pragma region OLD?!
 	//den funkar
 		/*FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
 		pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
@@ -856,6 +907,8 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 	//		<< "," << vertices.at(i).uv[1]
 	//		<< ")" << "\n";*/
 	//}
+#pragma endregion
+
 }
 
 void MeshHandler::GetVertPositions(FbxMesh * pMesh, int index, double * targetPos)

@@ -5,6 +5,7 @@
 #include <DirectXMath.h>
 #include <map>
 #include <string>
+
 struct SceneMap
 {
 	std::map<std::string, unsigned int> sceneHash;
@@ -14,9 +15,4 @@ struct SceneMap
 
 };
 
-
-struct dummyStructClass
-{
-
-};
 

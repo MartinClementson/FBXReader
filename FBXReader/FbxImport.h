@@ -8,6 +8,7 @@
 #include "BRFImporterStructs.h"
 #include "SkeletonHandler.h"
 #include "BrfExporter.h"
+#include "MorphAnimation.h"
 
 using namespace std;
 class FbxImport
@@ -23,6 +24,7 @@ private:
 	MorphHandler morphHandler;
 	LightHandler lightHandler;
 	SkeletonHandler skeletonHandler;
+	MorphAnimation morphAni;
 
 
 

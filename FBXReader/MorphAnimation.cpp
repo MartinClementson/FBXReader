@@ -2,23 +2,27 @@
 
 
 
-bool MorphAnimation::isATargetMesh(FbxNode * pNode)
+
+
+bool MorphAnimation::isATargetMesh(const char * name)
 {
-	char compare[12] ;
-	char target [12] ;
-	target[0] =  'A' ;
-	target[1] =  'N' ;
-	target[2] =  'I' ;
-	target[3] =  'M' ;
-	target[4] =  '_' ;
-	target[5] =  'T' ;
-	target[6] =  'A' ;
-	target[7] =  'R' ;
-	target[8] =  'G' ;
-	target[9] =  'E' ;
-	target[10] = 'T' ;
+
+
+	char compare[12];
+	char target[12];
+	target[0] = 'A';
+	target[1] = 'N';
+	target[2] = 'I';
+	target[3] = 'M';
+	target[4] = '_';
+	target[5] = 'T';
+	target[6] = 'A';
+	target[7] = 'R';
+	target[8] = 'G';
+	target[9] = 'E';
+	target[10] = 'T';
 	target[11] = '\0';
-	const char* name = pNode->GetName();
+
 	for (int i = 0; i < 11; i++)
 	{
 		compare[i] = name[i];
@@ -26,29 +30,47 @@ bool MorphAnimation::isATargetMesh(FbxNode * pNode)
 	compare[11] = '\0';
 	if (strcmp(compare, target) == 0)
 	{
-		std::cout << "TARGET MESH FOUND" << endl;
+		std::cout << "TARGET MESH FOUND" << std::endl;
 		return true;
 	}
 	else
 		return false;
+
+
+	return true;
 }
 
 void MorphAnimation::ExtractSourceMesh(FbxNode * pNode)
 {
+	/* Here we process all the data for the mesh,
+
+	position
+	normals
+	UV
+	tangent
+	bitangent
+	*/
 
 
-}
+	MeshExport* targetMesh =  new MeshExport(false);
 
-void MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
-{
 
-	BlendMesh targetMesh;
 
-	FbxMesh*				pMesh			= pNode->GetMesh();
-	unsigned int			polyCount		= pMesh->GetPolygonCount();
-	std::vector<int>		polyVertices;
+
+
+	FbxMesh* pMesh = pNode->GetMesh();
+	unsigned int vertCount = pMesh->GetControlPointsCount();
+	
+
+	//trying to find the material
+	//FbxNode * pNode = (FbxNode*)pMesh->GetDstObject();
+
+
+	unsigned int polyCount = pMesh->GetPolygonCount();
+
+
+	std::vector<int> polyVertices;
 	std::vector<FbxVector4> polyNormals;
-
 	for (int i = 0; i < polyCount; i++)
 	{
 		for (int j = 0; j < pMesh->GetPolygonSize(i); j++)
@@ -59,61 +81,171 @@ void MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
 			polyNormals.push_back(tempNormal);
 		}
 	}
+	
+	
+
+	std::vector<int> uvIndex;
+	for (int i = 0; i < polyCount; ++i)
+	{
+		std::vector<FbxVector2> tempValues;
+		FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
+		pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
+
+		for (int j = 0; j < pMesh->GetPolygonSize(i); ++j)
+		{
+			int UVIndex = pMesh->GetTextureUVIndex(i, j);
+			uvIndex.push_back(UVIndex);
+	
+		}
+	
+	}
+	
+
+
+	
+		//outPutMesh->verticesNoSkeleton->resize(34);
+		//unsigned int index = 0;
+		for (int i = 0; i < polyVertices.size(); ++i)
+		{
+			
+			//VertexHeaderNoSkeleton tempVertex;
+			VertexHeaderNoSkeleton tempVertex;
+
+			FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
+			pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
+
+			GetVertPositions(pMesh, polyVertices.at(i), tempVertex.pos);
+			//GetVertNormals(pMesh->GetElementNormal(), polyVertices.at(i), tempVertex.normal);
+			GetPolygonNormals(tempVertex.normal, &polyNormals.at(i));
+			GetVertBiNormals(pMesh->GetElementBinormal(), polyVertices.at(i), tempVertex.biTangent);
+			GetVertTangents(pMesh->GetElementTangent(), polyVertices.at(i), tempVertex.tangent);
+			GetVertTextureUV(pMesh->GetElementUV(), uvIndex.at(i), tempVertex.uv);
+			
+			targetMesh->verticesNoSkeleton->push_back(tempVertex);
+		}
+	
+	
+
+	std::cout << "Source mesh :" << pMesh->GetName() << std::endl;
+	std::cout << "Total amount of vertices on mesh : " << targetMesh->verticesNoSkeleton->size() << std::endl;
+	for (size_t i = 0; i < 4; i++)
+	{
+		for (size_t t = 0; t < 3; t++)
+		{
+			std::cout << targetMesh->verticesNoSkeleton->at(i).pos[t] << " , ";
+
+		}
+		std::cout << "\n";
+	}
+	std::cout << "\n";
+
+
+	sourceMesh = targetMesh;
+
+
+}
+
+void MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
+{
+
+	/* Here we process all the data for the mesh,
+
+	position
+	normals
+	UV
+	tangent
+	bitangent
+	*/
+
+
+	BlendMesh targetMesh;
+
+
+
+
+
+	FbxMesh* pMesh = pNode->GetMesh();
+	unsigned int vertCount = pMesh->GetControlPointsCount();
+
+
+	//trying to find the material
+	//FbxNode * pNode = (FbxNode*)pMesh->GetDstObject();
+
+
+	unsigned int polyCount = pMesh->GetPolygonCount();
+
+
+	std::vector<int> polyVertices;
+	std::vector<FbxVector4> polyNormals;
+	for (int i = 0; i < polyCount; i++)
+	{
+		for (int j = 0; j < pMesh->GetPolygonSize(i); j++)
+		{
+			FbxVector4 tempNormal;
+			polyVertices.push_back(pMesh->GetPolygonVertex(i, j));
+			pMesh->GetPolygonVertexNormal(i, j, tempNormal);
+			polyNormals.push_back(tempNormal);
+		}
+	}
+
+
+
+	std::vector<int> uvIndex;
+	for (int i = 0; i < polyCount; ++i)
+	{
+		std::vector<FbxVector2> tempValues;
+		FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
+		pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
+
+		for (int j = 0; j < pMesh->GetPolygonSize(i); ++j)
+		{
+			int UVIndex = pMesh->GetTextureUVIndex(i, j);
+			uvIndex.push_back(UVIndex);
+
+		}
+
+	}
+
+
+
+
+	//outPutMesh->verticesNoSkeleton->resize(34);
+	//unsigned int index = 0;
 	for (int i = 0; i < polyVertices.size(); ++i)
 	{
-		//std::vector<FbxVector2> tempValues;
+
+		//VertexHeaderNoSkeleton tempVertex;
 		BlendVertexHeader tempVertex;
 
 		FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
 		pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
 
+		GetVertPositions(pMesh, polyVertices.at(i), tempVertex.pos);
 		//GetVertNormals(pMesh->GetElementNormal(), polyVertices.at(i), tempVertex.normal);
+		GetPolygonNormals(tempVertex.normal, &polyNormals.at(i));
+		GetVertBiNormals(pMesh->GetElementBinormal(), polyVertices.at(i), tempVertex.biTangent);
+		GetVertTangents(pMesh->GetElementTangent(), polyVertices.at(i), tempVertex.tangent);
+	
 
-		GetVertPositions(  pMesh,						polyVertices.at(i),   tempVertex.pos	);
-		GetPolygonNormals( tempVertex.normal,			&polyNormals.at(i)						);
-		GetVertBiNormals(  pMesh->GetElementBinormal(), polyVertices.at(i), tempVertex.biTangent);
-		GetVertTangents(   pMesh->GetElementTangent(),  polyVertices.at(i), tempVertex.tangent  );
-		GetVertTextureUV(  pMesh->GetElementUV(),		uvIndex.at(i), tempVertex.uv);
-
-		if (targetMesh.vertices.size() != 0)
-		{
-
-			/*This loop is similar to how a standard mesh is exported. It does not include multiples off*/
-			bool existWithinVerts = false;
-			for (unsigned int j = 0; j < targetMesh.vertices.size(); j++)
-			{
-				if (targetMesh.vertices.at(j).pos[0]		== tempVertex.pos[0]	    &&
-					targetMesh.vertices.at(j).pos[1]		== tempVertex.pos[1]	    &&
-					targetMesh.vertices.at(j).pos[2]		== tempVertex.pos[2]	    &&
-					targetMesh.vertices.at(j).normal[0]		== tempVertex.normal[0]		&&
-					targetMesh.vertices.at(j).normal[1]		== tempVertex.normal[1]		&&
-					targetMesh.vertices.at(j).normal[2]		== tempVertex.normal[2]		&&
-					targetMesh.vertices.at(j).biTangent[0]  == tempVertex.biTangent[0]  &&
-					targetMesh.vertices.at(j).biTangent[1]  == tempVertex.biTangent[1]  &&
-					targetMesh.vertices.at(j).tangent[0]	== tempVertex.tangent[0]    &&
-					targetMesh.vertices.at(j).tangent[1]	== tempVertex.tangent[1] ) //exclude UV, for now.
-					//&&
-					//targetMesh.vertices.at(j).uv[0]			== tempVertex.uv[0] &&
-					//targetMesh.vertices.at(j).uv[1]			== tempVertex.uv[1])
-				{
-					existWithinVerts = true;
-					//outPutMesh->indices->push_back(tempInd); //blend shapes don't need index.
-					break;
-				}
-			}
-			if (!existWithinVerts) 
-			{
-				targetMesh.vertices.push_back(tempVertex);
-			}
-		}
-		else
-		{
-			targetMesh.vertices.push_back(tempVertex);
-		
-		}
+		targetMesh.vertices.push_back(tempVertex);
 	}
 
 
+
+	std::cout << "Source mesh :" << pMesh->GetName() << std::endl;
+	std::cout << "Total amount of vertices on mesh : " << targetMesh.vertices.size() << std::endl;
+	for (size_t i = 0; i < 4; i++)
+	{
+		for (size_t t = 0; t < 3; t++)
+		{
+			std::cout << targetMesh.vertices.at(i).pos[t] << " , ";
+
+		}
+		std::cout << "\n";
+	}
+	std::cout << "\n";
+
+	std::cout << "Total amount of vertices on mesh : " << targetMesh.vertices.size() << std::endl;
 	blendMeshes.push_back(targetMesh);
 }
 
@@ -121,13 +253,114 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 {
 	for (int i = 0; i < pNode->GetChildCount(); i++)
 	{
-		ExtractAllMeshesInAnimation(pNode->GetChild(i)); //recursively go down the hierarchy and search for target meshes
-
-		if (isATargetMesh(pNode->GetChild(i)))			 //if we find a target mesh.
-		{
-			ExtractTargetMesh(pNode->GetChild(i));		 //extract it
-		}
+			ExtractAllMeshesInAnimation(pNode->GetChild(i)); //recursively go down the hierarchy and search for blendshape animations
 	}
+	if (isATargetMesh(pNode->GetName()))
+	{
+		std::cout << pNode->GetName() << std::endl;
+		ExtractTargetMesh(pNode);
+	}
+
+
+
+
+#pragma region
+		
+		if (pNode->GetGeometry())			 //if we find source mesh
+		{
+			FbxGeometry* pGeo = pNode->GetGeometry();
+			if (pGeo->GetDeformerCount(FbxDeformer::eBlendShape) > 0)	 //if there is any blendshapes
+			{
+				ExtractSourceMesh(pNode);
+				int morphAnimCount = pGeo->GetDeformerCount(FbxDeformer::eBlendShape);	 //get amount of targets
+				int morphChannelCount;
+				int targetShapeCount;
+				for (unsigned int i = 0; i < 0; i++) //for each blendshape
+				{
+
+					FbxBlendShape* morphAnim;
+					morphAnim = (FbxBlendShape*)pGeo->GetDeformer(i, FbxDeformer::eBlendShape); //Get the blend shape #i
+
+					morphChannelCount = morphAnim->GetBlendShapeChannelCount(); //Get how many channels the blend shape #i has
+					std::cout << "ChannelCount: " << morphChannelCount << "\n\n";
+
+					for (unsigned int j = 0; j < morphChannelCount; j++) //for every channel
+					{
+						std::cout << "channel nr: " << j << "\n";
+
+						FbxBlendShapeChannel* morphChannel;
+						morphChannel = morphAnim->GetBlendShapeChannel(j);
+						morphChannel->GetBlendShapeDeformer();
+
+						std::cout << "ChannelName: " << morphChannel->GetName() << "\n\n";   //usually blendshapeName.meshName
+
+						targetShapeCount = morphChannel->GetTargetShapeCount();
+						std::cout << "Target Shape Count: " << targetShapeCount << "\n\n";
+						for (unsigned int k = 0; k < targetShapeCount; k++) //for every shape in this channel
+						{
+							FbxShape* shape;
+							shape = morphChannel->GetTargetShape(k);
+							std::cout << shape->GetName() << std::endl;
+
+							//shape->get
+							FbxGeometryElementNormal* lNormalElement = shape->GetElementNormal();
+							FbxGeometryElementPolygonGroup* polyGroup = shape->GetElementPolygonGroup();
+							
+							for (size_t i = 0; i < 4; i++)
+							{
+								for (size_t t = 0; t < 4; t++)
+									
+								{
+									std::cout  << shape->GetControlPoints()[i].mData[t] <<  " ,";
+										//GetControlPointAt(0).mData[i];// * 3; // shape->GetControlPointsCount();
+
+								}
+								std::cout << "\n";
+							}
+							//processKeyFrames(pNode, output, morphChannel);
+							//shape->GetElementPolygonGroupCount()
+
+							FbxScene * scene = pNode->GetChild(i)->GetScene();
+
+							//Getting the number of animation stacks for this mesh
+							//seeing as you can have different ones such as (running, walking...)
+							int numAnimations = scene->GetSrcObjectCount<FbxAnimStack>();
+
+							for (int animIndex = 0; animIndex < numAnimations; animIndex++)
+							{
+								//getting the current stack and evaluator
+								FbxAnimStack *animStack = (FbxAnimStack*)scene->GetSrcObject<FbxAnimStack>(animIndex);
+								FbxAnimEvaluator *animEval = scene->GetAnimationEvaluator();
+								std::cout << animStack->GetName();
+								//so far so good
+
+								//put control here to se if its the same animation layer
+								//int layerTest = getLayerID((FbxString)animStack->GetName());
+								int numLayers = animStack->GetMemberCount();
+								for (int layerIndex = 0; layerIndex < numLayers; layerIndex++)
+								{
+									FbxAnimLayer *animLayer = (FbxAnimLayer*)animStack->GetMember(layerIndex);
+
+									FbxAnimCurve * deformCurve = morphChannel->DeformPercent.GetCurve(animLayer);
+									//if (deformCurve != nullptr)
+									//{
+									//	animatedShapes temp;
+									//	temp.animatedChannels = morphChannel;
+									//	processKeyFrames(pNode->GetChild(i), temp);
+									//	animShapes.push_back(temp);
+									//	//animatedChannels.push_back(morphChannel);
+									//	//animatedTargets.push_back(shape);
+									//}
+								}
+							}
+						}
+					}
+
+				}
+				//ExtractTargetMesh(pNode->GetChild(i));		 //extract it
+			}
+		}
+#pragma endregion
 
 }
 
@@ -139,41 +372,41 @@ void MorphAnimation::GetMorphAnimation(FbxNode * pNode)
 	
 
 
-	FbxGeometry* pGeo = pNode->GetGeometry();								 // get Source
-	int morphAnimCount = pGeo->GetDeformerCount(FbxDeformer::eBlendShape);	 //get amount of targets
-	int morphChannelCount;
-	int targetShapeCount;
-	for (unsigned int i = 0; i < morphAnimCount; i++) //for each target
-	{
-		FbxBlendShape* morphAnim;
-		morphAnim = (FbxBlendShape*)pGeo->GetDeformer(i, FbxDeformer::eBlendShape); //Get the blend shape #i
+	//FbxGeometry* pGeo = pNode->GetGeometry();								 // get Source
+	//int morphAnimCount = pGeo->GetDeformerCount(FbxDeformer::eBlendShape);	 //get amount of targets
+	//int morphChannelCount;
+	//int targetShapeCount;
+	//for (unsigned int i = 0; i < morphAnimCount; i++) //for each target
+	//{
+	//	FbxBlendShape* morphAnim;
+	//	morphAnim = (FbxBlendShape*)pGeo->GetDeformer(i, FbxDeformer::eBlendShape); //Get the blend shape #i
 
-		morphChannelCount = morphAnim->GetBlendShapeChannelCount(); //Get how many channels the blend shape #i has
-		std::cout << "ChannelCount: " << morphChannelCount << "\n\n";
-	
-		for (unsigned int j = 0; j < morphChannelCount; j++) //for every channel
-		{
-			std::cout << "channel nr: " << j << "\n";
+	//	morphChannelCount = morphAnim->GetBlendShapeChannelCount(); //Get how many channels the blend shape #i has
+	//	std::cout << "ChannelCount: " << morphChannelCount << "\n\n";
+	//
+	//	for (unsigned int j = 0; j < morphChannelCount; j++) //for every channel
+	//	{
+	//		std::cout << "channel nr: " << j << "\n";
 
-			FbxBlendShapeChannel* morphChannel;
-			morphChannel = morphAnim->GetBlendShapeChannel(j);
-			morphChannel->GetBlendShapeDeformer();
-			std::cout << "ChannelName: " << morphChannel->GetName() << "\n\n";   //usually blendshapeName.meshName
+	//		FbxBlendShapeChannel* morphChannel;
+	//		morphChannel = morphAnim->GetBlendShapeChannel(j);
+	//		morphChannel->GetBlendShapeDeformer();
+	//		std::cout << "ChannelName: " << morphChannel->GetName() << "\n\n";   //usually blendshapeName.meshName
 
-			targetShapeCount = morphChannel->GetTargetShapeCount();
-			std::cout << "Target Shape Count: " << targetShapeCount << "\n\n";
-			for (unsigned int k = 0; k < targetShapeCount; k++) //for every shape in this channel
-			{
-				FbxShape* shape;
-			
-				shape = morphChannel->GetTargetShape(k);
-			}
-		
-		}
+	//		targetShapeCount = morphChannel->GetTargetShapeCount();
+	//		std::cout << "Target Shape Count: " << targetShapeCount << "\n\n";
+	//		for (unsigned int k = 0; k < targetShapeCount; k++) //for every shape in this channel
+	//		{
+	//			FbxShape* shape;
+	//		
+	//			shape = morphChannel->GetTargetShape(k);
+	//		}
+	//	
+	//	}
 
 
 
-	}
+	//}
 
 }
 
@@ -185,6 +418,8 @@ MorphAnimation::MorphAnimation()
 
 MorphAnimation::~MorphAnimation()
 {
+	if (sourceMesh)
+		delete sourceMesh;
 }
 
 

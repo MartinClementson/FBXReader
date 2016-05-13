@@ -14,6 +14,7 @@ struct BlendVertexHeader
 	double normal[3];
 	double tangent[2];
 	double biTangent[2];
+	
 
 };
 #pragma region structs for handling the import and conversion
@@ -67,8 +68,9 @@ private:
 	// a mesh ID is connected to the index in an array
 
 	std::vector<BlendMesh> blendMeshes;
+	MeshExport* sourceMesh = nullptr;
 
-	bool isATargetMesh(FbxNode* pNode);
+	bool isATargetMesh(const char* name);
 
 
 	void ExtractSourceMesh(FbxNode* pNode);

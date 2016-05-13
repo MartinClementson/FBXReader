@@ -10,6 +10,7 @@ MeshExport::MeshExport()
 	vertices = new std::vector<VertexHeader>;
 	
 	
+	
 }
 
 MeshExport::MeshExport(bool hasSkeleton)
@@ -31,9 +32,12 @@ MeshExport::MeshExport(bool hasSkeleton)
 
 MeshExport::~MeshExport()
 {
-	delete indices;
-	delete vertices; 
-	delete verticesNoSkeleton;
+	if(indices != nullptr)
+		delete indices;
+	if (vertices != nullptr)
+		delete vertices; 
+	if (verticesNoSkeleton != nullptr)
+		delete verticesNoSkeleton;
 
 	if (this->meshAttributes != nullptr)
 		delete meshAttributes;

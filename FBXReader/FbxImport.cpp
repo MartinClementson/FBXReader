@@ -34,7 +34,7 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 	
 	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
 	{
-		 MapMaterials(this->rootNode->GetChild(i));
+		// MapMaterials(this->rootNode->GetChild(i));
 
 		 //MapMeshes(FbxNode* pNode, SceneMap sceneMap);
 		// MapCameras(FbxNode* pNode, SceneMap sceneMap);
@@ -60,13 +60,13 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 
 
 	/////Second pass. here we extract all the data
-	GetMaterialData(this->rootNode, outputFile->GetMatRef());
+	//GetMaterialData(this->rootNode, outputFile->GetMatRef());
 	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
 	{
 		GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
-		GetCameraData(this->rootNode->GetChild(i), outputFile->GetCamerasRef());
-		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
-		GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());	
+		//GetCameraData(this->rootNode->GetChild(i), outputFile->GetCamerasRef());
+		//GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
+		//GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());	
 	}
 
 	GetMorphData(this->rootNode, outputFile->GetMorphAnimRef());
@@ -187,7 +187,8 @@ void FbxImport::GetLightData(FbxNode * pNode, LightExport* lights)
 
 void FbxImport::GetMorphData(FbxNode * pNode, std::vector<MorphAnimExport>* outputMorphs)
 {
-	morphHandler.GetMorphData(pNode, outputMorphs);
+	morphAni.GetMorphAnimation(pNode);
+	//morphHandler.GetMorphData(pNode, outputMorphs);
 }
 
 void FbxImport::GetGroupData(FbxNode * pNode, std::vector<GroupHeader>* outputGroups)
