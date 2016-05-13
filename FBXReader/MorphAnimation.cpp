@@ -76,48 +76,38 @@ void MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
 
 		if (targetMesh.vertices.size() != 0)
 		{
+
+			/*This loop is similar to how a standard mesh is exported. It does not include multiples off*/
 			bool existWithinVerts = false;
 			for (unsigned int j = 0; j < targetMesh.vertices.size(); j++)
 			{
-				if (targetMesh.vertices.at(j).pos[0]		== tempVertex.pos[0] &&
-					targetMesh.vertices.at(j).pos[1]		== tempVertex.pos[1] &&
-					targetMesh.vertices.at(j).pos[2]		== tempVertex.pos[2] &&
-					targetMesh.vertices.at(j).normal[0]		== tempVertex.normal[0] &&
-					targetMesh.vertices.at(j).normal[1]		== tempVertex.normal[1] &&
-					targetMesh.vertices.at(j).normal[2]		== tempVertex.normal[2] &&
-					targetMesh.vertices.at(j).biTangent[0]  == tempVertex.biTangent[0] &&
-					targetMesh.vertices.at(j).biTangent[1]  == tempVertex.biTangent[1] &&
-					targetMesh.vertices.at(j).tangent[0]	== tempVertex.tangent[0] &&
+				if (targetMesh.vertices.at(j).pos[0]		== tempVertex.pos[0]	    &&
+					targetMesh.vertices.at(j).pos[1]		== tempVertex.pos[1]	    &&
+					targetMesh.vertices.at(j).pos[2]		== tempVertex.pos[2]	    &&
+					targetMesh.vertices.at(j).normal[0]		== tempVertex.normal[0]		&&
+					targetMesh.vertices.at(j).normal[1]		== tempVertex.normal[1]		&&
+					targetMesh.vertices.at(j).normal[2]		== tempVertex.normal[2]		&&
+					targetMesh.vertices.at(j).biTangent[0]  == tempVertex.biTangent[0]  &&
+					targetMesh.vertices.at(j).biTangent[1]  == tempVertex.biTangent[1]  &&
+					targetMesh.vertices.at(j).tangent[0]	== tempVertex.tangent[0]    &&
 					targetMesh.vertices.at(j).tangent[1]	== tempVertex.tangent[1] ) //exclude UV, for now.
 					//&&
 					//targetMesh.vertices.at(j).uv[0]			== tempVertex.uv[0] &&
 					//targetMesh.vertices.at(j).uv[1]			== tempVertex.uv[1])
 				{
 					existWithinVerts = true;
-					IndexHeader tempInd;
-					tempInd.vertIndex = j;
 					//outPutMesh->indices->push_back(tempInd); //blend shapes don't need index.
 					break;
 				}
 			}
-			if (!existWithinVerts)
+			if (!existWithinVerts) 
 			{
-				IndexHeader tempInd;
-				tempInd.vertIndex = outPutMesh->verticesNoSkeleton->size();
-				outPutMesh->indices->push_back(tempInd);
-
-				outPutMesh->verticesNoSkeleton->push_back(tempVertex);
-
-
+				targetMesh.vertices.push_back(tempVertex);
 			}
 		}
 		else
 		{
-			IndexHeader tempInd;
-			tempInd.vertIndex = i;
-			outPutMesh->indices->push_back(tempInd);
-			outPutMesh->verticesNoSkeleton->push_back(tempVertex);
-
+			targetMesh.vertices.push_back(tempVertex);
 		
 		}
 	}
