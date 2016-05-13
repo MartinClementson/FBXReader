@@ -30,12 +30,12 @@ void MeshHandler::GetMeshData(FbxNode * pNode, std::vector<MeshExport*>* outputM
 		if (!IsBoundingBox(pNode)) // Don't export a mesh that is a boundingBox
 		{
 			weightIndex = 0;
-			bool hasSkeleton = HasSkeleton(pNode);
-
-			MeshExport* tempMesh = new MeshExport(hasSkeleton); // Create a temporary object to fill the information
+			bool hasSkeleton			   = HasSkeleton(pNode);
+										  
+			MeshExport* tempMesh		   = new MeshExport(hasSkeleton); // Create a temporary object to fill the information
 
 			tempMesh->meshInfo.hasSkeleton = hasSkeleton;
-			tempMesh->meshInfo.objectID = objectID;
+			tempMesh->meshInfo.objectID	   = objectID;
 			objectID++;
 			std::cout << pNode->GetName() << std::endl;
 			/*
@@ -105,7 +105,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 	//Get vertices amount
 	unsigned int vertCount = pMesh->GetControlPointsCount();
 	//outPutMesh->meshInfo.vertexCount = vertCount;
-
+	std::cout<< pMesh->GetName();
 
 	//trying to find the material
 	FbxNode * pNode = (FbxNode*)pMesh->GetDstObject();

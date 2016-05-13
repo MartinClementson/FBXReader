@@ -152,8 +152,8 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 			std::cout << animLayer->GetName();
 
 			FbxAnimCurve * translationCurve = pNode->LclTranslation.GetCurve(animLayer);
-			FbxAnimCurve * rotationCurve = pNode->LclRotation.GetCurve(animLayer);
-			FbxAnimCurve * scalingCurve = pNode->LclScaling.GetCurve(animLayer);
+			FbxAnimCurve * rotationCurve	= pNode->LclRotation.GetCurve(animLayer);
+			FbxAnimCurve * scalingCurve		= pNode->LclScaling.GetCurve(animLayer);
 
 			if (translationCurve != NULL ||
 				rotationCurve != NULL ||

@@ -1,9 +1,16 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (FBXReader.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  MorphHandler.cpp
-c:\users\david\documents\github\fbxreader\fbxreader\morphhandler.cpp(22): warning C4101: 'targetShapeCount': unreferenced local variable
-c:\users\david\documents\github\fbxreader\fbxreader\morphhandler.cpp(21): warning C4101: 'morphChannelCount': unreferenced local variable
-c:\users\david\documents\github\fbxreader\fbxreader\morphhandler.cpp(82): warning C4018: '<': signed/unsigned mismatch
-c:\users\david\documents\github\fbxreader\fbxreader\morphhandler.cpp(90): warning C4018: '<': signed/unsigned mismatch
-c:\users\david\documents\github\fbxreader\fbxreader\morphhandler.cpp(102): warning C4018: '<': signed/unsigned mismatch
-c:\users\david\documents\github\fbxreader\fbxreader\morphhandler.cpp(225): warning C4244: 'initializing': conversion from 'fbxsdk::FbxLongLong' to 'int', possible loss of data
-  FBXReader.vcxproj -> C:\Users\David\Documents\GitHub\FBXReader\x64\Debug\FBXImporter.exe
+  MorphAnimation.cpp
+c:\users\martin\documents\github\fbxreader\fbxreader\morphanimation.h(51): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\martin\documents\github\fbxreader\fbxreader\morphanimation.cpp(35): warning C4018: '<': signed/unsigned mismatch
+c:\users\martin\documents\github\fbxreader\fbxreader\morphanimation.cpp(43): warning C4018: '<': signed/unsigned mismatch
+c:\users\martin\documents\github\fbxreader\fbxreader\morphanimation.cpp(54): warning C4018: '<': signed/unsigned mismatch
+  MeshHandler.cpp
+c:\users\martin\documents\github\fbxreader\fbxreader\meshhandler.cpp(120): warning C4018: '<': signed/unsigned mismatch
+c:\users\martin\documents\github\fbxreader\fbxreader\meshhandler.cpp(165): warning C4018: '<': signed/unsigned mismatch
+c:\users\martin\documents\github\fbxreader\fbxreader\meshhandler.cpp(270): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\martin\documents\github\fbxreader\fbxreader\meshhandler.cpp(380): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\martin\documents\github\fbxreader\fbxreader\meshhandler.cpp(142): warning C4101: 'startindex': unreferenced local variable
+c:\users\martin\documents\github\fbxreader\fbxreader\meshhandler.cpp(143): warning C4101: 'vert': unreferenced local variable
+  FbxImport.cpp
+  Generating Code...
+  FBXReader.vcxproj -> C:\Users\Martin\Documents\GitHub\FBXReader\x64\Debug\FBXImporter.exe

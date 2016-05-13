@@ -2,7 +2,7 @@
 #include "BRFImporterStructs.h"
 #include "fbxSDK.h"
 #include "MorphAnimExport.h"
-
+using namespace BRFImporter;
 class MorphHandler
 {
 public:
@@ -12,7 +12,7 @@ public:
 	void GetMorphData(FbxNode* pNode, std::vector<MorphAnimExport>* outputMesh);	
 private:
 	void processMorphData(FbxNode* pNode, MorphAnimExport &output);
-
+	void M_processMorphData(FbxNode* pNode, MorphAnimExport &output); //martins try
 	std::vector<FbxBlendShapeChannel*> animatedChannels;
 	std::vector<FbxShape*> animatedTargets;
 

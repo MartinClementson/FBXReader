@@ -26,6 +26,11 @@ void MorphHandler::GetMorphData(FbxNode* pNode, std::vector<MorphAnimExport>* ou
 	{
 		MorphAnimExport temp;
 		processMorphData(pNode, temp);
+		//M_processMorphData(pNode, temp);
+
+
+
+#pragma region Old code, For exporting extreme poses
 		/*for (unsigned int i = 0; i < morphAnimCount; i++)
 		{
 			FbxBlendShape* morphAnim;
@@ -67,6 +72,7 @@ void MorphHandler::GetMorphData(FbxNode* pNode, std::vector<MorphAnimExport>* ou
 				}
 			}
 		}*/
+#pragma endregion
 	}
 }
 
@@ -163,6 +169,48 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 	evaluateAnimation(pNode, output);
 }
 
+void MorphHandler::M_processMorphData(FbxNode * pNode, MorphAnimExport & output)
+{
+	
+
+
+	FbxScene		 *scene			 = pNode->GetScene();
+	FbxAnimStack     *animStack		 = (FbxAnimStack*)scene->GetSrcObject<FbxAnimStack>(0);
+	FbxAnimEvaluator *animEval		 = scene->GetAnimationEvaluator();
+
+	
+
+	//Getting the number of animation stacks for this mesh
+	//seeing as you can have different ones such as (running, walking...)
+	int numAnimations = scene->GetSrcObjectCount<FbxAnimStack>();
+
+
+	FbxMesh*     sourceMesh	 = pNode->GetMesh();
+	unsigned int vertCount   = sourceMesh->GetControlPointsCount();
+	unsigned int polyCount   = sourceMesh->GetPolygonCount();
+
+	std::vector<int> polyVertices;
+	std::vector<FbxVector4> polyNormals;
+	for (int i = 0; i < polyCount; i++)
+	{
+		for (int j = 0; j < sourceMesh->GetPolygonSize(i); j++)
+		{
+			FbxVector4 tempNormal;
+			polyVertices.push_back(sourceMesh->GetPolygonVertex(i, j));
+			sourceMesh->GetPolygonVertexNormal(i, j, tempNormal);
+			polyNormals.push_back(tempNormal);
+		}
+	}
+
+	FbxVector4 position = sourceMesh->GetControlPointAt(2);
+	
+
+	std::cout << (double)position[0] << ",";
+	std::cout << (double)position[1] << ",";
+	std::cout << (double)position[2] << "\n";
+
+}
+
 void MorphHandler::processKeyFrames(FbxNode * pNode, animatedShapes &animShape)
 {
 	FbxScene * scene = pNode->GetScene();
@@ -190,7 +238,6 @@ void MorphHandler::processKeyFrames(FbxNode * pNode, animatedShapes &animShape)
 			FbxAnimCurve * translationCurve = pNode->LclTranslation.GetCurve(animLayer);
 			FbxAnimCurve * rotationCurve = pNode->LclRotation.GetCurve(animLayer);
 			FbxAnimCurve * scalingCurve = pNode->LclScaling.GetCurve(animLayer);
-			
 			FbxAnimCurve * deformCurve = animShape.animatedChannels->DeformPercent.GetCurve(animLayer);
 
 			if (deformCurve != nullptr)
@@ -204,7 +251,7 @@ void MorphHandler::processKeyFrames(FbxNode * pNode, animatedShapes &animShape)
 					FbxTime frameTime = deformCurve->KeyGetTime(keyIndex);
 					//framerate är 41 med mode eFrames1000 :S:S:S:S:S
 					std::cout << (frameTime.GetFieldCount(FbxTime::EMode::eFrames1000) / 41)/2 << "\n"; //ful lösning, för att hitta rätt keyframe. inte helt exakt. men nära!
-					animShape.animatedTimes.push_back(frameTime.GetFieldCount(FbxTime::EMode::eCustom) - 1);
+					animShape.animatedTimes.push_back(frameTime.GetFieldCount(FbxTime::EMode::eFrames1000));
 					double deform = animShape.animatedChannels->DeformPercent.EvaluateValue(frameTime);
 					std::cout << "\n" << deform << "\n";
 				}
