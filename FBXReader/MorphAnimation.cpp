@@ -26,6 +26,7 @@ bool MorphAnimation::isATargetMesh(FbxNode * pNode)
 	compare[11] = '\0';
 	if (strcmp(compare, target) == 0)
 	{
+		std::cout << "TARGET MESH FOUND" << endl;
 		return true;
 	}
 	else
@@ -72,7 +73,7 @@ void MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
 		GetPolygonNormals( tempVertex.normal,			&polyNormals.at(i)						);
 		GetVertBiNormals(  pMesh->GetElementBinormal(), polyVertices.at(i), tempVertex.biTangent);
 		GetVertTangents(   pMesh->GetElementTangent(),  polyVertices.at(i), tempVertex.tangent  );
-		//GetVertTextureUV(  pMesh->GetElementUV(),		uvIndex.at(i), tempVertex.uv);
+		GetVertTextureUV(  pMesh->GetElementUV(),		uvIndex.at(i), tempVertex.uv);
 
 		if (targetMesh.vertices.size() != 0)
 		{
