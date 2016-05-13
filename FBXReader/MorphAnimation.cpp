@@ -145,7 +145,7 @@ void MorphAnimation::ExtractSourceMesh(FbxNode * pNode)
 
 }
 
-void MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
+BlendMesh* MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
 {
 
 	/* Here we process all the data for the mesh,
@@ -158,7 +158,7 @@ void MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
 	*/
 
 
-	BlendMesh targetMesh;
+	BlendMesh* targetMesh = new BlendMesh();
 
 
 
@@ -227,26 +227,27 @@ void MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
 		GetVertTangents(pMesh->GetElementTangent(), polyVertices.at(i), tempVertex.tangent);
 	
 
-		targetMesh.vertices.push_back(tempVertex);
+		targetMesh->vertices.push_back(tempVertex);
 	}
 
 
 
 	std::cout << "Source mesh :" << pMesh->GetName() << std::endl;
-	std::cout << "Total amount of vertices on mesh : " << targetMesh.vertices.size() << std::endl;
+	std::cout << "Total amount of vertices on mesh : " << targetMesh->vertices.size() << std::endl;
 	for (size_t i = 0; i < 4; i++)
 	{
 		for (size_t t = 0; t < 3; t++)
 		{
-			std::cout << targetMesh.vertices.at(i).pos[t] << " , ";
+			std::cout << targetMesh->vertices.at(i).pos[t] << " , ";
 
 		}
 		std::cout << "\n";
 	}
 	std::cout << "\n";
 
-	std::cout << "Total amount of vertices on mesh : " << targetMesh.vertices.size() << std::endl;
+	std::cout << "Total amount of vertices on mesh : " << targetMesh->vertices.size() << std::endl;
 	blendMeshes.push_back(targetMesh);
+	return targetMesh;
 }
 
 void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
@@ -258,7 +259,10 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 	if (isATargetMesh(pNode->GetName()))
 	{
 		std::cout << pNode->GetName() << std::endl;
-		ExtractTargetMesh(pNode);
+		
+		const char* name = pNode->GetName();
+		int i = name[12] - '0';
+		blendShapeMap[i] = ExtractTargetMesh(pNode); //get the number in the name and map it.
 	}
 
 
@@ -275,7 +279,7 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 				int morphAnimCount = pGeo->GetDeformerCount(FbxDeformer::eBlendShape);	 //get amount of targets
 				int morphChannelCount;
 				int targetShapeCount;
-				for (unsigned int i = 0; i < 0; i++) //for each blendshape
+				for (unsigned int i = 0; i < morphAnimCount; i++) //for each blendshape
 				{
 
 					FbxBlendShape* morphAnim;
@@ -284,15 +288,16 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 					morphChannelCount = morphAnim->GetBlendShapeChannelCount(); //Get how many channels the blend shape #i has
 					std::cout << "ChannelCount: " << morphChannelCount << "\n\n";
 
+						BlendAnimation* tempAnimation = new BlendAnimation();
 					for (unsigned int j = 0; j < morphChannelCount; j++) //for every channel
 					{
 						std::cout << "channel nr: " << j << "\n";
 
 						FbxBlendShapeChannel* morphChannel;
 						morphChannel = morphAnim->GetBlendShapeChannel(j);
-						morphChannel->GetBlendShapeDeformer();
+						//morphChannel->GetBlendShapeDeformer();
 
-						std::cout << "ChannelName: " << morphChannel->GetName() << "\n\n";   //usually blendshapeName.meshName
+						std::cout << "ChannelName: " << morphChannel->GetNameWithoutNameSpacePrefix() << "\n\n";   //usually blendshapeName.meshName
 
 						targetShapeCount = morphChannel->GetTargetShapeCount();
 						std::cout << "Target Shape Count: " << targetShapeCount << "\n\n";
@@ -302,25 +307,12 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 							shape = morphChannel->GetTargetShape(k);
 							std::cout << shape->GetName() << std::endl;
 
-							//shape->get
-							FbxGeometryElementNormal* lNormalElement = shape->GetElementNormal();
-							FbxGeometryElementPolygonGroup* polyGroup = shape->GetElementPolygonGroup();
 							
-							for (size_t i = 0; i < 4; i++)
-							{
-								for (size_t t = 0; t < 4; t++)
-									
-								{
-									std::cout  << shape->GetControlPoints()[i].mData[t] <<  " ,";
-										//GetControlPointAt(0).mData[i];// * 3; // shape->GetControlPointsCount();
-
-								}
-								std::cout << "\n";
-							}
+							
 							//processKeyFrames(pNode, output, morphChannel);
 							//shape->GetElementPolygonGroupCount()
 
-							FbxScene * scene = pNode->GetChild(i)->GetScene();
+							FbxScene * scene = pNode->GetScene();
 
 							//Getting the number of animation stacks for this mesh
 							//seeing as you can have different ones such as (running, walking...)
@@ -328,33 +320,80 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 
 							for (int animIndex = 0; animIndex < numAnimations; animIndex++)
 							{
+
 								//getting the current stack and evaluator
 								FbxAnimStack *animStack = (FbxAnimStack*)scene->GetSrcObject<FbxAnimStack>(animIndex);
 								FbxAnimEvaluator *animEval = scene->GetAnimationEvaluator();
-								std::cout << animStack->GetName();
+								std::cout << animStack->GetName() << "\n";
 								//so far so good
 
 								//put control here to se if its the same animation layer
 								//int layerTest = getLayerID((FbxString)animStack->GetName());
 								int numLayers = animStack->GetMemberCount();
+
 								for (int layerIndex = 0; layerIndex < numLayers; layerIndex++)
 								{
 									FbxAnimLayer *animLayer = (FbxAnimLayer*)animStack->GetMember(layerIndex);
 
 									FbxAnimCurve * deformCurve = morphChannel->DeformPercent.GetCurve(animLayer);
-									//if (deformCurve != nullptr)
-									//{
-									//	animatedShapes temp;
-									//	temp.animatedChannels = morphChannel;
-									//	processKeyFrames(pNode->GetChild(i), temp);
-									//	animShapes.push_back(temp);
-									//	//animatedChannels.push_back(morphChannel);
-									//	//animatedTargets.push_back(shape);
-									//}
+									if (deformCurve != nullptr)
+									{
+										int numKeys = deformCurve->KeyGetCount();
+										for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
+										{
+											fbxsdk::FbxAnimCurveKey key = deformCurve->KeyGet(keyIndex);
+
+											const char* name = shape->GetName();											 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
+											int in = name[12] - '0';															 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
+
+											
+
+											
+
+											FbxTime frameTime = deformCurve->KeyGetTime(keyIndex);
+
+											//framerate är 41 med mode eFrames1000 :S:S:S:S:S
+											unsigned int frame = frameTime.GetFieldCount(FbxTime::EMode::eFrames1000) / 41 / 2;
+											std::cout <<"frame :" << frame << "\n"; //ful lösning, för att hitta rätt keyframe. inte helt exakt. men nära!
+											
+
+											double deform = morphChannel->DeformPercent.EvaluateValue(frameTime);
+											std::cout << "\n influece: " << deform << "\n";
+											if (frame > tempAnimation->animationTime)
+												tempAnimation->animationTime = frame;
+											
+											bool	frameExists = false;
+											int		frameIndex = 0;
+											for (size_t i = 0; i < tempAnimation->frames.size(); i++)
+											{
+												if (tempAnimation->frames.at(i).frameTime == frame)
+												{
+													frameExists = true;
+													frameIndex  = (int)i;
+													break;
+												}
+
+											}
+											if (frameExists)
+											{
+												tempAnimation->frames.at(frameIndex).meshIDs.push_back(in);
+												tempAnimation->frames.at(frameIndex).influence.push_back(float(deform));
+											}
+											else
+											{
+
+										    tempAnimation->frames.push_back(BlendFrame());									 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
+											tempAnimation->frames.at(tempAnimation->frames.size() - 1).frameTime = frame; //STORING THE FRAME NUMBER
+											tempAnimation->frames.at(tempAnimation->frames.size()-1).meshIDs.push_back(in);	 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
+											tempAnimation->frames.at(tempAnimation->frames.size() - 1).influence.push_back(float(deform));																   // STORING THE INFLUENCE AT THIS FRAME
+											}
+										}
+									}
 								}
 							}
 						}
 					}
+								animations.push_back(tempAnimation);
 
 				}
 				//ExtractTargetMesh(pNode->GetChild(i));		 //extract it
@@ -397,7 +436,7 @@ void MorphAnimation::GetMorphAnimation(FbxNode * pNode)
 	//		std::cout << "Target Shape Count: " << targetShapeCount << "\n\n";
 	//		for (unsigned int k = 0; k < targetShapeCount; k++) //for every shape in this channel
 	//		{
-	//			FbxShape* shape;
+	//			FbxShape* shape;svb
 	//		
 	//			shape = morphChannel->GetTargetShape(k);
 	//		}
@@ -420,6 +459,16 @@ MorphAnimation::~MorphAnimation()
 {
 	if (sourceMesh)
 		delete sourceMesh;
+
+	for (size_t i = 0; i < animations.size(); i++)
+	{
+		delete animations.at(i);
+	}
+	for (size_t i = 0; i < blendMeshes.size(); i++)
+	{
+		delete blendMeshes.at(i);
+
+	}
 }
 
 

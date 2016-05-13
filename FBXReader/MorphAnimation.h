@@ -64,17 +64,19 @@ struct OutPutAnimation
 class MorphAnimation
 {
 private:
-	std::map<unsigned int, unsigned int> blendShapeMap;
+	std::map<int, BlendMesh*> blendShapeMap;
 	// a mesh ID is connected to the index in an array
 
-	std::vector<BlendMesh> blendMeshes;
+	std::vector<BlendMesh*> blendMeshes;
 	MeshExport* sourceMesh = nullptr;
+
+	std::vector<BlendAnimation*> animations;
 
 	bool isATargetMesh(const char* name);
 
 
 	void ExtractSourceMesh(FbxNode* pNode);
-	void ExtractTargetMesh(FbxNode* pNode);
+	BlendMesh* ExtractTargetMesh(FbxNode* pNode);
 	void ExtractAllMeshesInAnimation(FbxNode* pNode);
 
 
