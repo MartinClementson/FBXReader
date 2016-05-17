@@ -3,6 +3,7 @@
 // small diagram and explaination at https://www.lucidchart.com/invitations/accept/8d8e6ef6-e78a-4314-8d85-2d14ea5f3da4
 
 #include "fbxSDK.h"
+#include <algorithm>
 #include "BRFImporterStructs.h"
 #include "BrfExporter.h"
 
@@ -28,6 +29,8 @@ struct BlendFrame
 
 struct BlendAnimation
 {
+	unsigned int			 meshesUsed    = 0;
+	std::vector<unsigned int>		   meshIDs;
 	unsigned int			 animationTime = 0;
 	std::vector<BlendFrame>  frames;
 
@@ -47,9 +50,15 @@ struct OutPutShape
 	float normalizedFrameTime; // from 0.0 to 1.0
 	std::vector<BlendVertexHeader> vertices;
 
-	void NormalizeFrameTime(unsigned int animationTime)
+	bool NormalizeFrameTime(unsigned int animationTime)
 	{
-		normalizedFrameTime = frameNumber / animationTime;
+		if (animationTime != 0)
+			normalizedFrameTime = this->frameNumber / animationTime;
+		else
+			return false;
+		
+		
+		return true;
 	}
 };
 struct OutPutAnimation
@@ -86,6 +95,10 @@ private:
 	void GetVertTangents(fbxsdk::FbxGeometryElementTangent* pTElement, int index, double* targetTangent);
 	void GetVertTextureUV(fbxsdk::FbxGeometryElementUV* uvElement, int index, double* targetUV);
 	void GetPolygonNormals(double * targetNormal, FbxVector4 * sourceNormals);
+
+	void GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNode, int animationIndex);
+
+	void CreateBRFAnimation();
 public:
 	void GetMorphAnimation(FbxNode * pNode);
 	MorphAnimation();

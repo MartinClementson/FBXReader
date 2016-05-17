@@ -342,22 +342,19 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 										for (int keyIndex = 0; keyIndex < numKeys; keyIndex++)
 										{
 											fbxsdk::FbxAnimCurveKey key = deformCurve->KeyGet(keyIndex);
-
 											const char* name = shape->GetName();											 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
-											int in = name[12] - '0';															 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
+											int in = name[12] - '0';														 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
 
-											
-
-											
+											if (std::find(tempAnimation->meshIDs.begin(), tempAnimation->meshIDs.end(), in) == tempAnimation->meshIDs.end()) //we need to keep track of the meshes used in the animation, Here we check if the id exists already. otherwise add it to the list of meshes used
+												tempAnimation->meshIDs.push_back((unsigned int)in);
 
 											FbxTime frameTime = deformCurve->KeyGetTime(keyIndex);
 
 											//framerate är 41 med mode eFrames1000 :S:S:S:S:S
 											unsigned int frame = frameTime.GetFieldCount(FbxTime::EMode::eFrames1000) / 41 / 2;
 											std::cout <<"frame :" << frame << "\n"; //ful lösning, för att hitta rätt keyframe. inte helt exakt. men nära!
-											
-
-											double deform = morphChannel->DeformPercent.EvaluateValue(frameTime);
+		
+											double deform	   = morphChannel->DeformPercent.EvaluateValue(frameTime);
 											std::cout << "\n influece: " << deform << "\n";
 											if (frame > tempAnimation->animationTime)
 												tempAnimation->animationTime = frame;
@@ -372,7 +369,6 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 													frameIndex  = (int)i;
 													break;
 												}
-
 											}
 											if (frameExists)
 											{
@@ -381,10 +377,9 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 											}
 											else
 											{
-
-										    tempAnimation->frames.push_back(BlendFrame());									 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
-											tempAnimation->frames.at(tempAnimation->frames.size() - 1).frameTime = frame; //STORING THE FRAME NUMBER
-											tempAnimation->frames.at(tempAnimation->frames.size()-1).meshIDs.push_back(in);	 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
+										    tempAnimation->frames.push_back(BlendFrame());										 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
+											tempAnimation->frames.at(tempAnimation->frames.size() - 1).frameTime = frame;		 //STORING THE FRAME NUMBER
+											tempAnimation->frames.at(tempAnimation->frames.size() - 1).meshIDs.push_back(in);	 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
 											tempAnimation->frames.at(tempAnimation->frames.size() - 1).influence.push_back(float(deform));																   // STORING THE INFLUENCE AT THIS FRAME
 											}
 										}
@@ -395,8 +390,10 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 					}
 								animations.push_back(tempAnimation);
 
+				this->GetMissingKeyFrame(morphAnim,pNode,animations.size() - 1);
 				}
-				//ExtractTargetMesh(pNode->GetChild(i));		 //extract it
+				
+
 			}
 		}
 #pragma endregion
@@ -517,4 +514,150 @@ void MorphAnimation::GetPolygonNormals(double * targetNormal, FbxVector4 * sourc
 	targetNormal[0] = sourceNormals->mData[0];
 	targetNormal[1] = sourceNormals->mData[1];
 	targetNormal[2] = sourceNormals->mData[2];
+}
+
+void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNode, int animationIndex)
+{
+	/*
+			We have extracted the frames of the animation now.
+			But if we extract a keyframe that has influence of only one mesh (for example). another mesh might still have influence
+			but not a specific keyframe set at that time. This is because the keyframe we extracted might be between two keyframes of the other mesh.
+			we still need to extract that mesh to make sure we don't miss information on that frame
+	*/
+
+	
+		for (size_t i = 0; i < animations.at(animationIndex)->frames.size(); i++) //get mesh amount of the animation
+		{
+			if (animations.at(animationIndex)->frames.at(i).meshIDs.size() > animations.at(animationIndex)->meshesUsed) //loop through the animation and get all the meshes used
+				animations.at(animationIndex)->meshesUsed = animations.at(animationIndex)->frames.at(i).meshIDs.size();
+
+		}
+
+
+
+		for (size_t k = 0; k < animations.at(animationIndex)->frames.size(); k++)
+		{
+			if (animations.at(animationIndex)->frames.at(k).meshIDs.size() == animations.at(animationIndex)->meshesUsed) //If all the meshes are accounted for in this frame. Continue to the next frame
+				continue;
+			else
+			{
+				for (size_t i = 0; i < animations.at(animationIndex)->meshIDs.size(); i++) //Loop through the mesh ids and find what mesh is missing
+				{
+					if (
+						std::find(												//find			    Search the frame mesh id's and compare it to the whole animations stored mesh ids
+							animations.at(animationIndex)->frames.at(k).meshIDs.begin(),    //array begin			  
+							animations.at(animationIndex)->frames.at(k).meshIDs.end(),	   //array end
+							animations.at(animationIndex)->meshIDs.at(i))				   //value we are looking for
+						== animations.at(animationIndex)->frames.at(k).meshIDs.end()   // if the value is not found
+						)
+					{ //Go through the animation extraction process and find the missing info 
+						int morphChannelCount;
+						morphChannelCount = morphAnim->GetBlendShapeChannelCount(); //Get how many channels the blend shape has
+
+						for (unsigned int j = 0; j < morphChannelCount; j++) //for every channel
+						{
+							FbxBlendShapeChannel* morphChannel;
+							morphChannel = morphAnim->GetBlendShapeChannel(j);
+							unsigned int targetShapeCount = morphChannel->GetTargetShapeCount();
+							for (unsigned int tarShape = 0; tarShape < targetShapeCount; tarShape++) //for every shape in this channel
+							{
+								FbxShape* shape;
+								shape = morphChannel->GetTargetShape(tarShape);
+								std::cout << shape->GetName() << std::endl;
+
+								const char* name = shape->GetName();											 //Get the name of the shape to get the ID. we compare the id  to make sure we are processing the right mesh
+								unsigned int in = name[12] - '0';
+								
+								if (in != animations.at(animationIndex)->meshIDs.at(i)) //Make sure we process the right mesh (the one that is missing the frame) else continue 
+									continue;
+
+								FbxScene * scene = pNode->GetScene();
+
+
+								//Getting the number of animation stacks for this mesh
+								//seeing as you can have different ones such as (running, walking...)
+								int numAnimations = scene->GetSrcObjectCount<FbxAnimStack>();
+								for (int animIndex = 0; animIndex < numAnimations; animIndex++) //for every animation
+								{
+
+									//getting the current stack and evaluator
+									FbxAnimStack *animStack = (FbxAnimStack*)scene->GetSrcObject<FbxAnimStack>(animIndex);
+									FbxAnimEvaluator *animEval = scene->GetAnimationEvaluator();
+									std::cout << animStack->GetName() << "\n";
+									//so far so good
+
+									int numLayers = animStack->GetMemberCount();
+
+									for (int layerIndex = 0; layerIndex < numLayers; layerIndex++)
+									{
+										FbxAnimLayer *animLayer = (FbxAnimLayer*)animStack->GetMember(layerIndex);
+
+										FbxAnimCurve * deformCurve = morphChannel->DeformPercent.GetCurve(animLayer);
+										if (deformCurve != nullptr)
+										{
+											int numKeys = deformCurve->KeyGetCount();
+											if (numKeys < animations.at(animationIndex)->frames.size()) //if the amount of keys are less than what is in the animation, we have found the animation that has the missing keyframe
+											{
+												//since we know the time of the missing keyframe. We just extract it.
+												FbxTime frameTime;
+												frameTime.SetTime(0, 0, 0, animations.at(animationIndex)->frames.at(k).frameTime, 0, FbxTime::eFrames24);
+
+												/*	unsigned int anim = animationIndex;
+													unsigned int frame = k;
+													unsigned int frameTimeA = animations.at(animationIndex)->frames.at(k).frameTime;
+												/*/
+												double deform = morphChannel->DeformPercent.EvaluateValue(frameTime, true);
+
+												animations.at(animationIndex)->frames.at(k).meshIDs.push_back(in);	
+												animations.at(animationIndex)->frames.at(k).influence.push_back(float(deform));
+											
+											}
+											else
+												continue; //if this animation has all the keyframes, continue
+										}
+
+
+									}	// end for(every layer)
+								}		// end for(every animation)
+							}			// end for (every shape)
+						}				// end for(every Channel)
+
+					}
+					else
+						std::cout << "No missing frame found on this mesh" << std::endl;
+				}// end for(every mesh id)         (Loop through the mesh ids and find what mesh is missing)
+			} // end else (if the animation is missing a frame)
+		}
+	
+}
+
+void MorphAnimation::CreateBRFAnimation()
+{
+
+	 /*
+			Now we have
+			- Mesh info of every mesh used in an animation
+				- Mapped id to those meshes
+			- Animations
+				- Total frame time (the time of the last frame in the animation)
+				- Mesh IDs
+				- with frame information
+					- Frames have:
+						- mesh IDs of the meshes being used
+						- influences of the meshes
+						- a frame time
+
+			The algorithm is as following
+
+			For every animation
+			{
+				- loop through each frame
+					- interpolate the vertices of the base mesh and the meshes being used that frame
+					- Create a new mesh based on the new interpolated values. This mesh shall later be exported
+					- This mesh is used as a "keyframe" in the engine. So in the game. we don't interpolate between many meshes. just one!
+			}
+	 */
+
+
+
 }
