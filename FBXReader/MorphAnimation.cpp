@@ -373,14 +373,14 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 											if (frameExists)
 											{
 												tempAnimation->frames.at(frameIndex).meshIDs.push_back(in);
-												tempAnimation->frames.at(frameIndex).influence.push_back(float(deform));
+												tempAnimation->frames.at(frameIndex).influence.push_back(float(deform / 100.0f));
 											}
 											else
 											{
 										    tempAnimation->frames.push_back(BlendFrame());										 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
 											tempAnimation->frames.at(tempAnimation->frames.size() - 1).frameTime = frame;		 //STORING THE FRAME NUMBER
 											tempAnimation->frames.at(tempAnimation->frames.size() - 1).meshIDs.push_back(in);	 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
-											tempAnimation->frames.at(tempAnimation->frames.size() - 1).influence.push_back(float(deform));																   // STORING THE INFLUENCE AT THIS FRAME
+											tempAnimation->frames.at(tempAnimation->frames.size() - 1).influence.push_back(float(deform / 100.0f));																   // STORING THE INFLUENCE AT THIS FRAME
 											}
 										}
 									}
@@ -464,6 +464,10 @@ MorphAnimation::~MorphAnimation()
 	for (size_t i = 0; i < blendMeshes.size(); i++)
 	{
 		delete blendMeshes.at(i);
+	}
+	for (size_t i = 0; i < outPutAnims.size(); i++)
+	{
+		delete outPutAnims.at(i);
 
 	}
 }
@@ -609,7 +613,7 @@ void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNod
 												double deform = morphChannel->DeformPercent.EvaluateValue(frameTime, true);
 
 												animations.at(animationIndex)->frames.at(k).meshIDs.push_back(in);	
-												animations.at(animationIndex)->frames.at(k).influence.push_back(float(deform));
+												animations.at(animationIndex)->frames.at(k).influence.push_back(float(deform / 100.0f));
 											
 											}
 											else
@@ -658,6 +662,81 @@ void MorphAnimation::CreateBRFAnimation()
 			}
 	 */
 
+	/*
+			___________________PSUEDO CODE_______________ (Help from fransisco)
+	
+	for each keyFrame
+		for each vertex, idx
+			base_v = baseMeshVtx
+			for each mesh
+				base_v = (1 - InfCurrMesh)*base_v + InfCurrMesh*vertexCurrMesh;
+			meshPoseX[idx] = base_v;
+
+			_____________________________________________________________________
+			*/
 
 
+
+
+
+	for (size_t animation = 0; animation < animations.size(); animation++)				  // for: every animation
+	{
+		OutPutAnimation * tempAnim = new OutPutAnimation();
+		tempAnim->animationTime    = animations.at(animation)->animationTime;
+		for (size_t frame = 0; frame < animations.at(animation)->frames.size(); frame++)  // for: every frame
+		{
+			OutPutShape tempShape;
+			tempShape.frameNumber = animations.at(animation)->frames.at(frame).frameTime; // store the frame number
+			tempShape.NormalizeFrameTime(tempAnim->animationTime);						  // make the frame number a number between 0.0 - 1.0
+
+			for (size_t vert = 0; vert < sourceMesh->verticesNoSkeleton->size(); vert++)  // for: every vertex in the mesh,
+			{
+				BlendVertexHeader tempVert;
+				//*tempVert.pos = *sourceMesh->verticesNoSkeleton->at(vert).pos;
+				#pragma region tempVert = sourceMesh.vert
+				tempVert.pos[0]	= sourceMesh->verticesNoSkeleton->at(vert).pos[0];
+				tempVert.pos[1] = sourceMesh->verticesNoSkeleton->at(vert).pos[1];
+				tempVert.pos[2] = sourceMesh->verticesNoSkeleton->at(vert).pos[2];
+
+				tempVert.normal[0] = sourceMesh->verticesNoSkeleton->at(vert).normal[0];
+				tempVert.normal[1] = sourceMesh->verticesNoSkeleton->at(vert).normal[1];
+				tempVert.normal[2] = sourceMesh->verticesNoSkeleton->at(vert).normal[2];
+
+				tempVert.tangent[0] = sourceMesh->verticesNoSkeleton->at(vert).tangent[0];
+				tempVert.tangent[1] = sourceMesh->verticesNoSkeleton->at(vert).tangent[1];
+
+				tempVert.biTangent[0] = sourceMesh->verticesNoSkeleton->at(vert).biTangent[0];
+				tempVert.biTangent[1] = sourceMesh->verticesNoSkeleton->at(vert).biTangent[1];
+				#pragma endregion
+
+				//float totalInfluence;
+				for (size_t frameMesh = 0; frameMesh < animations.at(animation)->frames.at(frame).meshIDs.size(); frameMesh++) //for every mesh in the frame
+				{
+					float influence		= animations.at(animation) -> frames.at(frame). influence.at(frameMesh); //get the influence
+					//totalInfluence	   += influence;
+					BlendMesh* currMesh = blendShapeMap[animations.at(animation)->frames.at(frame).meshIDs.at(frameMesh)]; //a pointer to the mesh ( to get the vertex data)
+					#pragma region base_v = (1 - InfCurrMesh) * base_v + InfCurrMesh * vertexCurrMesh
+
+					tempVert.pos[0]		  = (1.0 - influence) * tempVert.pos[0]	      + (influence) * currMesh->vertices.at(vert).pos[0];
+					tempVert.pos[1]		  = (1.0 - influence) * tempVert.pos[1]       + (influence) * currMesh->vertices.at(vert).pos[1];
+					tempVert.pos[2]		  = (1.0 - influence) * tempVert.pos[2]       + (influence) * currMesh->vertices.at(vert).pos[2];
+																				      
+					tempVert.normal[0]    = (1.0 - influence) * tempVert.normal[0]    + (influence) * currMesh->vertices.at(vert).normal[0];
+					tempVert.normal[1]    = (1.0 - influence) * tempVert.normal[1]    + (influence) * currMesh->vertices.at(vert).normal[1];
+					tempVert.normal[2]    = (1.0 - influence) * tempVert.normal[2]    + (influence) * currMesh->vertices.at(vert).normal[2];
+																					  			    
+					tempVert.tangent[0]	  = (1.0 - influence) * tempVert.tangent[0]   + (influence) * currMesh->vertices.at(vert).tangent[0];
+					tempVert.tangent[1]	  = (1.0 - influence) * tempVert.tangent[1]   + (influence) * currMesh->vertices.at(vert).tangent[1];
+																								    
+					tempVert.biTangent[0] = (1.0 - influence) * tempVert.biTangent[0] + (influence) * currMesh->vertices.at(vert).biTangent[0];
+					tempVert.biTangent[1] = (1.0 - influence) * tempVert.biTangent[1] + (influence) * currMesh->vertices.at(vert).biTangent[1];
+					
+					#pragma endregion
+				}
+
+				tempShape.vertices.push_back(tempVert);
+
+			}
+		}
+	}
 }

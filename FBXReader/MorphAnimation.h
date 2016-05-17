@@ -83,6 +83,7 @@ private:
 
 	bool isATargetMesh(const char* name);
 
+	std::vector<OutPutAnimation*> outPutAnims;
 
 	void ExtractSourceMesh(FbxNode* pNode);
 	BlendMesh* ExtractTargetMesh(FbxNode* pNode);
