@@ -50,10 +50,10 @@ struct OutPutShape
 	float normalizedFrameTime; // from 0.0 to 1.0
 	std::vector<BlendVertexHeader> vertices;
 
-	bool NormalizeFrameTime(unsigned int animationTime)
+	bool OutPutShape::NormalizeFrameTime(unsigned int animationTime)
 	{
 		if (animationTime != 0)
-			normalizedFrameTime = this->frameNumber / animationTime;
+			this->normalizedFrameTime = (float)this->frameNumber / (float)animationTime;
 		else
 			return false;
 		

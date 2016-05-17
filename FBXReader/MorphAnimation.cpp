@@ -406,7 +406,7 @@ void MorphAnimation::GetMorphAnimation(FbxNode * pNode)
 		ExtractAllMeshesInAnimation(pNode);
 
 	
-
+		CreateBRFAnimation();
 
 	//FbxGeometry* pGeo = pNode->GetGeometry();								 // get Source
 	//int morphAnimCount = pGeo->GetDeformerCount(FbxDeformer::eBlendShape);	 //get amount of targets
@@ -663,7 +663,7 @@ void MorphAnimation::CreateBRFAnimation()
 	 */
 
 	/*
-			___________________PSUEDO CODE_______________ (Help from fransisco)
+			___________________PSUEDO CODE_______________ (Help from francisco)
 	
 	for each keyFrame
 		for each vertex, idx
@@ -737,6 +737,8 @@ void MorphAnimation::CreateBRFAnimation()
 				tempShape.vertices.push_back(tempVert);
 
 			}
+			tempAnim->shapes.push_back(tempShape);
 		}
+		outPutAnims.push_back(tempAnim);
 	}
 }
