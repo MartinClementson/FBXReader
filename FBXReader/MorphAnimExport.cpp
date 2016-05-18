@@ -6,7 +6,7 @@ MorphAnimExport::MorphAnimExport()
 {
 	this->morphAnim		= new BRFImporter::MorphAnimHeader;
 	this->morphFrames	= new std::vector<BRFImporter::MorphAnimKeyFrameHeader>;
-	this->morphVertices = new std::vector<BRFImporter::MorphVertexHeader>;
+	this->morphVertices = new std::vector<std::vector<BRFImporter::MorphVertexHeader>>;
 }
 
 
@@ -19,14 +19,16 @@ MorphAnimExport::~MorphAnimExport()
 
 void MorphAnimExport::WriteToBinaryFile(std::ofstream * outfile)
 {
-
-	for (size_t frame = 0; frame < morphFrames->size(); frame++)
+	if (outfile->is_open())
 	{
-		for (size_t vertex = 0; vertex < morphVertices->size(); vertex++)
+		outfile->write((const char*)&this->morphAnim, sizeof(BRFImporter::MorphAnimHeader)); //write the information of the animation to file
+
+		for (size_t frame = 0; frame < morphFrames->size(); frame++)
 		{
-
+			outfile->write((const char*)& this->morphFrames->at(frame), sizeof(BRFImporter::MorphAnimKeyFrameHeader)); //frame header
+			
+			outfile->write((const char*) this->morphVertices->at(frame).data(), sizeof(BRFImporter::MorphVertexHeader)*this->morphVertices->at(frame).size());
+		
 		}
-	}
-
-
+	} //end if(isopen)
 }

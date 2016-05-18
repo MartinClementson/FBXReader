@@ -19,9 +19,6 @@ FbxImport::~FbxImport()
 		scene->Destroy();
 	if(fbxManager)
 		fbxManager->Destroy(); //destroy the manager. do this last
-
-
-	
 }
 
 void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
@@ -69,7 +66,7 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 		//GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());	
 	}
 
-	GetMorphData(this->rootNode, outputFile->GetMorphAnimRef());
+	GetMorphData(this->rootNode, outputFile->GetMorphAnimRef(), outputFile->GetMeshesRef());
 }
 
 void FbxImport::LoadFbxFile(const char * fileName)
@@ -185,9 +182,9 @@ void FbxImport::GetLightData(FbxNode * pNode, LightExport* lights)
 
 }
 
-void FbxImport::GetMorphData(FbxNode * pNode, std::vector<MorphAnimExport>* outputMorphs)
+void FbxImport::GetMorphData(FbxNode * pNode, std::vector<MorphAnimExport*>* outputMorphs, std::vector<MeshExport*>* outputMeshes)
 {
-	morphAni.GetMorphAnimation(pNode);
+	morphAni.GetMorphAnimation(pNode, outputMorphs,outputMeshes);
 	//morphHandler.GetMorphData(pNode, outputMorphs);
 }
 

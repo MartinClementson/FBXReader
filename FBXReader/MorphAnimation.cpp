@@ -110,7 +110,6 @@ void MorphAnimation::ExtractSourceMesh(FbxNode * pNode)
 			
 			//VertexHeaderNoSkeleton tempVertex;
 			VertexHeaderNoSkeleton tempVertex;
-
 			FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
 			pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
 
@@ -123,26 +122,17 @@ void MorphAnimation::ExtractSourceMesh(FbxNode * pNode)
 			
 			targetMesh->verticesNoSkeleton->push_back(tempVertex);
 		}
-	
-	
 
 	std::cout << "Source mesh :" << pMesh->GetName() << std::endl;
 	std::cout << "Total amount of vertices on mesh : " << targetMesh->verticesNoSkeleton->size() << std::endl;
 	for (size_t i = 0; i < 4; i++)
 	{
 		for (size_t t = 0; t < 3; t++)
-		{
-			std::cout << targetMesh->verticesNoSkeleton->at(i).pos[t] << " , ";
-
-		}
+				std::cout << targetMesh->verticesNoSkeleton->at(i).pos[t] << " , ";
 		std::cout << "\n";
 	}
 	std::cout << "\n";
-
-
 	sourceMesh = targetMesh;
-
-
 }
 
 BlendMesh* MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
@@ -232,20 +222,11 @@ BlendMesh* MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
 
 
 
-	std::cout << "Source mesh :" << pMesh->GetName() << std::endl;
-	std::cout << "Total amount of vertices on mesh : " << targetMesh->vertices.size() << std::endl;
-	for (size_t i = 0; i < 4; i++)
-	{
-		for (size_t t = 0; t < 3; t++)
-		{
-			std::cout << targetMesh->vertices.at(i).pos[t] << " , ";
+	//std::cout << "Source mesh :" << pMesh->GetName() << std::endl;
+	//std::cout << "Total amount of vertices on mesh : " << targetMesh->vertices.size() << std::endl;
+	
 
-		}
-		std::cout << "\n";
-	}
-	std::cout << "\n";
-
-	std::cout << "Total amount of vertices on mesh : " << targetMesh->vertices.size() << std::endl;
+	//std::cout << "Total amount of vertices on mesh : " << targetMesh->vertices.size() << std::endl;
 	blendMeshes.push_back(targetMesh);
 	return targetMesh;
 }
@@ -400,11 +381,59 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 
 }
 
-void MorphAnimation::GetMorphAnimation(FbxNode * pNode)
+void MorphAnimation::GetMorphAnimation(FbxNode * pNode, std::vector<MorphAnimExport*>* outputMorphs, std::vector<MeshExport*>* outputMeshes)
 {
 		ExtractAllMeshesInAnimation(pNode); //extract the mesh information first, then extract the animation info
 
 		CreateBRFAnimation();				// with all the information gathered, interpolate the meshes at the keyframes and create a new mesh for each keyframe
+
+		for (size_t i = 0; i < outPutAnims.size(); i++)
+		{
+			MorphAnimExport* tempAnim = new MorphAnimExport();
+
+
+
+			tempAnim->morphAnim->animationTimeInFrames = outPutAnims.at(i)->animationTime;
+			tempAnim->morphAnim->numberOfKeyFrames	   = outPutAnims.at(i)->shapes.size();
+			tempAnim->morphAnim->vertsPerShape		   = outPutAnims.at(i)->shapes.at(0).vertices.size(); //vert size should always be the same
+
+			for (size_t frame = 0; frame < outPutAnims.at(i)->shapes.size(); frame++)
+			{
+
+				BRFImporter::MorphAnimKeyFrameHeader tempKeyFrame;
+
+				tempKeyFrame.frameNumber    = outPutAnims.at(i)->shapes.at(frame).frameNumber;
+				tempKeyFrame.normalizedTime = outPutAnims.at(i)->shapes.at(frame).normalizedFrameTime;
+
+				std::vector<BRFImporter::MorphVertexHeader> tempVertices;
+				for (size_t vert = 0;  vert < outPutAnims.at(i)->shapes.at(frame).vertices.size();  vert++)
+				{
+					MorphVertexHeader tempVert;
+
+					tempVert.pos[0]	    = outPutAnims.at(i)->shapes.at(frame).vertices.at(vert).pos[0];
+					tempVert.pos[1]	    = outPutAnims.at(i)->shapes.at(frame).vertices.at(vert).pos[1];
+					tempVert.pos[2]	    = outPutAnims.at(i)->shapes.at(frame).vertices.at(vert).pos[2];
+					tempVert.normal[0]  = outPutAnims.at(i)->shapes.at(frame).vertices.at(vert).normal[0];
+					tempVert.normal[1]  = outPutAnims.at(i)->shapes.at(frame).vertices.at(vert).normal[1];
+					tempVert.normal[2]  = outPutAnims.at(i)->shapes.at(frame).vertices.at(vert).normal[2];
+					tempVert.tangent[0] = outPutAnims.at(i)->shapes.at(frame).vertices.at(vert).tangent[0];
+					tempVert.tangent[1] = outPutAnims.at(i)->shapes.at(frame).vertices.at(vert).tangent[1];
+					tempVert.biTangent[0] = outPutAnims.at(i)->shapes.at(frame).vertices.at(vert).biTangent[0];
+					tempVert.biTangent[1] = outPutAnims.at(i)->shapes.at(frame).vertices.at(vert).biTangent[1];
+					tempVertices.push_back(tempVert);
+				}
+
+				tempAnim->morphVertices->push_back(tempVertices);
+				tempAnim->morphFrames->push_back(tempKeyFrame);
+
+
+
+			}
+			outputMorphs->push_back(tempAnim);
+		}
+
+		outputMeshes->push_back(sourceMesh);
+
 
 }
 
@@ -520,7 +549,7 @@ void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNod
 						int morphChannelCount;
 						morphChannelCount = morphAnim->GetBlendShapeChannelCount(); //Get how many channels the blend shape has
 
-						for (unsigned int j = 0; j < morphChannelCount; j++) //for every channel
+						for (unsigned int j = 0; j < morphChannelCount; j++)		//for every channel
 						{
 							FbxBlendShapeChannel* morphChannel;
 							morphChannel = morphAnim->GetBlendShapeChannel(j);
@@ -567,11 +596,6 @@ void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNod
 												//since we know the time of the missing keyframe. We just extract it.
 												FbxTime frameTime;
 												frameTime.SetTime(0, 0, 0, animations.at(animationIndex)->frames.at(k).frameTime, 0, FbxTime::eFrames24);
-
-												/*	unsigned int anim = animationIndex;
-													unsigned int frame = k;
-													unsigned int frameTimeA = animations.at(animationIndex)->frames.at(k).frameTime;
-												/*/
 												double deform = morphChannel->DeformPercent.EvaluateValue(frameTime, true);
 
 												animations.at(animationIndex)->frames.at(k).meshIDs.push_back(in);	
@@ -583,11 +607,10 @@ void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNod
 										}
 
 
-									}	// end for(every layer)
-								}		// end for(every animation)
-							}			// end for (every shape)
-						}				// end for(every Channel)
-
+									}	// end for (every layer on the animation)
+								}		// end for (every animation on shape)
+							}			// end for (every shape in channel)
+						}				// end for (every Channel)
 					}
 					else
 						std::cout << "No missing frame found on this mesh" << std::endl;

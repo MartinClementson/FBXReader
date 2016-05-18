@@ -8,9 +8,9 @@ public:
 	MorphAnimExport();
 	~MorphAnimExport();
 
-	std::vector<BRFImporter::MorphAnimHeader>		  * morphAnim;
-	std::vector<BRFImporter::MorphAnimKeyFrameHeader> * morphFrames;
-	std::vector<BRFImporter::MorphVertexHeader>		  * morphVertices;
+	BRFImporter::MorphAnimHeader								  * morphAnim;
+	std::vector<BRFImporter::MorphAnimKeyFrameHeader>			  * morphFrames;
+	std::vector<std::vector<BRFImporter::MorphVertexHeader>>	  * morphVertices; //2d vector,
 
 	void WriteToBinaryFile(std::ofstream* outfile);
 };

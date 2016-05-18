@@ -13,6 +13,7 @@ public:
 
 private:
 	bool isATargetMesh(const char* name);
+	bool HasMorphAnim(FbxNode* pNode);
 	void ProcessData(FbxMesh* pMesh, MeshExport* mesh, bool hasSkeleton);
 	void GetVertPositions(FbxMesh* pMesh, int index, double* targetPos);
 	void GetVertNormals(fbxsdk::FbxGeometryElementNormal* pNElement, int index, double* targetNormal);

@@ -60,7 +60,7 @@ public:
 
 	void GetMaterialData(FbxNode* pNode,	MaterialExport* outputMat);
 	void GetLightData(FbxNode* pNode,		LightExport* lights);
-	void GetMorphData(FbxNode* pNode,	std::vector<MorphAnimExport>* outputMorphs);
+	void GetMorphData(FbxNode* pNode,		std::vector<MorphAnimExport*>* outputMorphs, std::vector<MeshExport*>* outputMeshes);
 	void GetGroupData(FbxNode* pNode,		std::vector<GroupHeader>* outputGroups);
 
 

@@ -207,11 +207,22 @@ namespace BRFImporter
 #pragma region MorphAnimHeader
 	struct MorphAnimHeader
 	{
-		unsigned int numberOfFrames;
+		unsigned int vertsPerShape; // one keyframe == one mesh
+		unsigned int numberOfKeyFrames;
+		unsigned int animationTimeInFrames; //in frames (the same as the last keyframe)
 		unsigned int shapeID;
 	};
 #pragma endregion
+
+
 #pragma region MorphAnimHeader Dynamics
+	struct MorphAnimKeyFrameHeader
+	{
+		unsigned int frameNumber;
+		double normalizedTime;
+
+	};
+
 	struct MorphVertexHeader
 	{
 		double pos[3];

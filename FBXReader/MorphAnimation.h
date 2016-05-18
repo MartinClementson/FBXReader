@@ -101,7 +101,7 @@ private:
 
 	void CreateBRFAnimation();
 public:
-	void GetMorphAnimation(FbxNode * pNode);
+	void GetMorphAnimation(FbxNode * pNode, std::vector<MorphAnimExport*>* outputMorphs, std::vector<MeshExport*>* outputMeshes);
 	MorphAnimation();
 	~MorphAnimation();
 };
