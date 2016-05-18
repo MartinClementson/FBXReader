@@ -21,7 +21,8 @@ void MorphAnimExport::WriteToBinaryFile(std::ofstream * outfile)
 {
 	if (outfile->is_open())
 	{
-		outfile->write((const char*)&this->morphAnim, sizeof(BRFImporter::MorphAnimHeader)); //write the information of the animation to file
+		this->morphAnim->shapeID = 0;
+		outfile->write((const char*) this->morphAnim, sizeof(BRFImporter::MorphAnimHeader)); //write the information of the animation to file
 
 		for (size_t frame = 0; frame < morphFrames->size(); frame++)
 		{

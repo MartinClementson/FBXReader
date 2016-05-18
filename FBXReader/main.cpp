@@ -39,7 +39,7 @@ void main()
 	importer->ConvertFbxToFile(outputClass); //convert information from fbx to our format
 
 	//information is in the outPutClass.
-	outputClass->WriteToBinaryFile("tesstat.BRF"); //write to file
+	outputClass->WriteToBinaryFile("morphAnim.BRF"); //write to file
 
 	//outputClass->WriteToBinaryFile("lightwithmat.brf");
 	//done

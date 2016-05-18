@@ -445,8 +445,7 @@ MorphAnimation::MorphAnimation()
 
 MorphAnimation::~MorphAnimation()
 {
-	if (sourceMesh)
-		delete sourceMesh;
+	
 
 	for (size_t i = 0; i < animations.size(); i++)
 	{
