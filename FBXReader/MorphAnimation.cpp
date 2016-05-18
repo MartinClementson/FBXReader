@@ -402,47 +402,9 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 
 void MorphAnimation::GetMorphAnimation(FbxNode * pNode)
 {
-	
-		ExtractAllMeshesInAnimation(pNode);
+		ExtractAllMeshesInAnimation(pNode); //extract the mesh information first, then extract the animation info
 
-	
-		CreateBRFAnimation();
-
-	//FbxGeometry* pGeo = pNode->GetGeometry();								 // get Source
-	//int morphAnimCount = pGeo->GetDeformerCount(FbxDeformer::eBlendShape);	 //get amount of targets
-	//int morphChannelCount;
-	//int targetShapeCount;
-	//for (unsigned int i = 0; i < morphAnimCount; i++) //for each target
-	//{
-	//	FbxBlendShape* morphAnim;
-	//	morphAnim = (FbxBlendShape*)pGeo->GetDeformer(i, FbxDeformer::eBlendShape); //Get the blend shape #i
-
-	//	morphChannelCount = morphAnim->GetBlendShapeChannelCount(); //Get how many channels the blend shape #i has
-	//	std::cout << "ChannelCount: " << morphChannelCount << "\n\n";
-	//
-	//	for (unsigned int j = 0; j < morphChannelCount; j++) //for every channel
-	//	{
-	//		std::cout << "channel nr: " << j << "\n";
-
-	//		FbxBlendShapeChannel* morphChannel;
-	//		morphChannel = morphAnim->GetBlendShapeChannel(j);
-	//		morphChannel->GetBlendShapeDeformer();
-	//		std::cout << "ChannelName: " << morphChannel->GetName() << "\n\n";   //usually blendshapeName.meshName
-
-	//		targetShapeCount = morphChannel->GetTargetShapeCount();
-	//		std::cout << "Target Shape Count: " << targetShapeCount << "\n\n";
-	//		for (unsigned int k = 0; k < targetShapeCount; k++) //for every shape in this channel
-	//		{
-	//			FbxShape* shape;svb
-	//		
-	//			shape = morphChannel->GetTargetShape(k);
-	//		}
-	//	
-	//	}
-
-
-
-	//}
+		CreateBRFAnimation();				// with all the information gathered, interpolate the meshes at the keyframes and create a new mesh for each keyframe
 
 }
 
@@ -549,10 +511,10 @@ void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNod
 				{
 					if (
 						std::find(												//find			    Search the frame mesh id's and compare it to the whole animations stored mesh ids
-							animations.at(animationIndex)->frames.at(k).meshIDs.begin(),    //array begin			  
-							animations.at(animationIndex)->frames.at(k).meshIDs.end(),	   //array end
-							animations.at(animationIndex)->meshIDs.at(i))				   //value we are looking for
-						== animations.at(animationIndex)->frames.at(k).meshIDs.end()   // if the value is not found
+							animations.at(animationIndex)->frames.at(k).meshIDs.begin(),    // array begin			  
+							animations.at(animationIndex)->frames.at(k).meshIDs.end(),	    // array end
+							animations.at(animationIndex)->meshIDs.at(i))				    // value we are looking for
+						== animations.at(animationIndex)->frames.at(k).meshIDs.end()		// if the value is not found
 						)
 					{ //Go through the animation extraction process and find the missing info 
 						int morphChannelCount;
@@ -663,7 +625,7 @@ void MorphAnimation::CreateBRFAnimation()
 	 */
 
 	/*
-			___________________PSUEDO CODE_______________ (Help from francisco)
+____________________________PSUEDO CODE____________________________________ (Help from francisco)
 	
 	for each keyFrame
 		for each vertex, idx
@@ -672,7 +634,7 @@ void MorphAnimation::CreateBRFAnimation()
 				base_v = (1 - InfCurrMesh)*base_v + InfCurrMesh*vertexCurrMesh;
 			meshPoseX[idx] = base_v;
 
-			_____________________________________________________________________
+___________________________________________________________________________
 			*/
 
 
@@ -694,27 +656,28 @@ void MorphAnimation::CreateBRFAnimation()
 				BlendVertexHeader tempVert;
 				//*tempVert.pos = *sourceMesh->verticesNoSkeleton->at(vert).pos;
 				#pragma region tempVert = sourceMesh.vert
-				tempVert.pos[0]	= sourceMesh->verticesNoSkeleton->at(vert).pos[0];
-				tempVert.pos[1] = sourceMesh->verticesNoSkeleton->at(vert).pos[1];
-				tempVert.pos[2] = sourceMesh->verticesNoSkeleton->at(vert).pos[2];
+				tempVert.pos[0]			= sourceMesh->verticesNoSkeleton->at(vert).pos[0];
+				tempVert.pos[1]			= sourceMesh->verticesNoSkeleton->at(vert).pos[1];
+				tempVert.pos[2]			= sourceMesh->verticesNoSkeleton->at(vert).pos[2];
 
-				tempVert.normal[0] = sourceMesh->verticesNoSkeleton->at(vert).normal[0];
-				tempVert.normal[1] = sourceMesh->verticesNoSkeleton->at(vert).normal[1];
-				tempVert.normal[2] = sourceMesh->verticesNoSkeleton->at(vert).normal[2];
+				tempVert.normal[0]		= sourceMesh->verticesNoSkeleton->at(vert).normal[0];
+				tempVert.normal[1]		= sourceMesh->verticesNoSkeleton->at(vert).normal[1];
+				tempVert.normal[2]		= sourceMesh->verticesNoSkeleton->at(vert).normal[2];
 
-				tempVert.tangent[0] = sourceMesh->verticesNoSkeleton->at(vert).tangent[0];
-				tempVert.tangent[1] = sourceMesh->verticesNoSkeleton->at(vert).tangent[1];
+				tempVert.tangent[0]		= sourceMesh->verticesNoSkeleton->at(vert).tangent[0];
+				tempVert.tangent[1]		= sourceMesh->verticesNoSkeleton->at(vert).tangent[1];
 
-				tempVert.biTangent[0] = sourceMesh->verticesNoSkeleton->at(vert).biTangent[0];
-				tempVert.biTangent[1] = sourceMesh->verticesNoSkeleton->at(vert).biTangent[1];
+				tempVert.biTangent[0]   = sourceMesh->verticesNoSkeleton->at(vert).biTangent[0];
+				tempVert.biTangent[1]   = sourceMesh->verticesNoSkeleton->at(vert).biTangent[1];
 				#pragma endregion
 
-				//float totalInfluence;
-				for (size_t frameMesh = 0; frameMesh < animations.at(animation)->frames.at(frame).meshIDs.size(); frameMesh++) //for every mesh in the frame
+				float totalInfluence = 0;
+				for (size_t frameMesh = 0; frameMesh < animations.at(animation)->frames.at(frame).meshIDs.size(); frameMesh++)	 //for every mesh in the frame
 				{
-					float influence		= animations.at(animation) -> frames.at(frame). influence.at(frameMesh); //get the influence
-					//totalInfluence	   += influence;
-					BlendMesh* currMesh = blendShapeMap[animations.at(animation)->frames.at(frame).meshIDs.at(frameMesh)]; //a pointer to the mesh ( to get the vertex data)
+					float influence		= animations.at(animation) -> frames.at(frame). influence.at(frameMesh);		    	 //get the influence
+					totalInfluence	   += influence;
+					BlendMesh* currMesh = blendShapeMap[animations.at(animation)->frames.at(frame).meshIDs.at(frameMesh)];		 //a pointer to the mesh ( to get the vertex data)
+				
 					#pragma region base_v = (1 - InfCurrMesh) * base_v + InfCurrMesh * vertexCurrMesh
 
 					tempVert.pos[0]		  = (1.0 - influence) * tempVert.pos[0]	      + (influence) * currMesh->vertices.at(vert).pos[0];
