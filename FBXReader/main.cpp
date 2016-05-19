@@ -14,7 +14,7 @@ void main()
 	#endif
 
 	//const char* fileName = "3_lights.fbx"; //lights
-	const char* fileName = "EnemyModel.fbx"; //lights
+	const char* fileName = "EnemyModelHealer.fbx"; //lights
 	//const char* fileName = "onecube.fbx";
 	//const char* fileName = "level_0.fbx";
 	//const char* fileName = "skeleton_and_no_skeleton.fbx";
@@ -35,7 +35,7 @@ void main()
 	importer->ConvertFbxToFile(outputClass); //convert information from fbx to our format
 
 	//information is in the outPutClass.
-	outputClass->WriteToBinaryFile("EnemyModel.BRF"); //write to file
+	outputClass->WriteToBinaryFile("EnemyModelHealer.BRF"); //write to file
 
 	//outputClass->WriteToBinaryFile("lightwithmat.brf");
 	//done
