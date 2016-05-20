@@ -171,7 +171,7 @@ void MaterialHandler::ProcessData(FbxSurfaceMaterial* pMaterial, unsigned int ma
 	}
 
 	//NormalMap properties
-	FbxProperty normMapProp = pMaterial->FindProperty(FbxSurfaceMaterial::sBump);
+	FbxProperty normMapProp = pMaterial->FindProperty(FbxSurfaceMaterial::sNormalMap);
 	unsigned int normMapCount = normMapProp.GetSrcObjectCount<FbxFileTexture>();
 
 	if (normMapCount > 0)

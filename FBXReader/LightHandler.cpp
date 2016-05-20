@@ -30,7 +30,7 @@ void LightHandler::GetLightData(FbxNode* pNode, LightExport* lights)
 		std::cout << pNode->GetName() << std::endl;
 
 		std::cout << "Light Type: ";
-		std::cout << lLight->LightType.Get() << std::endl;;
+		std::cout << lLight->LightType.Get() << std::endl;
 
 		int num = lLight->LightType.Get();
 
@@ -39,6 +39,19 @@ void LightHandler::GetLightData(FbxNode* pNode, LightExport* lights)
 			PointLightHeader temp = PointLight(lLight);
 			GetLightPos(pNode, temp.pos);
 
+			FbxNode* target = pNode->GetTarget();
+			if (target == nullptr)
+			{
+
+			}
+
+			double test = lLight->FarAttenuationStart;
+			double test2 = lLight->FarAttenuationEnd;
+			double test3 = lLight->NearAttenuationEnd;
+			double test4 = lLight->NearAttenuationEnd;
+
+
+			
 			lights->pointLights->push_back(temp);
 		}
 		if (num == 1)
@@ -60,7 +73,19 @@ void LightHandler::GetLightData(FbxNode* pNode, LightExport* lights)
 			GetLightPos(pNode, temp.pos);
 			GetLightRotation(pNode, temp.rot);
 			GetLightScaling(pNode, temp.scale);
+			FbxNode* target = pNode->GetTarget();
+			if (target == nullptr)
+			{
+				FbxQuaternion quart;//fortsätt senare
+				quart.Set(temp.rot[0], temp.rot[1], temp.rot[2]);
+				//FbxVector4 rot = pNode->GetRotationPivot;
 
+
+
+				FbxObject* rot = pNode->LclRotation.GetFbxObject();
+			}
+			FbxTransform* nodeTrans = &pNode->GetTransform();
+			//pNode->get
 
 			lights->spotLights->push_back( temp );
 		}
@@ -162,7 +187,7 @@ BRFImporter::SpotLightHeader LightHandler::SpotLight(FbxLight* pLight)
 
 
 	double outerangle = pLight->OuterAngle.Get();
-	temp.outerAngle = outerangle;
+	temp.spotRadius = outerangle;
 	std::cout << "Outer Angle: ";
 	std::cout << outerangle;
 	std::cout << std::endl;

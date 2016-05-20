@@ -1,9 +1,15 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (FBXReader.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  MeshExport.cpp
-c:\users\david\documents\github\fbxreader\fbxreader\meshexport.cpp(45): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
-c:\users\david\documents\github\fbxreader\fbxreader\meshexport.cpp(47): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
-c:\users\david\documents\github\fbxreader\fbxreader\meshexport.cpp(48): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
-c:\users\david\documents\github\fbxreader\fbxreader\meshexport.cpp(73): warning C4018: '<': signed/unsigned mismatch
-MorphAnimExport.obj : warning LNK4099: PDB 'vc140.pdb' was not found with 'MorphAnimExport.obj' or at 'C:\Users\David\Documents\GitHub\FBXReader\x64\Debug\vc140.pdb'; linking object as if no debug info
-AttributesExport.obj : warning LNK4099: PDB 'vc140.pdb' was not found with 'AttributesExport.obj' or at 'C:\Users\David\Documents\GitHub\FBXReader\x64\Debug\vc140.pdb'; linking object as if no debug info
-  FBXReader.vcxproj -> C:\Users\David\Documents\GitHub\FBXReader\x64\Debug\FBXImporter.exe
+  main.cpp
+c:\users\martin\documents\github\fbxreader\fbxreader\morphanimation.h(52): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+  MorphAnimation.cpp
+c:\users\martin\documents\github\fbxreader\fbxreader\morphanimation.h(52): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\martin\documents\github\fbxreader\fbxreader\morphanimation.cpp(74): warning C4018: '<': signed/unsigned mismatch
+c:\users\martin\documents\github\fbxreader\fbxreader\morphanimation.cpp(88): warning C4018: '<': signed/unsigned mismatch
+c:\users\martin\documents\github\fbxreader\fbxreader\morphanimation.cpp(180): warning C4018: '<': signed/unsigned mismatch
+c:\users\martin\documents\github\fbxreader\fbxreader\morphanimation.cpp(194): warning C4018: '<': signed/unsigned mismatch
+c:\users\martin\documents\github\fbxreader\fbxreader\morphanimation.cpp(287): warning C4018: '<': signed/unsigned mismatch
+c:\users\martin\documents\github\fbxreader\fbxreader\morphanimation.cpp(299): warning C4018: '<': signed/unsigned mismatch
+  FbxImport.cpp
+c:\users\martin\documents\github\fbxreader\fbxreader\morphanimation.h(52): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+  Generating Code...
+  FBXReader.vcxproj -> C:\Users\Martin\Documents\GitHub\FBXReader\x64\Debug\FBXImporter.exe

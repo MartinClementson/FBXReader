@@ -153,9 +153,12 @@ namespace BRFImporter
 		double pos[3];
 		double rot[3];
 		double scale[3];
-		double outerAngle;
+		double spotRadius;
 		double color[3];
 		double intensity;
+		double lookAtLH[3];//new
+		double lightRange;//new
+		double attenuation;//new
 	};
 	struct AreaLightHeader
 	{
@@ -174,6 +177,9 @@ namespace BRFImporter
 		double pos[3];
 		double color[3];
 		double intensity;
+		double lookAtLH[3];//new
+		double lightRange;//new
+		double attenuation;//new
 	};
 	struct DirLightHeader
 	{
@@ -183,6 +189,7 @@ namespace BRFImporter
 		double rot[3];
 		double color[3];
 		double intensity;
+		double lookAtLH[3];//new
 	};
 #pragma endregion
 #pragma region GroupHeader
@@ -200,15 +207,30 @@ namespace BRFImporter
 #pragma region MorphAnimHeader
 	struct MorphAnimHeader
 	{
-		unsigned int vertices;
+		unsigned int vertsPerShape; // one keyframe == one mesh
+		unsigned int numberOfKeyFrames;
+		unsigned int animationTimeInFrames; //in frames (the same as the last keyframe)
 		unsigned int shapeID;
 	};
 #pragma endregion
+
+
 #pragma region MorphAnimHeader Dynamics
+	struct MorphAnimKeyFrameHeader
+	{
+		unsigned int frameNumber;
+		double normalizedTime;
+
+	};
+
 	struct MorphVertexHeader
 	{
 		double pos[3];
-		unsigned int vertIndex;
+		double normal[3];
+		double tangent[2];
+		double biTangent[2];
+		/*double pos[3];
+		unsigned int vertIndex;*/
 	};
 #pragma endregion
 #pragma region AttributeHeader

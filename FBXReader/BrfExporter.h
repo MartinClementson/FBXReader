@@ -42,13 +42,13 @@ private:
 
 	MainHeader sceneInfo;
 
-	std::vector<MeshExport*>* meshes;
-	MaterialExport* materials;
+	std::vector<MeshExport*>*	  meshes;
+	MaterialExport*				  materials;
 	std::vector<SkeletonExport*>* skeletons;
-	LightExport* lights = nullptr;
-	std::vector<GroupHeader>* groups;
-	CameraExporter* cameras = nullptr;
-	std::vector<MorphAnimExport>* morphAnim;
+	LightExport*				  lights = nullptr;
+	std::vector<GroupHeader>*	  groups;
+	CameraExporter*				  cameras = nullptr;
+	std::vector<MorphAnimExport*>* morphAnim;
 
 	void CreateFileHeader(); //this is called before writing to file. it gathers the information for the main header
 
@@ -59,13 +59,13 @@ public:
 	void WriteToBinaryFile(char* fileName); //return type could change
 
 
-	std::vector<MeshExport*>* GetMeshesRef()		{ return this->meshes; };
-	MaterialExport* GetMatRef()						{ return this->materials; };
-	std::vector<SkeletonExport*>* GetSkeletonRef()   { return this->skeletons; };
-	LightExport* GetLightsRef()						{ return this->lights; };
-	std::vector<GroupHeader>* GetGroupsRef()		{ return this->groups; };
-	std::vector<MorphAnimExport>* GetMorphAnimRef() {return this->morphAnim; };
-	CameraExporter* GetCamerasRef()					{ return this->cameras; };
+	std::vector<MeshExport*>* GetMeshesRef()		 { return this->meshes;		 };
+	MaterialExport* GetMatRef()						 { return this->materials;	 };
+	std::vector<SkeletonExport*>* GetSkeletonRef()   { return this->skeletons;	 };
+	LightExport* GetLightsRef()						 { return this->lights;		 };
+	std::vector<GroupHeader>* GetGroupsRef()		 { return this->groups;		 };
+	std::vector<MorphAnimExport*>* GetMorphAnimRef() { return this->morphAnim;	 };
+	CameraExporter* GetCamerasRef()					 { return this->cameras;		 };
 	
 };
 

@@ -19,9 +19,6 @@ FbxImport::~FbxImport()
 		scene->Destroy();
 	if(fbxManager)
 		fbxManager->Destroy(); //destroy the manager. do this last
-
-
-	
 }
 
 void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
@@ -34,13 +31,13 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 	
 	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
 	{
-		 MapMaterials(this->rootNode->GetChild(i));
+		// MapMaterials(this->rootNode->GetChild(i));
 
 		 //MapMeshes(FbxNode* pNode, SceneMap sceneMap);
 		// MapCameras(FbxNode* pNode, SceneMap sceneMap);
 		// MapSkeletons(FbxNode* pNode, SceneMap sceneMap);
 		// MapLights(FbxNode* pNode, SceneMap sceneMap);
-		////void GetAnimationData(FbxNode* pNode, BrfExporter* outputClass); //Maybe connected to skeleton?
+		///void GetAnimationData(FbxNode* pNode, BrfExporter* outputClass); //Maybe connected to skeleton?
 
 
 		// MapMorphAnim(FbxNode* pNode, SceneMap sceneMap);
@@ -60,15 +57,16 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 
 
 	/////Second pass. here we extract all the data
-	GetMaterialData(this->rootNode, outputFile->GetMatRef());
+	//GetMaterialData(this->rootNode, outputFile->GetMatRef());
 	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
 	{
 		GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
-		GetCameraData(this->rootNode->GetChild(i), outputFile->GetCamerasRef());
-		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
-		GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());	
+		//GetCameraData(this->rootNode->GetChild(i), outputFile->GetCamerasRef());
+		//GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
+		//GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());	
 	}
 
+	GetMorphData(this->rootNode, outputFile->GetMorphAnimRef(), outputFile->GetMeshesRef());
 }
 
 void FbxImport::LoadFbxFile(const char * fileName)
@@ -184,8 +182,10 @@ void FbxImport::GetLightData(FbxNode * pNode, LightExport* lights)
 
 }
 
-void FbxImport::GetMorphAnimData(FbxNode * pNode, std::vector<MorphAnimExport>* outputMorphs)
+void FbxImport::GetMorphData(FbxNode * pNode, std::vector<MorphAnimExport*>* outputMorphs, std::vector<MeshExport*>* outputMeshes)
 {
+	morphAni.GetMorphAnimation(pNode, outputMorphs,outputMeshes);
+	//morphHandler.GetMorphData(pNode, outputMorphs);
 }
 
 void FbxImport::GetGroupData(FbxNode * pNode, std::vector<GroupHeader>* outputGroups)

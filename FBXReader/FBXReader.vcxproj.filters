@@ -61,6 +61,12 @@
     <Filter Include="Classes\BrfExporter\CameraExporter">
       <UniqueIdentifier>{1170e06f-cf15-42c8-bf6b-aa207b5275d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\MorphHandler">
+      <UniqueIdentifier>{7b3d99c6-8e7a-486a-9882-d2469331c090}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\MorphAnimationHandler">
+      <UniqueIdentifier>{f2c46f6e-2d71-4b04-a45d-39f2cd170a67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -110,6 +116,12 @@
     </ClCompile>
     <ClCompile Include="CameraExport.cpp">
       <Filter>Classes\BrfExporter\CameraExporter</Filter>
+    </ClCompile>
+    <ClCompile Include="MorphHandler.cpp">
+      <Filter>Classes\MorphHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="MorphAnimation.cpp">
+      <Filter>Classes\MorphAnimationHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +175,12 @@
     </ClInclude>
     <ClInclude Include="CameraExport.h">
       <Filter>Classes\BrfExporter\CameraExporter</Filter>
+    </ClInclude>
+    <ClInclude Include="MorphHandler.h">
+      <Filter>Classes\MorphHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="MorphAnimation.h">
+      <Filter>Classes\MorphAnimationHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

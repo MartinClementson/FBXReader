@@ -25,9 +25,9 @@ class MeshExport
 public:
 	MeshHeader meshInfo;
 	MainHeader mainInfo;
-	std::vector<IndexHeader>* indices;
-	std::vector<VertexHeader>* vertices;
-	std::vector<VertexHeaderNoSkeleton>* verticesNoSkeleton;
+	std::vector<IndexHeader>* indices						=nullptr	;
+	std::vector<VertexHeader>* vertices						=nullptr	 ;
+	std::vector<VertexHeaderNoSkeleton>* verticesNoSkeleton =nullptr;
 	std::vector<std::vector<WeigthsHeader>> weights; // the 4 count will be controlled in the "AddWeight" function
 	OOBBHeader boundingBox;
 
