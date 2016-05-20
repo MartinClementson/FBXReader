@@ -361,7 +361,7 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 										    tempAnimation->frames.push_back(BlendFrame());										 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
 											tempAnimation->frames.at(tempAnimation->frames.size() - 1).frameTime = frame;		 //STORING THE FRAME NUMBER
 											tempAnimation->frames.at(tempAnimation->frames.size() - 1).meshIDs.push_back(in);	 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
-											tempAnimation->frames.at(tempAnimation->frames.size() - 1).influence.push_back(float(deform / 100.0f));																   // STORING THE INFLUENCE AT THIS FRAME
+											tempAnimation->frames.at(tempAnimation->frames.size() - 1).influence.push_back(float(deform / 100.0f));		 //influenceis given in non decimals, we want decimals														   // STORING THE INFLUENCE AT THIS FRAME
 											}
 										}
 									}
@@ -373,8 +373,6 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 
 				this->GetMissingKeyFrame(morphAnim,pNode,animations.size() - 1);
 				}
-				
-
 			}
 		}
 #pragma endregion
@@ -390,8 +388,6 @@ void MorphAnimation::GetMorphAnimation(FbxNode * pNode, std::vector<MorphAnimExp
 		for (size_t i = 0; i < outPutAnims.size(); i++)
 		{
 			MorphAnimExport* tempAnim = new MorphAnimExport();
-
-
 
 			tempAnim->morphAnim->animationTimeInFrames = outPutAnims.at(i)->animationTime;
 			tempAnim->morphAnim->numberOfKeyFrames	   = outPutAnims.at(i)->shapes.size();
@@ -445,8 +441,6 @@ MorphAnimation::MorphAnimation()
 
 MorphAnimation::~MorphAnimation()
 {
-	
-
 	for (size_t i = 0; i < animations.size(); i++)
 	{
 		delete animations.at(i);
@@ -458,7 +452,6 @@ MorphAnimation::~MorphAnimation()
 	for (size_t i = 0; i < outPutAnims.size(); i++)
 	{
 		delete outPutAnims.at(i);
-
 	}
 }
 
@@ -485,22 +478,22 @@ void MorphAnimation::GetVertNormals(fbxsdk::FbxGeometryElementNormal * pNElement
 void MorphAnimation::GetVertBiNormals(fbxsdk::FbxGeometryElementBinormal * pBNElement, int index, double * targetBiNormal)
 {
 	FbxVector4 biNormal = pBNElement->GetDirectArray().GetAt(index);
-	targetBiNormal[0] = biNormal[0];
-	targetBiNormal[1] = biNormal[1];
+	targetBiNormal[0]   = biNormal[0];
+	targetBiNormal[1]   = biNormal[1];
 }
 
 void MorphAnimation::GetVertTangents(fbxsdk::FbxGeometryElementTangent * pTElement, int index, double * targetTangent)
 {
 	FbxVector4 tangent = pTElement->GetDirectArray().GetAt(index);
-	targetTangent[0] = tangent[0];
-	targetTangent[1] = tangent[1];
+	targetTangent[0]   = tangent[0];
+	targetTangent[1]   = tangent[1];
 }
 
 void MorphAnimation::GetVertTextureUV(fbxsdk::FbxGeometryElementUV* uvElement, int index, double * targetUV)
 {
 	FbxVector2 uvs = uvElement->GetDirectArray().GetAt(index);
-	targetUV[0] = uvs[0];
-	targetUV[1] = 1 - uvs[1];
+	targetUV[0]    = uvs[0];
+	targetUV[1]    = 1 - uvs[1];
 }
 
 void MorphAnimation::GetPolygonNormals(double * targetNormal, FbxVector4 * sourceNormals)
@@ -559,14 +552,13 @@ void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNod
 								shape = morphChannel->GetTargetShape(tarShape);
 								std::cout << shape->GetName() << std::endl;
 
-								const char* name = shape->GetName();											 //Get the name of the shape to get the ID. we compare the id  to make sure we are processing the right mesh
+								const char* name = shape->GetName();					//Get the name of the shape to get the ID. we compare the id  to make sure we are processing the right mesh
 								unsigned int in = name[12] - '0';
 								
 								if (in != animations.at(animationIndex)->meshIDs.at(i)) //Make sure we process the right mesh (the one that is missing the frame) else continue 
 									continue;
 
 								FbxScene * scene = pNode->GetScene();
-
 
 								//Getting the number of animation stacks for this mesh
 								//seeing as you can have different ones such as (running, walking...)
@@ -577,9 +569,8 @@ void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNod
 									//getting the current stack and evaluator
 									FbxAnimStack *animStack = (FbxAnimStack*)scene->GetSrcObject<FbxAnimStack>(animIndex);
 									FbxAnimEvaluator *animEval = scene->GetAnimationEvaluator();
-									std::cout << animStack->GetName() << "\n";
-									//so far so good
-
+									//std::cout << animStack->GetName() << "\n";
+							
 									int numLayers = animStack->GetMemberCount();
 
 									for (int layerIndex = 0; layerIndex < numLayers; layerIndex++)
@@ -676,7 +667,7 @@ ___________________________________________________________________________
 			for (size_t vert = 0; vert < sourceMesh->verticesNoSkeleton->size(); vert++)  // for: every vertex in the mesh,
 			{
 				BlendVertexHeader tempVert;
-				//*tempVert.pos = *sourceMesh->verticesNoSkeleton->at(vert).pos;
+				
 				#pragma region tempVert = sourceMesh.vert
 				tempVert.pos[0]			= sourceMesh->verticesNoSkeleton->at(vert).pos[0];
 				tempVert.pos[1]			= sourceMesh->verticesNoSkeleton->at(vert).pos[1];
@@ -718,9 +709,7 @@ ___________________________________________________________________________
 					
 					#pragma endregion
 				}
-
 				tempShape.vertices.push_back(tempVert);
-
 			}
 			tempAnim->shapes.push_back(tempShape);
 		}
