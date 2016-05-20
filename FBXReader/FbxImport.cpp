@@ -49,7 +49,13 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 		//GetCameraData(this->rootNode->GetChild(i), outputFile->GetCamerasRef());
 		//GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
 		//GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());
-		
+
+		GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
+		GetCameraData(this->rootNode->GetChild(i),outputFile->GetCamerasRef());
+		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
+		GetGroupData(this->rootNode->GetChild(i), outputFile->GetGroupsRef());
+		GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());
+		GetAttributeData(this->rootNode->GetChild(i), outputFile->GetAttributesRef());
 
 	}
 
@@ -64,6 +70,12 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 		//GetCameraData(this->rootNode->GetChild(i), outputFile->GetCamerasRef());
 		//GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
 		//GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());	
+		//GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
+		GetCameraData(this->rootNode->GetChild(i),outputFile->GetCamerasRef());
+		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
+		GetGroupData(this->rootNode->GetChild(i), outputFile->GetGroupsRef());
+		GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());
+		GetAttributeData(this->rootNode->GetChild(i), outputFile->GetAttributesRef());
 	}
 
 	GetMorphData(this->rootNode, outputFile->GetMorphAnimRef(), outputFile->GetMeshesRef());
@@ -119,13 +131,6 @@ void FbxImport::LoadFbxFile(const char * fileName)
 
 	rootNode = scene->GetRootNode();
 	
-
-
-
-
-	
-
-
 }
 
 void FbxImport::PrintNode(FbxNode * pNode)
@@ -172,6 +177,11 @@ void FbxImport::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExport*>* o
 	//skeletonHandler.GetSkeletonData(pNode);
 }
 
+void FbxImport::GetAttributeData(FbxNode * pNode, AttributesExport* outPutAttributes)
+{
+	attributeHandler.GetAttrData(pNode, outPutAttributes);
+}
+
 //void FbxImport::GetAnimationData(FbxNode * pNode, BrfExporter * outputClass)
 //{
 //}
@@ -188,8 +198,11 @@ void FbxImport::GetMorphData(FbxNode * pNode, std::vector<MorphAnimExport*>* out
 	//morphHandler.GetMorphData(pNode, outputMorphs);
 }
 
-void FbxImport::GetGroupData(FbxNode * pNode, std::vector<GroupHeader>* outputGroups)
+void FbxImport::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>* outputGroups)
 {
+
+	groupHandler.GetGroupData(pNode,outputGroups);
+
 }
 
 

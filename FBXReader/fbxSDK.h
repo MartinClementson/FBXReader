@@ -6,6 +6,8 @@
 #include <map>
 #include <string>
 
+//#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+
 struct SceneMap
 {
 	std::map<std::string, unsigned int> sceneHash;

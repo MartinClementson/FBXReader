@@ -91,7 +91,7 @@ void FbxPrinter::PrintAttribute(FbxNodeAttribute * pAttribute)
 	PrintTabs();
 	// Note: to retrieve the character array of a FbxString, use its Buffer() method.
 
-	std::cout << "Attribute Type: " << typeName.Buffer() << std::endl;
+	std::cout << "Attribute Type : " << typeName.Buffer() << std::endl;
 	PrintTabs();
 	std::cout << "Name: " << attrName.Buffer() << std::endl;
 }
