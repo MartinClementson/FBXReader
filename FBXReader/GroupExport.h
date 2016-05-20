@@ -1,21 +1,24 @@
 #pragma once
 
-#ifndef ATTRIBUTESEXPORT_H
-#define ATTRIBUTESEXPORT_H
+#ifndef GROUPEXPORT_H
+#define GROUPEXPORT_H
 
-#include <fstream>
-#include "BRFImporterStructs.h"
 #include <vector>
+#include "fbxSDK.h"
+#include "BRFImporterStructs.h"
+#include "AttributesExport.h"
+#include <fstream>
 #include <iostream>
-//#include "GroupExport.h"
+
 using namespace BRFImporter;
-class AttributesExport
+
+class GroupExport
 {
 public:
-	AttributesExport();
-	~AttributesExport();
-	void WriteToBinaryFile(std::ofstream* outfile);
 
+	void WriteToBinaryFile(std::ofstream* outfile);
+	GroupHeader groupInfo;
+	
 	AttributesHeader attrInfo;
 	VectorAttrHeader vecAttr;
 	StringAttrHeader stringAttr;
@@ -29,7 +32,23 @@ public:
 	std::vector<BoolAttrHeader>*boolAttributes;
 	std::vector<IntAttrHeader>*intAttributes;
 
+	AttributesExport* groupAttributes = nullptr;
 
-private:
+	void addGroupInfo(GroupHeader info);
+
+	GroupExport();
+	~GroupExport();
+
+	AttributesExport* GetAttributeHandler();
+
+private: 
+
+
 };
-#endif // !ATTRIBUTESEXPORT_H
+
+
+
+
+
+#endif // !1
+

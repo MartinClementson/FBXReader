@@ -196,8 +196,13 @@ namespace BRFImporter
 	struct GroupHeader
 	{
 		char groupName[256];
+		char dataType[256];
+
+		unsigned int attrCount;
 		unsigned int objectID;		// 0 = Default	
 		unsigned int parentID;		// 0 = Default
+
+		unsigned int attrNr = 0;
 
 		double translation[3];
 		double rotation[3];
@@ -236,7 +241,6 @@ namespace BRFImporter
 #pragma region AttributeHeader
 	struct AttributesHeader
 	{
-
 		unsigned int floatAmount;
 		unsigned int intAmount;
 		unsigned int boolAmount;

@@ -12,10 +12,23 @@ void main()
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	#endif
 
+
 	//const char* fileName = "3_lights.fbx"; //lights
 	//const char* fileName = "PlayerModel.fbx"; //lights
 	//const char* fileName = "onecube.fbx";
 	//const char* fileName = "test2.fbx";
+
+	//const char* fileName = "GroupAttrTest.fbx";
+	//FbxImport importer;
+
+	//importer.LoadFbxFile(fileName); //Load the fbx file
+	//importer.PrintScene(); 
+	//const char* fileName = "3_shapes_1_Cam.fbx";
+
+	//const char* fileName = "test.fbx"; //lights
+	//const char* fileName = "test2.fbx";
+
+	//const char* fileName = "skeleton_and_no_skeleton.fbx";
 	//const char* fileName = "3_shapes_1_Cam.fbx";
 	//const char* fileName = "blend2_3KeyFrames.fbx";
 	//const char* fileName = "complex_blend.fbx";
@@ -27,6 +40,7 @@ void main()
 	//const char* fileName = "3meshes_1Cam_triangulated.fbx";
 	//const char* fileName = "GroupScene.fbx";
 	//const char* fileName = "BoundingBoxScene.fbx";
+
 	FbxImport* importer = new FbxImport();
 	
 	
@@ -34,6 +48,7 @@ void main()
 
 	importer->LoadFbxFile(fileName); //Load the fbx file
 	importer->PrintScene(); 
+
 
 	BrfExporter* outputClass = new BrfExporter(); //create an output class, 
 

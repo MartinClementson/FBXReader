@@ -3,8 +3,11 @@
 #include "MeshHandler.h"
 #include "MaterialHandler.h"
 #include "CameraHandler.h"
+#include "GroupHandler.h"
 #include "LightHandler.h"
+
 #include "MorphHandler.h"
+#include "AttributeHandler.h"
 #include "BRFImporterStructs.h"
 #include "SkeletonHandler.h"
 #include "BrfExporter.h"
@@ -23,6 +26,8 @@ private:
 	CameraHandler cameraHandler;
 	MorphHandler morphHandler;
 	LightHandler lightHandler;
+	GroupHandler groupHandler;
+	AttributeHandler attributeHandler;
 	SkeletonHandler skeletonHandler;
 	MorphAnimation morphAni;
 
@@ -56,12 +61,12 @@ public:
 	//void GetCameraData(FbxNode * pNode, CameraExporter * outputCameras);
 	//void GetSkeletonData(FbxNode* pNode,	std::vector<SkeletonExport>* outputSkeletons);
 	//void GetAnimationData(FbxNode* pNode, BrfExporter* outputClass); //Maybe connected to skeleton?
-
+	void GetAttributeData(FbxNode* pNode,   AttributesExport* outPutAttributes);
 
 	void GetMaterialData(FbxNode* pNode,	MaterialExport* outputMat);
 	void GetLightData(FbxNode* pNode,		LightExport* lights);
 	void GetMorphData(FbxNode* pNode,		std::vector<MorphAnimExport*>* outputMorphs, std::vector<MeshExport*>* outputMeshes);
-	void GetGroupData(FbxNode* pNode,		std::vector<GroupHeader>* outputGroups);
+	void GetGroupData(FbxNode* pNode,		std::vector<GroupExport*>* outputGroups);
 
 
 

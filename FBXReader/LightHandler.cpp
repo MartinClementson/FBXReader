@@ -39,6 +39,7 @@ void LightHandler::GetLightData(FbxNode* pNode, LightExport* lights)
 			PointLightHeader temp = PointLight(lLight);
 			GetLightPos(pNode, temp.pos);
 
+
 			FbxNode* target = pNode->GetTarget();
 			if (target == nullptr)
 			{

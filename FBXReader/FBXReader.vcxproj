@@ -111,7 +111,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2016.1.2\lib\vs2015\x64\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2016.1.2\lib\vs2015\x64\debug</AdditionalLibraryDirectories>
       <AdditionalDependencies>wininet.lib;libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBMCT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -156,12 +156,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AttributeHandler.cpp" />
     <ClCompile Include="AttributesExport.cpp" />
     <ClCompile Include="BrfExporter.cpp" />
     <ClCompile Include="CameraExport.cpp" />
     <ClCompile Include="CameraHandler.cpp" />
     <ClCompile Include="FbxImport.cpp" />
     <ClCompile Include="FbxPrinter.cpp" />
+    <ClCompile Include="GroupExport.cpp" />
+    <ClCompile Include="GroupHandler.cpp" />
     <ClCompile Include="LightHandler.cpp" />
     <ClCompile Include="LightExport.cpp" />
     <ClCompile Include="main.cpp" />
@@ -176,6 +179,7 @@
     <ClCompile Include="SkeletonHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttributeHandler.h" />
     <ClInclude Include="AttributesExport.h" />
     <ClInclude Include="BrfExporter.h" />
     <ClInclude Include="BRFImporterStructs.h" />
@@ -184,6 +188,8 @@
     <ClInclude Include="FbxPrinter.h" />
     <ClInclude Include="fbxSDK.h" />
     <ClInclude Include="CameraHandler.h" />
+    <ClInclude Include="GroupExport.h" />
+    <ClInclude Include="GroupHandler.h" />
     <ClInclude Include="MaterialExport.h" />
     <ClInclude Include="MaterialHandler.h" />
     <ClInclude Include="LightHandler.h" />

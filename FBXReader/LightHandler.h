@@ -34,7 +34,6 @@ public:
 
 	BRFImporter::PointLightHeader PointLight(FbxLight* pLight);
 		
-
 	BRFImporter::AreaLightHeader AreaLight(FbxLight* pLight);
 
 };
