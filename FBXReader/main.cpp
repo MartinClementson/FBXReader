@@ -19,8 +19,9 @@ void main()
 	//const char* fileName = "3_shapes_1_Cam.fbx";
 	//const char* fileName = "blend2_3KeyFrames.fbx";
 	//const char* fileName = "complex_blend.fbx";
-	const char* fileName = "veryComplex_animation.fbx";
-	//const char* fileName = "level_0.fbx";
+	//const char* fileName   = "veryComplex_animation_one.fbx";
+	const char* fileName = "EnemyModelAnimated.fbx";
+	//const char* fileName = "level_0.fbx";.fbx"
 	//const char* fileName = "skeleton_and_no_skeleton.fbx";
 	//const char* fileName = "3_shapes_1_Cam.fbx";
 	//const char* fileName = "3meshes_1Cam_triangulated.fbx";
@@ -39,7 +40,7 @@ void main()
 	importer->ConvertFbxToFile(outputClass); //convert information from fbx to our format
 
 	//information is in the outPutClass.
-	outputClass->WriteToBinaryFile("morphAnim.BRF"); //write to file
+	outputClass->WriteToBinaryFile("Enemy_animated.BRF"); //write to file
 
 	//outputClass->WriteToBinaryFile("lightwithmat.brf");
 	//done

@@ -113,12 +113,12 @@ void MorphAnimation::ExtractSourceMesh(FbxNode * pNode)
 			FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
 			pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
 
-			GetVertPositions(pMesh, polyVertices.at(i), tempVertex.pos);
-			//GetVertNormals(pMesh->GetElementNormal(), polyVertices.at(i), tempVertex.normal);
+			GetVertPositions (pMesh, polyVertices.at(i), tempVertex.pos);
+			//GetVertNormals (pMesh->GetElementNormal(), polyVertices.at(i), tempVertex.normal);
 			GetPolygonNormals(tempVertex.normal, &polyNormals.at(i));
-			GetVertBiNormals(pMesh->GetElementBinormal(), polyVertices.at(i), tempVertex.biTangent);
-			GetVertTangents(pMesh->GetElementTangent(), polyVertices.at(i), tempVertex.tangent);
-			GetVertTextureUV(pMesh->GetElementUV(), uvIndex.at(i), tempVertex.uv);
+			GetVertBiNormals (pMesh->GetElementBinormal(), polyVertices.at(i), tempVertex.biTangent);
+			GetVertTangents  (pMesh->GetElementTangent(), polyVertices.at(i), tempVertex.tangent);
+			GetVertTextureUV (pMesh->GetElementUV(), uvIndex.at(i), tempVertex.uv);
 			
 			targetMesh->verticesNoSkeleton->push_back(tempVertex);
 		}
