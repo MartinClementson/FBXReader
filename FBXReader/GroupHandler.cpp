@@ -4,9 +4,9 @@
 
 GroupHandler::GroupHandler()
 {
-
+	tmpAttr = new AttributesExport();
+	tmpGroup = new GroupExport();
 }
-
 
 
 void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outputGroup)
@@ -17,9 +17,6 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 
 	if (lAttributeType == FbxNodeAttribute::EType::eNull)
 	{
-
-		tmpAttr = new AttributesExport();
-		tmpGroup = new GroupExport();
 
 		//AttributesExport * outputAttribute = nullptr;
 

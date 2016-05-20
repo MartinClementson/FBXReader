@@ -5,7 +5,7 @@
 
 AttributeHandler::AttributeHandler()
 {
-
+	tmpAttr = new AttributesExport();
 }
 
 AttributeHandler::~AttributeHandler()
@@ -18,8 +18,6 @@ void AttributeHandler::GetAttrData(FbxNode*pNode,AttributesExport* outPutAttribu
 	int lCount = 0;
 	FbxProperty lProperty = pNode->GetFirstProperty();
 	
-	tmpAttr = new AttributesExport();
-
 	//attributes = new AttributesExport();
 	std::cout << "Attributes!!  " << std::endl;
 	while (lProperty.IsValid())
@@ -119,6 +117,7 @@ void AttributeHandler::GetAttrData(FbxNode*pNode,AttributesExport* outPutAttribu
 		
 	
 	}
+	//delete tmpAttr;
 
 }
 BRFImporter::FloatAttrHeader AttributeHandler::FloatAttr(AttributesExport * tmpAttr)
