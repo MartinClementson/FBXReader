@@ -10,6 +10,7 @@ MeshExport::MeshExport()
 	vertices = new std::vector<VertexHeader>;
 	
 	
+	
 }
 
 MeshExport::MeshExport(bool hasSkeleton)
@@ -31,9 +32,15 @@ MeshExport::MeshExport(bool hasSkeleton)
 
 MeshExport::~MeshExport()
 {
-	delete indices;
-	delete vertices; 
-	delete verticesNoSkeleton;
+	if (indices != nullptr)
+	{
+		delete indices;
+		indices = nullptr;
+	}
+	if (vertices != nullptr)
+		delete vertices; 
+	if (verticesNoSkeleton != nullptr)
+		delete verticesNoSkeleton;
 
 	if (this->meshAttributes != nullptr)
 		delete meshAttributes;
@@ -132,7 +139,8 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 		//
 
 		////write all the indices
-		outfile->write( (const char*) this->indices->data(),  sizeof(IndexHeader) * this->indices->size());
+		if( this->indices->size() > 0 )
+			outfile->write( (const char*) this->indices->data(),  sizeof(IndexHeader) * this->indices->size());
 		//outfile->flush();
 		//if there is a bounding box, write it to the file.
 		if(this->meshInfo.boundingBox)

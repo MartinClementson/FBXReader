@@ -32,7 +32,8 @@ void MaterialExport::WriteToBinaryFile(std::ofstream * outfile)
 	}
 	if (outfile->is_open())
 	{
-		outfile->write((const char*)(this->materials->data()), sizeof(MaterialHeader) * materials->size());
+		if(this->materials->size() > 0)
+			outfile->write((const char*)(this->materials->data()), sizeof(MaterialHeader) * materials->size());
 	}
 }
 

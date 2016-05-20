@@ -169,7 +169,9 @@
     <ClCompile Include="MaterialHandler.cpp" />
     <ClCompile Include="MeshExport.cpp" />
     <ClCompile Include="MeshHandler.cpp" />
+    <ClCompile Include="MorphAnimation.cpp" />
     <ClCompile Include="MorphAnimExport.cpp" />
+    <ClCompile Include="MorphHandler.cpp" />
     <ClCompile Include="SkeletonExport.cpp" />
     <ClCompile Include="SkeletonHandler.cpp" />
   </ItemGroup>
@@ -188,6 +190,8 @@
     <ClInclude Include="LightExport.h" />
     <ClInclude Include="MeshExport.h" />
     <ClInclude Include="MeshHandler.h" />
+    <ClInclude Include="MorphAnimation.h" />
+    <ClInclude Include="MorphHandler.h" />
     <ClInclude Include="MorphAnimExport.h" />
     <ClInclude Include="SkeletonExport.h" />
     <ClInclude Include="SkeletonHandler.h" />
