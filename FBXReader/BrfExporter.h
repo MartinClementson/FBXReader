@@ -65,7 +65,6 @@ public:
 	MaterialExport* GetMatRef()						 { return this->materials;	 };
 	std::vector<SkeletonExport*>* GetSkeletonRef()   { return this->skeletons;	 };
 	LightExport* GetLightsRef()						 { return this->lights;		 };
-	std::vector<GroupHeader>* GetGroupsRef()		 { return this->groups;		 };
 	std::vector<MorphAnimExport*>* GetMorphAnimRef() { return this->morphAnim;	 };
 	CameraExporter* GetCamerasRef()					 { return this->cameras;		 };
 	std::vector<GroupExport*>* GetGroupsRef()		{ return this->groups; };

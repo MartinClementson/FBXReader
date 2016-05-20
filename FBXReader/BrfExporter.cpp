@@ -68,7 +68,6 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 
 	for (unsigned int i = 0; i < groups->size(); i++)
 	{
-		
 		std::cout << "Group #" << i + 1 << "\n";
 		groups->at(i)->WriteToBinaryFile(&outfile);
 	}

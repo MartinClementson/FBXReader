@@ -18,7 +18,7 @@ void main()
 	//const char* fileName = "onecube.fbx";
 	//const char* fileName = "test2.fbx";
 
-	//const char* fileName = "GroupAttrTest.fbx";
+	const char* fileName = "GroupMeshAttrTest.fbx";
 	//FbxImport importer;
 
 	//importer.LoadFbxFile(fileName); //Load the fbx file
@@ -33,7 +33,7 @@ void main()
 	//const char* fileName = "blend2_3KeyFrames.fbx";
 	//const char* fileName = "complex_blend.fbx";
 	//const char* fileName   = "veryComplex_animation_one.fbx";
-	const char* fileName = "EnemyModelAnimated.fbx";
+	//const char* fileName = "EnemyModelAnimated.fbx";
 	//const char* fileName = "level_0.fbx";.fbx"
 	//const char* fileName = "skeleton_and_no_skeleton.fbx";
 	//const char* fileName = "3_shapes_1_Cam.fbx";
@@ -55,7 +55,8 @@ void main()
 	importer->ConvertFbxToFile(outputClass); //convert information from fbx to our format
 
 	//information is in the outPutClass.
-	outputClass->WriteToBinaryFile("Enemy_animated.BRF"); //write to file
+	outputClass->WriteToBinaryFile("Filename.BRF");
+	//outputClass->WriteToBinaryFile("blyat.BRF"); //write to file
 
 	//outputClass->WriteToBinaryFile("lightwithmat.brf");
 	//done
