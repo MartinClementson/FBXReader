@@ -30,7 +30,7 @@ void CameraExporter::WriteToBinaryFile(std::ofstream* outfile)
 
 		if (outfile->is_open())
 		{
-			outfile->write((const char*)(this->cameras->data()), sizeof(CameraHeader));
+			outfile->write((const char*)(&this->cameras->at(i)), sizeof(CameraHeader));
 		}
 	}
 

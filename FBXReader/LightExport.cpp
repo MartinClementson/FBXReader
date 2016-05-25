@@ -136,6 +136,7 @@ void LightExport::WriteToBinaryFile(std::ofstream * outfile)
 	{
 		outfile->write((const char*)&this->lightTypesCount, sizeof(LightHeader));
 
+		//if (spotLights->size > 0) <- kolla om du ska skriva in detta överallt
 		outfile->write((const char*)(this->spotLights->data()), sizeof(SpotLightHeader) * spotLights->size());
 		outfile->write((const char*)(this->areaLights->data()), sizeof(AreaLightHeader) * areaLights->size());
 		outfile->write((const char*)(this->pointLights->data()), sizeof(PointLightHeader) * areaLights->size());
