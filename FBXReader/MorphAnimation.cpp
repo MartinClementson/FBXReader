@@ -428,7 +428,8 @@ void MorphAnimation::GetMorphAnimation(FbxNode * pNode, std::vector<MorphAnimExp
 			outputMorphs->push_back(tempAnim);
 		}
 
-		outputMeshes->push_back(sourceMesh);
+		if (sourceMesh != nullptr)
+			outputMeshes->push_back(sourceMesh);
 
 
 }
