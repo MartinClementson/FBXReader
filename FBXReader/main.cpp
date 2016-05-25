@@ -18,7 +18,7 @@ void main()
 	//const char* fileName = "onecube.fbx";
 	//const char* fileName = "test2.fbx";
 
-	const char* fileName = "GroupMeshAttrTest.fbx";
+	const char* fileName = "groups.fbx";
 	//FbxImport importer;
 
 	//importer.LoadFbxFile(fileName); //Load the fbx file

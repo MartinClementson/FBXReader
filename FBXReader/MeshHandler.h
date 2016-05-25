@@ -24,6 +24,7 @@ private:
 	bool GetBoundingBox(FbxNode*pNode, OOBBHeader* boundingBox);
 	bool IsBoundingBox(FbxNode* pNode);
 	bool HasSkeleton(FbxNode* pNode);
+	bool IsGroup(FbxNode* pNode);
 	void GetPolygonNormals(double* targetNormal, FbxVector4* sourceNormals);
 	unsigned int objectID;
 	unsigned int weightIndex;

@@ -101,6 +101,10 @@ GroupExport::~GroupExport()
 	delete intAttributes;
 	delete groupAttributesH;
 	delete groupAttributesContainer;
+	for (size_t i = 0; i < groupAttributesContainer->size(); i++)
+	{
+		delete &groupAttributesContainer->at(i);
+	}
 }
 
 

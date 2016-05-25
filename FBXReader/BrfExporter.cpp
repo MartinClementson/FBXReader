@@ -22,14 +22,17 @@ BrfExporter::~BrfExporter()
 		delete skeletons->at(i);
 	for (size_t i = 0; i	   < morphAnim->size(); i++)
 		delete morphAnim->at(i);
-	
+	for (size_t i = 0; i < groups->size(); i++)
+	{
+		delete groups->at(i);
+
+	}
 	delete meshes;
 	delete skeletons;
 	delete morphAnim;
 
 	delete materials;
 	delete lights;
-	delete groups;
 	delete cameras;
 	delete attributes;
 }
@@ -59,12 +62,12 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 
 	std::cout << "Total amount of meshes exported : " << sceneInfo.meshAmount << "\n";
 
-	for (unsigned int i = 0; i < sceneInfo.meshAmount; i++)
+	/*for (unsigned int i = 0; i < sceneInfo.meshAmount; i++)
 	{
 		std::cout << "Mesh #" << i+1 << "\n";
 		meshes->at(i)->WriteToBinaryFile(&outfile);
 
-	}
+	}*/
 
 	for (unsigned int i = 0; i < groups->size(); i++)
 	{
@@ -120,7 +123,7 @@ void BrfExporter::CreateFileHeader()
 
 	this->sceneInfo.materialAmount = materials->materials->size();
 
-	//this->sceneInfo.groupAmount = 0;
+	this->sceneInfo.groupAmount = groups->size();
 
 	this->sceneInfo.morphAnimAmount = morphAnim->size();
 

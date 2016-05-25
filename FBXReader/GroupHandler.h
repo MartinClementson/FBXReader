@@ -14,7 +14,7 @@ class GroupHandler
 public:
 	GroupHandler();
 	~GroupHandler();
-	GroupExport* tmpGroup;
+	//GroupExport* tmpGroup;
 
 	AttributesExport* tmpAttr;
 
