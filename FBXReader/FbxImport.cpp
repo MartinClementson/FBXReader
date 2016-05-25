@@ -29,41 +29,41 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 	///// connect materials, etc..
 
 	
-	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
-	{
-		// MapMaterials(this->rootNode->GetChild(i));
+	//for (int i = 0; i < this->rootNode->GetChildCount(); i++)
+	//{
+	//	// MapMaterials(this->rootNode->GetChild(i));
 
-		 //MapMeshes(FbxNode* pNode, SceneMap sceneMap);
-		// MapCameras(FbxNode* pNode, SceneMap sceneMap);
-		// MapSkeletons(FbxNode* pNode, SceneMap sceneMap);
-		// MapLights(FbxNode* pNode, SceneMap sceneMap);
-		///void GetAnimationData(FbxNode* pNode, BrfExporter* outputClass); //Maybe connected to skeleton?
-
-
-		// MapMorphAnim(FbxNode* pNode, SceneMap sceneMap);
-		// MapGroups(FbxNode* pNode, SceneMap sceneMap);
+	//	 //MapMeshes(FbxNode* pNode, SceneMap sceneMap);
+	//	// MapCameras(FbxNode* pNode, SceneMap sceneMap);
+	//	// MapSkeletons(FbxNode* pNode, SceneMap sceneMap);
+	//	// MapLights(FbxNode* pNode, SceneMap sceneMap);
+	//	///void GetAnimationData(FbxNode* pNode, BrfExporter* outputClass); //Maybe connected to skeleton?
 
 
+	//	// MapMorphAnim(FbxNode* pNode, SceneMap sceneMap);
+	//	// MapGroups(FbxNode* pNode, SceneMap sceneMap);
 
-		//GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
-		//GetCameraData(this->rootNode->GetChild(i), outputFile->GetCamerasRef());
-		//GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
-		//GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());
 
-		GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
-		GetCameraData(this->rootNode->GetChild(i),outputFile->GetCamerasRef());
-		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
-		GetGroupData(this->rootNode->GetChild(i), outputFile->GetGroupsRef());
-		GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());
-		GetAttributeData(this->rootNode->GetChild(i), outputFile->GetAttributesRef());
 
-	}
+	//	//GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
+	//	//GetCameraData(this->rootNode->GetChild(i), outputFile->GetCamerasRef());
+	//	//GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
+	//	//GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());
+
+	//	GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
+	//	GetCameraData(this->rootNode->GetChild(i),outputFile->GetCamerasRef());
+	//	GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
+	//	GetGroupData(this->rootNode->GetChild(i), outputFile->GetGroupsRef());
+	//	GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());
+	//	GetAttributeData(this->rootNode->GetChild(i), outputFile->GetAttributesRef());
+
+	//}
 
 
 
 
 	/////Second pass. here we extract all the data
-	//GetMaterialData(this->rootNode, outputFile->GetMatRef());
+	GetMaterialData(this->rootNode, outputFile->GetMatRef());
 	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
 	{
 		GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
