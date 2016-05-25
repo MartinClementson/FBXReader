@@ -22,14 +22,17 @@ BrfExporter::~BrfExporter()
 		delete skeletons->at(i);
 	for (size_t i = 0; i	   < morphAnim->size(); i++)
 		delete morphAnim->at(i);
-	
+	for (size_t i = 0; i < groups->size(); i++)
+	{
+		delete groups->at(i);
+
+	}
 	delete meshes;
 	delete skeletons;
 	delete morphAnim;
-
+	delete groups;
 	delete materials;
 	delete lights;
-	delete groups;
 	delete cameras;
 	delete attributes;
 }
@@ -120,7 +123,7 @@ void BrfExporter::CreateFileHeader()
 
 	this->sceneInfo.materialAmount = materials->materials->size();
 
-	//this->sceneInfo.groupAmount = 0;
+	this->sceneInfo.groupAmount =this->groups->size();
 
 	this->sceneInfo.morphAnimAmount = morphAnim->size();
 

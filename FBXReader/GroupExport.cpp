@@ -47,6 +47,32 @@ void GroupExport::WriteToBinaryFile(std::ofstream * outfile)
 	}
 	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n";
 
+	if (outfile->is_open())
+	{
+		outfile->write((const char*)&this->groupInfo, sizeof(GroupHeader)); //write the information of the mesh to file
+
+																		  //write all the vertices 
+		for (int i = 0; i < groupInfo.attrCount; i++)
+		{
+			outfile->write((const char*)&this->groupAttributesH->at(i), sizeof(GroupAttributeHeader));
+		}
+		for (int i = 0; i < groupInfo.attrCount; i++)
+		{
+			if (this->groupAttributesH->at(i).attrNr == 0)
+				outfile->write((const char*)&this->groupAttributesContainer->at(i).boolAttributes, sizeof(BoolAttrHeader));
+			else if (this->groupAttributesH->at(i).attrNr == 1)
+				outfile->write((const char*)&this->groupAttributesContainer->at(i).floatAttributes, sizeof(FloatAttrHeader));
+			else if (this->groupAttributesH->at(i).attrNr == 2)
+				outfile->write((const char*)&this->groupAttributesContainer->at(i).intAttributes, sizeof(IntAttrHeader));
+			else if (this->groupAttributesH->at(i).attrNr == 3)
+				outfile->write((const char*)&this->groupAttributesContainer->at(i).stringAttributes, sizeof(StringAttrHeader));
+			else if (this->groupAttributesH->at(i).attrNr == 4)
+				outfile->write((const char*)&this->groupAttributesContainer->at(i).vectorAttributes, sizeof(VectorAttrHeader));
+		}
+
+
+	}
+
 }
 
 void GroupExport::addGroupInfo(GroupHeader info)
@@ -63,16 +89,47 @@ GroupExport::GroupExport()
 	boolAttributes = new std::vector<BoolAttrHeader>;
 	intAttributes = new std::vector<IntAttrHeader>;
 	groupAttributesH = new std::vector<GroupAttributeHeader>;
+	groupAttributesContainer = new std::vector<groupAttrInfo>;
 }
 
 GroupExport::~GroupExport()
 {
+	/*for (size_t i = 0; i < groupAttributesContainer->size(); i++)
+	{
+		delete &groupAttributesContainer->at(i);
+	}
+	for (size_t i = 0; i < vectorAttributes->size(); i++)
+	{
+		delete &vectorAttributes->at(i);
+	}
+	for (size_t i = 0; i < stringAttributes->size(); i++)
+	{
+		delete &stringAttributes->at(i);
+	}
+	for (size_t i = 0; i < floatAttributes->size(); i++)
+	{
+		delete &floatAttributes->at(i);
+	}
+	for (size_t i = 0; i < boolAttributes->size(); i++)
+	{
+		delete &boolAttributes->at(i);
+	}
+	for (size_t i = 0; i < intAttributes->size(); i++)
+	{
+		delete &intAttributes->at(i);
+	}
+	for (size_t i = 0; i < groupAttributesH->size(); i++)
+	{
+		delete &groupAttributesH->at(i);
+	}*/
 	delete vectorAttributes;
 	delete stringAttributes;
 	delete floatAttributes;
 	delete boolAttributes;
 	delete intAttributes;
 	delete groupAttributesH;
+	delete groupAttributesContainer;
+	delete groupAttributes;
 }
 
 

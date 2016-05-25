@@ -15,7 +15,14 @@ using namespace BRFImporter;
 class GroupExport
 {
 public:
-
+	struct groupAttrInfo
+	{
+		std::vector<VectorAttrHeader> vectorAttributes;
+		std::vector<StringAttrHeader> stringAttributes;
+		std::vector<FloatAttrHeader> floatAttributes;
+		std::vector<BoolAttrHeader> boolAttributes;
+		std::vector<IntAttrHeader> intAttributes;
+	};
 	void WriteToBinaryFile(std::ofstream* outfile);
 	GroupHeader groupInfo;
 	
@@ -27,6 +34,8 @@ public:
 	IntAttrHeader intAttr;
 
 	std::vector<GroupAttributeHeader>* groupAttributesH;
+	std::vector<groupAttrInfo>* groupAttributesContainer;
+
 	std::vector<VectorAttrHeader>* vectorAttributes;
 	std::vector<StringAttrHeader>*stringAttributes;
 	std::vector<FloatAttrHeader>*floatAttributes;
