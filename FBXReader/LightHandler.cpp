@@ -34,28 +34,17 @@ void LightHandler::GetLightData(FbxNode* pNode, LightExport* lights)
 
 		int num = lLight->LightType.Get();
 
-		if (num == 0)
+		if (num == 0) //pointlight
 		{
 			PointLightHeader temp = PointLight(lLight);
 			GetLightPos(pNode, temp.pos);
 
 
-			FbxNode* target = pNode->GetTarget();
-			if (target == nullptr)
-			{
-
-			}
-
-			double test = lLight->FarAttenuationStart;
-			double test2 = lLight->FarAttenuationEnd;
-			double test3 = lLight->NearAttenuationEnd;
-			double test4 = lLight->NearAttenuationEnd;
-
 
 			
 			lights->pointLights->push_back(temp);
 		}
-		if (num == 1)
+		if (num == 1) //directional light
 		{
 			DirLightHeader temp;
 			temp = Directional(lLight);
@@ -67,31 +56,18 @@ void LightHandler::GetLightData(FbxNode* pNode, LightExport* lights)
 			lights->dirLights->push_back(temp);
 
 		}
-		if (num == 2)
+		if (num == 2) //spotlight
 		{
 			SpotLightHeader temp;
 			temp = SpotLight(lLight);
 			GetLightPos(pNode, temp.pos);
 			GetLightRotation(pNode, temp.rot);
 			GetLightScaling(pNode, temp.scale);
-			FbxNode* target = pNode->GetTarget();
-			if (target == nullptr)
-			{
-				FbxQuaternion quart;//fortsätt senare
-				quart.Set(temp.rot[0], temp.rot[1], temp.rot[2]);
-				//FbxVector4 rot = pNode->GetRotationPivot;
-
-
-
-				FbxObject* rot = pNode->LclRotation.GetFbxObject();
-			}
-			FbxTransform* nodeTrans = &pNode->GetTransform();
-			//pNode->get
 
 			lights->spotLights->push_back( temp );
 		}
 	
-		if (num == 3)
+		if (num == 3) //arealight
 		{
 			AreaLightHeader temp;
 
