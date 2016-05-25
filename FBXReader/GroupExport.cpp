@@ -62,6 +62,7 @@ GroupExport::GroupExport()
 	floatAttributes = new std::vector<FloatAttrHeader>;
 	boolAttributes = new std::vector<BoolAttrHeader>;
 	intAttributes = new std::vector<IntAttrHeader>;
+	groupAttributesH = new std::vector<GroupAttributeHeader>;
 }
 
 GroupExport::~GroupExport()
@@ -71,6 +72,7 @@ GroupExport::~GroupExport()
 	delete floatAttributes;
 	delete boolAttributes;
 	delete intAttributes;
+	delete groupAttributesH;
 }
 
 

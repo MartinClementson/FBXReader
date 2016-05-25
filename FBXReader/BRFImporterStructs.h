@@ -195,11 +195,13 @@ namespace BRFImporter
 		unsigned int objectID;		// 0 = Default	
 		unsigned int parentID;		// 0 = Default
 
-		unsigned int attrNr = 0;
-
 		double translation[3];
 		double rotation[3];
 		double scale[3];
+	};
+	struct GroupAttributeHeader
+	{
+		unsigned int attrNr;
 	};
 #pragma endregion
 #pragma region MorphAnimHeader

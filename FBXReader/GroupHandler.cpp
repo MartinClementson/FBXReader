@@ -57,6 +57,7 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 		{
 			std::cout << "No custom Attributes" << std::endl;
 		}
+		tmpGroup->groupInfo.attrCount = lCount;
 		
 		lProperty = pNode->GetFirstProperty();
 		int i = 0;
@@ -67,9 +68,10 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 			if (lProperty.GetFlag(FbxPropertyFlags::eUserDefined))
 			{
 				
+				GroupAttributeHeader tempAttr;
 				FbxDataType lPropertyDataType = lProperty.GetPropertyDataType();
 
-				if (lPropertyDataType.GetType() == eFbxBool)
+				if (lPropertyDataType.GetType() == eFbxBool) //0
 				{
 					FbxString lName = lProperty.GetName();
 					memcpy(tmpGroup->boolAttr.attrName, lName, sizeof(char) * 256);
@@ -84,8 +86,10 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 
 					tmpGroup->boolAttributes->push_back(tmp);
 
+					tempAttr.attrNr = 0;
+					tmpGroup->groupAttributesH->push_back(tempAttr);
 				}
-				else if (lPropertyDataType.GetType() == eFbxDouble) // float
+				else if (lPropertyDataType.GetType() == eFbxDouble) //1
 				{
 					FbxString lName = lProperty.GetName();
 					memcpy(tmpGroup->floatAttr.attrName, lName, sizeof(char) * 256);
@@ -101,8 +105,10 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 					tmp.value = tmpGroup->floatAttr.value;
 
 					tmpGroup->floatAttributes->push_back(tmp);
+					tempAttr.attrNr = 1;
+					tmpGroup->groupAttributesH->push_back(tempAttr);
 				}
-				else if (lPropertyDataType.GetType() == eFbxInt)
+				else if (lPropertyDataType.GetType() == eFbxInt) //2
 				{
 					FbxString lName = lProperty.GetName();
 					memcpy(tmpGroup->intAttr.attrName, lName, sizeof(char) * 256);
@@ -119,8 +125,10 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 					tmp.value = tmpGroup->intAttr.value;
 
 					tmpGroup->intAttributes->push_back(tmp);
+					tempAttr.attrNr = 2;
+					tmpGroup->groupAttributesH->push_back(tempAttr);
 				}
-				else if (lPropertyDataType.GetType() == eFbxString)
+				else if (lPropertyDataType.GetType() == eFbxString) //3
 				{
 					FbxString lName = lProperty.GetName();
 					memcpy(tmpGroup->stringAttr.attrName, lName, sizeof(char) * 256);
@@ -133,8 +141,10 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 					memcpy(tmp.value, tmpGroup->stringAttr.value,sizeof(char)*256);
 
 					tmpGroup->stringAttributes->push_back(tmp);
+					tempAttr.attrNr = 3;
+					tmpGroup->groupAttributesH->push_back(tempAttr);
 				}
-				else if (lPropertyDataType.GetType() == eFbxDouble3) // vector
+				else if (lPropertyDataType.GetType() == eFbxDouble3) //4
 				{
 					FbxString lName = lProperty.GetName();
 					memcpy(tmpGroup->vecAttr.attrName, lName, sizeof(char) * 256);
@@ -153,8 +163,8 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 					tmp.value[2] = tmpGroup->vecAttr.value[2];
 
 					tmpGroup->vectorAttributes->push_back(tmp);
-
-				
+					tempAttr.attrNr = 4;
+					tmpGroup->groupAttributesH->push_back(tempAttr);
 				}
 				i++;
 			}

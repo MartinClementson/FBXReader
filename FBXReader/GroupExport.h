@@ -26,6 +26,7 @@ public:
 	BoolAttrHeader boolAttr;
 	IntAttrHeader intAttr;
 
+	std::vector<GroupAttributeHeader>* groupAttributesH;
 	std::vector<VectorAttrHeader>* vectorAttributes;
 	std::vector<StringAttrHeader>*stringAttributes;
 	std::vector<FloatAttrHeader>*floatAttributes;
