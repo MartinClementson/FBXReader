@@ -94,6 +94,34 @@ GroupExport::GroupExport()
 
 GroupExport::~GroupExport()
 {
+	/*for (size_t i = 0; i < groupAttributesContainer->size(); i++)
+	{
+		delete &groupAttributesContainer->at(i);
+	}
+	for (size_t i = 0; i < vectorAttributes->size(); i++)
+	{
+		delete &vectorAttributes->at(i);
+	}
+	for (size_t i = 0; i < stringAttributes->size(); i++)
+	{
+		delete &stringAttributes->at(i);
+	}
+	for (size_t i = 0; i < floatAttributes->size(); i++)
+	{
+		delete &floatAttributes->at(i);
+	}
+	for (size_t i = 0; i < boolAttributes->size(); i++)
+	{
+		delete &boolAttributes->at(i);
+	}
+	for (size_t i = 0; i < intAttributes->size(); i++)
+	{
+		delete &intAttributes->at(i);
+	}
+	for (size_t i = 0; i < groupAttributesH->size(); i++)
+	{
+		delete &groupAttributesH->at(i);
+	}*/
 	delete vectorAttributes;
 	delete stringAttributes;
 	delete floatAttributes;
@@ -101,10 +129,7 @@ GroupExport::~GroupExport()
 	delete intAttributes;
 	delete groupAttributesH;
 	delete groupAttributesContainer;
-	for (size_t i = 0; i < groupAttributesContainer->size(); i++)
-	{
-		delete &groupAttributesContainer->at(i);
-	}
+	delete groupAttributes;
 }
 
 
