@@ -15,9 +15,9 @@ MaterialExport::~MaterialExport()
 
 void MaterialExport::WriteToBinaryFile(std::ofstream * outfile)
 {
-	this->main.materialAmount = materials->size();
+	this->main.materialAmount = (unsigned int) materials->size();
 
-	for (int i = 0; i < materials->size(); i++)
+	for (int i = 0; i < (int)materials->size(); i++)
 	{
 		std::cout << "Material name  : " << this->materials->at(i).matName << std::endl;
 		std::cout << "Diffuse Map Name: " << this->materials->at(i).diffMap << std::endl;

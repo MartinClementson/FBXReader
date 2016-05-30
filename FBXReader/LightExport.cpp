@@ -22,10 +22,10 @@ LightExport::~LightExport()
 void LightExport::WriteToBinaryFile(std::ofstream * outfile)
 {
 	//STUBBY STUB STUB
-	this->lightTypesCount.spotCount = spotLights->size();
-	this->lightTypesCount.areaCount = areaLights->size();
-	this->lightTypesCount.pointCount = pointLights->size();
-	this->lightTypesCount.directionalCount = dirLights->size();
+	this->lightTypesCount.spotCount		   = (unsigned int)spotLights->size();
+	this->lightTypesCount.areaCount        = (unsigned int)areaLights->size();
+	this->lightTypesCount.pointCount       = (unsigned int)pointLights->size();
+	this->lightTypesCount.directionalCount = (unsigned int)dirLights->size();
 
 		std::cout << "Spotlights exported :" << spotLights->size() << "\n";
 		std::cout << "areaLights exported :" << areaLights->size() << "\n";
