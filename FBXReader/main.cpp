@@ -18,12 +18,12 @@ void main()
 	//const char* fileName = "onecube.fbx";
 	//const char* fileName = "test2.fbx";
 
-	const char* fileName = "cames.fbx";
+	//const char* fileName = "cames.fbx";
 	//FbxImport importer;
 
 	//importer.LoadFbxFile(fileName); //Load the fbx file
 	//importer.PrintScene(); 
-	//const char* fileName = "3_shapes_1_Cam.fbx";
+	const char* fileName = "3_shapes_1_Cam.fbx";
 
 	//const char* fileName = "test.fbx"; //lights
 	//const char* fileName = "test2.fbx";
@@ -44,22 +44,15 @@ void main()
 	FbxImport* importer = new FbxImport();
 	
 	
-	int size = sizeof(int) * 2;
 
-	importer->LoadFbxFile(fileName); //Load the fbx file
+
+	importer->LoadFbxFile(fileName);			  //Load the fbx file
 	importer->PrintScene(); 
-
-
 	BrfExporter* outputClass = new BrfExporter(); //create an output class, 
-
-	importer->ConvertFbxToFile(outputClass); //convert information from fbx to our format
-
+	importer->ConvertFbxToFile(outputClass);	  //convert information from fbx to our format
 	//information is in the outPutClass.
 	outputClass->WriteToBinaryFile("Filename.BRF");
 	//outputClass->WriteToBinaryFile("blyat.BRF"); //write to file
-
-	//outputClass->WriteToBinaryFile("lightwithmat.brf");
-	//done
 
 	delete outputClass;
 	delete importer;
