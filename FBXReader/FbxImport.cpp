@@ -24,53 +24,10 @@ FbxImport::~FbxImport()
 void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 {
 
-	/////First pass. Here we go thourgh all the objects in the scene and map them,
-	///// which means we give them all unique id's so that we can create a hierarchy when extracting
-	///// connect materials, etc..
-
-	
-	//for (int i = 0; i < this->rootNode->GetChildCount(); i++)
-	//{
-	//	// MapMaterials(this->rootNode->GetChild(i));
-
-	//	 //MapMeshes(FbxNode* pNode, SceneMap sceneMap);
-	//	// MapCameras(FbxNode* pNode, SceneMap sceneMap);
-	//	// MapSkeletons(FbxNode* pNode, SceneMap sceneMap);
-	//	// MapLights(FbxNode* pNode, SceneMap sceneMap);
-	//	///void GetAnimationData(FbxNode* pNode, BrfExporter* outputClass); //Maybe connected to skeleton?
-
-
-	//	// MapMorphAnim(FbxNode* pNode, SceneMap sceneMap);
-	//	// MapGroups(FbxNode* pNode, SceneMap sceneMap);
-
-
-
-	//	//GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
-	//	//GetCameraData(this->rootNode->GetChild(i), outputFile->GetCamerasRef());
-	//	//GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
-	//	//GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());
-
-	//	GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
-	//	GetCameraData(this->rootNode->GetChild(i),outputFile->GetCamerasRef());
-	//	GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
-	//	//GetGroupData(this->rootNode->GetChild(i), outputFile->GetGroupsRef());
-	//	GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());
-	//	GetAttributeData(this->rootNode->GetChild(i), outputFile->GetAttributesRef());
-
-	//}
-
-
-
-
-	/////Second pass. here we extract all the data
 	GetMaterialData(this->rootNode, outputFile->GetMatRef());
 	for (int i = 0; i < this->rootNode->GetChildCount(); i++)
 	{
 		GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
-		//GetCameraData(this->rootNode->GetChild(i), outputFile->GetCamerasRef());
-		//GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
-		//GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());	
-		//GetMeshData(this->rootNode->GetChild(i), outputFile->GetMeshesRef());
 		GetCameraData(this->rootNode->GetChild(i),outputFile->GetCamerasRef());
 		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
 		GetGroupData(this->rootNode->GetChild(i), outputFile->GetGroupsRef());
@@ -107,7 +64,7 @@ void FbxImport::LoadFbxFile(const char * fileName)
 		std::cout << "Error loading file" << std::endl;
 
 		std::cout << fImporter->GetStatus().GetErrorString() << std::endl;
-		std::getchar();
+		throw int(1);
 		return;
 		
 	}

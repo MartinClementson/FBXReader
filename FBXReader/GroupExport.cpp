@@ -4,11 +4,11 @@ using namespace BRFImporter;
 
 void GroupExport::WriteToBinaryFile(std::ofstream * outfile)
 {
-	this->attrInfo.boolAmount = boolAttributes->size();
-	this->attrInfo.floatAmount = floatAttributes->size();
-	this->attrInfo.stringAmount = stringAttributes->size();
-	this->attrInfo.intAmount = intAttributes->size();
-	this->attrInfo.vectorAmount = vectorAttributes->size();
+	this->attrInfo.boolAmount		 = (unsigned int)boolAttributes->size();
+	this->attrInfo.floatAmount	     = (unsigned int)floatAttributes->size();
+	this->attrInfo.stringAmount		 = (unsigned int)stringAttributes->size();
+	this->attrInfo.intAmount		 = (unsigned int)intAttributes->size();
+	this->attrInfo.vectorAmount		 = (unsigned int)vectorAttributes->size();
 	
 	std::cout << "name: " << this->groupInfo.groupName << std::endl;
 	std::cout << "translation :("<<this->groupInfo.translation[0]<<","<<this->groupInfo.translation[1]<<","<<this->groupInfo.translation[2]<<")"<<std::endl;
@@ -52,11 +52,11 @@ void GroupExport::WriteToBinaryFile(std::ofstream * outfile)
 		outfile->write((const char*)&this->groupInfo, sizeof(GroupHeader)); //write the information of the mesh to file
 
 																		  //write all the vertices 
-		for (int i = 0; i < groupInfo.attrCount; i++)
+		for (unsigned int i = 0; i < groupInfo.attrCount; i++)
 		{
 			outfile->write((const char*)&this->groupAttributesH->at(i), sizeof(GroupAttributeHeader));
 		}
-		for (int i = 0; i < groupInfo.attrCount; i++)
+		for (unsigned int i = 0; i < groupInfo.attrCount; i++)
 		{
 			if (this->groupAttributesH->at(i).attrNr == 0)
 				outfile->write((const char*)&this->groupAttributesContainer->at(i).boolAttributes, sizeof(BoolAttrHeader));

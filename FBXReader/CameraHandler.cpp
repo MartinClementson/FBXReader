@@ -20,7 +20,6 @@ void CameraHandler::GetCameraData(FbxNode* pNode, CameraExporter* outCamera)
 
 	if (pNode->GetCamera())
 	{
-		//std::cout << "CAMERA!!!!" << std::endl;
 		std::cout << pNode->GetName() << std::endl;
 		ProcessCameraData(pNode->GetCamera(), outCamera);
 	}

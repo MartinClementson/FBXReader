@@ -98,9 +98,9 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 				{
 					FbxString lName = lProperty.GetName();
 					memcpy(tmpGroup->floatAttr.attrName, lName, sizeof(char) * 256);
-					tmpGroup->floatAttr.value = lProperty.Get<FbxFloat>();
-					tmpGroup->floatAttr.min = lProperty.GetMinLimit();
-					tmpGroup->floatAttr.max = lProperty.GetMaxLimit();
+					tmpGroup->floatAttr.value	= lProperty.Get<FbxFloat>();
+					tmpGroup->floatAttr.min		= (float)lProperty.GetMinLimit();
+					tmpGroup->floatAttr.max		= (float)lProperty.GetMaxLimit();
 
 					FloatAttrHeader tmp;
 
@@ -120,8 +120,8 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 					FbxString lName = lProperty.GetName();
 					memcpy(tmpGroup->intAttr.attrName, lName, sizeof(char) * 256);
 					tmpGroup->intAttr.value = lProperty.Get<FbxInt>();
-					tmpGroup->intAttr.min = lProperty.GetMinLimit();
-					tmpGroup->intAttr.max = lProperty.GetMaxLimit();
+					tmpGroup->intAttr.min = (unsigned int)lProperty.GetMinLimit();
+					tmpGroup->intAttr.max = (unsigned int)lProperty.GetMaxLimit();
 
 					IntAttrHeader tmp;
 
@@ -161,9 +161,9 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 					memcpy(tmpGroup->vecAttr.attrName, lName, sizeof(char) * 256);
 					FbxDouble3 lValue = lProperty.Get<FbxDouble3>();
 
-					tmpGroup->vecAttr.value[0] = lValue[0];
-					tmpGroup->vecAttr.value[1] = lValue[1];
-					tmpGroup->vecAttr.value[2] = lValue[2];
+					tmpGroup->vecAttr.value[0] = (float)lValue[0];
+					tmpGroup->vecAttr.value[1] = (float)lValue[1];
+					tmpGroup->vecAttr.value[2] = (float)lValue[2];
 					
 
 					VectorAttrHeader tmp;

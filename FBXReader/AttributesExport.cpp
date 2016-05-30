@@ -26,11 +26,11 @@ AttributesExport::~AttributesExport()
 void AttributesExport::WriteToBinaryFile(std::ofstream * outfile)
 {
 
-	this->attrInfo.boolAmount = boolAttributes->size();
-	this->attrInfo.floatAmount = floatAttributes->size();
-	this->attrInfo.stringAmount = stringAttributes->size();
-	this->attrInfo.intAmount = intAttributes->size();
-	this->attrInfo.vectorAmount = vectorAttributes->size();
+	this->attrInfo.boolAmount	= (unsigned int)boolAttributes->size();
+	this->attrInfo.floatAmount  = (unsigned int)floatAttributes->size();
+	this->attrInfo.stringAmount = (unsigned int)stringAttributes->size();
+	this->attrInfo.intAmount	= (unsigned int)intAttributes->size();
+	this->attrInfo.vectorAmount = (unsigned int)vectorAttributes->size();
 
 			for (int i = 0; i < vectorAttributes->size(); i++)
 			{

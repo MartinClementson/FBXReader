@@ -21,21 +21,21 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat
 	for (int j = 0; j < pNode->GetChildCount(); j++)
 		GetMaterialData(pNode->GetChild(j),outputMat,sceneMap);
 
-	if (outputMat == nullptr)
+	if (outputMat == nullptr)		//If the first material is processed. create a new MaterialExport object
 	{
-		outputMat == new MaterialExport;
+		outputMat = new MaterialExport;
 	}
 
 	FbxGeometry* pGeometry = pNode->GetGeometry();
 	int materialCount = 0;
 	FbxNode* node = NULL;
 
-	if (pGeometry) {
+	if (pGeometry) { //If the node has any geometry
 
 		node = pGeometry->GetNode();
 
 		if (node)
-			materialCount = pNode->GetMaterialCount();
+			materialCount = pNode->GetMaterialCount(); //Get the amount of materials the geometry has
 				
 	
 		if (materialCount > 0)
@@ -45,8 +45,8 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat
 			{
 				if (pNode->GetMaterial(i))
 				{
-					FbxSurfaceMaterial *pMaterial = node->GetMaterial(i);
-					ProcessData(pMaterial, materialCount, outputMat,sceneMap);
+					FbxSurfaceMaterial *pMaterial = node->GetMaterial(i);  //Get the material
+					ProcessData(pMaterial, materialCount, outputMat,sceneMap); //process the data!
 				}
 				
 			}

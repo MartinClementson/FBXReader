@@ -135,7 +135,7 @@ BRFImporter::SpotLightHeader LightHandler::SpotLight(FbxLight* pLight)
 	SpotLightHeader temp;
 	std::cout << "Spotlight Values: " << std::endl;
 
-	unsigned int ID = pLight->GetUniqueID();
+	unsigned int ID = (unsigned int)pLight->GetUniqueID();
 	//iD = ID;
 	std::cout << "Spotlight ID:";
 	std::cout << ID;
@@ -179,7 +179,7 @@ BRFImporter::AreaLightHeader LightHandler::AreaLight(FbxLight* pLight)
 	AreaLightHeader temp;
 	std::cout << "Area Values: " << std::endl;
 
-	unsigned int ID = pLight->GetUniqueID();
+	unsigned int ID = (unsigned int)pLight->GetUniqueID();
 	//iD = ID;
 	std::cout << "Area ID: ";
 	std::cout << ID;
@@ -214,7 +214,7 @@ BRFImporter::PointLightHeader LightHandler::PointLight(FbxLight* pLight)
 	PointLightHeader temp;
 	std::cout << "Point Values: " << std::endl;
 
-	unsigned int ID = pLight->GetUniqueID();
+	unsigned int ID = (unsigned int)pLight->GetUniqueID();
 	//iD = ID;
 	std::cout << "Point ID :";
 	std::cout << ID;
@@ -251,7 +251,7 @@ BRFImporter::DirLightHeader LightHandler::Directional(FbxLight* pLight)
 	DirLightHeader temp;
 	std::cout << "Directional Values: " << std::endl;
 
-	unsigned int ID = pLight->GetUniqueID();
+	unsigned int ID = (unsigned int)pLight->GetUniqueID();
 	//iD = ID;
 	std::cout << "Directional ID:";
 	temp.objectID = ID;

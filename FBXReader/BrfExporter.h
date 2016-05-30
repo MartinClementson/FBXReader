@@ -60,15 +60,15 @@ public:
 	BrfExporter();
 	~BrfExporter();
 
-	void WriteToBinaryFile(char* fileName); //return type could change
+	void WriteToBinaryFile(const char* fileName); //return type could change
 	std::vector<MeshExport*>* GetMeshesRef()		 { return this->meshes;		 };
 	MaterialExport* GetMatRef()						 { return this->materials;	 };
 	std::vector<SkeletonExport*>* GetSkeletonRef()   { return this->skeletons;	 };
 	LightExport* GetLightsRef()						 { return this->lights;		 };
 	std::vector<MorphAnimExport*>* GetMorphAnimRef() { return this->morphAnim;	 };
-	CameraExporter* GetCamerasRef()					 { return this->cameras;		 };
-	std::vector<GroupExport*>* GetGroupsRef()		{ return this->groups; };
-	AttributesExport * GetAttributesRef() { return this->attributes; };
+	CameraExporter* GetCamerasRef()					 { return this->cameras;	 };
+	std::vector<GroupExport*>* GetGroupsRef()		 { return this->groups;      };
+	AttributesExport * GetAttributesRef()		     { return this->attributes;  };
 
 	
 };

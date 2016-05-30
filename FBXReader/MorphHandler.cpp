@@ -18,8 +18,8 @@ void MorphHandler::GetMorphData(FbxNode* pNode, std::vector<MorphAnimExport>* ou
 {
 	FbxGeometry* pGeo = pNode->GetGeometry();
 	int morphAnimCount = pGeo->GetDeformerCount(FbxDeformer::eBlendShape);
-	int morphChannelCount;
-	int targetShapeCount;
+	/*int morphChannelCount;
+	int targetShapeCount;*/
 
 	std::cout << "blendCount: " << morphAnimCount << "\n\n";
 	if (morphAnimCount > 0)
@@ -85,7 +85,7 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 
 	//processKeyFrames(pNode, output);
 
-	for (unsigned int i = 0; i < morphAnimCount; i++) //for each target
+	for ( int i = 0; i < morphAnimCount; i++) //for each target
 	{
 		FbxBlendShape* morphAnim;						
 		morphAnim = (FbxBlendShape*)pGeo->GetDeformer(i, FbxDeformer::eBlendShape); //Get the blend shape #i
@@ -93,7 +93,7 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 		morphChannelCount = morphAnim->GetBlendShapeChannelCount(); //Get how many channels the blend shape #i has
 		std::cout << "ChannelCount: " << morphChannelCount << "\n\n";
 
-		for (unsigned int j = 0; j < morphChannelCount; j++) //for every channel
+		for ( int j = 0; j < morphChannelCount; j++) //for every channel
 		{
 			std::cout << "channel nr: " << j << "\n";
 
@@ -105,7 +105,7 @@ void MorphHandler::processMorphData(FbxNode * pNode, MorphAnimExport & output)
 			targetShapeCount = morphChannel->GetTargetShapeCount();
 
 			std::cout << "Target Shape Count: " << targetShapeCount << "\n\n";
-			for (unsigned int k = 0; k < targetShapeCount; k++) //for every shape in this channel
+			for ( int k = 0; k < targetShapeCount; k++) //for every shape in this channel
 			{
 				FbxShape* shape;
 				shape = morphChannel->GetTargetShape(k);
@@ -186,8 +186,8 @@ void MorphHandler::M_processMorphData(FbxNode * pNode, MorphAnimExport & output)
 
 
 	FbxMesh*     sourceMesh	 = pNode->GetMesh();
-	unsigned int vertCount   = sourceMesh->GetControlPointsCount();
-	unsigned int polyCount   = sourceMesh->GetPolygonCount();
+	 int vertCount   = sourceMesh->GetControlPointsCount();
+	 int polyCount   = sourceMesh->GetPolygonCount();
 
 	std::vector<int> polyVertices;
 	std::vector<FbxVector4> polyNormals;
@@ -379,7 +379,7 @@ void MorphHandler::transferAnimation(FbxNode * pNode, MorphAnimExport & output, 
 
 								fbxsdk::FbxGeometryElementBinormal * test2 = shape->GetElementBinormal(k);
 								//shape->GetBinormals(test2,0);
-								std::cout << "bajs";
+						
 								//GetVertBiNormals(shape->GetElementBinormal(k), polyVertices.at(k), tempvertex.biTangent);
 								//GetVertTangents(shape->GetElementTangent(), polyVertices.at(k), tempvertex.tangent);
 								//fyll i med den här

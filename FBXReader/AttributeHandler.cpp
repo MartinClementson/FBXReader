@@ -62,9 +62,9 @@ void AttributeHandler::GetAttrData(FbxNode*pNode,AttributesExport* outPutAttribu
 
 				FbxString lName = lProperty.GetName();
 				memcpy(tmpAttr->floatAttr.attrName, lName, sizeof(char) * 256);
-				tmpAttr->floatAttr.min = lProperty.GetMinLimit();
-				tmpAttr->floatAttr.max = lProperty.GetMaxLimit();
-				tmpAttr->floatAttr.value = lProperty.Get<FbxDouble>();
+				tmpAttr->floatAttr.min	 = (float) lProperty.GetMinLimit();
+				tmpAttr->floatAttr.max	 = (float)lProperty.GetMaxLimit();
+				tmpAttr->floatAttr.value = (float)lProperty.Get<FbxDouble>();
 				FloatAttrHeader tmp = FloatAttr(tmpAttr);
 				
 				outPutAttributes->floatAttributes->push_back(tmp);
@@ -75,8 +75,8 @@ void AttributeHandler::GetAttrData(FbxNode*pNode,AttributesExport* outPutAttribu
 				FbxString lName = lProperty.GetName();
 				memcpy(tmpAttr->intAttr.attrName, lName, sizeof(char) * 256);
 				tmpAttr->intAttr.value = lProperty.Get<FbxInt>();
-				tmpAttr->intAttr.max = lProperty.GetMaxLimit();
-				tmpAttr->intAttr.min = lProperty.GetMinLimit();
+				tmpAttr->intAttr.max = (unsigned int)lProperty.GetMaxLimit();
+				tmpAttr->intAttr.min = (unsigned int)lProperty.GetMinLimit();
 				IntAttrHeader tmp = intAttr(tmpAttr);
 
 				outPutAttributes->intAttributes->push_back(tmp);
@@ -85,9 +85,9 @@ void AttributeHandler::GetAttrData(FbxNode*pNode,AttributesExport* outPutAttribu
 			{		
 				FbxString lName = lProperty.GetName();
 				FbxDouble3 lValue = lProperty.Get<FbxDouble3>();
-				tmpAttr->vecAttr.value[0] = lValue[0];
-				tmpAttr->vecAttr.value[1] = lValue[1];
-				tmpAttr->vecAttr.value[2] = lValue[2];
+				tmpAttr->vecAttr.value[0] = (float)lValue[0];
+				tmpAttr->vecAttr.value[1] = (float)lValue[1];
+				tmpAttr->vecAttr.value[2] = (float)lValue[2];
 				memcpy(tmpAttr->vecAttr.attrName, lName, sizeof(char) * 256);
 
 				VectorAttrHeader tmp = vectorAttr(tmpAttr);

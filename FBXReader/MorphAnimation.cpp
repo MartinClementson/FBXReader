@@ -71,7 +71,7 @@ void MorphAnimation::ExtractSourceMesh(FbxNode * pNode)
 
 	std::vector<int> polyVertices;
 	std::vector<FbxVector4> polyNormals;
-	for (int i = 0; i < polyCount; i++)
+	for (unsigned int i = 0; i < polyCount; i++)
 	{
 		for (int j = 0; j < pMesh->GetPolygonSize(i); j++)
 		{
@@ -85,7 +85,7 @@ void MorphAnimation::ExtractSourceMesh(FbxNode * pNode)
 	
 
 	std::vector<int> uvIndex;
-	for (int i = 0; i < polyCount; ++i)
+	for (unsigned int i = 0; i < polyCount; ++i)
 	{
 		std::vector<FbxVector2> tempValues;
 		FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
@@ -167,7 +167,7 @@ BlendMesh* MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
 
 	std::vector<int> polyVertices;
 	std::vector<FbxVector4> polyNormals;
-	for (int i = 0; i < polyCount; i++)
+	for (unsigned int i = 0; i < polyCount; i++)
 	{
 		for (int j = 0; j < pMesh->GetPolygonSize(i); j++)
 		{
@@ -181,7 +181,7 @@ BlendMesh* MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
 
 
 	std::vector<int> uvIndex;
-	for (int i = 0; i < polyCount; ++i)
+	for (unsigned int i = 0; i < polyCount; ++i)
 	{
 		std::vector<FbxVector2> tempValues;
 		FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
@@ -260,7 +260,7 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 				int morphAnimCount = pGeo->GetDeformerCount(FbxDeformer::eBlendShape);	 //get amount of targets
 				int morphChannelCount;
 				int targetShapeCount;
-				for (unsigned int i = 0; i < morphAnimCount; i++) //for each blendshape
+				for ( int i = 0; i < morphAnimCount; i++) //for each blendshape
 				{
 
 					FbxBlendShape* morphAnim;
@@ -270,7 +270,7 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 					std::cout << "ChannelCount: " << morphChannelCount << "\n\n";
 
 						BlendAnimation* tempAnimation = new BlendAnimation();
-					for (unsigned int j = 0; j < morphChannelCount; j++) //for every channel
+					for ( int j = 0; j < morphChannelCount; j++) //for every channel
 					{
 						std::cout << "channel nr: " << j << "\n";
 
@@ -282,7 +282,7 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 
 						targetShapeCount = morphChannel->GetTargetShapeCount();
 						std::cout << "Target Shape Count: " << targetShapeCount << "\n\n";
-						for (unsigned int k = 0; k < targetShapeCount; k++) //for every shape in this channel
+						for ( int k = 0; k < targetShapeCount; k++) //for every shape in this channel
 						{
 							FbxShape* shape;
 							shape = morphChannel->GetTargetShape(k);
@@ -332,7 +332,7 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 											FbxTime frameTime = deformCurve->KeyGetTime(keyIndex);
 
 											//framerate är 41 med mode eFrames1000 :S:S:S:S:S
-											unsigned int frame = frameTime.GetFieldCount(FbxTime::EMode::eFrames1000) / 41 / 2;
+											unsigned int frame =(unsigned int) frameTime.GetFieldCount(FbxTime::EMode::eFrames1000) / 41 / 2;
 											std::cout <<"frame :" << frame << "\n"; //ful lösning, för att hitta rätt keyframe. inte helt exakt. men nära!
 		
 											double deform	   = morphChannel->DeformPercent.EvaluateValue(frameTime);
@@ -371,7 +371,7 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 					}
 								animations.push_back(tempAnimation);
 
-				this->GetMissingKeyFrame(morphAnim,pNode,animations.size() - 1);
+				this->GetMissingKeyFrame(morphAnim,pNode,(int) animations.size() - 1);
 				}
 			}
 		}
@@ -390,8 +390,8 @@ void MorphAnimation::GetMorphAnimation(FbxNode * pNode, std::vector<MorphAnimExp
 			MorphAnimExport* tempAnim = new MorphAnimExport();
 
 			tempAnim->morphAnim->animationTimeInFrames = outPutAnims.at(i)->animationTime;
-			tempAnim->morphAnim->numberOfKeyFrames	   = outPutAnims.at(i)->shapes.size();
-			tempAnim->morphAnim->vertsPerShape		   = outPutAnims.at(i)->shapes.at(0).vertices.size(); //vert size should always be the same
+			tempAnim->morphAnim->numberOfKeyFrames	   = (unsigned int) outPutAnims.at(i)->shapes.size();
+			tempAnim->morphAnim->vertsPerShape		   = (unsigned int) outPutAnims.at(i)->shapes.at(0).vertices.size(); //vert size should always be the same
 
 			for (size_t frame = 0; frame < outPutAnims.at(i)->shapes.size(); frame++)
 			{
@@ -517,7 +517,7 @@ void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNod
 		for (size_t i = 0; i < animations.at(animationIndex)->frames.size(); i++) //get mesh amount of the animation
 		{
 			if (animations.at(animationIndex)->frames.at(i).meshIDs.size() > animations.at(animationIndex)->meshesUsed) //loop through the animation and get all the meshes used
-				animations.at(animationIndex)->meshesUsed = animations.at(animationIndex)->frames.at(i).meshIDs.size();
+				animations.at(animationIndex)->meshesUsed = (unsigned int) animations.at(animationIndex)->frames.at(i).meshIDs.size();
 
 		}
 
@@ -542,7 +542,7 @@ void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNod
 						int morphChannelCount;
 						morphChannelCount = morphAnim->GetBlendShapeChannelCount(); //Get how many channels the blend shape has
 
-						for (unsigned int j = 0; j < morphChannelCount; j++)		//for every channel
+						for ( int j = 0; j < morphChannelCount; j++)		//for every channel
 						{
 							FbxBlendShapeChannel* morphChannel;
 							morphChannel = morphAnim->GetBlendShapeChannel(j);
