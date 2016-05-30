@@ -49,10 +49,11 @@ MeshExport::~MeshExport()
 void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 {
 	if (this->meshInfo.hasSkeleton)
-		meshInfo.vertexCount = vertices->size();
+		meshInfo.vertexCount = (unsigned int)vertices->size();
 	else
-		meshInfo.vertexCount = verticesNoSkeleton->size();
-	meshInfo.indexCount = indices->size();
+		meshInfo.vertexCount = (unsigned int)verticesNoSkeleton->size();
+
+	meshInfo.indexCount		 = (unsigned int)indices->size();
 
 	std::cout << "has skeleton:" << (this->meshInfo.hasSkeleton ? "Yes" : "No") << "\n";
 	std::cout << "Mesh name  : " << this->meshInfo.meshName << std::endl;
@@ -77,7 +78,7 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 
 	if (meshInfo.hasSkeleton)
 	{
-		for (int i = 0; i < this->meshInfo.vertexCount; i++)
+		for (unsigned int i = 0; i < this->meshInfo.vertexCount; i++)
 		{
 			while (weights.at(i).size() < 4)
 			{

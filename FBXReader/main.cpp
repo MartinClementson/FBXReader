@@ -15,7 +15,7 @@ void main()
 
 	//const char* fileName = "3_lights.fbx"; //lights
 	//const char* fileName = "PlayerModel.fbx"; //lights
-	//const char* fileName = "onecube.fbx";
+	const char* fileName = "onecube.fbx";
 	//const char* fileName = "test2.fbx";
 
 	//const char* fileName = "cames.fbx";
@@ -23,7 +23,7 @@ void main()
 
 	//importer.LoadFbxFile(fileName); //Load the fbx file
 	//importer.PrintScene(); 
-	const char* fileName = "3_shapes_1_Cam.fbx";
+	//const char* fileName = "3_shapes_1_Cam.fbx";
 
 	//const char* fileName = "test.fbx"; //lights
 	//const char* fileName = "test2.fbx";

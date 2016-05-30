@@ -23,7 +23,7 @@ void MaterialHandler::GetMaterialData(FbxNode * pNode, MaterialExport* outputMat
 
 	if (outputMat == nullptr)		//If the first material is processed. create a new MaterialExport object
 	{
-		outputMat == new MaterialExport;
+		outputMat = new MaterialExport;
 	}
 
 	FbxGeometry* pGeometry = pNode->GetGeometry();

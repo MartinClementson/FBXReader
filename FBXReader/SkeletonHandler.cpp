@@ -39,7 +39,7 @@ void SkeletonHandler::GetSkeletonData(FbxNode * pNode, std::vector<SkeletonExpor
 		//processing all the animations
 		ProcessAnimation(pNode, *tempSkeleton);
 		//Getting the number of animation associated with this mesh
-		tempSkeleton->skeletonInfo.animationCount = tempSkeleton->animations->size();
+		tempSkeleton->skeletonInfo.animationCount = (unsigned int) tempSkeleton->animations->size();
 
 		//assigning stub IDs, for testing the export/import
 
@@ -217,7 +217,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 				FbxTimeSpan span;
 				scalingCurve->GetTimeInterval(span);
 				FbxTime duration = span.GetDuration();
-				int numKeys = (duration.GetFrameCount(FbxTime::eFrames24) + 1);
+				int numKeys = (int) (duration.GetFrameCount(FbxTime::eFrames24) + 1);
 				FbxTime frameTime;
 				//int numKeys = rotationCurve->KeyGetCount();
 				for (int keyIndex = 1; keyIndex <= numKeys; keyIndex += 5)
@@ -254,7 +254,7 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 				FbxTimeSpan span;
 				scalingCurve->GetTimeInterval(span);
 				FbxTime duration = span.GetDuration();
-				int numKeys = (duration.GetFrameCount(FbxTime::eFrames24) + 1);
+				int numKeys = (int) (duration.GetFrameCount(FbxTime::eFrames24) + 1);
 				FbxTime frameTime;
 				//int numKeys = translationCurve->KeyGetCount();
 				for (int keyIndex = 1; keyIndex <= numKeys; keyIndex += 5)
@@ -278,9 +278,9 @@ void SkeletonHandler::ProcessKeyFrames(FbxNode * pNode, SkeletonExport &outputSk
 			//getting the maximum value of keyframes
 			//from the number of keyframes
 			if (max < rotationMatrix.size())
-				max = rotationMatrix.size();
+				max = (int)rotationMatrix.size();
 			if (max < translationMatrix.size())
-				max = translationMatrix.size();
+				max = (int)translationMatrix.size();
 
 			//add matrix here
 			//use int i for frame ID
@@ -466,7 +466,7 @@ int SkeletonHandler::getSkeletonID(FbxString input)
 	}
 	else
 	{
-		for (unsigned int i = 0; i < staticSkeletonID; i++)
+		for ( int i = 0; i < staticSkeletonID; i++)
 		{
 			if (input == skeletonId->at(i).skeletonName)
 				return skeletonId->at(i).ID;

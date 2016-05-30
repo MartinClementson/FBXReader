@@ -170,7 +170,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 
 	std::vector<int> polyVertices;
 	std::vector<FbxVector4> polyNormals;
-	for (int i = 0; i < polyCount; i++)
+	for (unsigned int i = 0; i < polyCount; i++)
 	{
 		for (int j = 0; j < pMesh->GetPolygonSize(i); j++)
 		{
@@ -182,11 +182,9 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 	}
 
 	//Get the vertex indices
-	int startindex;
-	int *vert;
-	
+
 	std::vector<int> uvIndex;
-	for (int i = 0; i < polyCount; ++i)
+	for (unsigned int i = 0; i < polyCount; ++i)
 	{
 		std::vector<FbxVector2> tempValues;
 		FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
@@ -246,7 +244,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 				if (!existWithinVerts)
 				{
 					IndexHeader tempInd;
-					tempInd.vertIndex = outPutMesh->verticesNoSkeleton->size();
+					tempInd.vertIndex = (unsigned int) outPutMesh->verticesNoSkeleton->size();
 					outPutMesh->indices->push_back(tempInd);
 					outPutMesh->verticesNoSkeleton->push_back(tempVertex);
 				}
@@ -263,7 +261,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 	else if (hasSkeleton)
 	{
 
-		for (int i = 0; i < polyVertices.size(); ++i)
+		for (int i = 0; i < (int)polyVertices.size(); ++i)
 		{
 			VertexHeader tempVertex;
 
@@ -311,7 +309,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 					}
 					IndexHeader tempInd;
 				
-					tempInd.vertIndex = outPutMesh->vertices->size();
+					tempInd.vertIndex = (unsigned int)outPutMesh->vertices->size();
 
 					outPutMesh->indices ->push_back(tempInd);		//Store index
 					outPutMesh->vertices->push_back(tempVertex);    //Store vertex

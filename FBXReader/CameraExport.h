@@ -26,8 +26,5 @@ public:
 
 	void WriteToBinaryFile(std::ofstream* outfile);
 
-	unsigned int Returnsize(unsigned int);
-
-	void AddCamera(CameraHeader input);
 
 };

@@ -58,7 +58,7 @@ void BrfExporter::WriteToBinaryFile(char * fileName)
 	
 
 	std::cout << "\n\n\n\n\nWriting to binary file .." << "\n";
-	this->sceneInfo.meshAmount = meshes->size();
+	this->sceneInfo.meshAmount = (unsigned int)meshes->size();
 
 	std::cout << "Total amount of meshes exported : " << sceneInfo.meshAmount << "\n";
 
@@ -112,20 +112,20 @@ void BrfExporter::CreateFileHeader()
 	else
 		this->sceneInfo.lights = false;
 
-	this->sceneInfo.meshAmount = this->meshes->size();
+	this->sceneInfo.meshAmount	    = (unsigned int) this->meshes->size();
 
-	this->sceneInfo.skeletonAmount = this->skeletons->size();
+	this->sceneInfo.skeletonAmount  = (unsigned int)this->skeletons->size();
 	//ADD ALL ATTRIBUTES HERE
 
 	this->sceneInfo.attributeAmount = 0;
 
-	this->sceneInfo.cameraAmount = cameras->cameras->size();
+	this->sceneInfo.cameraAmount	= (unsigned int)cameras->cameras->size();
 
-	this->sceneInfo.materialAmount = materials->materials->size();
+	this->sceneInfo.materialAmount  = (unsigned int)materials->materials->size();
 
-	this->sceneInfo.groupAmount =this->groups->size();
+	this->sceneInfo.groupAmount	    = (unsigned int)this->groups->size();
 
-	this->sceneInfo.morphAnimAmount = morphAnim->size();
+	this->sceneInfo.morphAnimAmount = (unsigned int)morphAnim->size();
 
 	//this->sceneInfo.skeletonAmount = 0;
 	//ADD ALL ATTRIBUTES HERE
