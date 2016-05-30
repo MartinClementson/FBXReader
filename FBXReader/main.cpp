@@ -48,9 +48,9 @@ Commands HandleUserInput()
 void PrintHelp()
 {
 	std::cout << "Available Commands:\n";
-	std::cout << "/Help \n";
-	std::cout << "/Export\n";
-	std::cout << "/Exit \n";
+	std::cout << "	/Help \n";
+	std::cout << "	/Export\n";
+	std::cout << "	/Exit \n";
 
 
 }
@@ -112,7 +112,7 @@ void main()
 				std::getline(std::cin,input);
 				fileName = input.c_str();
 
-				std::cout << "\n Type the name of the output BRF file : ";
+				std::cout << "\nType the name of the output BRF file : ";
 				std::string outputFile;
 				std::getline(std::cin, outputFile);
 				outfileName = outputFile.c_str();
