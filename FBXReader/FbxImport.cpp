@@ -64,7 +64,7 @@ void FbxImport::LoadFbxFile(const char * fileName)
 		std::cout << "Error loading file" << std::endl;
 
 		std::cout << fImporter->GetStatus().GetErrorString() << std::endl;
-		std::getchar();
+		throw int(1);
 		return;
 		
 	}

@@ -37,7 +37,7 @@ BrfExporter::~BrfExporter()
 	delete attributes;
 }
 
-void BrfExporter::WriteToBinaryFile(char * fileName)
+void BrfExporter::WriteToBinaryFile(const char * fileName)
 {
 	/*
 		Open file as binary
