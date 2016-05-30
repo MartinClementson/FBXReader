@@ -157,17 +157,14 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 	bitangent
 	*/
 
-	//FbxGeometryElementMaterial * matte = (FbxGeometryElementMaterial*)pMesh->GetAttributeType();
 	//Get vertices amount
 	unsigned int vertCount = pMesh->GetControlPointsCount();
-	//outPutMesh->meshInfo.vertexCount = vertCount;
-	//std::cout<< pMesh->GetName();
+
 
 	//trying to find the material
 	FbxNode * pNode = (FbxNode*)pMesh->GetDstObject();
 
-	//std::cout << pNode->GetMaterialCount();
-	//std::cout << (pNode->GetMaterial(0))->GetName();
+	
 	unsigned int polyCount = pMesh->GetPolygonCount();
 
 
@@ -183,40 +180,11 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 			polyNormals.push_back(tempNormal); 
 		}
 	}
-	//fbxsdk::FbxGeometryElementNormal* normalElem = pMesh->GetElementNormal();
-	//FbxLayerElementArrayTemplate<int> hej = normalElem->GetIndexArray();
-	
-	//if (hasSkeleton)
-	//{polyVertices.at(i*j)
-		//outPutMesh->vertices->resize(polyVertices.size());
-		
-	//}
-	//else
-		//outPutMesh->verticesNoSkeleton->resize(34);
 
 	//Get the vertex indices
 	int startindex;
 	int *vert;
-	//for (unsigned int i = 0; i < polyCount; i++)
-	//{
-	//	startindex = pMesh->GetPolygonVertexIndex(i); 
-	//	vert = &pMesh->GetPolygonVertices()[startindex];
-	//	int count = pMesh->GetPolygonSize(i);
-	//	for (int j = 0; j < count; j++)
-	//	{
-
-	//		//std::cout << i << ": " << vert[j] << "\n";
-	//		IndexHeader temp;
-	//		temp.vertIndex = vert[j];
-	//		outPutMesh->Addindex(temp);
-	//	}
-	//}
-	//outPutMesh->meshInfo.indexCount = outPutMesh->indices->size(); //store the amount of indices found
-
-	//t5estingf uvs
-	//int uvcount = pMesh->GetTextureUVIndex();
-
-	//allt detta är en test på skit
+	
 	std::vector<int> uvIndex;
 	for (int i = 0; i < polyCount; ++i)
 	{
@@ -228,90 +196,45 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 		{
 			int UVIndex = pMesh->GetTextureUVIndex(i, j);
 			uvIndex.push_back(UVIndex);
-			//FbxVector2 uv = uvVertices->GetAt(pMesh->GetTextureUVIndex(i, j));
-
-			//texturecoords[0] = uv[0];
-			//texturecoords[1] = uv[1];
-			//tempValues.push_back(texturecoords);
+		
 		}
-		//uvValues.push_back(tempValues);
 	}
-	//std::vector<VertexHeader>* finalVertex;
-	////std::vector<std::vector<FbxVector2>> uvValues;
-	//FbxVector2 texturecoords;
-	//finalVertex = new std::vector<VertexHeader>;
-	//unsigned int UVCounter = 0;
-	//std::vector<int> tempVert;
-	//std::vector<int> tempUV;
-	//unsigned int vectorSize = 0;
-	//for (unsigned int i = 0; i < polyVertices.size(); i++)
-	//{
-	//	if (tempUV.size() != 0)
-	//	{
-	//		bool exist = false;
-	//		for (unsigned int j = 0; j < tempUV.size(); j++)
-	//		{
-	//			if (/*tempVert.at(j) == polyVertices.at(i) &&*/
-	//				tempUV.at(j) == uvIndex.at(i))
-	//			{
-	//				exist = true;
-	//				//tempVert.push_back(polyVertices.at(j));
-	//				//tempUV.push_back(uvIndex.at(j));
-	//				break;
-	//			}
-	//		}
-	//		if (!exist)
-	//		{
-	//			//tempVert.push_back(polyVertices.at(i));
-	//			tempUV.push_back(uvIndex.at(i));
-	//			vectorSize++;
-	//		}
-	//	}
-	//	else
-	//	{
-	//		//tempVert.push_back(polyVertices.at(i));
-	//		tempUV.push_back(uvIndex.at(i));
-	//		vectorSize++;
-	//	}
-	//}
-
-
+	
 	//LÄGG TILL SKELETON SKTI
 	if (!hasSkeleton)
 	{
-		//outPutMesh->verticesNoSkeleton->resize(34);
-		//unsigned int index = 0;
+	
 		for (int i = 0; i < polyVertices.size(); ++i)
 		{
-			//std::vector<FbxVector2> tempValues;
+		
 			VertexHeaderNoSkeleton tempVertex;
 
 			FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
 			pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
 
 			GetVertPositions(pMesh, polyVertices.at(i), tempVertex.pos);
-			//GetVertNormals(pMesh->GetElementNormal(), polyVertices.at(i), tempVertex.normal);
 			GetPolygonNormals(tempVertex.normal, &polyNormals.at(i));
 			GetVertBiNormals(pMesh->GetElementBinormal(), polyVertices.at(i), tempVertex.biTangent);
 			GetVertTangents(pMesh->GetElementTangent(), polyVertices.at(i), tempVertex.tangent);
 			GetVertTextureUV(pMesh->GetElementUV(), uvIndex.at(i), tempVertex.uv);
+
 			if (outPutMesh->verticesNoSkeleton->size() != 0)
 			{
 				bool existWithinVerts = false;
-				for (unsigned int j = 0; j < outPutMesh->verticesNoSkeleton->size(); j++)
+				for (unsigned int j = 0; j < outPutMesh->verticesNoSkeleton->size(); j++)						 //Loop through the vertices we already have
 				{
-					if (outPutMesh->verticesNoSkeleton->at(j).pos[0] == tempVertex.pos[0] &&
+					if (outPutMesh->verticesNoSkeleton->at(j).pos[0] == tempVertex.pos[0] &&					   
 						outPutMesh->verticesNoSkeleton->at(j).pos[1] == tempVertex.pos[1] &&
-						outPutMesh->verticesNoSkeleton->at(j).pos[2] == tempVertex.pos[2] &&
-						outPutMesh->verticesNoSkeleton->at(j).normal[0] == tempVertex.normal[0] &&
-						outPutMesh->verticesNoSkeleton->at(j).normal[1] == tempVertex.normal[1] &&
-						outPutMesh->verticesNoSkeleton->at(j).normal[2] == tempVertex.normal[2] &&
-						outPutMesh->verticesNoSkeleton->at(j).biTangent[0] == tempVertex.biTangent[0] &&
-						outPutMesh->verticesNoSkeleton->at(j).biTangent[1] == tempVertex.biTangent[1] &&
-						outPutMesh->verticesNoSkeleton->at(j).tangent[0] == tempVertex.tangent[0] &&
-						outPutMesh->verticesNoSkeleton->at(j).tangent[1] == tempVertex.tangent[1] &&
-						outPutMesh->verticesNoSkeleton->at(j).uv[0] == tempVertex.uv[0] &&
-						outPutMesh->verticesNoSkeleton->at(j).uv[1] == tempVertex.uv[1])
+						outPutMesh->verticesNoSkeleton->at(j).pos[2] == tempVertex.pos[2] &&					  ////////////////////////////////////////////////////////////////////////////////////////
+						outPutMesh->verticesNoSkeleton->at(j).normal[0] == tempVertex.normal[0] &&				  ////////////////////////////////////////////////////////////////////////////////////////
+						outPutMesh->verticesNoSkeleton->at(j).normal[1] == tempVertex.normal[1] &&				  ////////////////////////////////////////////////////////////////////////////////////////
+						outPutMesh->verticesNoSkeleton->at(j).normal[2] == tempVertex.normal[2] &&				  ////////////////////////////////////////////////////////////////////////////////////////
+						outPutMesh->verticesNoSkeleton->at(j).biTangent[0] == tempVertex.biTangent[0] &&		  //    Test if a vert exactly like this has been found before. Then reuse it's index. 
+						outPutMesh->verticesNoSkeleton->at(j).biTangent[1] == tempVertex.biTangent[1] &&		  //    This is done as a means of optimizing the mesh.
+						outPutMesh->verticesNoSkeleton->at(j).tangent[0] == tempVertex.tangent[0] &&			  ////////////////////////////////////////////////////////////////////////////////////////
+						outPutMesh->verticesNoSkeleton->at(j).tangent[1] == tempVertex.tangent[1] &&			  ////////////////////////////////////////////////////////////////////////////////////////
+						outPutMesh->verticesNoSkeleton->at(j).uv[0] == tempVertex.uv[0] &&						  ////////////////////////////////////////////////////////////////////////////////////////
+						outPutMesh->verticesNoSkeleton->at(j).uv[1] == tempVertex.uv[1])						  ////////////////////////////////////////////////////////////////////////////////////////
 					{
 						existWithinVerts = true;
 						IndexHeader tempInd;
@@ -325,28 +248,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 					IndexHeader tempInd;
 					tempInd.vertIndex = outPutMesh->verticesNoSkeleton->size();
 					outPutMesh->indices->push_back(tempInd);
-
 					outPutMesh->verticesNoSkeleton->push_back(tempVertex);
-
-
-					//std::cout << "\nvertex here: " << tempVertex.pos[0]
-						//<< " " << tempVertex.pos[1] << " " << tempVertex.pos[2] << "\n";
-					/*outPutMesh->verticesNoSkeleton->at(i).pos[0] = tempVertex.pos[0];
-					outPutMesh->verticesNoSkeleton->at(i).pos[1] = tempVertex.pos[1];
-					outPutMesh->verticesNoSkeleton->at(i).pos[2] = tempVertex.pos[2];
-
-					outPutMesh->verticesNoSkeleton->at(i).normal[0] = tempVertex.normal[0];
-					outPutMesh->verticesNoSkeleton->at(i).normal[1] = tempVertex.normal[1];
-					outPutMesh->verticesNoSkeleton->at(i).normal[2] = tempVertex.normal[2];
-
-					outPutMesh->verticesNoSkeleton->at(i).biTangent[0] = tempVertex.biTangent[0];
-					outPutMesh->verticesNoSkeleton->at(i).biTangent[1] = tempVertex.biTangent[1];
-
-					outPutMesh->verticesNoSkeleton->at(i).tangent[0] = tempVertex.tangent[0];
-					outPutMesh->verticesNoSkeleton->at(i).tangent[1] = tempVertex.tangent[1];
-
-					outPutMesh->verticesNoSkeleton->at(i).uv[0] = tempVertex.uv[0];
-					outPutMesh->verticesNoSkeleton->at(i).uv[1] = tempVertex.uv[1];*/
 				}
 			}
 			else
@@ -355,48 +257,24 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 				tempInd.vertIndex = i;
 				outPutMesh->indices->push_back(tempInd);
 				outPutMesh->verticesNoSkeleton->push_back(tempVertex);
-
-				//std::cout << "\nvertex here: " << tempVertex.pos[0]
-					//<< " " << tempVertex.pos[1] << " " << tempVertex.pos[2] << "\n";
-
-				/*outPutMesh->verticesNoSkeleton->at(i).pos[0] = tempVertex.pos[0];
-				outPutMesh->verticesNoSkeleton->at(i).pos[1] = tempVertex.pos[1];
-				outPutMesh->verticesNoSkeleton->at(i).pos[2] = tempVertex.pos[2];
-
-				outPutMesh->verticesNoSkeleton->at(i).normal[0] = tempVertex.normal[0];
-				outPutMesh->verticesNoSkeleton->at(i).normal[1] = tempVertex.normal[1];
-				outPutMesh->verticesNoSkeleton->at(i).normal[2] = tempVertex.normal[2];
-
-				outPutMesh->verticesNoSkeleton->at(i).biTangent[0] = tempVertex.biTangent[0];
-				outPutMesh->verticesNoSkeleton->at(i).biTangent[1] = tempVertex.biTangent[1];
-				outPutMesh->verticesNoSkeleton->at(i).biTangent[2] = tempVertex.biTangent[2];
-
-				outPutMesh->verticesNoSkeleton->at(i).tangent[0] = tempVertex.tangent[0];
-				outPutMesh->verticesNoSkeleton->at(i).tangent[1] = tempVertex.tangent[1];
-				outPutMesh->verticesNoSkeleton->at(i).tangent[2] = tempVertex.tangent[2];
-
-				outPutMesh->verticesNoSkeleton->at(i).uv[0] = tempVertex.uv[0];
-				outPutMesh->verticesNoSkeleton->at(i).uv[1] = tempVertex.uv[1];*/
 			}
 		}
 	}
 	else if (hasSkeleton)
 	{
-		//outPutMesh->verticesNoSkeleton->resize(34);
-		//unsigned int index = 0;
+
 		for (int i = 0; i < polyVertices.size(); ++i)
 		{
-			//std::vector<FbxVector2> tempValues;
 			VertexHeader tempVertex;
 
 			FbxLayerElementArrayTemplate<FbxVector2>* uvVertices = 0;
 			pMesh->GetTextureUV(&uvVertices, FbxLayerElement::eTextureDiffuse);
 
-			GetVertPositions(pMesh, polyVertices.at(i), tempVertex.pos);							   // Get postiions
-			GetVertNormals(pMesh->GetElementNormal(), polyVertices.at(i), tempVertex.normal);		   // Get Normals
-			GetVertBiNormals(pMesh->GetElementBinormal(), polyVertices.at(i), tempVertex.biTangent);   // Get BiTangents
-			GetVertTangents(pMesh->GetElementTangent(), polyVertices.at(i), tempVertex.tangent);	   // Get Tangents
-			GetVertTextureUV(pMesh->GetElementUV(), uvIndex.at(i), tempVertex.uv);					   // Get UVs
+			GetVertPositions(	pMesh, polyVertices.at(i),	    tempVertex.pos);										 // Get postiions
+			GetVertNormals(		pMesh->GetElementNormal(),		polyVertices.at(i), tempVertex.normal);					 // Get Normals
+			GetVertBiNormals(	pMesh->GetElementBinormal(),    polyVertices.at(i), tempVertex.biTangent);			     // Get BiTangents
+			GetVertTangents(	pMesh->GetElementTangent(),     polyVertices.at(i), tempVertex.tangent);				 // Get Tangents
+			GetVertTextureUV(	pMesh->GetElementUV(),	        uvIndex.at(i),	    tempVertex.uv);					     // Get UVs
 			
 
 			if (outPutMesh->vertices->size() != 0)
@@ -434,8 +312,8 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 					IndexHeader tempInd;
 				
 					tempInd.vertIndex = outPutMesh->vertices->size();
-					outPutMesh->indices->push_back(tempInd);		//Store index
 
+					outPutMesh->indices ->push_back(tempInd);		//Store index
 					outPutMesh->vertices->push_back(tempVertex);    //Store vertex
 					
 					GetSkeletonWeights(pMesh, polyVertices.at(i), outPutMesh);
@@ -522,7 +400,6 @@ void MeshHandler::GetVertTextureUV(fbxsdk::FbxGeometryElementUV* uvElement, int 
 
 void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index, MeshExport* outputMesh)
 {
-	//int numDeformers = pMesh->GetDeformerCount();
 	FbxSkin * pSkin = (FbxSkin*)pMesh->GetDeformer(0, FbxDeformer::eSkin);
 	if (pSkin != NULL)
 	{
@@ -532,25 +409,13 @@ void MeshHandler::GetSkeletonWeights(fbxsdk::FbxMesh * pMesh, int index, MeshExp
 			WeigthsHeader tempWeight;
 			FbxCluster * pCluster = pSkin->GetCluster(boneIndex);
 			FbxNode* pBone = pCluster->GetLink();
-
-			//std::cout << "\n\n" << pBone->GetName();
-
-			//int * pBoneVertIndices = pCluster->GetControlPointIndices();
 			double * pBoneVertWeights = pCluster->GetControlPointWeights();
-
-			//int numBoneVertIndices = pCluster->GetControlPointIndicesCount();
-
-				//store the weights here in the mesh vertices
-			//int boneVertexIndex = pBoneVertIndices[index];
-			//double boneWeight = pBoneVertWeights[index];
 			for (int i = 0; i < pCluster->GetControlPointIndicesCount(); i++)
 			{
 				if (index == pCluster->GetControlPointIndices()[i])
 				{
 					tempWeight.influence = pBoneVertWeights[index];
 					tempWeight.jointID = boneIndex;
-
-					//outputMesh->weights.at(index).push_back(tempWeight);
 					outputMesh->weights.at(weightIndex).push_back(tempWeight);
 					break;
 				}
@@ -631,6 +496,10 @@ bool MeshHandler::GetBoundingBox(FbxNode * pNode,OOBBHeader* boundingBox)
 
 bool MeshHandler::IsBoundingBox(FbxNode * pNode)
 {
+
+	//We had a namecode for our boundingBoxes in maya. the name was to Start with OOBB
+	//If it was a boundingbox. then the mesh would not be exported, only the bounding information was needed
+
 	char compare[5];
 	char target[5];
 	target[0] = 'O';
@@ -639,18 +508,15 @@ bool MeshHandler::IsBoundingBox(FbxNode * pNode)
 	target[3] = 'B';
 	target[4] = '\0';
 	const char* name = pNode->GetName();
+
 	for (int i = 0; i < 4; i++)
 	{
 		compare[i] = name[i];
 	}
 	compare[4] = '\0';
 	if (strcmp(compare, target) == 0)
-	{
-		return true;
-		
-
-	}
-	else
+		return true;	
+	
 	return false;
 }
 
