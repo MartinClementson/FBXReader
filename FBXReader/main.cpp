@@ -125,6 +125,7 @@ void main()
 				catch (...)
 				{
 					std::cout << "Could not open file: " << fileName << "\n";
+					delete importer;
 					break;
 				}
 
