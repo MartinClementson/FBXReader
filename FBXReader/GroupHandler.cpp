@@ -71,113 +71,87 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 			{
 				
 				GroupAttributeHeader tempAttr;
-				GroupExport::groupAttrInfo tempInfo;
+				//GroupExport::groupAttrInfo tempInfo;
 				FbxDataType lPropertyDataType = lProperty.GetPropertyDataType();
 
 				if (lPropertyDataType.GetType() == eFbxBool) //0
 				{
-					FbxString lName = lProperty.GetName();
-					memcpy(tmpGroup->boolAttr.attrName, lName, sizeof(char) * 256);
-					FbxBool lValue = lProperty.Get<FbxBool>();
-					tmpGroup->boolAttr.value = lValue;
-
 					BoolAttrHeader tmp;
 
-					memcpy(tmp.attrName, tmpGroup->boolAttr.attrName, sizeof(char) * 256);
+					FbxString lName = lProperty.GetName();
+					memcpy(tmp.attrName, lName, sizeof(char) * 256);
 
-					tmp.value = tmpGroup->boolAttr.value;
+					FbxBool lValue = lProperty.Get<FbxBool>();
 
-					tmpGroup->boolAttributes->push_back(tmp);
+					tmp.value = lValue;
 
-					tempInfo.boolAttributes.push_back(tmp);
-					tmpGroup->groupAttributesContainer->push_back(tempInfo);
+					tmpGroup->groupAttributesContainer->boolAttributes.push_back(tmp);
 					tempAttr.attrNr = 0;
-					tmpGroup->groupAttributesH->push_back(tempAttr);
+					tmpGroup->groupAttributesHeader->push_back(tempAttr);
 				}
 				else if (lPropertyDataType.GetType() == eFbxDouble) //1
 				{
-					FbxString lName = lProperty.GetName();
-					memcpy(tmpGroup->floatAttr.attrName, lName, sizeof(char) * 256);
-					tmpGroup->floatAttr.value	= lProperty.Get<FbxFloat>();
-					tmpGroup->floatAttr.min		= (float)lProperty.GetMinLimit();
-					tmpGroup->floatAttr.max		= (float)lProperty.GetMaxLimit();
-
 					FloatAttrHeader tmp;
+					FbxString lName = lProperty.GetName();
+					memcpy(tmp.attrName, lName, sizeof(char) * 256);
+			
+					tmp.value	= lProperty.Get<FbxFloat>();
+					tmp.min		= (float)lProperty.GetMinLimit();
+					tmp.max = (float)lProperty.GetMaxLimit();
 
-					memcpy(tmp.attrName, tmpGroup->floatAttr.attrName, sizeof(char) * 256);
-					tmp.max = tmpGroup->floatAttr.max;
-					tmp.min = tmpGroup->floatAttr.min;
-					tmp.value = tmpGroup->floatAttr.value;
-
-					tempInfo.floatAttributes.push_back(tmp);
-					tmpGroup->floatAttributes->push_back(tmp);
+					tmpGroup->groupAttributesContainer->floatAttributes.push_back(tmp);
 					tempAttr.attrNr = 1;
-					tmpGroup->groupAttributesContainer->push_back(tempInfo);
-					tmpGroup->groupAttributesH->push_back(tempAttr);
+					tmpGroup->groupAttributesHeader->push_back(tempAttr);
 				}
+
 				else if (lPropertyDataType.GetType() == eFbxInt) //2
 				{
-					FbxString lName = lProperty.GetName();
-					memcpy(tmpGroup->intAttr.attrName, lName, sizeof(char) * 256);
-					tmpGroup->intAttr.value = lProperty.Get<FbxInt>();
-					tmpGroup->intAttr.min = (unsigned int)lProperty.GetMinLimit();
-					tmpGroup->intAttr.max = (unsigned int)lProperty.GetMaxLimit();
-
 					IntAttrHeader tmp;
 
-					memcpy(tmp.attrName, tmpGroup->intAttr.attrName, sizeof(char) * 256);
+					FbxString lName = lProperty.GetName();
+					memcpy(tmp.attrName, lName, sizeof(char) * 256);
+					tmp.value = lProperty.Get<FbxInt>();
+					tmp.min = (unsigned int)lProperty.GetMinLimit();
+					tmp.max = (unsigned int)lProperty.GetMaxLimit();
 
-					tmp.max = tmpGroup->intAttr.max;
-					tmp.min = tmpGroup->intAttr.min;
-					tmp.value = tmpGroup->intAttr.value;
-
-					tempInfo.intAttributes.push_back(tmp);
-					tmpGroup->intAttributes->push_back(tmp);
+				
+					tmpGroup->groupAttributesContainer->intAttributes.push_back(tmp);
 					tempAttr.attrNr = 2;
-					tmpGroup->groupAttributesContainer->push_back(tempInfo);
-					tmpGroup->groupAttributesH->push_back(tempAttr);
+					tmpGroup->groupAttributesHeader->push_back(tempAttr);
 				}
 				else if (lPropertyDataType.GetType() == eFbxString) //3
 				{
-					FbxString lName = lProperty.GetName();
-					memcpy(tmpGroup->stringAttr.attrName, lName, sizeof(char) * 256);
-					FbxString lValue = lProperty.Get<FbxString>();
-					memcpy(tmpGroup->stringAttr.value, lValue, sizeof(char) * 256);
 
 					StringAttrHeader tmp;
+					FbxString lName = lProperty.GetName();
+					memcpy(tmp.attrName, lName, sizeof(char) * 256);
 
-					memcpy(tmp.attrName, tmpGroup->stringAttr.attrName, sizeof(char) * 256);
-					memcpy(tmp.value, tmpGroup->stringAttr.value,sizeof(char)*256);
+					FbxString lValue = lProperty.Get<FbxString>();
+					memcpy(tmp.value, lValue, sizeof(char) * 256);
 
-					tempInfo.stringAttributes.push_back(tmp);
-					tmpGroup->stringAttributes->push_back(tmp);
+					tmpGroup->groupAttributesContainer->stringAttributes.push_back(tmp);
 					tempAttr.attrNr = 3;
-					tmpGroup->groupAttributesContainer->push_back(tempInfo);
-					tmpGroup->groupAttributesH->push_back(tempAttr);
+					tmpGroup->groupAttributesHeader->push_back(tempAttr);
 				}
+
 				else if (lPropertyDataType.GetType() == eFbxDouble3) //4
 				{
-					FbxString lName = lProperty.GetName();
-					memcpy(tmpGroup->vecAttr.attrName, lName, sizeof(char) * 256);
-					FbxDouble3 lValue = lProperty.Get<FbxDouble3>();
-
-					tmpGroup->vecAttr.value[0] = (float)lValue[0];
-					tmpGroup->vecAttr.value[1] = (float)lValue[1];
-					tmpGroup->vecAttr.value[2] = (float)lValue[2];
-					
 
 					VectorAttrHeader tmp;
 
-					memcpy(tmp.attrName, tmpGroup->vecAttr.attrName, sizeof(char) * 256);
-					tmp.value[0] = tmpGroup->vecAttr.value[0];
-					tmp.value[1] = tmpGroup->vecAttr.value[1];
-					tmp.value[2] = tmpGroup->vecAttr.value[2];
+					FbxString lName = lProperty.GetName();
+					memcpy(tmp.attrName, lName, sizeof(char) * 256);
+					FbxDouble3 lValue = lProperty.Get<FbxDouble3>();
 
-					tempInfo.vectorAttributes.push_back(tmp);
-					tmpGroup->vectorAttributes->push_back(tmp);
+					tmp.value[0] = (float)lValue[0];
+					tmp.value[1] = (float)lValue[1];
+					tmp.value[2] = (float)lValue[2];
+	
+
+				
+					tmpGroup->groupAttributesContainer->vectorAttributes.push_back(tmp);
 					tempAttr.attrNr = 4;
-					tmpGroup->groupAttributesContainer->push_back(tempInfo);
-					tmpGroup->groupAttributesH->push_back(tempAttr);
+					tmpGroup->groupAttributesHeader->push_back(tempAttr);
 				}
 				i++;
 			}
@@ -194,14 +168,14 @@ BRFImporter::FloatAttrHeader GroupHandler::FloatAttr(AttributesExport * tmpAttr)
 	FloatAttrHeader tmp;
 	FbxString lName = tmpAttr->floatAttr.attrName;
 	FbxFloat lValue = tmpAttr->floatAttr.value;
-	FbxFloat lMin = tmpAttr->floatAttr.min;
-	FbxFloat lMax = tmpAttr->floatAttr.max;
+	FbxFloat lMin   = tmpAttr->floatAttr.min;
+	FbxFloat lMax   = tmpAttr->floatAttr.max;
 
 	memcpy(tmp.attrName, lName, sizeof(char) * 256);
 	tmp.max = lMax;
 	tmp.min = lMin;
 	tmp.value = lValue;
-	std::cout << "kurwa1" << std::endl;
+	
 	std::cout << "\n\nname Of Float: " << tmp.attrName << std::endl;
 
 	return tmp;

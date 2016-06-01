@@ -25,22 +25,12 @@ public:
 	};
 	void WriteToBinaryFile(std::ofstream* outfile);
 	GroupHeader groupInfo;
-	
+	//
+
+
+	std::vector<GroupAttributeHeader>* groupAttributesHeader;
+	groupAttrInfo* groupAttributesContainer;
 	AttributesHeader attrInfo;
-	VectorAttrHeader vecAttr;
-	StringAttrHeader stringAttr;
-	FloatAttrHeader floatAttr;
-	BoolAttrHeader boolAttr;
-	IntAttrHeader intAttr;
-
-	std::vector<GroupAttributeHeader>* groupAttributesH;
-	std::vector<groupAttrInfo>* groupAttributesContainer;
-
-	std::vector<VectorAttrHeader>* vectorAttributes;
-	std::vector<StringAttrHeader>*stringAttributes;
-	std::vector<FloatAttrHeader>*floatAttributes;
-	std::vector<BoolAttrHeader>*boolAttributes;
-	std::vector<IntAttrHeader>*intAttributes;
 
 	AttributesExport* groupAttributes = nullptr;
 

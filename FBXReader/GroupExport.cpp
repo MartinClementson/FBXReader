@@ -4,71 +4,81 @@ using namespace BRFImporter;
 
 void GroupExport::WriteToBinaryFile(std::ofstream * outfile)
 {
-	this->attrInfo.boolAmount		 = (unsigned int)boolAttributes->size();
-	this->attrInfo.floatAmount	     = (unsigned int)floatAttributes->size();
-	this->attrInfo.stringAmount		 = (unsigned int)stringAttributes->size();
-	this->attrInfo.intAmount		 = (unsigned int)intAttributes->size();
-	this->attrInfo.vectorAmount		 = (unsigned int)vectorAttributes->size();
+	this->attrInfo.boolAmount		 = (unsigned int)this->groupAttributesContainer->boolAttributes  .size();
+	this->attrInfo.floatAmount	     = (unsigned int)this->groupAttributesContainer->floatAttributes .size();
+	this->attrInfo.stringAmount		 = (unsigned int)this->groupAttributesContainer->stringAttributes.size();
+	this->attrInfo.intAmount		 = (unsigned int)this->groupAttributesContainer->intAttributes	 .size();
+	this->attrInfo.vectorAmount		 = (unsigned int)this->groupAttributesContainer->vectorAttributes.size();
+
+
+	
 	
 	std::cout << "name: " << this->groupInfo.groupName << std::endl;
 	std::cout << "translation :("<<this->groupInfo.translation[0]<<","<<this->groupInfo.translation[1]<<","<<this->groupInfo.translation[2]<<")"<<std::endl;
 	std::cout << "rotation    :("<<this->groupInfo.rotation[0]<<","<<this->groupInfo.rotation[1]<<","<<this->groupInfo.rotation[2]<<")"<<std::endl;
 	std::cout << "scale       :("<<this->groupInfo.scale[0]<<","<<this->groupInfo.scale[1]<<","<<this->groupInfo.scale[2]<<")"<<std::endl;
-	for (int i = 0; i < vectorAttributes->size(); i++)
+	for (int i = 0; i < groupAttributesContainer->vectorAttributes.size(); i++)
 	{
-		std::cout << "VectorName:" << this->vectorAttributes->at(i).attrName << std::endl;
-		std::cout << "Value     :" << this->vectorAttributes->at(i).value << std::endl;
+		std::cout << "VectorName:" << this->groupAttributesContainer->vectorAttributes.at(i).attrName << std::endl;
+		std::cout << "Value     :" << this->groupAttributesContainer->vectorAttributes.at(i).value << std::endl;
 	}
-	for (int i = 0; i < intAttributes->size(); i++)
+	for (int i = 0; i < groupAttributesContainer->intAttributes.size(); i++)
 	{
-		std::cout << "IntName:" << this->intAttributes->at(i).attrName << std::endl;
-		std::cout << "Min    :" << this->intAttributes->at(i).min << std::endl;
-		std::cout << "max    :" << this->intAttributes->at(i).max << std::endl;
-		std::cout << "Value  :" << this->intAttributes->at(i).value << std::endl;
+		std::cout << "IntName:" << this->groupAttributesContainer->intAttributes.at(i).attrName << std::endl;
+		std::cout << "Min    :" << this->groupAttributesContainer->intAttributes.at(i).min << std::endl;
+		std::cout << "max    :" << this->groupAttributesContainer->intAttributes.at(i).max << std::endl;
+		std::cout << "Value  :" << this->groupAttributesContainer->intAttributes.at(i).value << std::endl;
 	}
-	for (int i = 0; i < stringAttributes->size(); i++)
+	for (int i = 0; i < groupAttributesContainer->stringAttributes.size(); i++)
 	{
-		std::cout << "StringName: " << this->stringAttributes->at(i).attrName << std::endl;
-		std::cout << "Value     :" << this->stringAttributes->at(i).value << std::endl;
+		std::cout << "StringName: " << this->groupAttributesContainer->stringAttributes.at(i).attrName << std::endl;
+		std::cout << "Value     :" <<  this->groupAttributesContainer->stringAttributes.at(i).value << std::endl;
 	}
 
-	for (int i = 0; i < boolAttributes->size(); i++)
+	for (int i = 0; i < groupAttributesContainer->boolAttributes.size(); i++)
 	{
-		std::cout << "BoolName :" << this->boolAttributes->at(i).attrName << std::endl;
-		std::cout << "Value    :" << this->boolAttributes->at(i).value << std::endl;
+		std::cout << "BoolName :" << this->groupAttributesContainer->boolAttributes.at(i).attrName << std::endl;
+		std::cout << "Value    :" << this->groupAttributesContainer->boolAttributes.at(i).value << std::endl;
 
 	}
-	for (int i = 0; i < floatAttributes->size(); i++)
+	for (int i = 0; i < groupAttributesContainer->floatAttributes.size(); i++)
 	{
-		std::cout << "floatName: " << this->floatAttributes->at(i).attrName << std::endl;
-		std::cout << "Max      : " << this->floatAttributes->at(i).max << std::endl;
-		std::cout << "Min      : " << this->floatAttributes->at(i).min << std::endl;
-		std::cout << "Value    : " << this->floatAttributes->at(i).value << std::endl;
+		std::cout << "floatName: " << this->groupAttributesContainer->floatAttributes.at(i).attrName << std::endl;
+		std::cout << "Max      : " << this->groupAttributesContainer->floatAttributes.at(i).max << std::endl;
+		std::cout << "Min      : " << this->groupAttributesContainer->floatAttributes.at(i).min << std::endl;
+		std::cout << "Value    : " << this->groupAttributesContainer->floatAttributes.at(i).value << std::endl;
 	}
 	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n";
 
 	if (outfile->is_open())
 	{
-		outfile->write((const char*)&this->groupInfo, sizeof(GroupHeader)); //write the information of the mesh to file
+		outfile->write((const char*)&this->groupInfo, sizeof(GroupHeader)); //write the information of the group to file
 
-																		  //write all the vertices 
-		for (unsigned int i = 0; i < groupInfo.attrCount; i++)
-		{
-			outfile->write((const char*)&this->groupAttributesH->at(i), sizeof(GroupAttributeHeader));
-		}
-		for (unsigned int i = 0; i < groupInfo.attrCount; i++)
-		{
-			if (this->groupAttributesH->at(i).attrNr == 0)
-				outfile->write((const char*)&this->groupAttributesContainer->at(i).boolAttributes, sizeof(BoolAttrHeader));
-			else if (this->groupAttributesH->at(i).attrNr == 1)
-				outfile->write((const char*)&this->groupAttributesContainer->at(i).floatAttributes, sizeof(FloatAttrHeader));
-			else if (this->groupAttributesH->at(i).attrNr == 2)
-				outfile->write((const char*)&this->groupAttributesContainer->at(i).intAttributes, sizeof(IntAttrHeader));
-			else if (this->groupAttributesH->at(i).attrNr == 3)
-				outfile->write((const char*)&this->groupAttributesContainer->at(i).stringAttributes, sizeof(StringAttrHeader));
-			else if (this->groupAttributesH->at(i).attrNr == 4)
-				outfile->write((const char*)&this->groupAttributesContainer->at(i).vectorAttributes, sizeof(VectorAttrHeader));
-		}
+																		  
+		outfile->write((const char*)this->groupAttributesHeader->data(), sizeof(GroupAttributeHeader)* groupInfo.attrCount);
+
+
+		if (this->groupAttributesContainer->boolAttributes.size()		> 0)	// Write bool attributes to file
+			outfile->write((const char*)this->groupAttributesContainer->boolAttributes.data(), sizeof(BoolAttrHeader) * attrInfo.boolAmount);
+		
+		if (this->groupAttributesContainer->floatAttributes.size() > 0) 	//write float to file
+			outfile->write((const char*)this->groupAttributesContainer->floatAttributes.data(), sizeof(FloatAttrHeader) * attrInfo.floatAmount);
+	
+		if (this->groupAttributesContainer->intAttributes.size()    > 0)	// write int to file
+			outfile->write((const char*)this->groupAttributesContainer->intAttributes.data(), sizeof(IntAttrHeader)* attrInfo.intAmount);
+
+		if (this->groupAttributesContainer->stringAttributes.size() > 0)	// write string to file
+			outfile->write((const char*)this->groupAttributesContainer->stringAttributes.data(), sizeof(StringAttrHeader) * attrInfo.stringAmount);
+
+		if (this->groupAttributesContainer->vectorAttributes.size() > 0)	//write vector to file
+			outfile->write((const char*)this->groupAttributesContainer->vectorAttributes.data(), sizeof(VectorAttrHeader) * attrInfo.vectorAmount);
+
+
+
+
+
+
+
 
 
 	}
@@ -83,53 +93,16 @@ void GroupExport::addGroupInfo(GroupHeader info)
 
 GroupExport::GroupExport()
 {
-	vectorAttributes = new std::vector<VectorAttrHeader>;
-	stringAttributes = new std::vector<StringAttrHeader>;
-	floatAttributes = new std::vector<FloatAttrHeader>;
-	boolAttributes = new std::vector<BoolAttrHeader>;
-	intAttributes = new std::vector<IntAttrHeader>;
-	groupAttributesH = new std::vector<GroupAttributeHeader>;
-	groupAttributesContainer = new std::vector<groupAttrInfo>;
+
+	groupAttributesHeader = new std::vector<GroupAttributeHeader>;
+	groupAttributesContainer = new groupAttrInfo;
 }
 
 GroupExport::~GroupExport()
 {
-	/*for (size_t i = 0; i < groupAttributesContainer->size(); i++)
-	{
-		delete &groupAttributesContainer->at(i);
-	}
-	for (size_t i = 0; i < vectorAttributes->size(); i++)
-	{
-		delete &vectorAttributes->at(i);
-	}
-	for (size_t i = 0; i < stringAttributes->size(); i++)
-	{
-		delete &stringAttributes->at(i);
-	}
-	for (size_t i = 0; i < floatAttributes->size(); i++)
-	{
-		delete &floatAttributes->at(i);
-	}
-	for (size_t i = 0; i < boolAttributes->size(); i++)
-	{
-		delete &boolAttributes->at(i);
-	}
-	for (size_t i = 0; i < intAttributes->size(); i++)
-	{
-		delete &intAttributes->at(i);
-	}
-	for (size_t i = 0; i < groupAttributesH->size(); i++)
-	{
-		delete &groupAttributesH->at(i);
-	}*/
-	delete vectorAttributes;
-	delete stringAttributes;
-	delete floatAttributes;
-	delete boolAttributes;
-	delete intAttributes;
-	delete groupAttributesH;
+	
 	delete groupAttributesContainer;
-	delete groupAttributes;
+	delete groupAttributesHeader;
 }
 
 

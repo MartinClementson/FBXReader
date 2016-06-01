@@ -32,7 +32,7 @@ void FbxImport::ConvertFbxToFile(BrfExporter * outputFile)
 		GetSkeletonData(this->rootNode->GetChild(i), outputFile->GetSkeletonRef());
 		GetGroupData(this->rootNode->GetChild(i), outputFile->GetGroupsRef());
 		GetLightData(this->rootNode->GetChild(i), outputFile->GetLightsRef());
-		GetAttributeData(this->rootNode->GetChild(i), outputFile->GetAttributesRef());
+		//GetAttributeData(this->rootNode->GetChild(i), outputFile->GetAttributesRef());
 	}
 
 	GetMorphData(this->rootNode, outputFile->GetMorphAnimRef(), outputFile->GetMeshesRef());

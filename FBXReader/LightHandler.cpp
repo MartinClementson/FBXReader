@@ -17,10 +17,12 @@ void LightHandler::GetLightData(FbxNode* pNode, LightExport* lights)
 		for (int j = 0; j < pNode->GetChildCount(); j++)
 			GetLightData(pNode->GetChild(j), lights);
 
-		if (pNode->GetLight())
+	if (pNode->GetLight())
 	{
 		if (lights == nullptr)
 			lights = new LightExport;
+
+		LightExport* lightContainer = lights;
 
 		FbxLight* lLight = (FbxLight*)pNode->GetNodeAttribute();
 
@@ -37,12 +39,8 @@ void LightHandler::GetLightData(FbxNode* pNode, LightExport* lights)
 		if (num == 0) //pointlight
 		{
 			PointLightHeader temp = PointLight(lLight);
-			GetLightPos(pNode, temp.pos);
-
-
-
-			
-			lights->pointLights->push_back(temp);
+			GetLightPos(pNode, temp.pos);		
+			lightContainer->pointLights->push_back(temp);
 		}
 		if (num == 1) //directional light
 		{
@@ -53,7 +51,7 @@ void LightHandler::GetLightData(FbxNode* pNode, LightExport* lights)
 			GetLightPos(pNode, temp.pos);
 			GetLightRotation(pNode, temp.rot);
 
-			lights->dirLights->push_back(temp);
+			lightContainer->dirLights->push_back(temp);
 
 		}
 		if (num == 2) //spotlight
@@ -64,7 +62,7 @@ void LightHandler::GetLightData(FbxNode* pNode, LightExport* lights)
 			GetLightRotation(pNode, temp.rot);
 			GetLightScaling(pNode, temp.scale);
 
-			lights->spotLights->push_back( temp );
+			lightContainer->spotLights->push_back( temp );
 		}
 	
 		if (num == 3) //arealight
@@ -77,7 +75,7 @@ void LightHandler::GetLightData(FbxNode* pNode, LightExport* lights)
 			GetLightRotation(pNode, temp.rot);
 			GetLightScaling(pNode, temp.scale);
 
-			lights->areaLights->push_back( temp );
+			lightContainer->areaLights->push_back( temp );
 
 		}
 

@@ -4,13 +4,12 @@
 BrfExporter::BrfExporter()
 {
 	materials   = new MaterialExport;
-	lights		= new LightExport;
+	//lights		= new LightExport;
 	cameras		= new CameraExporter;
 	meshes		= new std::vector<MeshExport*>;
 	skeletons   = new std::vector<SkeletonExport*>;
 	morphAnim	= new std::vector<MorphAnimExport*>;
-	groups = new std::vector<GroupExport*>;
-	attributes = new AttributesExport;
+	groups		= new std::vector<GroupExport*>;
 }
 
 
@@ -32,9 +31,10 @@ BrfExporter::~BrfExporter()
 	delete morphAnim;
 	delete groups;
 	delete materials;
-	delete lights;
+	if(lights != nullptr)
+		delete lights;
 	delete cameras;
-	delete attributes;
+	//delete attributes;
 }
 
 void BrfExporter::WriteToBinaryFile(const char * fileName)
@@ -69,38 +69,37 @@ void BrfExporter::WriteToBinaryFile(const char * fileName)
 
 	}
 
-	for (unsigned int i = 0; i < groups->size(); i++)
-	{
-		std::cout << "Group #" << i + 1 << "\n";
-		groups->at(i)->WriteToBinaryFile(&outfile);
-	}
-	if (this->cameras != nullptr)
-	{
-		cameras->WriteToBinaryFile(&outfile);
-	}
-
 	if (this->materials != nullptr)
 	{
 			std::cout << "Total amount of materials exported: " << sceneInfo.materialAmount << "\n";
 			materials->WriteToBinaryFile(&outfile);
 	}
 	
+
 	for (unsigned int i = 0; i < sceneInfo.skeletonAmount; i++)
 	{
 		std::cout << "Skeleton #" << i + 1 << "\n";
 		skeletons->at(i)->WriteToBinaryFile(&outfile);
 	}
-	if (this->lights != nullptr)
+	if (lights != nullptr)
 		lights->WriteToBinaryFile(&outfile);
-
-	if (this->attributes != nullptr)
-		attributes->WriteToBinaryFile(&outfile);
 
 	for (size_t i = 0; i < sceneInfo.morphAnimAmount; i++)
 	{
 		std::cout << "morph animation #" << i + 1 << "\n";
 		morphAnim->at(i)->WriteToBinaryFile(&outfile);
 	}
+	for (unsigned int i = 0; i < groups->size(); i++)
+	{
+		std::cout << "Group #" << i + 1 << "\n";
+		groups->at(i)->WriteToBinaryFile(&outfile);
+	}
+
+	if (sceneInfo.cameraAmount > 0)
+	{
+		cameras->WriteToBinaryFile(&outfile);
+	}
+
 	outfile.close();
 	
 }
