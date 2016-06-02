@@ -26,5 +26,6 @@ public:
 	void AddAreaLights(AreaLightHeader input);
 	void AddPointLights(PointLightHeader input);
 	void AddDirectionalLights(DirLightHeader input);
+	int GetAmountOfLights();
 };
 

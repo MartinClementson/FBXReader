@@ -4,7 +4,7 @@
 BrfExporter::BrfExporter()
 {
 	materials   = new MaterialExport;
-	//lights		= new LightExport;
+	lights		= new LightExport;
 	cameras		= new CameraExporter;
 	meshes		= new std::vector<MeshExport*>;
 	skeletons   = new std::vector<SkeletonExport*>;
@@ -81,7 +81,7 @@ void BrfExporter::WriteToBinaryFile(const char * fileName)
 		std::cout << "Skeleton #" << i + 1 << "\n";
 		skeletons->at(i)->WriteToBinaryFile(&outfile);
 	}
-	if (lights != nullptr)
+	if (this->sceneInfo.lights == true)
 		lights->WriteToBinaryFile(&outfile);
 
 	for (size_t i = 0; i < sceneInfo.morphAnimAmount; i++)
@@ -106,7 +106,7 @@ void BrfExporter::WriteToBinaryFile(const char * fileName)
 
 void BrfExporter::CreateFileHeader()
 {
-	if (this->lights != nullptr)
+	if (this->lights->GetAmountOfLights() > 0)
 		this->sceneInfo.lights = true;
 	else
 		this->sceneInfo.lights = false;

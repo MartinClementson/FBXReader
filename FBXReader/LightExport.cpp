@@ -169,4 +169,8 @@ void LightExport::AddDirectionalLights(DirLightHeader input)
 {
 	this->dirLights->push_back(input);
 }
+int LightExport::GetAmountOfLights()
+{
+	return int(spotLights->size() + areaLights->size() + pointLights->size() + dirLights->size());
+}
 #pragma endregion 
