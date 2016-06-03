@@ -161,8 +161,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 	unsigned int vertCount = pMesh->GetControlPointsCount();
 
 
-	//trying to find the material
-	FbxNode * pNode = (FbxNode*)pMesh->GetDstObject();
+
 
 	
 	unsigned int polyCount = pMesh->GetPolygonCount();
