@@ -97,7 +97,7 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 			
 					tmp.value	= lProperty.Get<FbxFloat>();
 					tmp.min		= (float)lProperty.GetMinLimit();
-					tmp.max = (float)lProperty.GetMaxLimit();
+					tmp.max		= (float)lProperty.GetMaxLimit();
 
 					tmpGroup->groupAttributesContainer->floatAttributes.push_back(tmp);
 					tempAttr.attrNr = 1;
@@ -110,9 +110,9 @@ void GroupHandler::GetGroupData(FbxNode * pNode, std::vector<GroupExport*>*outpu
 
 					FbxString lName = lProperty.GetName();
 					memcpy(tmp.attrName, lName, sizeof(char) * 256);
-					tmp.value = lProperty.Get<FbxInt>();
-					tmp.min = (unsigned int)lProperty.GetMinLimit();
-					tmp.max = (unsigned int)lProperty.GetMaxLimit();
+					tmp.value	 = lProperty.Get<FbxInt>();
+					tmp.min		 = (unsigned int)lProperty.GetMinLimit();
+					tmp.max		 = (unsigned int)lProperty.GetMaxLimit();
 
 				
 					tmpGroup->groupAttributesContainer->intAttributes.push_back(tmp);
@@ -172,9 +172,9 @@ BRFImporter::FloatAttrHeader GroupHandler::FloatAttr(AttributesExport * tmpAttr)
 	FbxFloat lMax   = tmpAttr->floatAttr.max;
 
 	memcpy(tmp.attrName, lName, sizeof(char) * 256);
-	tmp.max = lMax;
-	tmp.min = lMin;
-	tmp.value = lValue;
+	tmp.max		= lMax;
+	tmp.min		= lMin;
+	tmp.value	= lValue;
 	
 	std::cout << "\n\nname Of Float: " << tmp.attrName << std::endl;
 
@@ -186,14 +186,14 @@ BRFImporter::IntAttrHeader GroupHandler::intAttr(AttributesExport * tmpAttr)
 	IntAttrHeader tmp;
 
 	FbxString lName = tmpAttr->intAttr.attrName;
-	FbxInt lValue = tmpAttr->intAttr.value;
-	FbxInt lMin = tmpAttr->intAttr.min;
-	FbxInt lMax = tmpAttr->intAttr.max;
+	FbxInt lValue   = tmpAttr->intAttr.value;
+	FbxInt lMin		= tmpAttr->intAttr.min;
+	FbxInt lMax		= tmpAttr->intAttr.max;
 
 	memcpy(tmp.attrName, lName, sizeof(char) * 256);
-	tmp.value = lValue;
-	tmp.max = lMax;
-	tmp.min = lMin;
+	tmp.value   = lValue;
+	tmp.max		= lMax;
+	tmp.min		= lMin;
 	std::cout << "kurwa2" << std::endl;
 
 	return tmp;
@@ -203,8 +203,8 @@ BRFImporter::StringAttrHeader GroupHandler::stringAttr(AttributesExport * tmpAtt
 {
 	StringAttrHeader tmp;
 
-	FbxString lName = tmpAttr->stringAttr.attrName;;
-	FbxString lValue = tmpAttr->stringAttr.value;
+	FbxString lName		 = tmpAttr->stringAttr.attrName;;
+	FbxString lValue	 = tmpAttr->stringAttr.value;
 
 	memcpy(tmp.attrName, lName, sizeof(char) * 256);
 	memcpy(tmp.value, lValue, sizeof(char) * 256);
