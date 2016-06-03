@@ -6,9 +6,9 @@ AttributesExport::AttributesExport()
 {
 	vectorAttributes = new std::vector<VectorAttrHeader>;
 	stringAttributes = new std::vector<StringAttrHeader>;
-	floatAttributes = new std::vector<FloatAttrHeader>;
-	boolAttributes = new std::vector<BoolAttrHeader>;
-	intAttributes = new std::vector<IntAttrHeader>;
+	floatAttributes  = new std::vector<FloatAttrHeader>;
+	boolAttributes	 = new std::vector<BoolAttrHeader>;
+	intAttributes	 = new std::vector<IntAttrHeader>;
 
 }
 
