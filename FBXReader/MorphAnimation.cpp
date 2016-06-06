@@ -500,7 +500,8 @@ void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNod
 			We have extracted the frames of the animation now.
 			But if we extract a keyframe that has influence of only one mesh (for example). another mesh might still have influence
 			but not a specific keyframe set at that time. This is because the keyframe we extracted might be between two keyframes of the other mesh.
-			we still need to extract that mesh to make sure we don't miss information on that frame
+			we still need to extract that mesh to make sure we don't miss information on that frame.
+			The reason for this is because the shapes animations are to be merged into one animation
 
 																this keyframe doesent know about the shape2 influence here. because shape2 has no keyframe set here. 
 																   |
@@ -514,7 +515,7 @@ void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNod
 						|
 						Same here but for shape1.
 
-				The reason for this is because the shapes animations are to be merged into one animation
+				
 
 
 

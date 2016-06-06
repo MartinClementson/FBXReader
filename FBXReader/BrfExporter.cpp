@@ -114,7 +114,6 @@ void BrfExporter::CreateFileHeader()
 	this->sceneInfo.meshAmount	    = (unsigned int) this->meshes->size();
 
 	this->sceneInfo.skeletonAmount  = (unsigned int)this->skeletons->size();
-	//ADD ALL ATTRIBUTES HERE
 
 	this->sceneInfo.attributeAmount = 0;
 
@@ -125,7 +124,4 @@ void BrfExporter::CreateFileHeader()
 	this->sceneInfo.groupAmount	    = (unsigned int)this->groups->size();
 
 	this->sceneInfo.morphAnimAmount = (unsigned int)morphAnim->size();
-
-	//this->sceneInfo.skeletonAmount = 0;
-	//ADD ALL ATTRIBUTES HERE
 }
