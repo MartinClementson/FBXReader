@@ -74,13 +74,12 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 
 	std::cout << "Scale      : (" << this->meshInfo.scale[0] << "," << this->meshInfo.scale[1] << "," << this->meshInfo.scale[2] << ")\n" << std::endl;
 
-	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n\n";
 
 	if (meshInfo.hasSkeleton)
 	{
 		for (unsigned int i = 0; i < this->meshInfo.vertexCount; i++)
 		{
-			while (weights.at(i).size() < 4)
+			while (weights.at(i).size() < 4) //Pad the vertex weights. If it has less than 4 weights. add a weight with zero influence
 			{
 				WeigthsHeader temp;
 				temp.influence = 0.0;
@@ -93,31 +92,12 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 	}
 
 
-	//export
-
-	//if (outfile)
-	//{
-	//	outfile->write((const char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
-
-	//	//write all the vertices 
-	//	outfile->write(reinterpret_cast<char*>(&this->vertices[0]), sizeof(VertexHeader) * this->vertices->size());
-
-	//	//write all the indices
-	//	outfile->write(reinterpret_cast<char*>(&this->indices[0]), sizeof(IndexHeader) * this->indices->size());
-
-	//	//if there is a bounding box, write it to the file.
-	//	if(this->meshInfo.boundingBox)
-	//		outfile->write(reinterpret_cast<char*>(&this->boundingBox), sizeof(OOBBHeader));
-
-	//	//write the weights to the file 
- 	std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n\n";
 
 	//export
-	//IndexHeader* tempIndex;
-	//tempIndex = new IndexHeader[2];
+	
 	if (outfile->is_open())
 	{
-		outfile->write( (const char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
+		outfile->write((const char*)&this->meshInfo, sizeof(MeshHeader)); //write the information of the mesh to file
 
 		//write all the vertices 
 		if (this->meshInfo.hasSkeleton)
@@ -128,57 +108,19 @@ void MeshExport::WriteToBinaryFile(std::ofstream * outfile)
 		}
 		else
 			outfile->write((const char*)(this->verticesNoSkeleton->data()), sizeof(VertexHeaderNoSkeleton) * this->verticesNoSkeleton->size());
-		//outfile->flush();
-		//delete[] tempIndex;
-		//tempIndex = new IndexHeader[indices->size()];
-		//convert to POD
-		//for (unsigned int i = 0; i < indices->size(); i++)
-		//{
-		//	tempIndex[i] = indices->at(i);
-
-		//}
-		//
-
+	
+	
 		////write all the indices
-		if( this->indices->size() > 0 )
-			outfile->write( (const char*) this->indices->data(),  sizeof(IndexHeader) * this->indices->size());
+		if (this->indices->size() > 0)
+			outfile->write((const char*) this->indices->data(), sizeof(IndexHeader) * this->indices->size());
 		//outfile->flush();
+
 		//if there is a bounding box, write it to the file.
-		if(this->meshInfo.boundingBox)
+		if (this->meshInfo.boundingBox)
 			outfile->write((const char*)(&this->boundingBox), sizeof(OOBBHeader));
 
-	//	//write the weights to the file
-	//	outfile->write((char*)(this->weights.data()), sizeof(weights) * 4);
-
-	//	//outfile->write(reinterpret_cast<char*>(&this->weights[0]), sizeof(weights) * 4);
-
-
-
-	//	//if there are any attributes, write it to the file.
-	//	if (this->meshInfo.attrCount > 0)
-	//		meshAttributes->WriteToBinaryFile(outfile);
-
+ 		std::cout << "EXPORTED SUCCESSFULLY" << "\n\n\n\n\n";
 	}
-	//	//if there are any attributes, write it to the file.
-	//	if (this->meshInfo.attrCount > 0)
-	//		meshAttributes->WriteToBinaryFile(outfile);
-
-	/*}
-	for (unsigned int i = 0; i < this->vertices->size(); i++)
-	{
-		std::cout << "vert #" << i << ": (" << vertices->at(i).pos[0] << "," << vertices->at(i).pos[1]  << "," << vertices->at(i).pos[2]<< ")\n";
-	}
-	for (unsigned int i = 0; i < this->vertices->size(); i++)
-	{
-		std::cout << "UV #" << i << ": (" << vertices->at(i).uv[0] << "," << vertices->at(i).uv[1] << ")" << "\n";
-	}
-
-	for (unsigned int i = 0; i < indices->size(); i += 3)
-	{
-		std::cout << "F #" << i << ": (" << this->indices->at(i).vertIndex << "," << this->indices->at(i+1).vertIndex << "," << this->indices->at(i+2).vertIndex << ")\n";
-
-	}*/
-	//	delete tempIndex;
 }
 
 #pragma region Addfunctions

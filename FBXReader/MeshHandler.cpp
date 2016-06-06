@@ -342,17 +342,7 @@ void MeshHandler::ProcessData(FbxMesh * pMesh, MeshExport* outPutMesh, bool hasS
 	}
 
 
-	std::cout << "Source mesh :" << pMesh->GetName() << std::endl;
-	std::cout << "Total amount of vertices on mesh : " << outPutMesh->verticesNoSkeleton->size() << std::endl;
-	for (size_t i = 0; i < 4; i++)
-	{
-		for (size_t t = 0; t < 3; t++)
-		{
-			std::cout << outPutMesh->verticesNoSkeleton->at(i).pos[t]  << " , ";
 
-		}
-		std::cout << "\n";
-	}
 	std::cout << "\n";
 }
 
