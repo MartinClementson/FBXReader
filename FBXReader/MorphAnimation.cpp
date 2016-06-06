@@ -515,6 +515,28 @@ void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNod
 						Same here but for shape1.
 
 				The reason for this is because the shapes animations are to be merged into one animation
+
+
+
+
+				This is one missing keyframe that we want to add
+						|
+						\/					  Shape1 keyframes
+			|-----------|------------------------------------------|
+													Shape2 keyframes
+						|------------------------------------------|----------------------|
+																   /\
+																   |
+																   This is another missing keyframe that we want to add
+
+
+							------Result----
+
+		|-----------|------------------------------------------|----------------------|
+							Merged animation
+
+
+
 	*/
 
 	
