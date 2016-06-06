@@ -147,36 +147,7 @@ void main()
 	}while (exit == false);
 
 
-#pragma region files
-	//const char* fileName = "3_lights.fbx"; //lights
-	//const char* fileName = "PlayerModel.fbx"; //lights
-	//const char* fileName = "onecube.fbx";
-	//const char* fileName = "test2.fbx";
 
-	//const char* fileName = "cames.fbx";
-	//FbxImport importer;
-
-	//importer.LoadFbxFile(fileName); //Load the fbx file
-	//importer.PrintScene(); 
-	//const char* fileName = "3_shapes_1_Cam.fbx";
-
-	//const char* fileName = "test.fbx"; //lights
-	//const char* fileName = "test2.fbx";
-
-	//const char* fileName = "skeleton_and_no_skeleton.fbx";
-	//const char* fileName = "3_shapes_1_Cam.fbx";
-	//const char* fileName = "blend2_3KeyFrames.fbx";
-	//const char* fileName = "complex_blend.fbx";
-	//const char* fileName   = "veryComplex_animation_one.fbx";
-	//const char* fileName = "EnemyModelAnimated.fbx";
-	//const char* fileName = "level_0.fbx";.fbx"
-	//const char* fileName = "skeleton_and_no_skeleton.fbx";
-	//const char* fileName = "3_shapes_1_Cam.fbx";
-	//const char* fileName = "3meshes_1Cam_triangulated.fbx";
-	//const char* fileName = "GroupScene.fbx";
-	//const char* fileName = "BoundingBoxScene.fbx";
-#pragma endregion
-	
 
 	return;
 

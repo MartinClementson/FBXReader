@@ -157,11 +157,6 @@ BlendMesh* MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
 	FbxMesh* pMesh = pNode->GetMesh();
 	unsigned int vertCount = pMesh->GetControlPointsCount();
 
-
-	//trying to find the material
-	//FbxNode * pNode = (FbxNode*)pMesh->GetDstObject();
-
-
 	unsigned int polyCount = pMesh->GetPolygonCount();
 
 
@@ -196,11 +191,6 @@ BlendMesh* MorphAnimation::ExtractTargetMesh(FbxNode * pNode)
 
 	}
 
-
-
-
-	//outPutMesh->verticesNoSkeleton->resize(34);
-	//unsigned int index = 0;
 	for (int i = 0; i < polyVertices.size(); ++i)
 	{
 
@@ -256,11 +246,11 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 			FbxGeometry* pGeo = pNode->GetGeometry();
 			if (pGeo->GetDeformerCount(FbxDeformer::eBlendShape) > 0)	 //if there is any blendshapes
 			{
-				ExtractSourceMesh(pNode);
+				ExtractSourceMesh(pNode); //extract it like a normal mesh. With the verts and all. (It's a little bit different from the normal mesh export)
 				int morphAnimCount = pGeo->GetDeformerCount(FbxDeformer::eBlendShape);	 //get amount of targets
 				int morphChannelCount;
 				int targetShapeCount;
-				for ( int i = 0; i < morphAnimCount; i++) //for each blendshape
+				for ( int i = 0; i < morphAnimCount; i++) //for each blendshape, one blend shape is treated as one animation
 				{
 
 					FbxBlendShape* morphAnim;
@@ -276,7 +266,7 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 
 						FbxBlendShapeChannel* morphChannel;
 						morphChannel = morphAnim->GetBlendShapeChannel(j);
-						//morphChannel->GetBlendShapeDeformer();
+						
 
 						std::cout << "ChannelName: " << morphChannel->GetNameWithoutNameSpacePrefix() << "\n\n";   //usually blendshapeName.meshName
 
@@ -342,7 +332,7 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 											
 											bool	frameExists = false;
 											int		frameIndex = 0;
-											for (size_t i = 0; i < tempAnimation->frames.size(); i++)
+											for (size_t i = 0; i < tempAnimation->frames.size(); i++) //check if the frame is already created, if it is. just add information. else create a new frame
 											{
 												if (tempAnimation->frames.at(i).frameTime == frame)
 												{
@@ -354,14 +344,14 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 											if (frameExists)
 											{
 												tempAnimation->frames.at(frameIndex).meshIDs.push_back(in);
-												tempAnimation->frames.at(frameIndex).influence.push_back(float(deform / 100.0f));
+												tempAnimation->frames.at(frameIndex).influence.push_back(float(deform / 100.0f)); // dividing to get the decimal placement we want.
 											}
 											else
 											{
-										    tempAnimation->frames.push_back(BlendFrame());										 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
+										    tempAnimation->frames.push_back(BlendFrame());										 
 											tempAnimation->frames.at(tempAnimation->frames.size() - 1).frameTime = frame;		 //STORING THE FRAME NUMBER
 											tempAnimation->frames.at(tempAnimation->frames.size() - 1).meshIDs.push_back(in);	 //Mapping the number in the name to the frame. this is to keep track of what mesh is used in this frame
-											tempAnimation->frames.at(tempAnimation->frames.size() - 1).influence.push_back(float(deform / 100.0f));		 //influenceis given in non decimals, we want decimals														   // STORING THE INFLUENCE AT THIS FRAME
+											tempAnimation->frames.at(tempAnimation->frames.size() - 1).influence.push_back(float(deform / 100.0f));		 //influenceis given in non decimals, we want decimals		 // STORING THE INFLUENCE AT THIS FRAME
 											}
 										}
 									}
@@ -371,7 +361,7 @@ void MorphAnimation::ExtractAllMeshesInAnimation(FbxNode * pNode)
 					}
 								animations.push_back(tempAnimation);
 
-				this->GetMissingKeyFrame(morphAnim,pNode,(int) animations.size() - 1);
+								this->GetMissingKeyFrame(morphAnim,pNode,(int) animations.size() - 1); // now that the animation is stored. find the missing keyframes in that animation (explaination in function)
 				}
 			}
 		}
@@ -511,6 +501,20 @@ void MorphAnimation::GetMissingKeyFrame(FbxBlendShape* morphAnim, FbxNode * pNod
 			But if we extract a keyframe that has influence of only one mesh (for example). another mesh might still have influence
 			but not a specific keyframe set at that time. This is because the keyframe we extracted might be between two keyframes of the other mesh.
 			we still need to extract that mesh to make sure we don't miss information on that frame
+
+																this keyframe doesent know about the shape2 influence here. because shape2 has no keyframe set here. 
+																   |
+																  \/
+								  Shape1 keyframes
+			|-----------------------------------------------------|
+													Shape2 keyframes
+						|----------------------------------------------------------------|
+
+						/\
+						|
+						Same here but for shape1.
+
+				The reason for this is because the shapes animations are to be merged into one animation
 	*/
 
 	
